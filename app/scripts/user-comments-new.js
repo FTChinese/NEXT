@@ -1,12 +1,13 @@
 /* exported loadcomment, init_repeat_cmt, showcmt, voteComment, cmt_reply, login, clickToSubmitComment, logout, checkLogin, socialLogin */
 // MARK: User Comments on New site
-const commentFolderBase = '/user_comments';
-var commentfolder ='/index.php/comments';
-var serverErrorMessage = '亲爱的用户，由于服务器没有正确响应，您未能成功登录，请稍后再次尝试。';
-function loadcomment(id, elementId, type, is_on_new_site = false, options = {}) {
+const commentFolder = '/user_comments';
+const elementId = 'allcomments';
+
+function loadcomment(id, type, options = {}) {
+
     const display_all = options?.display === 'all' ? 'yes' : 'no';
     const sort = options?.sort ?? 1;
-    let url = `${commentFolderBase}/${type}/${id}?display_all=${display_all}&sort=${sort}`;
+    let url = `${commentFolder}/${type}/${id}?display_all=${display_all}&sort=${sort}`;
 
     try {
         document.getElementById('cstoryid').value = id;
@@ -16,7 +17,7 @@ function loadcomment(id, elementId, type, is_on_new_site = false, options = {}) 
     }
 
     var userCommentsEle = document.getElementById(elementId);
-    if (userCommentsEle) {
+    if (userCommentsEle && display_all !== 'yes') {
         userCommentsEle.innerHTML = '正在获取本文读者评论的数据...';
     }
 
@@ -31,7 +32,7 @@ function loadcomment(id, elementId, type, is_on_new_site = false, options = {}) 
                     userCommentsEle.innerHTML = '正在处理本文读者评论的数据...';
                     webkit.messageHandlers.commentsData.postMessage({storyid: id, theid: elementId, type: type, data: data});
                 } else {
-                    showComment(id, elementId, type, data, is_on_new_site, options);
+                    showComment(id, type, data, options);
                 }
             } else {
                 userCommentsEle.innerHTML = '<span class=\'error\'>' + '很抱歉。由于您与FT服务器之间的连接发生故障，' + '加载评论内容失败。请稍后再尝试。</span>';
@@ -44,66 +45,56 @@ function loadcomment(id, elementId, type, is_on_new_site = false, options = {}) 
 }
 
 
-function showComment(id, elementId, type, data, is_on_new_site = false, options = {}) {
-    var user_icon='', isvip, commentnumber, cftype;
+function showComment(id, type, data, options) {
+
     var commentsBody = '';
     var userCommentsEle = document.getElementById(elementId);
     if (!userCommentsEle) {
         return;
     }
-    if (data.hot) {
-        for (var i=0; i<data.hot.length; i++) {
-            user_icon = '';
-            isvip = '';
-            commentsBody += '<div class="commentcontainer">' + user_icon + '<dt><div class="ding"></div><span>' + data.hot[i].dnewdate + '</span><b>' + data.hot[i].nickname.replace(/<[Aa] .+>(.+)<\/[Aa]>/g, '$1') + isvip + '</b> <font class="grey">' + data.hot[i].user_area + '</font></dt><dd>' + (data.hot[i].quote_content || '') + data.hot[i].talk + '</dd><div class="replybox" id=reh' + data.hot[i].id + '></div><dt class=\'replycomment\'><a href=\'javascript:cmt_reply("' + data.hot[i].id + '","h");\'>回复</a> <a id=hst' + data.hot[i].id + ' href=\'javascript:voteComment("' + data.hot[i].id + '","#hst", "support");\'>支持</a>(<font id=\'hsts' + data.hot[i].id + '\' color=#BA2636>' + data.hot[i].support_count + '</font>) <a id=hdt' + data.hot[i].id + ' href=\'javascript:voteComment("' + data.hot[i].id + '","#hdt","disagree");\'>反对</a>(<font id=\'hdtd' + data.hot[i].id + '\'>' + data.hot[i].disagree_count + '</font>)</dt></div>';
-        }
+    const result = data.result;
+    
+    for (const comment of result) {
+
+        // Clean up the nickname by removing <a> tags
+        const nickname = comment.nickname.replace(/<[Aa] .+>(.+)<\/[Aa]>/g, '$1');
+        
+
+        // Build the comment HTML using template literals for clarity
+        commentsBody += `
+        <div class="commentcontainer">
+            <dt>
+                <span>${comment.dnewdate}</span>
+                <b>${nickname}</b> 
+                <font class="grey">${comment.user_area}</font>
+                <div class="clearfloat"></div>
+            </dt>
+            <dd>${comment.quote_content || ''}${comment.talk}</dd>
+            <div class="replybox" id="re${comment.id}"></div>
+            <dt class="replycomment">
+                <a href="javascript:cmt_reply('${comment.id}', '');">回复</a> 
+                <a id="st${comment.id}" href="javascript:voteComment('${comment.id}', '#st', 'support');">支持</a>(<font id="sts${comment.id}">${comment.support_count}</font>) 
+                <a id="dt${comment.id}" href="javascript:voteComment('${comment.id}', '#dt', 'disagree');">反对</a>(<font id="dtd${comment.id}">${comment.disagree_count}</font>)
+            </dt>
+        </div>`;
     }
-    for (var j=0; j<data.result.length; j++) {
-        isvip = '';
-        user_icon = '';
-        commentsBody += '<div class=commentcontainer>' + user_icon + '<dt><span>' + data.result[j].dnewdate + '</span><b>' + data.result[j].nickname.replace(/<[Aa] .+>(.+)<\/[Aa]>/g, '$1') + isvip + '</b> <font class=grey>' + data.result[j].user_area + '</font><div class=clearfloat></div></dt><dd>' + (data.result[j].quote_content || '') + data.result[j].talk + '</dd><div class=replybox id=re' + data.result[j].id + '></div><dt class=replycomment><a href=\'javascript:cmt_reply("' + data.result[j].id + '","");\'>回复</a> <a id=st' + data.result[j].id + ' href=\'javascript:voteComment("' + data.result[j].id + '","#st","support");\'>支持</a>(<font id=\'sts' + data.result[j].id + '\'>' + data.result[j].support_count + '</font>) <a id=dt' + data.result[j].id + ' href=\'javascript:voteComment("' + data.result[j].id + '","#dt","disagree");\'>反对</a>(<font id=\'dtd' + data.result[j].id + '\'>' + data.result[j].disagree_count + '</font>)</dt></div>';
-        window.unusedEntryIndex = j;
-    }
+
     userCommentsEle.innerHTML = commentsBody;
 
-    if ((data.count && data.count > 0) || type !== 'story') {
+    if ((data.count && data.count > 0)) {
         init_repeat_cmt();
-        if (data.count > 20 || data.result.length > 20) {
-            commentnumber = data.count || data.result.length;
-            cftype = (type.indexOf('story') >= 0) ? 'story' : 'common';
-            cfoption = (type.indexOf('storyall') >= 0) ? type.replace(/storyall/g, '') : 1;
-            const currentSortValue = options?.sort ?? '1';
-
-            // Create a template literal for the HTML structure
-            userCommentsEle.innerHTML += `
-                <div class="fullcomments">
-                    <span class="viewfullcomments" id="viewfullcomments">
-                        查看全部<span class="highlight">${commentnumber}</span>条评论
-                    </span>
-                    <select class="commentsortby" id="commentsortby">
-                        <option value="1" ${currentSortValue === '1' ? 'selected' : ''}>最新的在上方</option>
-                        <option value="2" ${currentSortValue === '2' ? 'selected' : ''}>最早的在上方</option>
-                        <option value="3" ${currentSortValue === '3' ? 'selected' : ''}>按热门程度</option>
-                    </select>
-                </div>
-            `;
-
-            const handleCommentLoad = () => {
-                const commentsortby = document.getElementById('commentsortby').value;
-                const contentType = is_on_new_site ? type : `${cftype}all${commentsortby}`;
-                const options = { display: 'all', sort: commentsortby };
-                loadcomment(id, elementId, contentType, is_on_new_site, options);
-            };
-            
-            // Attach event listeners
-            document.getElementById('viewfullcomments').onclick = handleCommentLoad;
-            document.getElementById('commentsortby').onchange = handleCommentLoad;
-
+        if (data.result.length > 0 && data.count > data.result.length) {
+            userCommentsEle.innerHTML += `<button class="user_comments_more_button" data-id="${id}" data-type="${type}" data-sort="${options?.sort ?? '1'}">显示全部评论</button>`;
         }
-    } else { 
-        userCommentsEle.innerHTML = '';
     }
+
+
+
 }
+
+
+
+
 
 function init_repeat_cmt() {
     var all_cmt;
@@ -149,7 +140,7 @@ function voteComment(id, ctype, vote) {
     }
     var params = 'cmtid=' + id + '&action=' + vote; 
     var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
-    xmlhttp.open('POST', commentfolder + '/addvote/');
+    xmlhttp.open('POST', commentFolder + '/addvote/');
     xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xmlhttp.send(params);
 }
@@ -192,7 +183,7 @@ function cmt_reply(id,ctype) {
             var isAnomymous = (document.querySelector('#anonymous-reply-checkbox') && document.querySelector('#anonymous-reply-checkbox').checked) ? 1 : 0;
             var nickname = (isAnomymous === 1) ? '匿名用户' : document.querySelector('#nick_namer').value;
             var params = 'storyid=' + window.readingid + '&topic_object_id=' + window.readingid + '&talk=' + document.querySelector('#replycontent').value + '&use_nickname=' + isAnomymous + '&NickName=' + nickname + '&cmtid=' + id + '&type=' + ctype + '&title=&url=';
-            xmlhttp.open('POST', commentfolder + '/add');
+            xmlhttp.open('POST', commentFolder + '/add');
             xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xmlhttp.send(params);
             this.disabled = true;
@@ -201,40 +192,70 @@ function cmt_reply(id,ctype) {
 }
 
 function clickToSubmitComment() {
-    var ele = document.querySelector('#addnewcomment');
+    const ele = document.querySelector('#addnewcomment');
     if (!ele) {return;}
-    ele.onclick = function() {
-        // MARK: - Just pass the nickname to our server
-        var isAnomymous = (document.querySelector('#anonymous-checkbox') && document.querySelector('#anonymous-checkbox').checked) ? 1 : 0;
-        this.value = '正在发布中...';
-        this.disabled = true;
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
-            if (this.readyState === 4) {
-                var data = (this.responseText || '').trim();
-                if (data !== 'yes') {
-                    presentAlert('抱歉,现在我们的网站可能出现了一些小故障.您的留言可能没有发表成功,请您稍后再重新尝试发表一次。', '');
-                    return;
-                }
-                presentAlert('感谢您的参与，您的评论内容已经发表成功。审核后就会立即显示!', '');
-                document.querySelector('#addnewcomment').value = '提交评论';
-                document.querySelector('#addnewcomment').disabled = false;
-                document.querySelector('#Talk').value = '';
-            }
-        };
-        var params;
-        var talk = document.querySelector('#Talk').value;
-        var nickname = (isAnomymous === 1) ? '匿名用户' : document.querySelector('#nick_name').value;
-        if (/^[0-9]+$/.test(window.FTStoryid)) {
-            params = 'storyid='+ window.FTStoryid +'&talk=' + talk + '&use_nickname=' + isAnomymous + '&NickName=' + nickname;
-        } else {
-            params = 'topic_object_id='+ window.FTStoryid +'&talk=' + talk + '&use_nickname=' + isAnomymous + '&NickName=' + nickname + '&type=video';
+
+    const toggleButtonState = (button, isDisabled, text) => {
+        button.disabled = isDisabled;
+        button.value = text;
+    };
+
+    ele.onclick = async function () {
+        const isAnonymous = document.querySelector('#anonymous-checkbox')?.checked ? 1 : 0;
+        const talk = document.querySelector('#Talk').value.trim();
+        const nickname = isAnonymous ? '匿名用户' : document.querySelector('#nick_name').value.trim();
+        const id = document.querySelector('#content_id')?.value.trim() ?? '';
+        const type = document.querySelector('#content_type')?.value.trim() ?? '';
+
+
+        console.log(`id: ${id}, type: ${type}, talk: ${talk}`);
+
+        if (!id || !type || !talk) {
+            presentAlert('请填写完整的评论内容。', '');
+            return;
         }
-        xmlhttp.open('POST', commentfolder + '/add');
-        xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xmlhttp.send(params);
+
+        toggleButtonState(this, true, '正在发布中...');
+
+        const payload = {
+            talk,
+            use_nickname: isAnonymous,
+            display_name: nickname,
+            source_id: id,
+            source_type: type
+        };
+
+        try {
+            const response = await fetch(`${commentFolder}/add`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            if (data.status !== 'ok') {
+                presentAlert('抱歉,现在我们的网站可能出现了一些小故障.您的留言可能没有发表成功,请您稍后再重新尝试发表一次。', '');
+            } else {
+                presentAlert('感谢您的参与，您的评论内容已经发表成功。审核后就会立即显示!', '');
+                document.querySelector('#Talk').value = ''; // Clear the textarea
+                document.querySelector('#Talk').focus(); // Refocus on textarea
+            }
+        } catch (error) {
+            console.error('Error submitting comment:', error);
+            presentAlert('提交评论时出现问题，请稍后再试。', '');
+        } finally {
+            toggleButtonState(this, false, '提交评论');
+        }
     };
 }
+
 
 function presentAlert(title, message) {
     var alertMessage = {
@@ -247,3 +268,22 @@ function presentAlert(title, message) {
         alert(`${title}\n${message}`);
     }
 }
+
+
+delegate.on('change', '#commentsortby', function(){
+    const commentsortby = this.value;  // Correct way to get the value of the select element
+    const id = this.getAttribute('data-id') ?? '';
+    const type = this.getAttribute('data-type') ?? 'story';
+    const options = { sort: commentsortby };
+    loadcomment(id, type, options);  // Ensure `id` and `type` are defined in the current scope
+});
+
+delegate.on('click', '.user_comments_more_button', function(){
+    const id = this.getAttribute('data-id') ?? '';
+    const type = this.getAttribute('data-type') ?? 'story';
+    const sort = this.getAttribute('data-sort') ?? '1';
+    const options = { sort, display: 'all' };
+    this.outerHTML = `加载中...`;
+    loadcomment(id, type, options);  // Ensure `id` and `type` are defined in the current scope
+});
+
