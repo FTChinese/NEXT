@@ -35,19 +35,81 @@ button,a.button, input.button {
 	}
 }
 
-#allcomments .commentcontainer,.commentcontainer{
+#allcomments .commentcontainer, .commentcontainer{
 	background:#F6EADA;
 	color:#333;
 	margin:15px 0;
 	padding:10px;
-	border:1px solid #A4A4A4;
+	border:1px solid hsl(0, 0%, 64%);
+
+	.comment_content {
+		a {
+			color: $darkGreen;
+			margin-right: 10px;
+			font-size: 14px;
+			cursor: pointer;
+			font-weight: normal;
+			&.supported {
+				font-weight: bold;
+			}
+		}
+	}
+
+	&.comment_root, &.comment_reply {
+		.replycomment {
+			text-align: left;
+		}
+	}
+	&.comment_root {
+		background: transparent;
+		padding: 0 0 15px 0;
+		border-color: #cbd1d2;
+		border-style: solid;
+		border-width: 0 0 1px 0;
+		&:last-of-type {
+			border-width: 0;
+		}
+	}
+	&.comment_reply {
+		background: transparent;
+		padding: 0;
+		margin: 15px 0 0 10px;
+		// border-color: #A4A4A4;
+		// border-style: dashed;
+		border-width: 0 0 0 0;
+		.comment_content {
+			border-color: #cbd1d2;
+			border-style: dashed;
+			border-width: 0 0 0 1px;
+			padding: 0 0 0 10px;
+		}
+	}
+
+}
+
+.report_comment_action {
+	float: right;
+}
+svg.user_comments_icon {
+	width: 14px;
+	height: 14px;
+	fill: none;
+}
+.reply_status {
+	color: #505050;
 }
 
 #allcomments dt b a:link,#commoncomments dt b a:link{text-decoration: underline;}
 #allcomments,#commoncomments,dd.all{display:block;line-height:150%;}
 dd.all {text-align:right;margin-bottom:15px;}
 #allcomments dt,#commoncomments dt {position:relative;}
-#allcomments dt span,#commoncomments dt span{font-weight:normal;display:block;float:right;font-size:0.8em;color:#777;}
+#allcomments dt span, #commoncomments dt span, .comment-time-stamp {
+	font-weight:normal;
+	display:block;
+	float:right;
+	font-size:0.8em;
+	color:#777;
+}
 #allcomments dt font.grey,#commoncomments dt font.grey {font-size:0.8em;}
 #allcomments dd,#commoncomments dd {margin:10px 0;display:block;clear:both;font-size:1.2em;line-height:161.8%;}
 #allcomments .replycomment,#commoncomments .replycomment {text-align:right;font-weight:normal;font-size:1.1em;}
@@ -134,4 +196,59 @@ dd.all {text-align:right;margin-bottom:15px;}
 	select {
 		padding: 5px;
 	}
+}
+
+
+
+.report-comment-form {
+    border: 1px solid #cbd1d2;
+    padding: 20px;
+    margin-top: 10px;
+    border-radius: 5px;
+
+    h3 {
+        font-size: 1.25rem;
+        margin-bottom: 1rem; // Adds space below the heading
+    }
+
+    p {
+        line-height: 1.6;
+        margin-bottom: 1rem; // Adds space between paragraphs
+    }
+
+    label {
+        display: block;
+        margin-bottom: 0.5rem; // Space between labels
+        font-size: 1rem;
+        cursor: pointer;
+
+        input[type="radio"] {
+            margin-right: 0.5rem; // Space between radio button and label text
+        }
+    }
+
+    a {
+        text-decoration: none;
+        font-size: 0.9rem;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+	textarea {
+		width: 100%;
+		padding: 10px;
+		border-radius: 3px;
+		border: 1px solid;
+		font-size: 1rem;
+		line-height: 1.6;
+	}
+
+    .report-actions {
+        margin-top: 1.5rem;
+        display: flex;
+        gap: 10px; // Add space between buttons
+    }
+
 }

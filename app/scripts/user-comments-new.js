@@ -1,4 +1,4 @@
-/* exported loadcomment, init_repeat_cmt, showcmt, voteComment, cmt_reply, login, clickToSubmitComment, logout, checkLogin, socialLogin */
+/* exported loadcomment, clickToSubmitComment */
 // MARK: User Comments on New site
 const commentFolder = '/user_comments';
 const elementId = 'allcomments';
@@ -52,144 +52,104 @@ function showComment(id, type, data, options) {
     if (!userCommentsEle) {
         return;
     }
-    const result = data.result;
+    const comments = data.result;
     
-    for (const comment of result) {
+    for (const comment of comments) {
 
         // Clean up the nickname by removing <a> tags
-        const nickname = comment.nickname.replace(/<[Aa] .+>(.+)<\/[Aa]>/g, '$1');
+
+        const generateOneCommenContentHTML = (comment) => {
+            const nickname = comment?.nickname?.replace(/<[Aa] .+>(.+)<\/[Aa]>/g, '$1') ?? '';
+            let support_count = comment?.support_count?.toString() ?? '';
+            if (support_count === '0') {
+                support_count = '';
+            }
+            if (support_count !== '') {
+                support_count = ` ${support_count}`;
+            }
+            const supported = comment?.supported === true;
+            const supportClass = supported ? ' supported' : '';
+            const supportStatus = supported ? '已支持' : '支持';
+
+            const support_icon = `<svg class="user_comments_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M5.33014 8.42566H0.830139V21.9257H5.33014V8.42566Z"></path><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M5.33099 20.421C9.88265 20.421 10.2535 22.2335 16.4162 22.6037C18.1465 22.7076 19.3882 22.7972 20.5406 21.3197C23.0714 18.0748 24.287 10.3581 21.8323 10.3581H16.8181C15.7136 10.3581 14.8181 9.46264 14.8181 8.35807V4.46807C14.8181 1.44807 10.4002 -0.136834 10.4002 3.24807C10.4002 5.67566 9.4752 7.34449 7.92993 8.81464C7.17404 9.53378 6.29025 9.91876 5.33099 10.1244"></path></svg>`;
+            const reply_icon = `<svg class="user_comments_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><defs></defs><title>email-action-reply</title><path d="M9.709,6.837a1.5,1.5,0,0,0-2.6-1.018L1.648,11.733a1.5,1.5,0,0,0,0,2.034l5.458,5.914a1.5,1.5,0,0,0,2.6-1.018V15.75h6a7.5,7.5,0,0,1,7.5,7.5v-6a7.5,7.5,0,0,0-7.5-7.5h-6Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path></svg>`;
+            const report_icon = `<svg class="user_comments_icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M0.75 23.25L0.75 0.75" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path><path d="M.75,17.708l3.154-.97a9.61,9.61,0,0,1,7.864,1A9.615,9.615,0,0,0,19.447,18.8l2.987-.854a1.125,1.125,0,0,0,.816-1.082V5.137a1.126,1.126,0,0,0-1.434-1.082l-2.369.677a9.615,9.615,0,0,1-7.679-1.056,9.61,9.61,0,0,0-7.864-1L.75,3.645" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path></svg>`;
+            let replyToHTML = '';
+            const reply_to = comment?.reply_to ?? '';
+            if (reply_to !== '') {
+                replyToHTML = `
+                <dt>
+                    <font class="reply_status">
+                    ${reply_icon}
+                    回复 
+                    </font>
+                    <b>${reply_to}</b>
+                </dt>`;
+            }
+            return `<div class="comment_content">
+                <dt>
+                    <span>${comment.dnewdate}</span>
+                    <b>${nickname}</b> 
+                    <font class="grey">${comment.user_area ?? ''}</font>
+                    <div class="clearfloat"></div>
+                </dt>
+                ${replyToHTML}
+                <dd>${comment.talk}</dd>
+                <div class="replybox"></div>
+                <dt class="replycomment">
+                    <a class="report_comment_action" data-comment-id="${comment.id}">
+                    ${report_icon}
+                    举报
+                    </a>
+                    <a class="support_button${supportClass}" data-comment-id="${comment.id}">
+                        ${support_icon}
+                        <font class="support_status">${supportStatus}</font>
+                        <font class="support_count">${support_count}</font>
+                    </a>
+                    <a class="show_reply_form" data-comment-id="${comment.id}">
+                        ${reply_icon}
+                        回复
+                    </a>
+                </dt>
+            </div>`;
+        };
         
+        const generateRepliesHTML = (replies) => {
+            if (!replies || replies.length === 0) {return '';}
+            let html = '';
+            for (const comment of replies) {
+                html += `
+                <div class="commentcontainer comment_reply">
+                    ${generateOneCommenContentHTML(comment)}
+                    ${generateRepliesHTML(comment.replies)}
+                </div>`;
+            }
+            return html;
+        };
 
         // Build the comment HTML using template literals for clarity
         commentsBody += `
-        <div class="commentcontainer">
-            <dt>
-                <span>${comment.dnewdate}</span>
-                <b>${nickname}</b> 
-                <font class="grey">${comment.user_area}</font>
-                <div class="clearfloat"></div>
-            </dt>
-            <dd>${comment.quote_content || ''}${comment.talk}</dd>
-            <div class="replybox" id="re${comment.id}"></div>
-            <dt class="replycomment">
-                <a href="javascript:cmt_reply('${comment.id}', '');">回复</a> 
-                <a id="st${comment.id}" href="javascript:voteComment('${comment.id}', '#st', 'support');">支持</a>(<font id="sts${comment.id}">${comment.support_count}</font>) 
-                <a id="dt${comment.id}" href="javascript:voteComment('${comment.id}', '#dt', 'disagree');">反对</a>(<font id="dtd${comment.id}">${comment.disagree_count}</font>)
-            </dt>
+        <div class="commentcontainer comment_root">
+            ${generateOneCommenContentHTML(comment)}
+            ${generateRepliesHTML(comment.replies)}
         </div>`;
     }
 
     userCommentsEle.innerHTML = commentsBody;
 
     if ((data.count && data.count > 0)) {
-        init_repeat_cmt();
-        if (data.result.length > 0 && data.count > data.result.length) {
+        const display_all = options?.display === 'all' ? 'yes' : 'no';
+        if (data.result.length > 0 && data.count > data.result.length && display_all === 'no') {
             userCommentsEle.innerHTML += `<button class="user_comments_more_button" data-id="${id}" data-type="${type}" data-sort="${options?.sort ?? '1'}">显示全部评论</button>`;
         }
     }
 
-
-
 }
 
-
-
-
-
-function init_repeat_cmt() {
-    var all_cmt;
-    var cmtQuotes = document.querySelectorAll('.cmt_quote');
-    for (var i=0; i<cmtQuotes[i]; i++) {
-        if (cmtQuotes[i].parentNode.tagName.toUpperCase() === 'DD') {
-            cmtQuotes[i].id = 'cmt_quote_'+ Math.round(Math.random() * 1000000);
-            if (cmtQuotes[i].childNodes[0].className === 'cmt_quote') {
-                cmtQuotes[i].childNodes[0].id = 'cmt_quote_child_'+ Math.round(Math.random() * 1000000);
-            }
-        } else if (cmtQuotes[i].id !== 'recommendcomment') {
-            cmtQuotes[i].style.display = 'none';
-        }
-    }
-
-    var cmtQuoteChilds = document.querySelectorAll('div[id^="cmt_quote_child_"]');
-    for (var j=0; j<cmtQuoteChilds.length; j++) {
-        cmtQuoteChilds[j].style.display = '';
-        if (cmtQuoteChilds[j].childNodes[0].className === 'cmt_quote') {
-            all_cmt = document.querySelectorAll('#'+ cmtQuoteChilds[j].id + ' .cmt_quote').length;
-            document.getElementById(cmtQuoteChilds[j].id).innerHTML = '<p onclick="showcmt(this)" class=\'showcmt\'>重复 [ ' + all_cmt + ' ] 条引用已被隐藏,点击展开。</p>' + document.getElementById(cmtQuoteChilds[j].id).innerHTML;
-        }
-    }
+function isUserLoggedIn() {
+    return document.documentElement.classList.contains('is-member');
 }
 
-function showcmt(ele) {
-    document.querySelector('#'+ ele.parentNode.id + ' .cmt_quote').style.display = '';
-    ele.style.display = 'none';
-}
-
-function voteComment(id, ctype, vote) {
-    if (!ctype) {
-        ctype = (vote === 'support') ? '#st' : '#dt';
-    }
-    var i = document.querySelector(ctype + vote[0] + id).innerHTML;
-    i = parseInt(i, 10) || 0;
-    document.querySelector(ctype + vote[0] + id).innerHTML = i + 1;
-    document.querySelector(ctype + id).removeAttribute('href');
-    if (vote==='support') {
-        document.querySelector(ctype + id).innerHTML = '已支持';
-    } else {
-        document.querySelector(ctype + id).innerHTML = '已反对';
-    }
-    var params = 'cmtid=' + id + '&action=' + vote; 
-    var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
-    xmlhttp.open('POST', commentFolder + '/addvote/');
-    xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xmlhttp.send(params);
-}
-
-function cmt_reply(id,ctype) {
-    var pl, usenicknamer;
-    ctype = ctype || '';
-    var replyBoxes = document.querySelectorAll('.replybox');
-    for (var i=0; i<replyBoxes.length; i++) {
-        replyBoxes[i].innerHTML = '';
-    }
-    if (!username) {
-        pl = document.querySelector('#nologincomment').innerHTML
-          .replace(/username1/g, 'username2')
-          .replace(/password1/g, 'password2')
-          .replace(/login\(1\)/g, 'login(2)');
-        document.querySelector('#re' + ctype + id).innerHTML = pl;
-    } else {
-        document.querySelector('#re' + ctype + id).innerHTML = '<div id=reply-input-container><b>回复此评论：</b><input type="checkbox" id="anonymous-reply-checkbox" name="anonimous-reply-checkbox" checked="true"><label for="anonymous-reply-checkbox">匿名发表</label><textarea id="replycontent" class="commentTextArea" rows="3"></textarea><span style="display:none;"><input name="use_nicknamer" type="radio" id="namer" onclick="unuseitr(this);"/><label for="namer">匿名</label><input name="use_nicknamer" type="radio" id="useridr" value="0" onclick="useitr(this);" checked/><label for="useridr">昵称</label> <input type="text" class="user_id textinput" id="nick_namer" value="" /></span><input type="button" value="提交回复" class="comment_btn submitbutton button ui-light-btn" id="addnewcommentr"/></div>';
-        document.querySelector('#nick_namer').value = document.querySelector('#nick_name').value;
-        document.querySelector('#addnewcommentr').onclick = function() {
-            usenicknamer = 0;
-            var xmlhttp = new XMLHttpRequest();
-            xmlhttp.onreadystatechange = function() {
-                if (this.readyState === 4) {
-                    if (this.status === 200) {
-                        var data = this.responseText;
-                        if (data !== 'yes') {
-                            presentAlert('非常抱歉，现在我们的网站遇到一些技术故障。您的留言可能没有发表成功，稍后请您试着重新发表一次。', '');
-                            return;
-                        }
-                        document.querySelector('#re' + ctype + id).innerHTML = '';
-                        presentAlert('感谢您的参与，您的评论内容已经提交。审核后会立即显示出来！', '');
-                    } else { 
-                        document.querySelector('#re' + ctype + id).innerHTML = '';
-                        presentAlert('很抱歉。由于您的网络的连接发生故障，发表评论失败。稍后请您试着重新发表一次。', '');
-                    }
-                }
-            };
-            var isAnomymous = (document.querySelector('#anonymous-reply-checkbox') && document.querySelector('#anonymous-reply-checkbox').checked) ? 1 : 0;
-            var nickname = (isAnomymous === 1) ? '匿名用户' : document.querySelector('#nick_namer').value;
-            var params = 'storyid=' + window.readingid + '&topic_object_id=' + window.readingid + '&talk=' + document.querySelector('#replycontent').value + '&use_nickname=' + isAnomymous + '&NickName=' + nickname + '&cmtid=' + id + '&type=' + ctype + '&title=&url=';
-            xmlhttp.open('POST', commentFolder + '/add');
-            xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xmlhttp.send(params);
-            this.disabled = true;
-        };
-    }
-}
 
 function clickToSubmitComment() {
     const ele = document.querySelector('#addnewcomment');
@@ -233,15 +193,13 @@ function clickToSubmitComment() {
                 },
                 body: JSON.stringify(payload)
             });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
             const data = await response.json();
-
             if (data.status !== 'ok') {
-                presentAlert('抱歉,现在我们的网站可能出现了一些小故障.您的留言可能没有发表成功,请您稍后再重新尝试发表一次。', '');
+                let errors = '';
+                if (data.errors && data.errors.length > 0) {
+                    errors = data.errors.map(x => x.msg ?? '').filter(x => x !== '').join('\n');
+                }
+                presentAlert('抱歉，您的留言没有发表成功', errors);
             } else {
                 presentAlert('感谢您的参与，您的评论内容已经发表成功。审核后就会立即显示!', '');
                 document.querySelector('#Talk').value = ''; // Clear the textarea
@@ -287,3 +245,242 @@ delegate.on('click', '.user_comments_more_button', function(){
     loadcomment(id, type, options);  // Ensure `id` and `type` are defined in the current scope
 });
 
+
+delegate.on('click', '.show_reply_form', async function() { // must use function not arrow in order to get this object
+
+    // Check if the user is logged in
+    if (!isUserLoggedIn()) {
+        // If the user is not logged in, display an alert message prompting them to log in
+        presentAlert('亲爱的读者，请登录之后再回复评论。');
+        return; // Exit the function early if not logged in
+    }
+
+    const id = this.getAttribute('data-comment-id') ?? '';
+
+    if (id === '') {
+        presentAlert('亲爱的读者，我们的代码有点问题，这不是您的错。请稍后再尝试回复的功能。');
+        return;
+    }
+
+    // Clear all reply boxes by setting their innerHTML to an empty string
+    document.querySelectorAll('.replybox').forEach(box => box.innerHTML = '');
+
+    const replyBox = this.closest('.comment_content')?.querySelector('.replybox');
+    if (!replyBox) {return;}
+    // Insert the reply box HTML into the appropriate element
+    replyBox.innerHTML = `
+        <div class="reply-input-container">
+            <b>回复此评论：</b>
+            <textarea class="commentTextArea" rows="3"></textarea>
+            <input type="button" value="提交回复" class="comment_btn submitbutton button ui-light-btn submit_reply_button" data-comment-id="${id}"/>
+        </div>`;
+
+});
+
+
+delegate.on('click', '.submit_reply_button', async function() {
+
+    // Check if the user is logged in
+    if (!isUserLoggedIn()) {
+        // If the user is not logged in, display an alert message prompting them to log in
+        presentAlert('亲爱的读者，请登录之后再回复评论。');
+        return; // Exit the function early if not logged in
+    }
+
+    // Disable the submit button to prevent multiple submissions
+    this.disabled = true;
+    this.value = '正在发布中...';
+
+    const id = this.getAttribute('data-comment-id') ?? '';
+    if (id === '') {
+        return;
+    }
+
+    const sourceId = document.querySelector('#content_id')?.value.trim() ?? '';
+    if (sourceId === '') {
+        return;
+    }
+
+    const sourceType = document.querySelector('#content_type')?.value.trim() ?? '';
+    if (sourceType === '') {
+        return;
+    }
+
+    const container = this.closest('.reply-input-container');
+    if (!container) {return;}
+
+    const talk = container?.querySelector('textarea')?.value?.trim() ?? '';
+    if (talk === '') {
+        presentAlert('请填写完整的评论内容。', '');
+        this.disabled = false;
+        this.value = '提交回复';
+        return;
+    }
+
+    const payload = {
+        talk,
+        quote_cmt_id: id,
+        source_id: sourceId,
+        source_type: sourceType
+    };
+
+    try {
+        // Send the POST request using fetch
+        const response = await fetch(`${commentFolder}/add`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+
+        const data = await response.json();
+
+        // Check the response data for success status
+        if (data.status !== 'ok') {
+            let errors = '';
+            if (data.errors && data.errors.length > 0) {
+                errors = data.errors.map(x => x.msg ?? '').filter(x => x !== '').join('\n');
+            }
+            presentAlert('抱歉，您的留言没有发表成功', errors);
+        } else {
+            presentAlert('感谢您的参与，您的评论内容已经发表成功。审核后就会立即显示!', '');
+            container.innerHTML = ''; // Clear the reply box
+        }
+    } catch (error) {
+        console.error('Error submitting comment:', error);
+        presentAlert('提交评论时出现问题，请稍后再试。', '');
+    } finally {
+        // Re-enable the submit button
+        this.disabled = false;
+        this.value = '提交回复';
+    }
+});
+
+
+delegate.on('click', '.support_button', async function() {
+
+
+    // Check if the user is logged in
+    if (!isUserLoggedIn()) {
+        // If the user is not logged in, display an alert message prompting them to log in
+        presentAlert('亲爱的读者，请登录之后再支持评论。');
+        return; // Exit the function early if not logged in
+    }
+
+    const isSupport = !this.classList.contains('supported');
+
+    const comment_id = this.getAttribute('data-comment-id') ?? '';
+    if (comment_id === '') {
+        console.log(`No comment id! `);
+        return;
+    }
+
+    const payload = {
+        comment_id: comment_id,
+        support: isSupport
+    };
+
+    try {
+        // Send the POST request using fetch
+        const response = await fetch(`${commentFolder}/support`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+
+        const data = await response.json();
+
+        // Check the response data for success status
+        if (data.status !== 'ok') {
+            console.log(`Server side status not updated! `);
+            return;
+        }
+
+    } catch (error) {
+        console.error('Error submitting comment:', error);
+        return;
+        // presentAlert('提交评论时出现问题，请稍后再试。', '');
+    }
+
+    const supportStatusEle = this.querySelector('.support_status');
+    const supportCountEle = this.querySelector('.support_count');
+    if (!supportCountEle || !supportCountEle) {return;}
+    
+    supportStatusEle.innerHTML = isSupport ? '已支持' : '支持';
+
+    let supportCountString = supportCountEle.innerHTML ?? '';
+    if (supportCountString === '') {
+        supportCountString = '0';
+    }
+    let supportCount = parseInt(supportCountString, 10) ?? 0;
+    if (isSupport) {
+        supportCount += 1;
+    } else {
+        supportCount -= 1;
+    }
+    supportCount = Math.max(0, supportCount);
+    supportCountEle.innerHTML = supportCount;
+    this.classList.toggle('supported');
+
+});
+
+
+// Handle the report comment action
+delegate.on('click', '.report_comment_action', async function() {
+    const comment_id = this.getAttribute('data-comment-id') ?? '';
+    if (comment_id === '') {
+        console.log(`No comment id! `);
+        return;
+    }
+
+    // Check if a form is already visible and remove it
+    const existingForm = document.querySelector('.report-comment-form');
+    if (existingForm) {
+        existingForm.remove();
+    }
+
+    // Create the report form dynamically with clean HTML
+    const reportFormHTML = `
+        <div class="report-comment-form" style="border: 1px solid; padding: 20px; margin-top: 10px;">
+            <h3>举报此评论</h3>
+            <p>你为什么举报此评论？</p>
+            
+            <div class="report-options">
+                <label><input type="radio" name="report_reason" value="offensive"> 该评论具有攻击性</label>
+                <label><input type="radio" name="report_reason" value="abusive"> 评论者具有辱骂行为</label>
+                <label><input type="radio" name="report_reason" value="disagree"> 我不同意此评论</label>
+                <label><input type="radio" name="report_reason" value="ad"> 此评论看起来像广告或营销</label>
+                <label><input type="radio" name="report_reason" value="other"> 其他</label>
+            </div>
+            
+            <p><a href="#">此评论包含可能非法的内容</a></p>
+
+            <div class="additional-info-section">
+                <label for="additional_info">附加信息（可选）</label>
+                <textarea id="additional_info" rows="4" style="width: 100%;" placeholder="请留下任何可能对我们的管理员有帮助的附加信息。"></textarea>
+            </div>
+
+            <div class="report-actions" style="margin-top: 10px;">
+                <button class="cancel_report">取消</button>
+                <button class="submit_report" data-comment-id="${comment_id}">提交</button>
+            </div>
+        </div>
+    `;
+
+    // Find the comment container and insert the form after it
+    const commentElement = this.closest('.comment_content');
+    commentElement.insertAdjacentHTML('beforeend', reportFormHTML);
+
+    // TODO: Handle form submission logic here
+});
+
+// Delegate cancel button functionality
+delegate.on('click', '.cancel_report', function() {
+    const reportForm = document.querySelector('.report-comment-form');
+    if (reportForm) {
+        reportForm.remove();
+    }
+});
