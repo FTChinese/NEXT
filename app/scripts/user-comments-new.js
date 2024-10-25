@@ -474,13 +474,66 @@ delegate.on('click', '.report_comment_action', async function() {
     const commentElement = this.closest('.comment_content');
     commentElement.insertAdjacentHTML('beforeend', reportFormHTML);
 
-    // TODO: Handle form submission logic here
 });
 
-// Delegate cancel button functionality
 delegate.on('click', '.cancel_report', function() {
     const reportForm = document.querySelector('.report-comment-form');
     if (reportForm) {
         reportForm.remove();
     }
 });
+
+// Delegate event listener for report submission
+delegate.on('click', '.submit_report', async function() {
+    const comment_id = this.getAttribute('data-comment-id') ?? '';
+    if (comment_id === '') {
+        console.log('No comment id!');
+        return;
+    }
+
+    // Get the selected reason for reporting
+    const selectedReason = document.querySelector('input[name="report_reason"]:checked');
+    if (!selectedReason) {
+        console.log('No report reason selected!');
+        return;
+    }
+
+    const report_reason = selectedReason.value;
+
+    // Get the additional information (if any)
+    const additional_info = document.getElementById('additional_info')?.value ?? '';
+
+    // Construct the payload
+    const payload = {
+        comment_id: comment_id,
+        report_reason: report_reason,
+        additional_info: additional_info
+    };
+
+    try {
+        // Post the payload to the report submission endpoint
+        const response = await fetch(`${commentFolder}/report`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            console.log('Report submitted successfully', result);
+            // Optionally: Remove the form after successful submission
+            document.querySelector('.report-comment-form').remove();
+            alert('举报已成功提交，谢谢您的反馈！');
+        } else {
+            console.error('Error submitting report:', result.error);
+            alert('提交举报时出错，请稍后再试。');
+        }
+    } catch (error) {
+        console.error('Failed to submit report:', error);
+        alert('提交举报时出现问题，请检查您的网络连接。');
+    }
+});
+
