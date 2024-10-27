@@ -701,6 +701,9 @@ function toggleAllTextareaWarning() {
     }
 }
 
+function escapeRegex(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
 
 // MARK: - Check if the value of textarea is valid
 function checkTextarea(ele) {
@@ -727,8 +730,13 @@ function checkTextarea(ele) {
         var key = ele.getAttribute('data-key');
         var translation = ele.querySelector('input').value;
         if (translation === '') {continue;}
-        var keyReg = new RegExp(' ' + key + ' ', 'g');
+        // MARK: I meant to match where the key is not part of a word
+        var escapedKey = escapeRegex(key);
+        var keyReg = new RegExp('(^|\\W)' + escapedKey + '(\\W|$)', 'g');
+        console.log(`keyReg: ${keyReg}`);
         var keyMatchesArray = originalText.match(keyReg);
+        console.log(keyMatchesArray);
+
         if (!keyMatchesArray) {continue;}
         var keyMatches = keyMatchesArray.length;
         if (keyMatches === 0) {continue;}
@@ -1095,6 +1103,7 @@ function start() {
         allLinks[n].closest(".info-container").querySelector('.info-suggestion').innerHTML = suggestion;
         // allLinks[n].closest(".info-container").querySelector('textarea').setAttribute('placeholder', suggestion);
     }
+    showCommonSuggestions();
     showGlossarySuggestions();
     showNames();
 }
@@ -1526,12 +1535,15 @@ function showNames() {
         translation += translations[m].innerHTML;
     }
     var nameEntities = getNameEntities(ebody, translation, 2);
+    // console.log('nameEntities: ');
     // console.log(nameEntities);
     if (!nameEntities || nameEntities.length === 0) {return;}
     var infoOriginals = document.querySelectorAll('.info-original');
     for (var i = 0; i < infoOriginals.length; i++) {
         var ele = infoOriginals[i];
         var originalText = ele.innerHTML;
+        // console.log('originalText: ');
+        // console.log(originalText);
         // MARK: Don't insert the same word twice in one paragraph
         var insertedKeySet = new Set();
         for (var j = 0; j < nameEntities.length; j++) {
@@ -1673,6 +1685,79 @@ function showGlossarySuggestions() {
         checkInfoHelpers();
     };
     xhr.send(encodeURI('post_text=' + ebody));
+}
+
+function showCommonSuggestions() {
+    var ebody = '';
+    if (window.opener) {
+        var ebodyEle = window.opener.document.getElementById('ebody');
+        if (!ebodyEle) { return; }
+        ebody = ebodyEle.value;
+    } else if (document.getElementById('english-text')) {
+        ebody = document.getElementById('english-text').value;
+    }
+    var div = document.createElement('DIV');
+    div.innerHTML = ebody;
+    ebody = div.innerText;
+
+    var rules = [
+        {
+            pattern: /\$([\d\.]+)tn/g,
+            generateSuggestion: function (match, number) {
+                return number + '万亿美元';
+            }
+        },
+        {
+            pattern: /Alphabet/g,
+            generateSuggestion: function (match, number) {
+                return 'Alphabet';
+            }
+        }
+        // Add more rules here as needed
+    ];
+
+    var infoOriginals = document.querySelectorAll('.info-original');
+    for (var i = 0; i < infoOriginals.length; i++) {
+        var infoOriginal = infoOriginals[i];
+        var englishText = infoOriginal.innerText;
+
+        for (var r = 0; r < rules.length; r++) {
+            var rule = rules[r];
+            var regex = new RegExp(rule.pattern.source, 'g');
+            var match;
+            while ((match = regex.exec(englishText)) !== null) {
+                var suggestionText = rule.generateSuggestion.apply(null, match);
+                var en_title = match[0];
+                var chinese_title = suggestionText;
+
+                var infoContainer = infoOriginal.closest('.info-container');
+                var existingNameEntityInner = infoContainer.querySelector('.name-entity-inner[data-key="' + en_title + '"]');
+                var existingNameEntityTranslation = infoContainer.querySelector('.name-entity-translation[data-key="' + en_title + '"]');
+                if (existingNameEntityInner && existingNameEntityTranslation) {
+                    existingNameEntityInner.querySelector('input').value = chinese_title;
+                    existingNameEntityTranslation.innerHTML = '<span class="name-entity-shortcut">' + chinese_title + '</span><span class="name-entity-shortcut">' + chinese_title + '(' + en_title + ')</span><button class="add-name-entity" title="Add to Glossary"></button>';
+                } else {
+                    var suggestionEle = document.createElement('DIV');
+                    suggestionEle.innerHTML = en_title + ': <b>' + chinese_title + '</b>';
+                    suggestionEle.className = 'translation-suggestion';
+                    suggestionEle.setAttribute('data-translation', chinese_title);
+                    suggestionEle.setAttribute('title', 'Click to insert “' + chinese_title + '” into the text area below');
+                    infoOriginal.parentElement.append(suggestionEle);
+
+                    var infoHelper = infoOriginal.closest('.info-container').querySelector('.info-helper');
+                    var nameEntityContainer = infoHelper.querySelector('.name-entity-container');
+                    if (!nameEntityContainer) {
+                        nameEntityContainer = document.createElement('DIV');
+                        nameEntityContainer.className = 'name-entity-container';
+                        infoHelper.append(nameEntityContainer);
+                    }
+                    var newNameEntityInnerHTML = '<div class="name-entities-container"><div class="name-entity-inner" data-key="' + en_title + '"><span class="name-entity-key">' + en_title + '</span><span><input type="text" value="' + chinese_title + '" placeholder="' + localizeForTranslationHelper('Add the translation') + '"></span><button class="ignore-name-entity" title="忽略"></button></div><div class="name-entity-translation" data-key="' + en_title + '"><span class="name-entity-shortcut">' + chinese_title + '</span><span class="name-entity-shortcut">' + chinese_title + '(' + en_title + ')</span><button class="add-name-entity" title="Add to glossary"></button></div></div>';
+                    nameEntityContainer.innerHTML += newNameEntityInnerHTML;
+                }
+            }
+        }
+    }
+    checkInfoHelpers();
 }
 
 function finishTranslationForVideo() {
@@ -2012,14 +2097,17 @@ function replaceAll() {
     }
     for (var j=0; j<allTranslationTexts.length; j++) {
         var currentTextArea = allTranslationTexts[j];
+        let maxReplaceRounds = 10;
+        let i = 0;
         while (currentTextArea.value.indexOf(from) >= 0) {
             const matches = currentTextArea.value.match(fromRegex);
             if (matches && matches.length > 0) {
                 currentTextArea.value = currentTextArea.value.replace(fromRegex, to);
                 replaceCount += matches.length;
             }
+            i += 1;
             // MARK: - avoid infinite loop with this
-            if (to.indexOf(from) >= 0) {
+            if (i >= maxReplaceRounds || to.indexOf(from) >= 0) {
                 break;
             }
         }
