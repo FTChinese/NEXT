@@ -86,6 +86,14 @@ function showComment(id, type, data, options) {
                     <b>${reply_to}</b>
                 </dt>`;
             }
+            let deleteHTML = '';
+            if (comment.isPublishedByMe === true) {
+                deleteHTML = `
+                <a class="delete_button" data-comment-id="${comment.id}">
+                    ${support_icon}
+                    删除
+                </a>`;
+            }
             return `<div class="comment_content">
                 <dt>
                     <span>${comment.dnewdate}</span>
@@ -110,6 +118,7 @@ function showComment(id, type, data, options) {
                         ${reply_icon}
                         回复
                     </a>
+                    ${deleteHTML}
                 </dt>
             </div>`;
         };

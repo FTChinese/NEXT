@@ -1566,6 +1566,11 @@ async function newsQuiz(content, language, reply, id) {
     // console.log(quizInfo);
     if (quizInfo.status === 'success' && quizInfo.results) {
       let html = '';
+      const startDate = new Date('2024-10-30T00:00:00+08:00').getTime();
+      const endDate = new Date('2024-11-12T23:59:59+08:00').getTime();
+      const now = new Date().getTime();
+      const showPromotion = now >= startDate && now <= endDate;
+      const promoInfo = showPromotion ? `<a class="quiz-promotion-text-link" href="https://www.ftchinese.com/m/corp/preview.html?pageid=2024D11&to=all&ccode=2C2024D11chatftclp" target="_blank">现在订阅，限时75折</a>`: '<a class="quiz-promotion-text-link" href="/subscription" target="_blank">立即订阅，每天仅需1元</a>';
       for (const [index, quiz] of quizInfo.results.entries()) {
           const answer = quiz.answer || '';
           const explanation = quiz.explanation || '';
@@ -1578,6 +1583,7 @@ async function newsQuiz(content, language, reply, id) {
           let shareLink = '';
           if (id !== '') {
             shareLink = `
+            ${promoInfo}
             <a class="quiz-share" data-quiz-id="${id}" data-language="${language}"></a>
             <a class="quiz-detail" href="/quiz/${id}/${language}" target="_blank"></a>
             `;
@@ -2028,14 +2034,14 @@ async function showFTPage(content, language, reply) {
 
 
         if (index > 0) {continue;}
-        const startDate = new Date('2024-08-19T00:00:00+08:00').getTime();
-        const endDate = new Date('2024-09-02T00:00:00+08:00').getTime();
+        const startDate = new Date('2024-10-30T00:00:00+08:00').getTime();
+        const endDate = new Date('2024-11-12T23:59:59+08:00').getTime();
         const now = new Date().getTime();
         const showPromotion = now >= startDate && now <= endDate;
-        const domain = isInNativeApp ? 'www.ftchinese.com' : 'www.ftmembercare.com';
-        const promotion = showPromotion ? `<a href="https://${domain}/m/corp/preview.html?pageid=2024Augsub&to=all&ccode=2C2024Augchatftc" target="_blank"><img class="promotion" src="https://thumbor.ftacademy.cn/unsafe/picture/5/000237955_piclink.jpg" width="300" height="250"></a>` : '';
+        const domain = isInNativeApp ? 'www.ftchinese.com' : 'www.ftchinese.com';
+        const promotion = showPromotion ? `<a href="https://${domain}/m/corp/preview.html?pageid=2024D11&to=all&ccode=2C2024D11chatftclp" target="_blank"><img class="promotion" src="https://thumbor.ftacademy.cn/unsafe/picture/6/000247586_piclink.jpg" width="300" height="250"></a>` : '';
         html += promotion;
-
+        
           
       }
       newResultInner.innerHTML = await convertChinese(html, language);
@@ -2178,12 +2184,12 @@ function getActionOptions() {
     </div>
     `;
   } else if (intention === undefined || intention === '') {
-    const startDate = new Date('2024-08-19T00:00:00+08:00').getTime();
-    const endDate = new Date('2024-09-02T00:00:00+08:00').getTime();
+    const startDate = new Date('2024-10-30T00:00:00+08:00').getTime();
+    const endDate = new Date('2024-11-12T23:59:59+08:00').getTime();
     const now = new Date().getTime();
     const showPromotion = now >= startDate && now <= endDate;
-    const domain = isInNativeApp ? 'www.ftchinese.com' : 'www.ftmembercare.com';
-    const promotion = showPromotion ? `<a target="_blank" href="https://${domain}/m/corp/preview.html?pageid=2024Augsub&to=all&ccode=2C2024Augchatftc">${localize('PromotionActionButton')}</a>` : '';
+    const domain = isInNativeApp ? 'www.ftchinese.com' : 'www.ftchinese.com';
+    const promotion = showPromotion ? `<a target="_blank" href="https://${domain}/m/corp/preview.html?pageid=2024D11&to=all&ccode=2C2024D11chatftclp">${localize('PromotionActionButton')}</a>` : '';
     result = `
       <div class="chat-item-actions">
         <a data-purpose="show-ft-page" data-lang="${language}" data-content='home' data-reply="${localize('FindingMyFT')}" data-reply-action="set-preference">${localize('Top News For Me')}</a>
@@ -2450,27 +2456,24 @@ async function greet() {
   if (intentInPara && intentInPara !== '' && intention === undefined) {
     intention = intentInPara;
   }
-
   if (showGreeting === false) {return;}
   const inductionNeeded = await shouldShowInduction();
   if (inductionNeeded) {
     await showInduction();
     return;
   }
-
   const introductionWithIntents = new Set(['DailyEnglish', 'VideoAudio', 'FTAcademy', 'CustomerService']);
   let introductionKey = 'Introduction';
   if (introductionWithIntents.has(intention)) {
     introductionKey += intention;
   }
   let introduction = `<p>${localize(introductionKey)}</p>`;
-  const startDate = new Date('2024-08-19T00:00:00+08:00').getTime();
-  const endDate = new Date('2024-09-02T00:00:00+08:00').getTime();
+  const startDate = new Date('2024-10-30T00:00:00+08:00').getTime();
+  const endDate = new Date('2024-11-12T23:59:59+08:00').getTime();
   const now = new Date().getTime();
   if (now >= startDate && now <= endDate) {
     introduction += `<p>${localize('PromotionInIntroduction')}</p>`;
   }
-
   const prompt = (discussArticleOnly || surveyOnly) ? '' : `<p>${getRandomPrompt('greeting')}</p>`;
   if (!chatContent.querySelector('.chat-talk')) {
       chatContent.innerHTML = '';
@@ -2482,7 +2485,6 @@ async function greet() {
     chatContent.appendChild(newChat);
   }
   userInput.setAttribute('placeholder', localize('Ask Me'));
-
 
 }
 
