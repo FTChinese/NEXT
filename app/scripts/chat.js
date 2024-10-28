@@ -1570,7 +1570,7 @@ async function newsQuiz(content, language, reply, id) {
       const endDate = new Date('2024-11-12T23:59:59+08:00').getTime();
       const now = new Date().getTime();
       const showPromotion = now >= startDate && now <= endDate;
-      const promoInfo = showPromotion ? `<a class="quiz-promotion-text-link" href="https://www.ftchinese.com/m/corp/preview.html?pageid=2024D11&to=all&ccode=2C2024D11chatftclp" target="_blank">现在订阅，限时75折</a>`: '<a class="quiz-promotion-text-link" href="/subscription" target="_blank">立即订阅，每天仅需1元</a>';
+      const promoInfo = showPromotion ? `<a class="quiz-promotion-text-link" href="https://www.ftchinese.com/m/corp/preview.html?pageid=2024D11&to=all&ccode=2C2024D11chatftcquiz" target="_blank">现在订阅，限时75折</a>`: '<a class="quiz-promotion-text-link" href="/subscription?ccode=2C2024chatftcquiz" target="_blank">立即订阅，每天仅需1元</a>';
       for (const [index, quiz] of quizInfo.results.entries()) {
           const answer = quiz.answer || '';
           const explanation = quiz.explanation || '';
