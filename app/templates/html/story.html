@@ -859,7 +859,10 @@
 <%/if%>
 
 <%assign var=pubDate value=$story.pubdate|default:$pubdate|default:$fileupdatetime%>
-<%assign var=lastPublish value=$story.last_publish_time|default:$fileupdatetime%>
+<%assign var="lastPublish" value=$story.last_publish_time|default:$fileupdatetime%>
+<%if $fileupdatetime > $lastPublish%>
+    <%assign var="lastPublish" value=$fileupdatetime%>
+<%/if%>
 
 <%if $lastPublish > $pubDate%>
 	<%assign var="timeForStory" value=$lastPublish%>
