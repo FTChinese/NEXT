@@ -27,73 +27,71 @@
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-2MCQJHGE8J"></script>
 <script>
-(function() {
-    // Define UTM and custom parameter mappings
-    const paramMapping = {
-        'utm_source': 'campaign_source',
-        'utm_medium': 'campaign_medium',
-        'utm_campaign': 'campaign_name',
-        'utm_term': 'campaign_term',
-        'utm_content': 'campaign_content',
-        'ccode': 'campaign_name'  // Custom tracking parameter
-    };
+// Define UTM and custom parameter mappings
+const paramMapping = {
+    'utm_source': 'campaign_source',
+    'utm_medium': 'campaign_medium',
+    'utm_campaign': 'campaign_name',
+    'utm_term': 'campaign_term',
+    'utm_content': 'campaign_content',
+    'ccode': 'campaign_name'  // Custom tracking parameter
+};
 
-    // Extracts campaign parameters based on paramMapping
-    function getTagParameters() {
-        try {
-            const url = new URL(window.location.href);
-            const params = new URLSearchParams(url.search || url.hash.substring(1));
-            const campaignParams = {};
+// Extracts campaign parameters based on paramMapping
+function getTagParameters() {
+    try {
+        const url = new URL(window.location.href);
+        const params = new URLSearchParams(url.search || url.hash.substring(1));
+        const campaignParams = {};
 
-            // Map URL params to GA4-compatible keys
-            Object.entries(paramMapping).forEach(([utmKey, campaignKey]) => {
-                if (params.has(utmKey)) {
-                    campaignParams[campaignKey] = params.get(utmKey);
-                }
-            });
+        // Map URL params to GA4-compatible keys
+        Object.entries(paramMapping).forEach(([utmKey, campaignKey]) => {
+            if (params.has(utmKey)) {
+                campaignParams[campaignKey] = params.get(utmKey);
+            }
+        });
 
-            return campaignParams;
-        } catch (error) {
-            console.error("Error parsing URL parameters:", error);
-            return {};
-        }
+        return campaignParams;
+    } catch (error) {
+        console.error("Error parsing URL parameters:", error);
+        return {};
     }
+}
 
-    // Cleans page_location by removing tracking parameters
-    function getCleanPageLocation() {
-        try {
-            const url = new URL(window.location.href);
+// Cleans page_location by removing tracking parameters
+function getCleanPageLocation() {
+    try {
+        const url = new URL(window.location.href);
 
-            // Only keep parameters not in paramMapping
-            [...url.searchParams.keys()].forEach(param => {
-                if (paramMapping[param]) {
-                    url.searchParams.delete(param);
-                }
-            });
+        // Only keep parameters not in paramMapping
+        [...url.searchParams.keys()].forEach(param => {
+            if (paramMapping[param]) {
+                url.searchParams.delete(param);
+            }
+        });
 
-            return url.origin + url.pathname + url.search;
-        } catch (error) {
-            console.error("Error generating clean page location:", error);
-            return window.location.origin + window.location.pathname;
-        }
+        return url.origin + url.pathname + url.search;
+    } catch (error) {
+        console.error("Error generating clean page location:", error);
+        return window.location.origin + window.location.pathname;
     }
+}
 
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
+window.dataLayer = window.dataLayer || [];
+function gtag() { dataLayer.push(arguments); }
 
-    // Initialize GA4 with send_page_view: false to prevent duplicate page views
-    gtag('js', new Date());
+// Initialize GA4 with send_page_view: false to prevent duplicate page views
+gtag('js', new Date());
 
-    // Get campaign parameters and cleaned page location
-    const gTagParameters = getTagParameters();
-    gtag('config', 'G-2MCQJHGE8J', { send_page_view: false });
+// Get campaign parameters and cleaned page location
+const gTagParameters = getTagParameters();
+gtag('config', 'G-2MCQJHGE8J', { send_page_view: false });
 
-    // Trigger page_view event with campaign parameters and cleaned page location
-    gtag('event', 'page_view', {
-        ...gTagParameters,
-        page_location: getCleanPageLocation()
-    });
-})();
+// Trigger page_view event with campaign parameters and cleaned page location
+gtag('event', 'page_view', {
+    ...gTagParameters,
+    page_location: getCleanPageLocation()
+});
 </script>
 
 

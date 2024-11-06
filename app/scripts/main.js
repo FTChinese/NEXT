@@ -1148,16 +1148,62 @@ delegate.on('click', '.current-edition span', function(){
   this.parentNode.parentNode.className = currentEditionClass;
 });
 
-//click to close
-delegate.on('click', '.icon-save button', function(){
-  if(username===''||username===null){
-      alert('您必须登录后能才能收藏文章!');
+// MARK: - save content
+delegate.on('click', '.icon-save button', async function() {
+  if (this.classList.contains('save_content_button')) {
+    // MARK: - New code block
+    const action = this.classList.contains('saved') ? 'unsave' : 'save';
+    const id = this.getAttribute('data-item-id');
+    const type = this.getAttribute('data-item-type');
+    if (!id || !type) {
       return;
+    }
+    // Set initial loading state for visual feedback
+    const originalText = this.innerHTML;
+    this.innerHTML = '...';
+    this.disabled = true;  // Disable button to prevent multiple clicks
+
+    try {
+      // Send a POST request to the /save_content endpoint
+      const response = await fetch('/save_content', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: id,
+          type: type,
+          action: action,
+        }),
+      });
+
+      if (response.ok) {
+        // Successfully saved or unsaved; toggle the button state
+        this.classList.toggle('saved');
+        this.innerHTML = (action === 'save') ? await convertChinese('删除', preferredLanguage) : await convertChinese('收藏', preferredLanguage);
+      } else {
+        console.error(`Failed to ${action} content. Status: ${response.status}`);
+        this.innerHTML = originalText;  // Revert to original text on error
+        alert(await convertChinese('操作失败，请稍后再试。', preferredLanguage));
+      }
+    } catch (error) {
+      console.error('Error saving content:', error);
+      this.innerHTML = originalText;  // Revert to original text on error
+      alert(await convertChinese('发生错误，请检查您的网络连接并重试。', preferredLanguage));
+    } finally {
+      this.disabled = false;  // Re-enable button after request completes
+    }
+    return;
   }
-  var id = this.id.replace(/addfavlink/g,'');
+
+  // MARK: - The following code can be removed after July 1st, 2025
+  if (window.username === '' || window.username === null) {
+    alert('您必须登录后能才能收藏文章!');
+    return;
+  }
+  var id = this.id.replace(/addfavlink/g, '');
   var itemType = this.getAttribute('data-item-type') || 'story';
   var favAction;
-  //console.log (this.innerHTML);
   if (this.innerHTML === '收藏') {
     favAction = 'add';
   } else if (this.innerHTML === '删除') {
@@ -1166,26 +1212,23 @@ delegate.on('click', '.icon-save button', function(){
     return;
   }
 
-  //console.log ('2: ' + this.innerHTML);
-  currentFavButton = document.getElementById('addfavlink'+id) || document.getElementById('addfavlink');
-  currentFavButton.innerHTML = (favAction === 'add') ? '保存...': '删除...';
-  // /index.php/users/removefavstory/"+s
+  currentFavButton = document.getElementById('addfavlink' + id) || document.getElementById('addfavlink');
+  currentFavButton.innerHTML = (favAction === 'add') ? '保存...' : '删除...';
+
   var xhr1 = new XMLHttpRequest();
   xhr1.open('POST', '/users/' + favAction + 'favstory/' + id);
   xhr1.setRequestHeader('Content-Type', 'application/text');
   xhr1.onload = function() {
-      if (xhr1.status === 200) {
-          var data = xhr1.responseText;
-          if (data === 'ok' || data === '' || data.indexOf('ok') === 0) {
-              currentFavButton.innerHTML = (favAction === 'add') ? '删除': '收藏';
-          }
-      } else if (xhr1.status !== 200) {
-          //alert('Request failed.  Returned status of ' + xhr.status);
+    if (xhr1.status === 200) {
+      var data = xhr1.responseText;
+      if (data === 'ok' || data === '' || data.indexOf('ok') === 0) {
+        currentFavButton.innerHTML = (favAction === 'add') ? '删除' : '收藏';
       }
+    }
   };
   xhr1.send(JSON.stringify({
-      storyid: id,
-      type: itemType
+    storyid: id,
+    type: itemType
   }));
 });
 
@@ -1201,6 +1244,18 @@ delegate.on('click', '.close-img', function(){
 delegate.on('click', '.item-container:not([data-id]) .item-lead', function(){
   if (this.querySelector('a')) {return;}
   this.classList.toggle('expanded');
+});
+
+delegate.on('click', '.switch_preferred_chinese_language', function(){
+
+  window.preferredLanguage = this.getAttribute('data-language');
+  let myPreference = getMyPreference() ?? {};
+  myPreference.Language = window.preferredLanguage;
+  SetCookie('preferredLanguage', window.preferredLanguage);
+  myPreference.time = new Date();
+  localStorage.setItem('preference', JSON.stringify(myPreference));
+  window.location.reload();
+
 });
 
 trackInternalPromos();

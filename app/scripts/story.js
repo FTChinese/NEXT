@@ -72,6 +72,51 @@ function handleLinks() {
     } catch(ignore){}
 }
 
+async function checkSavedContent() {
+    const accessTokenUpdateTime = GetCookie('accessTokenUpdateTime');
+    
+    if (accessTokenUpdateTime) {
+        const button = document.querySelector('.save_content_button');
+        // Prepare the content ID and type, assuming they are available in the DOM or JavaScript variables
+        const id = button?.getAttribute('data-item-id');
+        const type = button?.getAttribute('data-item-type');
+      
+        if (!id || !type) {
+            console.error('Missing content ID or type');
+            return;
+        }
+  
+        try {
+        // Fetch saved status from the backend
+        const response = await fetch('/check_saved_content', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({id, type})
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            
+            // Update DOM based on result
+            const saveButton = document.querySelector('.icon-save button');
+            if (data.isSaved) {
+            saveButton.classList.add('saved');
+            saveButton.innerHTML = await convertChinese('删除', preferredLanguage);
+            } else {
+            saveButton.classList.remove('saved');
+            saveButton.innerHTML = await convertChinese('收藏', preferredLanguage);
+            }
+        } else {
+            console.error('Failed to check saved content. Status:', response.status);
+        }
+        } catch (error) {
+        console.error('Error checking saved content:', error);
+        }
+    }
+}
+
 // MARK:Getting a random integer between two values.The maximum is exclusive and the minimum is inclusive
 
 
@@ -79,6 +124,7 @@ try {
     handleLinks();
     checkFontSize();
     changeFontSize();
+    checkSavedContent();
 } catch (ignore) {}
 
 var subscribeNow = document.getElementById('subscribe-now');

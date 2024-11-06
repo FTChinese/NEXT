@@ -282,6 +282,7 @@ delegate.on('click', '#back-arrow',  (event) => {
 });
 
 function trackEvent(action = '', category = '', label = '', value = 0, nonInteraction = false) {
+  console.log(`trackEvent action: ${action}, category: ${category}, label: ${label}`);
   try {
     if (action === '') {return;}
     let options = {'event_label': label, 'event_category': category};
