@@ -182,7 +182,6 @@ delegate.on('click', '.quiz-options div', async (event) => {
         const quizResultClass = (isCorrect) ? 'is-correct' : 'is-wrong';
         quizContainer.classList.add(quizResultClass);
 
-        console.log(``)
         trackEvent('quiz-select', 'chatbot', quizResultClass);
         
         let currentScore = quizContainer.getAttribute('data-score') || '0';

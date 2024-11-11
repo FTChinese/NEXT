@@ -3,6 +3,11 @@
 		display: none;
 	}
 }
+.header-container.always_show {
+	@include oGridRespondTo($until:L) {
+		display: block;
+	}
+}
 .hide-on-large-screen {
 	display: none;
 	@include oGridRespondTo($until:L) {

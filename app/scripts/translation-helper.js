@@ -1687,6 +1687,7 @@ function showGlossarySuggestions() {
     xhr.send(encodeURI('post_text=' + ebody));
 }
 
+
 function showCommonSuggestions() {
     var ebody = '';
     if (window.opener) {
@@ -1700,16 +1701,43 @@ function showCommonSuggestions() {
     div.innerHTML = ebody;
     ebody = div.innerText;
 
+    // use lower case as key
+    var currencyMap = {
+        '$': '美元',
+        '£': '英镑',
+        '€': '欧元',
+        'rmb': '元人民币',
+        'jpy': '日元',
+        '¥': '元', // '¥' can be either JPY or CNY
+    };
+
     var rules = [
         {
-            pattern: /\$([\d\.]+)tn/g,
-            generateSuggestion: function (match, number) {
-                return number + '万亿美元';
+            pattern: /([$£€¥]|rmb|jpy)([\d\.,]+)(mn|bn|tn)?/gi,
+            generateSuggestion: function (match, currencySymbol, number, unit) {
+                var currencyName = currencyMap[currencySymbol.toLowerCase()] || '';
+                var amount = parseFloat(number.replace(/,/g, ''));
+                var unitMultiplier = 1;
+
+                if (unit) {
+                    unit = unit.toLowerCase();
+                    if (unit === 'mn') {
+                        unitMultiplier = 1e6;
+                    } else if (unit === 'bn') {
+                        unitMultiplier = 1e9;
+                    } else if (unit === 'tn') {
+                        unitMultiplier = 1e12;
+                    }
+                }
+
+                var totalAmount = amount * unitMultiplier;
+                var chineseAmount = convertToChineseNumber(totalAmount);
+                return chineseAmount + currencyName;
             }
         },
         {
             pattern: /Alphabet/g,
-            generateSuggestion: function (match, number) {
+            generateSuggestion: function (match) {
                 return 'Alphabet';
             }
         }
@@ -1735,7 +1763,7 @@ function showCommonSuggestions() {
                 var existingNameEntityTranslation = infoContainer.querySelector('.name-entity-translation[data-key="' + en_title + '"]');
                 if (existingNameEntityInner && existingNameEntityTranslation) {
                     existingNameEntityInner.querySelector('input').value = chinese_title;
-                    existingNameEntityTranslation.innerHTML = '<span class="name-entity-shortcut">' + chinese_title + '</span><span class="name-entity-shortcut">' + chinese_title + '(' + en_title + ')</span><button class="add-name-entity" title="Add to Glossary"></button>';
+                    existingNameEntityTranslation.innerHTML = '<span class="name-entity-shortcut">' + chinese_title + '</span><span class="name-entity-shortcut">' + chinese_title + ' (' + en_title + ')</span><button class="add-name-entity" title="Add to Glossary"></button>';
                 } else {
                     var suggestionEle = document.createElement('DIV');
                     suggestionEle.innerHTML = en_title + ': <b>' + chinese_title + '</b>';
@@ -1751,7 +1779,7 @@ function showCommonSuggestions() {
                         nameEntityContainer.className = 'name-entity-container';
                         infoHelper.append(nameEntityContainer);
                     }
-                    var newNameEntityInnerHTML = '<div class="name-entities-container"><div class="name-entity-inner" data-key="' + en_title + '"><span class="name-entity-key">' + en_title + '</span><span><input type="text" value="' + chinese_title + '" placeholder="' + localizeForTranslationHelper('Add the translation') + '"></span><button class="ignore-name-entity" title="忽略"></button></div><div class="name-entity-translation" data-key="' + en_title + '"><span class="name-entity-shortcut">' + chinese_title + '</span><span class="name-entity-shortcut">' + chinese_title + '(' + en_title + ')</span><button class="add-name-entity" title="Add to glossary"></button></div></div>';
+                    var newNameEntityInnerHTML = '<div class="name-entities-container"><div class="name-entity-inner" data-key="' + en_title + '"><span class="name-entity-key">' + en_title + '</span><span><input type="text" value="' + chinese_title + '" placeholder="' + localizeForTranslationHelper('Add the translation') + '"></span><button class="ignore-name-entity" title="Ignore"></button></div><div class="name-entity-translation" data-key="' + en_title + '"><span class="name-entity-shortcut">' + chinese_title + '</span><span class="name-entity-shortcut">' + chinese_title + ' (' + en_title + ')</span><button class="add-name-entity" title="Add to glossary"></button></div></div>';
                     nameEntityContainer.innerHTML += newNameEntityInnerHTML;
                 }
             }
@@ -1759,6 +1787,100 @@ function showCommonSuggestions() {
     }
     checkInfoHelpers();
 }
+
+function convertToChineseNumber(num) {
+    var units = [
+        { value: 1e12, symbol: '万亿' },
+        { value: 1e8, symbol: '亿' },
+        { value: 1e4, symbol: '万' }
+    ];
+
+    for (var i = 0; i < units.length; i++) {
+        if (num >= units[i].value) {
+            var amount = num / units[i].value;
+            amount = parseFloat(amount.toFixed(4)); // Up to 4 decimal places
+            return amount + units[i].symbol;
+        }
+    }
+    // For numbers less than 10,000, return the number as is
+    return num.toString();
+}
+
+
+// function showCommonSuggestions() {
+//     var ebody = '';
+//     if (window.opener) {
+//         var ebodyEle = window.opener.document.getElementById('ebody');
+//         if (!ebodyEle) { return; }
+//         ebody = ebodyEle.value;
+//     } else if (document.getElementById('english-text')) {
+//         ebody = document.getElementById('english-text').value;
+//     }
+//     var div = document.createElement('DIV');
+//     div.innerHTML = ebody;
+//     ebody = div.innerText;
+
+//     var rules = [
+//         {
+//             pattern: /\$([\d\.]+)tn/g,
+//             generateSuggestion: function (match, number) {
+//                 return number + '万亿美元';
+//             }
+//         },
+//         {
+//             pattern: /Alphabet/g,
+//             generateSuggestion: function (match, number) {
+//                 return 'Alphabet';
+//             }
+//         }
+//         // TODO: correctly handle mn and bn as well
+
+//         // Add more rules here as needed
+//     ];
+
+//     var infoOriginals = document.querySelectorAll('.info-original');
+//     for (var i = 0; i < infoOriginals.length; i++) {
+//         var infoOriginal = infoOriginals[i];
+//         var englishText = infoOriginal.innerText;
+
+//         for (var r = 0; r < rules.length; r++) {
+//             var rule = rules[r];
+//             var regex = new RegExp(rule.pattern.source, 'g');
+//             var match;
+//             while ((match = regex.exec(englishText)) !== null) {
+//                 var suggestionText = rule.generateSuggestion.apply(null, match);
+//                 var en_title = match[0];
+//                 var chinese_title = suggestionText;
+
+//                 var infoContainer = infoOriginal.closest('.info-container');
+//                 var existingNameEntityInner = infoContainer.querySelector('.name-entity-inner[data-key="' + en_title + '"]');
+//                 var existingNameEntityTranslation = infoContainer.querySelector('.name-entity-translation[data-key="' + en_title + '"]');
+//                 if (existingNameEntityInner && existingNameEntityTranslation) {
+//                     existingNameEntityInner.querySelector('input').value = chinese_title;
+//                     existingNameEntityTranslation.innerHTML = '<span class="name-entity-shortcut">' + chinese_title + '</span><span class="name-entity-shortcut">' + chinese_title + '(' + en_title + ')</span><button class="add-name-entity" title="Add to Glossary"></button>';
+//                 } else {
+//                     var suggestionEle = document.createElement('DIV');
+//                     suggestionEle.innerHTML = en_title + ': <b>' + chinese_title + '</b>';
+//                     suggestionEle.className = 'translation-suggestion';
+//                     suggestionEle.setAttribute('data-translation', chinese_title);
+//                     suggestionEle.setAttribute('title', 'Click to insert “' + chinese_title + '” into the text area below');
+//                     infoOriginal.parentElement.append(suggestionEle);
+
+//                     var infoHelper = infoOriginal.closest('.info-container').querySelector('.info-helper');
+//                     var nameEntityContainer = infoHelper.querySelector('.name-entity-container');
+//                     if (!nameEntityContainer) {
+//                         nameEntityContainer = document.createElement('DIV');
+//                         nameEntityContainer.className = 'name-entity-container';
+//                         infoHelper.append(nameEntityContainer);
+//                     }
+//                     var newNameEntityInnerHTML = '<div class="name-entities-container"><div class="name-entity-inner" data-key="' + en_title + '"><span class="name-entity-key">' + en_title + '</span><span><input type="text" value="' + chinese_title + '" placeholder="' + localizeForTranslationHelper('Add the translation') + '"></span><button class="ignore-name-entity" title="忽略"></button></div><div class="name-entity-translation" data-key="' + en_title + '"><span class="name-entity-shortcut">' + chinese_title + '</span><span class="name-entity-shortcut">' + chinese_title + '(' + en_title + ')</span><button class="add-name-entity" title="Add to glossary"></button></div></div>';
+//                     nameEntityContainer.innerHTML += newNameEntityInnerHTML;
+//                 }
+//             }
+//         }
+//     }
+//     checkInfoHelpers();
+// }
 
 function finishTranslationForVideo() {
     var infos = window.subtitleInfo.text;

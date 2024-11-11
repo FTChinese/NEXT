@@ -3,6 +3,10 @@
 const commentFolder = '/user_comments';
 const elementId = 'allcomments';
 
+if (typeof delegate !== 'object') {
+    window.delegate = new Delegate(document.body);
+}
+
 async function loadcomment(id, type, options = {}) {
 
     const display_all = options?.display === 'all' ? 'yes' : 'no';
@@ -70,7 +74,10 @@ async function showComment(id, type, data, options) {
     const reportText = await convertChinese('举报', preferredLanguage);
 
     const generateOneCommenContentHTML = async (comment) => {
-        const nickname = comment?.nickname?.replace(/<[Aa] .+>(.+)<\/[Aa]>/g, '$1') ?? '';
+        let nickname = comment?.nickname?.replace(/<[Aa] .+>(.+)<\/[Aa]>/g, '$1') ?? '';
+        if (nickname === '我') {
+            nickname = `<a href="/my_comments">${nickname}</a>`;
+        }
         let status = '';
         const commentStatus = comment?.status;
         const isApproved = commentStatus === 'approved';
