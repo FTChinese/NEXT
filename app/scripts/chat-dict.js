@@ -5748,6 +5748,34 @@ Genres: {
         "zh-TW": "確認",
         "zh-HK": "確認",
         "ru": "Обновлено"
+    },
+    confirm_wechat_unbind: {
+      "en": "Are you sure you want to unbind WeChat?",
+      "zh": "确定要解绑微信？",
+      "es": "¿Está seguro de que desea desvincular WeChat?",
+      "fr": "Êtes-vous sûr de vouloir dissocier WeChat ?",
+      "de": "Möchten Sie WeChat wirklich entbinden?",
+      "ja": "WeChatの連携を解除してもよろしいですか？",
+      "ko": "위챗 연결을 해제하시겠습니까?",
+      "pt": "Tem certeza de que deseja desvincular o WeChat?",
+      "it": "Sei sicuro di voler scollegare WeChat?",
+      "zh-TW": "確定要解除微信綁定嗎？",
+      "zh-HK": "確定要解除微信綁定嗎？",
+      "ru": "Вы уверены, что хотите отвязать WeChat?"
+    },
+    error_unbinding_wechat: {
+      "en": "Sorry, there was a problem on the server. We couldn't unbind WeChat at this time. Please try again later.",
+      "zh": "对不起，服务器端有一些问题，暂时无法解绑微信，请稍后再试。",
+      "es": "Lo siento, hubo un problema en el servidor. No pudimos desvincular WeChat en este momento. Por favor, inténtelo de nuevo más tarde.",
+      "fr": "Désolé, il y a eu un problème sur le serveur. Nous n'avons pas pu dissocier WeChat pour le moment. Veuillez réessayer plus tard.",
+      "de": "Entschuldigung, es gab ein Problem auf dem Server. Wir konnten WeChat derzeit nicht entbinden. Bitte versuchen Sie es später erneut.",
+      "ja": "申し訳ありませんが、サーバーで問題が発生しました。現在、WeChatの連携を解除できません。後でもう一度お試しください。",
+      "ko": "죄송합니다. 서버에 문제가 발생했습니다. 지금은 WeChat 연결을 해제할 수 없습니다. 나중에 다시 시도해 주세요.",
+      "pt": "Desculpe, houve um problema no servidor. Não foi possível desvincular o WeChat no momento. Por favor, tente novamente mais tarde.",
+      "it": "Spiacenti, si è verificato un problema sul server. Non è stato possibile scollegare WeChat al momento. Per favore, riprova più tardi.",
+      "zh-TW": "對不起，伺服器端有一些問題，暫時無法解除微信綁定，請稍後再試。",
+      "zh-HK": "對不起，伺服器端有一些問題，暫時無法解除微信綁定，請稍後再試。",
+      "ru": "Извините, возникла проблема на сервере. Мы не смогли отвязать WeChat. Пожалуйста, попробуйте позже."
     }
 };
 
