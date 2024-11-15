@@ -5497,6 +5497,20 @@ Genres: {
       "zh-HK": "來自您郵箱的6位數驗證碼",
       "ru": "6-значный код из вашего письма"
     },
+    sixDigitCodeFromMobile: {
+      "zh": "通过短信发到您手机的6位数验证码",
+      "en": "6-digit code sent to your mobile via SMS",
+      "es": "Código de 6 dígitos enviado a tu móvil por SMS",
+      "fr": "Code à 6 chiffres envoyé sur votre mobile par SMS",
+      "de": "6-stelliger Code, per SMS an Ihr Handy gesendet",
+      "ja": "SMSで送信された6桁のコード",
+      "ko": "SMS로 전송된 6자리 코드",
+      "pt": "Código de 6 dígitos enviado por SMS para o seu celular",
+      "it": "Codice a 6 cifre inviato al tuo cellulare tramite SMS",
+      "zh-TW": "簡訊已發送至您的手機，請輸入6位數驗證碼",
+      "zh-HK": "短訊已發送至您的手機，請輸入6位數驗證碼",
+      "ru": "6-значный код, отправленный на ваш телефон по SMS"
+    },
     yourName: {
         "zh": "您的姓名",
         "en": "Your name",
