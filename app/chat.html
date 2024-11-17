@@ -88,9 +88,11 @@ const gTagParameters = getTagParameters();
 gtag('config', 'G-2MCQJHGE8J', { send_page_view: false });
 
 // Trigger page_view event with campaign parameters and cleaned page location
+const page_location = getCleanPageLocation();
+console.log(`page_location: ${page_location}`);
 gtag('event', 'page_view', {
     ...gTagParameters,
-    page_location: getCleanPageLocation()
+    page_location
 });
 </script>
 
