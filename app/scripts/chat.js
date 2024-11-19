@@ -1219,10 +1219,40 @@ function markdownCodeBlock(text) {
   return output;
 }
 
+function handleExcerpt(html) {
+  // Create a temporary wrapper element
+  const wrapper = document.createElement('div');
+  wrapper.innerHTML = html;
+
+  // Select all <excerpt> elements
+  const excerpts = wrapper.querySelectorAll('excerpt');
+
+  // If no <excerpt> tags are found, return the original HTML
+  if (excerpts.length === 0) {
+    return html;
+  }
+
+  // Process each <excerpt> element
+  excerpts.forEach(excerpt => {
+    const content = excerpt.textContent.trim(); // Get the plain text content
+    const newElement = document.createElement('a'); // Create a new <a> element
+    newElement.className = 'excerpt'; // Set the class
+    newElement.setAttribute('title', content); // Add the title attribute with plain text content
+    newElement.textContent = localize('excerpt'); // Set the localized text
+
+    // Replace the old <excerpt> element with the new <a> element
+    excerpt.replaceWith(newElement);
+  });
+
+  // Return the modified HTML as a string
+  return wrapper.innerHTML;
+}
+
 function markdownConvert(text) {
   let result = markdownCodeBlock(text);
   result = markdownToHtmlTable(result);
   result = result.replace(/[\n\r]/g, '<br>').replace(/[\|]{3}/g, '\n');
+  result = handleExcerpt(result);
   return result;
 }
 

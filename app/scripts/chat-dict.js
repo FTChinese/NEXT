@@ -5512,18 +5512,18 @@ Genres: {
       "ru": "6-значный код, отправленный на ваш телефон по SMS"
     },
     yourName: {
-        "zh": "您的姓名",
-        "en": "Your name",
-        "es": "Tu nombre",
-        "fr": "Votre nom",
-        "de": "Ihr Name",
-        "ja": "あなたの名前",
-        "ko": "당신의 이름",
-        "pt": "Seu nome",
-        "it": "Il tuo nome",
-        "zh-TW": "您的姓名",
-        "zh-HK": "您的姓名",
-        "ru": "Ваше имя"
+      "zh": "您可以使用用户名来登录", // Correct Chinese translation
+      "en": "You can use your username to log in", // Clarified meaning
+      "es": "Puedes usar tu nombre de usuario para iniciar sesión", // Adjusted for username context
+      "fr": "Vous pouvez utiliser votre nom d'utilisateur pour vous connecter", // Adjusted for username context
+      "de": "Sie können Ihren Benutzernamen verwenden, um sich anzumelden", // Adjusted for username context
+      "ja": "ユーザー名を使用してログインできます", // Adjusted for username context
+      "ko": "사용자 이름을 사용하여 로그인할 수 있습니다", // Adjusted for username context
+      "pt": "Você pode usar seu nome de usuário para fazer login", // Adjusted for username context
+      "it": "Puoi usare il tuo nome utente per accedere", // Adjusted for username context
+      "zh-TW": "您可以使用用戶名稱來登入", // Correct Traditional Chinese translation
+      "zh-HK": "您可以使用用戶名稱來登入", // Correct Traditional Chinese translation
+      "ru": "Вы можете использовать свое имя пользователя для входа" // Adjusted for username context
     },
     setSecurePassword: {
         "zh": "设置安全密码：8个以上字符，包含大写、小写、数字和特殊字符",
@@ -5638,18 +5638,18 @@ Genres: {
         "ru": "Код подтверждения"
     },
     name: {
-        "zh": "姓名",
-        "en": "Name",
-        "es": "Nombre",
-        "fr": "Nom",
-        "de": "Name",
-        "ja": "名前",
-        "ko": "이름",
-        "pt": "Nome",
-        "it": "Nome",
-        "zh-TW": "姓名",
-        "zh-HK": "姓名",
-        "ru": "Имя"
+      "zh": "用户名",
+      "en": "Username", // Correct English translation
+      "es": "Nombre de usuario", // Correct Spanish translation
+      "fr": "Nom d'utilisateur", // Correct French translation
+      "de": "Benutzername", // Correct German translation
+      "ja": "ユーザー名", // Correct Japanese translation
+      "ko": "사용자 이름", // Correct Korean translation
+      "pt": "Nome de usuário", // Correct Portuguese translation
+      "it": "Nome utente", // Correct Italian translation
+      "zh-TW": "用戶名稱", // Correct Traditional Chinese translation
+      "zh-HK": "用戶名稱", // Correct Traditional Chinese translation
+      "ru": "Имя пользователя" // Correct Russian translation
     },
     password: {
       "zh": "密码",
@@ -5777,6 +5777,20 @@ Genres: {
       "zh-HK": "確定要解除微信綁定嗎？",
       "ru": "Вы уверены, что хотите отвязать WeChat?"
     },
+    confirm_mobile_unbind: {
+      "zh": "不再使用这个号码来登录，确定要解绑吗？",
+      "en": "You will no longer use this number to log in. Are you sure you want to unbind it?",
+      "es": "Ya no usará este número para iniciar sesión. ¿Está seguro de que desea desvincularlo?",
+      "fr": "Vous n’utiliserez plus ce numéro pour vous connecter. Êtes-vous sûr de vouloir le dissocier ?",
+      "de": "Sie werden diese Nummer nicht mehr für die Anmeldung verwenden. Möchten Sie sie wirklich entbinden?",
+      "ja": "この番号をログインに使用しなくなります。本当に解除してもよろしいですか？",
+      "ko": "이 번호를 더 이상 로그인에 사용하지 않습니다. 연결을 해제하시겠습니까?",
+      "pt": "Você não usará mais este número para fazer login. Tem certeza de que deseja desvinculá-lo?",
+      "it": "Non utilizzerai più questo numero per accedere. Sei sicuro di volerlo scollegare?",
+      "zh-TW": "不再使用這個號碼來登錄，確定要解除綁定嗎？",
+      "zh-HK": "不再使用這個號碼來登錄，確定要解除綁定嗎？",
+      "ru": "Вы больше не будете использовать этот номер для входа. Вы уверены, что хотите отвязать его?"
+    },
     error_unbinding_wechat: {
       "en": "Sorry, there was a problem on the server. We couldn't unbind WeChat at this time. Please try again later.",
       "zh": "对不起，服务器端有一些问题，暂时无法解绑微信，请稍后再试。",
@@ -5790,6 +5804,34 @@ Genres: {
       "zh-TW": "對不起，伺服器端有一些問題，暫時無法解除微信綁定，請稍後再試。",
       "zh-HK": "對不起，伺服器端有一些問題，暫時無法解除微信綁定，請稍後再試。",
       "ru": "Извините, возникла проблема на сервере. Мы не смогли отвязать WeChat. Пожалуйста, попробуйте позже."
+    },
+    error_unbinding_mobile: {
+      "zh": "对不起，服务器端有一些问题，暂时无法解绑手机号码，请稍后再试。",
+      "en": "Sorry, there was a problem on the server. We couldn't unbind your phone number at this time. Please try again later.",
+      "es": "Lo siento, hubo un problema en el servidor. No pudimos desvincular su número de teléfono en este momento. Por favor, inténtelo de nuevo más tarde.",
+      "fr": "Désolé, il y a eu un problème sur le serveur. Nous n'avons pas pu dissocier votre numéro de téléphone pour le moment. Veuillez réessayer plus tard.",
+      "de": "Entschuldigung, es gab ein Problem auf dem Server. Wir konnten Ihre Telefonnummer derzeit nicht entbinden. Bitte versuchen Sie es später erneut.",
+      "ja": "申し訳ありませんが、サーバーで問題が発生しました。現在、電話番号の連携を解除できません。後でもう一度お試しください。",
+      "ko": "죄송합니다. 서버에 문제가 발생했습니다. 지금은 휴대폰 번호를 해제할 수 없습니다. 나중에 다시 시도해 주세요.",
+      "pt": "Desculpe, houve um problema no servidor. Não foi possível desvincular o seu número de telefone no momento. Por favor, tente novamente mais tarde.",
+      "it": "Spiacenti, si è verificato un problema sul server. Non è stato possibile scollegare il tuo numero di telefono al momento. Per favore, riprova più tardi.",
+      "zh-TW": "對不起，伺服器端有一些問題，暫時無法解绑手機號碼，請稍後再試。",
+      "zh-HK": "對不起，伺服器端有一些問題，暫時無法解绑手機號碼，請稍後再試。",
+      "ru": "Извините, возникла проблема на сервере. Мы не смогли отвязать ваш номер телефона. Пожалуйста, попробуйте позже."
+    },
+    excerpt: {
+      "zh": "FT的报道",
+      "en": "FT's reporting",
+      "es": "Informes de FT",
+      "fr": "Reportages de FT",
+      "de": "FT-Berichterstattung",
+      "ja": "FTの報道",
+      "ko": "FT의 보도",
+      "pt": "Relatórios do FT",
+      "it": "Rapporti di FT",
+      "zh-TW": "FT的報導",
+      "zh-HK": "FT的報導",
+      "ru": "Репортажи FT"
     }
 };
 
