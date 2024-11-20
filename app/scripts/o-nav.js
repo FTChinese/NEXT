@@ -252,7 +252,7 @@ if (navEl) {
 	var emptyNavSections = getEmptyNavSections(navEl);
 	var ajaxNavUrl = '/m/corp/ajax-nav.html';
 	if (window.location.hostname === 'localhost' || window.location.hostname.indexOf('192.168') === 0 || window.location.hostname.indexOf('10.113') === 0 || window.location.hostname.indexOf('127.0') === 0) {
-		ajaxNavUrl = './api/page/ajax-nav.html';
+		ajaxNavUrl = '/api/page/ajax-nav.html';
 	}
 	ajax.getData(ajaxNavUrl, function(error, data) {
 		if (error) {return error;}

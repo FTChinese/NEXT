@@ -320,6 +320,7 @@ function runLoadImages() {
     var itemType = thisVideo.getAttribute('data-type') || thisVideo.getAttribute('data-item-type') || 'video';
     var autoStart = thisVideo.getAttribute('data-autoplay') || '';
     var thirdPartyFrameUrl = thisVideo.getAttribute('data-third-party-frame-url');
+    const ccVid = thisVideo?.getAttribute('data-cc-vid') ?? '';
     var videoWall = '';
     if (autoStart === 'yes') {
       autoStart = 'true';
@@ -331,16 +332,24 @@ function runLoadImages() {
     if (videoWidth > 0 && videoHeight > 0 && queryString.indexOf('?ad=no') === -1 && hostForVideo !== 'https://www.ftchinese.com') {
 
 
-      var iFrameUrl;
+      let ih;
       if (thirdPartyFrameUrl) {
-        iFrameUrl = thirdPartyFrameUrl;
+        const iFrameUrl = thirdPartyFrameUrl;
+        ih = '<iframe name="video-frame" id="video-frame" style="width:100%;height:100%;position:absolute;" src="' + iFrameUrl + '" scrolling="no" frameborder="0" allowfullscreen=true></iframe>';
+      } else if (ccVid !== '') {
+        ih = `<iframe id="cciframe_${ccVid}" src="https://p.bokecc.com/playhtml.bo?vid=${ccVid}&siteid=922662811F1A49E9&autoStart=false" frameborder="0" width="${videoWidth}" height="${videoHeight}" style="position: absolute;"></iframe>`;
       } else {
-        iFrameUrl = hostForVideo + '/' + itemType + '/'+ videoId +'?i=2&w='+videoWidth+'&h='+videoHeight+'&autostart=' + autoStart + videoWall;
+        const iFrameUrl = hostForVideo + '/' + itemType + '/'+ videoId +'?i=2&w='+videoWidth+'&h='+videoHeight+'&autostart=' + autoStart + videoWall;
+        ih = '<iframe name="video-frame" id="video-frame" style="width:100%;height:100%;position:absolute;" src="' + iFrameUrl + '" scrolling="no" frameborder="0" allowfullscreen=true></iframe>';
       }
 
       videosLazy[i] = {
-        ih: '<iframe name="video-frame" id="video-frame" style="width:100%;height:100%;position:absolute;" src="' + iFrameUrl + '" scrolling="no" frameborder="0" allowfullscreen=true></iframe>',
-        videoTop: videoTop
+
+        // 
+
+        ih,
+        // ih: `<iframe name="video-frame" id="cciframe_${videoHeight}" style="width:${videoWidth}px;height:${videoHeight}px;position:absolute;" src="https://p.bokecc.com/playhtml.bo?vid=${videoId}&siteid=922662811F1A49E9&autoStart=true" frameborder="0"></iframe>`,
+        videoTop
       };
     } else {
       videosLazy[i] = '';
@@ -966,6 +975,28 @@ function checkInreadAd() {
   }
 }
 
+
+function renderVideoPackagePlay(ele) {
+  var videoWidth = ele.offsetWidth;
+  var videoHeight = ele.offsetHeight;
+  var vid = ele.getAttribute('data-vid');
+  var ccVid = ele.getAttribute('data-cc-vid');
+  var link = '/video/' + vid;
+  link = link.replace(/#.*$/g,'');
+  var src = link  +'?i=2&k=1&w='+videoWidth+'&h='+videoHeight+'&autostart=true';
+
+  if (ccVid) {
+    ele.innerHTML = `<iframe style="position:absolute" id="cciframe_${ccVid}" src="https://p.bokecc.com/playhtml.bo?vid=${ccVid}&siteid=922662811F1A49E9&autoStart=true" frameborder="0" width="${videoWidth}" height="${videoHeight}"></iframe>`;
+  } else {
+    ele.innerHTML = '<iframe name="video-frame" id="video-frame" style="width:100%;height:100%;position:absolute;" src="' + src + '" scrolling="no" frameborder="0" allowfullscreen="true"></iframe>';
+  }
+
+  var videoContainer = ele.closest('.is-video');
+  if (videoContainer) {
+    videoContainer.classList.remove('is-video');
+  }
+}
+
 try {
   delegate = new Delegate(document.body);
 } catch (ignore) {
@@ -1106,26 +1137,19 @@ try {
     videoPackage.querySelector('.video-package-title a').href = link;
     return false;
   });
-
-  delegate.on('click', '#video-package-play', function(){
-    var videoWidth = this.offsetWidth;
-    var videoHeight = this.offsetHeight;
-    var vid = this.getAttribute('data-vid');
-    var link = '/video/' + vid;
-    link = link.replace(/#.*$/g,'');
-    var src = link  +'?i=2&k=1&w='+videoWidth+'&h='+videoHeight+'&autostart=true';
-    this.innerHTML = '<iframe name="video-frame" id="video-frame" style="width:100%;height:100%;position:absolute;" src="' + src + '" scrolling="no" frameborder="0" allowfullscreen="true"></iframe>';
-    var videoContainer = this.closest('.is-video');
-    if (videoContainer) {
-      videoContainer.classList.remove('is-video');
-    }
-  });
   
   delegate.on('click', '.overlay', function(e){
     if (e.target.className === 'cell') {
       closeOverlay();
     }
   });
+
+
+  delegate.on('click', '#video-package-play', function(){
+    renderVideoPackagePlay(this);
+  });
+
+
 } catch (ignore) {
 
 }
