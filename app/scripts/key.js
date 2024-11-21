@@ -737,7 +737,7 @@ function showPhoneLogin() {
 
 function checkUserLoginFromCookie() {
     if (window._IS_NODEJS_SITE) {
-        console.log('For the new site, no need to check cookie on frontend! ');
+        // console.log('For the new site, no need to check cookie on frontend! ');
         return;
     }
     window.username = GetCookie('USER_NAME') || GetCookie('USER_NAME_FT') || '';

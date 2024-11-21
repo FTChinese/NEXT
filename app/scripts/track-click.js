@@ -60,7 +60,7 @@ try {
 		gtag('event', ea, options);
 
 	});
-	console.log('Tracking clicks! ');
+	// console.log('Tracking clicks! ');
 } catch(err) {
 	console.log(err);
 }

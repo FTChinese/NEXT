@@ -159,13 +159,13 @@ function getEmptyNavSections(container) {
 }
 
 function zipObject(objA, objB) {
-	for (var k in objA) {
-		if (objA.hasOwnProperty(k) && k in objB) {
-			//console.log(k);
-			//console.log(objA[k]);
-			objA[k].appendChild(objB[k]);
-		}
-	}
+    Object.keys(objA).forEach((key) => {
+        if (objA[key] instanceof Node && objB[key] instanceof Node) {
+            objA[key].appendChild(objB[key]);
+        } else {
+            console.warn(`Skipping key "${key}" as one or both objects are not Node elements.`);
+        }
+    });
 }
 
 
