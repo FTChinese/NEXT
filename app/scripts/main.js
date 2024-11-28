@@ -907,7 +907,7 @@ function trackQualityRead() {
     }
     //console.log('Scroll Top: ' + scrollTop + ', Story Scroll Distance: ' + storyScrollDistance);
     var scrollPercentage = parseInt(100 * scrollTop / storyScrollDistance, 10);
-    setProgress(scrollPercentage);
+    setProgress(scrollPercentage, scrollTop, storyScrollDistance);
   }
 }
 
@@ -1334,7 +1334,7 @@ if (window.privilegeEventLabel !== undefined && (window.gUserType === 'Subscribe
 }
 
 
-function setProgress(percent) {
+function setProgress(percent, scrollTop = 0, storyScrollDistance = 0) {
   if (window.circle === null || window.circle === undefined || percent === window.currentPercent) {return;}
   var offset = window.circumference - percent / 100 * window.circumference; 
   window.circle.style.strokeDashoffset = offset; 
@@ -1350,6 +1350,25 @@ function setProgress(percent) {
   if (window.hasFinishedReading === true) {
     document.querySelector('.progress-tick-path').style.fill = (percent >= 100) ? 'white' : '#990f3d';
   }
+
+  const watchProgressContainer = document.querySelector('.progress-container-watch');
+  const watchProgress = document.querySelector('.progress-watch-minute');
+  if (watchProgressContainer && watchProgress) {
+    const rotation = (percent / 100) * 360;
+    if (percent > 100) {
+      if (storyScrollDistance > 0 && scrollTop > storyScrollDistance) {
+        const scrollExtra = scrollTop - storyScrollDistance;
+        const maxScrollExtra = 200;
+        let opacity = Math.max(0, (maxScrollExtra - scrollExtra)/maxScrollExtra);
+        watchProgressContainer.style.opacity = opacity;
+      }
+    } else {
+      watchProgressContainer.style.opacity = 1;
+      // Apply the rotation using CSS transform
+    }
+    watchProgress.style.transform = `rotate(${rotation}deg)`;
+  }
+
 }
 
 function initProgressCircle() {

@@ -172,7 +172,8 @@ delegate.on('click', '.quiz-options div', async (event) => {
     const element = event.target;
     try {
         let quizContainer = element.closest('.quiz-container');
-        const quizzesId = element.closest('.quizzes-container')?.id;
+        let quizzesContainer = element.closest('.quizzes-container');
+        const quizzesId = quizzesContainer?.id;
         const newChat = quizContainer.closest('.chat-talk');
         if (quizContainer.classList.contains('is-done')) { return; }
         
@@ -198,6 +199,11 @@ delegate.on('click', '.quiz-options div', async (event) => {
             if (nextButtonEle) {
                 nextButtonEle.classList.remove('hide');
             }
+        } else if (!quizzesContainer.classList.contains('requests_finished')) {
+            let quizLoadingEle = document.createElement('DIV');
+            quizLoadingEle.classList.add('quiz-loading');
+            quizLoadingEle.innerHTML = '...';
+            quizContainer.appendChild(quizLoadingEle);
         } else {
             let chatTalkInner = quizContainer.closest('.chat-talk-inner');
             const all = chatTalkInner.querySelectorAll('.is-done.quiz-container').length;
@@ -645,7 +651,14 @@ function renderQuizInfoAndUpdateDisplay(quizId, quizInfo, ftid, isQuizDisplayed,
             const className = (option === answer) ? 'is-correct' : 'is-wrong';
             options += `<div class=${className}>${option.trim().replace(/[\.。]+$/g, '')}</div>`; 
         }
-        const hideClass = (index === 0 && !isQuizDisplayed) ? '' : ' hide'; 
+        let hideClass = (index === 0 && !isQuizDisplayed) ? '' : ' hide';
+
+        // MARK: - If the user creates the quiz for the first time and is waiting for the next quiz
+        let quizLoader = document.getElementById(quizId)?.querySelector('.quiz-loading');
+        if (index === 0 && quizLoader) {
+            quizLoader.remove();
+            hideClass = '';
+        }
         html += `
             <div class="quiz-container${hideClass}" data-score="0">
                 <div class="quiz-question">${quiz.question}</div>
@@ -659,7 +672,7 @@ function renderQuizInfoAndUpdateDisplay(quizId, quizInfo, ftid, isQuizDisplayed,
         // MARK: - First valid chunk
         const chatTalkInner = document.querySelector(`.article-container[data-id="${ftid}"]`)?.closest('.chat-talk-inner');
         let storyBodyContainer = chatTalkInner?.querySelector('.story-body-container');
-        html = `<div id="${quizId}" class="quizzes-container">${html}</div>`;
+        html = `<div id="${quizId}" data-id="${ftid}" class="quizzes-container">${html}</div>`;
         html += `<div class="quizzes-container"><button class="quiz-next hide" data-quiz-id="${quizId}">${localize('NEXT')}</button></div>`;
         const audioEle = document.querySelector(`[data-id="${ftid}"] .audio-placeholder.is-sticky-top`);
         let chatInnerEle = storyBodyContainer?.closest('.chat-talk-inner');
@@ -721,18 +734,39 @@ function renderQuizInfoAndUpdateDisplay(quizId, quizInfo, ftid, isQuizDisplayed,
 
 async function generateQuiz(ftid, language, articleContextChunks, action) {
     try {
+        const minContextLength = 300;
         const randomString = (Math.floor(Math.random() * 90000) + 10000).toString();
         const quizId = 'quiz-' + ftid + randomString;
         let isQuizDisplayed = false;
         
         // MARK: Send the requests in chunks
         for (const [index, articleContext] of articleContextChunks.entries()) {
+            const articleContextLength = articleContext.length;
+            const isLastChunk = index === articleContextChunks.length - 1;
+            if (isLastChunk && articleContextLength < minContextLength) {
+                console.log(`There's no point in sending the last chunk of text for Quiz, as it's length is only ${articleContextLength} characters. It probably has no meaningful content: `);
+                console.log(articleContext);
+                break;
+            }
+            console.log(`requesting chunk ${index + 1} of ${articleContextChunks.length}`);
             const quizInfo = await promptOpenAIForArticle(ftid, index, language, articleContext, articleContextChunks.length, action);
             isQuizDisplayed = renderQuizInfoAndUpdateDisplay(quizId, quizInfo, ftid, isQuizDisplayed, language, false);
         }
+
+        markQuizRequestAsFinished(ftid);
+
     } catch(err) {
         console.log(`generate quiz error: `);
         console.log(err);
+    }
+}
+
+function markQuizRequestAsFinished(ftid) {
+    let quizzesContainers = document.querySelectorAll(`.quizzes-container[data-id="${ftid}"]`);
+    // console.log(`mark these quizzes as finished: .quizzes-container[data-id="${ftid}"]`);
+    // console.log(quizzesContainers);
+    for (let quizzesContainer of quizzesContainers) {
+        quizzesContainer.classList.add('requests_finished');
     }
 }
 
@@ -1091,12 +1125,8 @@ async function checkQuiz(id, language) {
 }
 
 async function promptOpenAIForArticle(id, index, language, text, chunks, action) {
+
     try {
-        // const token = (isPowerTranslate) ? localStorage.getItem('accessToken') : 'sometoken';
-        // const token = (isPowerTranslate) ? GetCookie('accessToken') : 'sometoken';
-        // if (!token || token === '') {
-        //     return {status: 'failed', message: 'You need to sign in first! '};
-        // }
         const actionSuffix = (action === 'quiz') ? '' : `_${action}`;
         // MARK: - 1. Check if there's a cached result
         const queryData = {id: id, index: index, language: language, type: action};
@@ -1144,7 +1174,6 @@ async function promptOpenAIForArticle(id, index, language, text, chunks, action)
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                // 'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(data)
         };
@@ -1321,6 +1350,7 @@ async function displayCachedQuiz(ftid, language) {
     }
     const quizInfo = {status: 'success', results: results};
     renderQuizInfoAndUpdateDisplay(quizId, quizInfo, ftid, false, language, true);
+    markQuizRequestAsFinished(ftid);
 }
 
 // MARK: - Add the ft id to read in local storage
@@ -1355,7 +1385,6 @@ function reorderFTResults(results, vectorHighScoreIds) {
     const myPreference = getMyPreference();
     const myAnnotationInterests = new Set(myPreference[myInterestsKey] || []);
     const myCustomInterests = new Set(myPreference[myCustomInterestsKey] || []);
-
     const myInterests = new Set([...myAnnotationInterests, ...myCustomInterests]);
       
     // MARK: Handle Read Articles Preference
@@ -1370,19 +1399,14 @@ function reorderFTResults(results, vectorHighScoreIds) {
     let reads = [];
   
     for (const group of results) {
-
       const name = group.group;
       let newGroup = {group: name};
       let newItems = [];
       const items = group.items || [];
-
       for (let item of items) {
-
         const id = item.id;
-
         const isArticleRead = id && readIds.has(id);
         item.read = isArticleRead;
-
         // MARK: Use vectorHighScoreIds to reorder
         const isFollowedInfo = isItemFollowed(item, myInterests, vectorHighScoreIds);
         const isFollowed = isFollowedInfo.followed;
@@ -1396,14 +1420,11 @@ function reorderFTResults(results, vectorHighScoreIds) {
         } else {
             newItems.push(item);
         }
-
       }
-
       if (newItems.length > 0) {
             newGroup.items = newItems;
             newResults.push(newGroup);
       }
-
     }
   
     if (newResults.length > 0 && newResults[0].items) {

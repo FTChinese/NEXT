@@ -862,11 +862,22 @@ async function checkAITranslation() {
     const bodyXMLTranslation = json.bodyXMLTranslation;
     if (!bodyXMLTranslation || typeof bodyXMLTranslation !== 'string' || bodyXMLTranslation === '') {return;}
     // MARK: - If the time stamp isn't the same, the AI Translation is not valid! 
-    console.log(`window.publishedDate: ${window.publishedDate}, json.publishedDate: ${json.publishedDate}`);
+    // console.log(`window.publishedDate: ${window.publishedDate}, json.publishedDate: ${json.publishedDate}`);
     if (window.publishedDate !== '' && window.publishedDate !== json.publishedDate) {return;}
     let ele = document.createElement('DIV');
     ele.innerHTML = bodyXMLTranslation;
     const translationEles = ele.querySelectorAll('[id]');
+
+    const titleTranslation = json.titleTranslation || '';
+    const standfirstTranslation = json.standfirstTranslation || '';
+
+    // console.log(standfirstTranslation);
+
+
+    const aiInfo = {title: titleTranslation, lead: standfirstTranslation};
+    console.log(aiInfo);
+    insertAITitleLead(aiInfo);
+
     if (confirm(localizeForTranslationHelper('AITranslation'))) {
         for (const translationEle of translationEles) {
             const translation = translationEle.innerHTML;
@@ -881,12 +892,11 @@ async function checkAITranslation() {
         let previewButton = document.querySelector('#preview-button');
         if (previewButton) {
             preview(previewButton);
-            const titleTranslation = json.titleTranslation || '';
             let previewTitleEle = document.querySelector('.preview-content .story-title');
             if (previewTitleEle && titleTranslation !== '') {
                 previewTitleEle.innerHTML = titleTranslation;
             }
-            const standfirstTranslation = json.standfirstTranslation || '';
+            
             let previewStandfirstEle = document.querySelector('.preview-content .story-standfirst');
             if (previewStandfirstEle && standfirstTranslation !== '') {
                 previewStandfirstEle.innerHTML = standfirstTranslation;
@@ -919,23 +929,42 @@ async function checkAITranslation() {
             newDiv.innerHTML = translation;
             newDiv.className = "info-translation";
             newDiv.setAttribute('data-translation-index', translations.length);
-
-            // Append the new div after the last 'info-translation'
-            // If there's a last translation, insert after. Otherwise, just append to the container.
             if (lastTranslation) {
                 lastTranslation.insertAdjacentElement('afterend', newDiv);
             } else {
-                // If no elements with 'info-translation', append new div to the container
                 infoContainer.appendChild(newDiv);
             }
-
-            // console.log(`${translationId}: ${translation}`);
-
-            
-            // textareaEle.value = translation;
         }
     }
 }
+
+
+
+function insertAITitleLead(info) {
+    const title = info?.title ?? '';
+    const lead = info?.lead ?? '';
+    const titleEle = window.opener?.document?.getElementById('cheadline');
+    const leadEle = window.opener?.document?.getElementById('clongleadbody');
+
+    if (!titleEle || !leadEle) {
+        console.error('Target elements not found in the parent window.');
+        return;
+    }
+    // Reusable function to create and insert a clickable link
+    function createClickableLink(targetEle, value) {
+        const newElement = document.createElement('div');
+        newElement.innerHTML = `<a style="cursor: pointer;">${value}</a>`;
+        newElement.querySelector('a').addEventListener('click', function () {
+            targetEle.value = value;
+        });
+        targetEle.closest('.col-sm-8').appendChild(newElement);
+    }
+
+    // Create and insert links for title and lead
+    createClickableLink(titleEle, title);
+    createClickableLink(leadEle, lead);
+}
+
 
 function start() {
     function renderBottomButtons() {

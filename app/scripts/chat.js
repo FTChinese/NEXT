@@ -1251,6 +1251,7 @@ function handleExcerpt(html) {
 function markdownConvert(text) {
   let result = markdownCodeBlock(text);
   result = markdownToHtmlTable(result);
+  result = result.replace(/[\*]{2}([^*]+)[\*]{2}/g, '<strong>$1</strong>');
   result = result.replace(/[\n\r]/g, '<br>').replace(/[\|]{3}/g, '\n');
   result = handleExcerpt(result);
   return result;
