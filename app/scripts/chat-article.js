@@ -199,7 +199,7 @@ delegate.on('click', '.quiz-options div', async (event) => {
             if (nextButtonEle) {
                 nextButtonEle.classList.remove('hide');
             }
-        } else if (!quizzesContainer.classList.contains('requests_finished')) {
+        } else if (quizzesContainer && quizzesContainer.classList && !quizzesContainer.classList.contains('requests_finished')) {
             let quizLoadingEle = document.createElement('DIV');
             quizLoadingEle.classList.add('quiz-loading');
             quizLoadingEle.innerHTML = '...';

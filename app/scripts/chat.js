@@ -1540,6 +1540,7 @@ async function newsQuiz(content, language, reply, id) {
       const result = {text: html};
       showResultInChat(result, true, true);
       await setIntention('Ask Me', preferredLanguage, '', true, false);
+
     }
   } catch (err) {
 
