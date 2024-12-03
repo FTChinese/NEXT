@@ -204,6 +204,61 @@ data-o-ads-targeting="cnpos=paidpost;"
 </div>
 <%/if%>
 
+
+<%if date("Ymd",$smarty.now) <= 20250131%>
+
+<script>
+
+async function requestMemberEndpoint() {
+	const ft = GetCookie('ft');
+	if (!ft) {
+		console.log('The user is not logged in! ');
+		return;
+	}
+    const accessTokenUpdateTime = GetCookie('accessTokenUpdateTime');
+
+    // Early exit logic
+    if (accessTokenUpdateTime) {
+        const timestamp = parseInt(accessTokenUpdateTime, 10);
+        if (!isNaN(timestamp)) {
+            const oneHourAgo = Date.now() - 60 * 60 * 1000; // Current time minus 1 hour
+            const cutoffTimestamp = new Date('2024-10-01').getTime(); // Timestamp for October 1, 2024
+
+            // If accessTokenUpdateTime is valid and updated within the last hour
+            if (timestamp > cutoffTimestamp && timestamp > oneHourAgo) {
+                console.log('Access token recently updated. Skipping endpoint call.');
+                return { status: 'ok', message: 'Access token recently updated', version: '6' };
+            }
+        }
+    }
+
+    // Proceed with the request if early exit conditions are not met
+    try {
+        const response = await fetch('/ftc_next_member.php', {
+            method: 'GET', // Use GET if you're just hitting the endpoint
+            credentials: 'include', // Ensure cookies are sent
+        });
+
+        if (!response.ok) {
+            console.error('Request to /ftc_next_member.php failed with status:', response.status);
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        console.log('Response from /ftc_next_member.php:', result);
+        return result;
+    } catch (error) {
+        console.error('Error during request to /ftc_next_member.php:', error);
+        return { status: 'error', message: error.message };
+    }
+}
+
+requestMemberEndpoint();
+
+</script>
+
+<%/if%>
+
 <%* <!-- This should not be useful since we don't track Firebase from here. 
 <script>
 	function async(u, c) {

@@ -1666,11 +1666,13 @@ async function searchFTAPI(content, language, reply) {
   updateBotStatus('pending');
   showResultInChat({text: reply});
   try {
-    let fullTextContent = content;
-    if (/[a-z]+:/g.test(fullTextContent)) {
-      fullTextContent = fullTextContent.replace(/[a-z]+:/g, '').trim().replace(/[\ ]+/g, ' ');
-    }
-    const searchResults = await getFTAPISearchResult(fullTextContent, language);
+    // let fullTextContent = content;
+    // if (/[a-z]+:/g.test(fullTextContent)) {
+    //   fullTextContent = fullTextContent.replace(/[a-z]+:/g, '').trim().replace(/[\ ]+/g, ' ');
+    // }
+    // console.log('full text content: ');
+    // console.log(fullTextContent);
+    const searchResults = await getFTAPISearchResult(content, language);
     let results = searchResults?.results?.[0]?.results ?? [];
     if (results.length > 0) {
       const results = searchResults.results[0].results;
