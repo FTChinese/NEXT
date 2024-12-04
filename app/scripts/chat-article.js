@@ -294,7 +294,7 @@ delegate.on('click', '.quiz-options div', async (event) => {
     }
 });
 
-delegate.on('input', '[contenteditable="true"]', (event) => {
+function showUpdateButton(event) {
     const element = event.target;
     const container = element.closest('.chat-talk-inner');
     if (!container) {return;}
@@ -305,6 +305,10 @@ delegate.on('input', '[contenteditable="true"]', (event) => {
     editAITranslationButton.setAttribute('data-action', 'edit-ai-translation');
     editAITranslationButton.innerHTML = 'Update';
     chatItemActions.append(editAITranslationButton);
+}
+
+delegate.on('input', '[contenteditable="true"]', (event) => {
+    showUpdateButton(event);
 });
 
 
@@ -333,6 +337,7 @@ delegate.on('paste', '[contenteditable="true"]', (event) => {
     selection.removeAllRanges(); // Remove all ranges (clears the current selection)
     selection.addRange(range); // Add the new range (sets the new cursor position)
 
+    showUpdateButton(event);
 });
 
 delegate.on('click', '[data-action="edit-ai-translation"]', async (event) => {

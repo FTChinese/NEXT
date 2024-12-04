@@ -938,8 +938,6 @@ async function checkAITranslation() {
     }
 }
 
-
-
 function insertAITitleLead(info) {
     const title = info?.title ?? '';
     const lead = info?.lead ?? '';
