@@ -716,14 +716,7 @@ function checkTextarea(ele) {
     }
     var container = ele.closest('.info-container');
     var nameEntities = container.querySelectorAll('.name-entity-inner');
-    var originalText = container.querySelector('.info-original').innerHTML;
-    originalText = originalText
-        .replace(/[“>]/g, '“ ')
-        .replace(/[”<]/g, ' ”')
-        .replace(/(’s )/g, ' $1')
-        .replace(/([,\.?!]+)/g, ' $1 ')
-        .replace(/[ ]+/g, ' ');
-    originalText = ' ' + originalText + ' ';
+    var originalText = container.querySelector('.info-original').innerText;
     var unmatchedKeys = [];
     for (var i=0; i<nameEntities.length; i++) {
         var ele = nameEntities[i];
@@ -732,10 +725,10 @@ function checkTextarea(ele) {
         if (translation === '') {continue;}
         // MARK: I meant to match where the key is not part of a word
         var escapedKey = escapeRegex(key);
-        var keyReg = new RegExp('(^|\\W)' + escapedKey + '(\\W|$)', 'g');
-        console.log(`keyReg: ${keyReg}`);
+        var keyReg = new RegExp('\\b' + escapedKey + '\\b', 'g');
+        // console.log(`keyReg: ${keyReg}`);
         var keyMatchesArray = originalText.match(keyReg);
-        console.log(keyMatchesArray);
+        // console.log(keyMatchesArray);
 
         if (!keyMatchesArray) {continue;}
         var keyMatches = keyMatchesArray.length;
@@ -2301,6 +2294,7 @@ function addNewMatch() {
         alert(localizeForTranslationHelper('Empty-Source'));
         return;
     }
+    console.log(`from: \n${from}`);
     var to = tidyUpChineseText(document.querySelector('.new-match-to').value);
     if (to === '') {
         alert(localizeForTranslationHelper('Empty-Translation'));
@@ -2325,15 +2319,17 @@ function addNewMatch() {
         }
         if (foundExisting) {continue;}
         var originalEle = infoContainer.querySelector('.info-original');
-        var originalText = originalEle.innerHTML;
-        originalText = originalText
-            .replace(/([“>\(]+)/g, '$1 ')
-            .replace(/([”<\)])/g, ' $1')
-            .replace(/(’s )/g, ' $1')
-            .replace(/([,\.?!]+)/g, ' $1 ')
-            .replace(/[ ]+/g, ' ');
-        originalText = ' ' + originalText + ' ';
-        var reg = new RegExp(' ' + from + ' ', 'g');
+        var originalText = originalEle.innerText;
+        // originalText = originalText
+        //     .replace(/([“>\(]+)/g, '$1 ')
+        //     .replace(/([”<\)])/g, ' $1')
+        //     .replace(/(’s )/g, ' $1')
+        //     .replace(/([,\.?!]+)/g, ' $1 ')
+        //     .replace(/[ ]+/g, ' ');
+        // originalText = ' ' + originalText + ' ';
+        var reg = new RegExp('\\b' + from + '\\b', 'g');
+        console.log(reg);
+        console.log(originalText);
         if (reg.test(originalText) === false) {continue;}
         var infoContainer = originalEle.closest('.info-container');
         var nameEntitiesContainer = infoContainer.querySelector('.name-entities-container');
