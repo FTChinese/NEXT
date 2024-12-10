@@ -103,15 +103,22 @@
     vertical-align: middle;
     text-align: right;
     padding: 0 30px 0 0;
+    position: relative;
 }
-.story-hero-tag a {
-    color: white;
-    text-decoration: none;
+.story-hero-tag { 
     font-size: 0.618em;
+    a {
+        color: white;
+        text-decoration: none;
+        &:hover, &:active {
+            color: white;
+        }
+    }
 }
 .story-hero-title {
     font-weight: bold;
-    margin-bottom: 1em;
+    margin-bottom: 20px;
+    font-size: 1.618em;
 }
 .story-hero-title:after {
     content: "";
@@ -120,12 +127,49 @@
     width: 200px;
     max-width: 100%;
     padding-top: .416em;
+    .travel & {
+        border-bottom-color: #f83;
+    }
 }
+
 .story-hero-content {
     font-size: 0.618em;
 }
 .story-hero-content p {
     margin-bottom: 1em;
+}
+.story-hero-logo {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 10px;
+    height: 32px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: 0% 50%;
+}
+.story-hero-sponsor {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 10px;
+    height: 32px;
+    display: flex; /* Enable flexbox */
+    align-items: center; /* Align items vertically within the container */
+}
+
+.story-hero-sponsor-credit {
+    font-size: 16px;
+    flex-shrink: 0; /* Ensure this does not shrink */
+    padding-right: 8px; /* Add some space between the text and the logo */
+}
+
+.story-hero-sponsor-logo {
+    flex: 1; /* Take up the remaining width */
+    height: 100%; /* Ensure the height matches the container */
+    background-repeat: no-repeat;
+    background-size: contain; /* Scale the background image proportionally */
+    background-position: 0% 50%;
 }
 @media all and (max-width: 1300px) {
     .story-hero-container {
@@ -139,6 +183,9 @@
     }
     .story-hero-intro-container {
         padding: 0 30px;
+    }
+    .story-hero-logo, .story-hero-sponsor {
+        left: 30px;
     }
 }
 
@@ -166,6 +213,10 @@
     }
     .story-hero-intro-container {
         padding: 30px;
+    }
+    .story-hero-logo, .story-hero-sponsor {
+        position: static;
+        margin-bottom: 10px;
     }
 }
 

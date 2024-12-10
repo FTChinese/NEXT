@@ -459,10 +459,12 @@ a.o-responsive-video-caption:link, a.o-responsive-video-caption:visited, a.o-res
 	}
 	.story-container {
 		max-width: 100%;
-		p, div, h1, h2, h3, h4, hr, .story-theme, .story-headline, .story-lead, .story-action-placeholder, .story-byline, .n-content-layout {
+		.story-theme, .story-headline, .story-lead, .story-action-placeholder, .story-byline, .n-content-layout, #story-body-container > *, > * {
 			max-width: 700px;
 			margin-left: auto;
 			margin-right: auto;
+			display: block;
+			float: none;
 			&.story-body {
 				max-width: 100%;
 			}
@@ -558,6 +560,23 @@ a.o-responsive-video-caption:link, a.o-responsive-video-caption:visited, a.o-res
 	.logincomment {
 		display: block;
 	}
+}
+
+.greyed-out {
+    position: relative;
+    opacity: 1;
+    overflow: hidden; /* Ensure no content overflows */
+}
+
+.greyed-out::after {
+    content: "";
+    position: absolute;
+    bottom: 1em;
+    left: 0;
+    right: 0;
+    height: 3em; /* Height of the faded area */
+    background: linear-gradient(to bottom, rgba(255, 241, 224, 0) 0%, rgba(255, 241, 224, 1) 100%);
+    pointer-events: none; /* Ensure the pseudo-element doesn't block interactions */
 }
 
 @media print { 

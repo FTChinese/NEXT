@@ -1,6 +1,24 @@
 
-
-<%if $section.HeroStyle == "video"%>
+<%if $section.HeroStyle == "classic" || $section.HeroStyle == "travel"%>
+    <style><%include file="next/styles/main-header-hero.css"%></style>
+    <div class="story-hero-container<%if $section.HeroStyle == "travel"%> travel<%/if%>"<%if $section.BackgroundColor != ""%> style="background-color: <%$section.BackgroundColor%>"<%/if%>>
+        <div class="story-hero-inner">
+            <div class="story-hero-intro">
+                <div class="story-hero-intro-container">
+                    <div class="story-hero-logo" style="background-image: url(<%$section.LogoImage%>)"></div>
+                    <div class="story-hero-tag"><%$section.tag%></div>
+                    <div class="story-hero-title"><%$section.title%></div>
+                    <div class="story-hero-content"><p><%$section.description%></p></div>
+                    <div class="story-hero-sponsor">
+                        <span class="story-hero-sponsor-credit"><%$section.SponsorCredit%></span>
+                        <div class="story-hero-sponsor-logo" style="background-image: url(<%$section.SponsorLogo%>)"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="story-hero-image"><figure data-url="<%$section.image%>" class="loading"></figure></div>
+    </div>
+<%elseif $section.HeroStyle == "video"%>
     <style>
         .article-header {
             background: #dddddd;

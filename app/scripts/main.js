@@ -1351,21 +1351,23 @@ function setProgress(percent, scrollTop = 0, storyScrollDistance = 0) {
     document.querySelector('.progress-tick-path').style.fill = (percent >= 100) ? 'white' : '#990f3d';
   }
 
-  const watchProgressContainer = document.querySelector('.progress-container-watch');
-  const watchProgress = document.querySelector('.progress-watch-minute');
-  if (watchProgressContainer && watchProgress) {
-    const rotation = (percent / 100) * 360;
+  const actionEle = document.querySelector('.story-action');
+  if (actionEle) {
     if (percent > 100) {
       if (storyScrollDistance > 0 && scrollTop > storyScrollDistance) {
         const scrollExtra = scrollTop - storyScrollDistance;
         const maxScrollExtra = 200;
         let opacity = Math.max(0, (maxScrollExtra - scrollExtra)/maxScrollExtra);
-        watchProgressContainer.style.opacity = opacity;
+        actionEle.style.opacity = opacity;
       }
     } else {
-      watchProgressContainer.style.opacity = 1;
-      // Apply the rotation using CSS transform
+      actionEle.style.opacity = 1;
     }
+  }
+
+  const watchProgress = document.querySelector('.progress-watch-minute');
+  if (watchProgress) {
+    const rotation = (percent / 100) * 360;
     watchProgress.style.transform = `rotate(${rotation}deg)`;
   }
 

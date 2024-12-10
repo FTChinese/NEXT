@@ -115,6 +115,8 @@
 <link rel="stylesheet" href="styles/main-red.css">
 <!-- endbuild -->
 
+<link rel="stylesheet" href="styles/main-header-hero.css">
+
 <script type="text/javascript">
 if(typeof startTime === "undefined"){
 var startTime=new Date().getTime();
@@ -265,734 +267,1043 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
  <body>
 
 
-
     <script>checkB();</script>
-<script>var gUaOfPage = navigator.userAgent || navigator.vendor || "";</script><script>
-window.newAd = true;
-</script>
-<div id="promo-box-container">
-<style>
-.noneSubscriber.subscription-promo-container {
-background-color: #98e8f7;
-}
-.noneSubscriber .subscription-promo-text {
-background-color: #fced00;
-border-color: #fced00;
-}
-.noneSubscriber .subscription-promo-text {
-color: #001e69;
-}
-.noneSubscriber .subscription-promo-box {
-background-image: url(https://thumbor.ftacademy.cn/unsafe/picture/0/000237910_piclink.png);
-}
-@media only screen and (max-width: 490px) {
-.noneSubscriber .subscription-promo-box {
-background-image: url(https://thumbor.ftacademy.cn/unsafe/picture/1/000237911_piclink.png);
-}
-}
-</style>
-<div class="subscription-promo-container show-image-in-mobile noneSubscriber">
-<div class="subscription-promo-inner">
-<a  href="/m/corp/preview.html?pageid=2024Augsub&to=all&ccode=2C2024AugPBoxWeb" class="subscription-promo-box n-internal-promo" data-promo-target="noneSubscriber" data-promo-id="2C2024AugPBoxWeb" data-promo-name="会员限时 5折抢订 >>" data-promo-creative="https://thumbor.ftacademy.cn/unsafe/picture/0/000237910_piclink.png" data-promo-position="promoBox">
-<div class="subscription-promo-text">会员限时 5折抢订 >></div>
-</a>
-</div>
-</div>
-<script type="text/javascript">
-window.userId = GetCookie('USER_ID') || '';
-if (window.userId === '') {
-gtag('event', 'Display', {'event_label': '2C2024AugPBoxWeb', 'event_category': 'PromoBox', 'non_interaction': true});
-}
-</script>
-</div>
-<script type="text/javascript">
-function addUserId(ele) {
-if (ele === null) {
-return;
-}
-var userId;
-if (typeof GetCookie === 'function') {
-userId = GetCookie('USER_ID');
-} else {
-userId = getCookie('USER_ID');
-}
-if (userId && typeof userId === 'string' && userId !== '') {
-var link = ele.href;
-var connector = (link.indexOf('?') >= 0) ? '&' : '?';
-ele.href = link + connector + 'u=' + userId;
-}
-}
-var premiumLink = document.querySelector('[data-promo-target=premium]');
-addUserId(premiumLink);
-</script>
-<header class="header-container">
-<div class="header-inner">
-<div class="header-title">FTC中文网 x DealStreetAsia 联名订阅</div>
-<a href="/" class="header-side header-left">
-<div class="header-brand"><figure class="loading logo" data-url="https://d2785ji6wtdqx8.cloudfront.net/images/masthead36.png"></figure></div>
-</a>
-<div class="header-side header-right">
-<span class="visitor-box">
-<a onclick="showOverlay('overlay-login')">登录</a>
-<a class="more last" href="http://user.ftchinese.com/register">免费注册</a>
-</span>
-<span class="member-box">
-<a href="/channel/myftlocal.html">我的FT</a>
-<a id="ft-login-your-account" href="/users/cp">设置</a>
-<a id="ft-login-logout" href="/users/logout">登出</a>
-</span>
-</div>
-</div>
-</header>
-<div class="overlay-container" id="overlay-login">
-<div class="overlay-inner">
-<div class="overlay-bg" data-parentid="overlay-login"></div>
-<div class="overlay-content-outer">
-<div class="overlay-content-inner">
-<div class="overlay-content">
-<div class="overlay-title">登录<i class="overlay-close" data-parentid="overlay-login">×</i></div>
-<form method="post" action="/users/login" id="overlay-login-form">
-<span id="overlay-login-container">
-<div class="input-title" id="login-reason"></div>
-<div class="input-title">电子邮件/用户名</div>
-<div class="input-container"><input type="text" class="input-oneline" name="username" id="ft-login-input-username"></div>
-<div class="input-title">密码</div>
-<div class="input-container"><input type="password" class="input-oneline" name="password" id="ft-login-input-password"></div>
-<div><input type="checkbox" class="checkbox" value="1" checked="checked" name="saveme" id="ft-login-input-remember">记住我</div>
-<div class="login-btn input-submit-container center"><input class="" type="submit" value="登录"></div>
-<div class="center register-find"><a href="/register" class="blue-link">免费注册</a><span></span><a href="/users/findpassword" class="blue-link">找回密码</a></div>
-<div class="phone-login-container" id="phone-login-trigger">
-<div class="center phone-login"><a onclick="showPhoneLogin()" class="blue-link">短信登录</a></div>
-</div>
-<div class="wx-login-container">
-<div class="center wx-login"><a href="https://www.ftacademy.cn/wxlogin" class="blue-link">微信登录</a></div>
-</div>
-</span>
-</form>
-<span id="phone-ftc-binding-container">
-<div>请输入邮箱和密码进行绑定操作：</div>
-<div><input placeholder="请输入邮箱" type="email" autocorrect="off" id="phone-binding-email" class="input-oneline"/></div>
-<div><input placeholder="请输入密码" type="password" class="input-oneline" id="phone-binding-password"/></div>
-<div class="topmargin statusmsg" id="phone-binding-status"></div>
-<div><input type="button" value="绑定" class="n-button-inner" onclick="binding('phone')"/></div>
-</span>
-<span id="phone-login-container">
-<div class="user-name-container">请输入手机号码，通过短信验证（目前仅支持中国大陆地区的手机号）：</div>
-<div><input onkeyup="resetPhoneLogin()" placeholder="请输入中国大陆的手机号码" type="tel" autocorrect="off" name="phone" id="phone-number" class="input-oneline"/></div>
-<div><input placeholder="请输入验证码"  pattern="\d*" maxlength="6" name="phonecapcha"  class="input-oneline" id="phone-captcha"/></div>
-<div class="topmargin statusmsg" id="phone-login-status"></div>
-<div>请您阅读我们的<a class="agreeDetail" href="/m/corp/service.html" target="_blank">用户注册协议</a>和<a class="agreeDetail" href="/m/corp/service.html#privacy" target="_blank">隐私权保护政策</a>，点击下方按钮即视为您接受。</div>
-<div><input id="phone-login-submit-button" type="button" value="获取验证码" class="n-button-inner" onclick="phoneLogin()"/></div>
-</span>
-</div>
-</div>
-</div>
-</div>
-</div><div class="o-nav__placeholder hide-on-large-screen">
-<div class="o-nav">
-<div class="o-nav__outer">
-<div class="o-nav__inner">
-<div class="o-nav__search"  data-o-component="o-toggler">
-<button class="o-nav__search-toggle" data-o-toggler-button aria-controls="search-form">
-<span class="search-toggle--open">搜索</span>
-<span class="search-toggle--close">关闭</span>
-</button>
-<form action="/search/" id="search-form" role="search" data-o-toggler-target>
-<input id="search-term" type="search" name="keys" class="search-input" placeholder="输入年月日‘xxxx-xx-xx’可搜索该日存档" />
-<input id="type_news" type="hidden" value="type_news" name="ftsearchType" checked />
-<button class="search-button" tabindex="1"><span>搜索</span></button>
-</form>
-</div>
-<div class="o-header__masthead-mobile">
-<a href="/" title="前往FT中文网首页"><span>FT中文网</span></a>
-</div>
-<nav class="o-nav__container" role="navigation">
-<button class="nav-toggle" data-o-nav-togglable><span>Menu</span></button>
-<ol class="o-nav__meganav">
-<li class="nav-section mobile">
-<button class="nav-section-head mobile" aria-selected="true">切换版本</button>
-<ol class="nav-items">
-<li class="nav-item">
-<a class="nav-link" href="https://big5.ftchinese.com/">繁体中文版</a>
-</li>
-<li class="nav-item">
-<a class="nav-link" href="http://www.ft.com/">FT.com</a>
-</li>
-</ol>
-</li>
-<li class="nav-section home "
- aria-selected="true" data-section="home"
->
-<button class="nav-section-head mobile">首页</button>
-<a class="nav-section-head desktop" href="/">首页</a>
-<ol class="nav-items">
-<li class="nav-item mobile">
-<a class="nav-link" href="/">
-FT中文网首页
-</a>
-</li>
-<li class="nav-item"  aria-haspopup="true" data-channel="special">
-<a class="nav-link" href="/channel/special.html">特别报导</a>
-<ol class="nav-sub-items">
-<li><a href="/m/marketing/antfinancial.html">“新四大发明”背后的中国浪潮</a></li>
-<li><a href="/tag/与FT共进午餐">与FT共进午餐</a></li>
-<li><a href="/tag/智慧城市群">西门子·智慧城市群</a></li>
-<li><a href="/m/marketing/creditease.html">未来生活 未来金融</a></li>
-</ol>
-</li>
-<li class="nav-item"  data-channel="premiumsubscription">
-<a class="nav-link" href="/channel/premiumsubscription.html">高端订阅</a>
-</li>
-<li class="nav-item"  data-channel="standardsubscription">
-<a class="nav-link" href="/channel/standardsubscription.html">标准订阅</a>
-</li>
-<li class="nav-item"  data-channel="weekly">
-<a class="nav-link" href="/channel/weekly.html">热门文章</a>
-</li>
-<li class="nav-item"  data-channel="event">
-<a class="nav-link" href="/m/events/event.html">会议活动</a>
-</li>
-<li class="nav-item"  data-channel="member">
-<a class="nav-link" href="/m/marketing/home.html">市场活动</a>
-</li>
-<li class="nav-item"  data-channel="mba">
-<a class="nav-link" href="/channel/mba.html">FT商学院</a>
-</li>
-<li class="nav-item"  data-channel="ebook">
-<a class="nav-link" href="/m/marketing/ebook.html">FT电子书</a>
-</li>
-<li class="nav-item"  data-channel="job">
-<a class="nav-link" href="https://ft.wd3.myworkdayjobs.com/FT_Chinese_External_Careers">职业机会</a>
-</li>
-<li class="nav-item"  data-channel="ftmall">
-<a class="nav-link" href="https://h5.youzan.com/v2/showcase/homepage?alias=16e315o1t">FT商城</a>
-</li>
-<li class="nav-item"  data-channel="nikkei">
-<a class="nav-link" href="/tag/日经中文网精选">日经中文网精选</a>
-</li>
-</ol>
-</li>
-<li class="nav-section china "
- data-section="china"
->
-<button class="nav-section-head mobile">中国</button>
-<a class="nav-section-head desktop" href="/channel/china.html">中国</a>
-</li>
-<li class="nav-section world "
- data-section="world"
->
-<button class="nav-section-head mobile">全球</button>
-<a class="nav-section-head desktop" href="/channel/world.html">全球</a>
-</li>
-<li class="nav-section economy "
- data-section="economy"
->
-<button class="nav-section-head mobile">经济</button>
-<a class="nav-section-head desktop" href="/channel/economy.html">经济</a>
-</li>
-<li class="nav-section markets "
- data-section="markets"
->
-<button class="nav-section-head mobile">金融市场</button>
-<a class="nav-section-head desktop" href="/channel/markets.html">金融市场</a>
-</li>
-<li class="nav-section business "
- data-section="business"
->
-<button class="nav-section-head mobile">商业</button>
-<a class="nav-section-head desktop" href="/channel/business.html">商业</a>
-</li>
-<li class="nav-section innovation "
- data-section="innovation"
->
-<button class="nav-section-head mobile">创新经济</button>
-<a class="nav-section-head desktop" href="/channel/innovation.html">创新经济</a>
-</li>
-<li class="nav-section education "
- data-section="education"
->
-<button class="nav-section-head mobile">教育</button>
-<a class="nav-section-head desktop" href="/channel/education.html?newnav=yes">教育</a>
-</li>
-<li class="nav-section opinion "
- data-section="opinion"
->
-<button class="nav-section-head mobile">观点</button>
-<a class="nav-section-head desktop" href="/channel/opinion.html">观点</a>
-</li>
-<li class="nav-section management "
- data-section="management"
->
-<button class="nav-section-head mobile">管理</button>
-<a class="nav-section-head desktop" href="/channel/management.html">管理</a>
-</li>
-<li class="nav-section lifestyle "
- data-section="lifestyle"
->
-<button class="nav-section-head mobile">生活时尚</button>
-<a class="nav-section-head desktop" href="/channel/lifestyle.html">生活时尚</a>
-</li>
-<li class="nav-section stream "
- data-section="stream"
->
-<button class="nav-section-head mobile">视频</button>
-<a class="nav-section-head desktop" href="/channel/stream.html">视频</a>
-</li>
-<li class="nav-section audio "
- data-section="audio"
->
-<button class="nav-section-head mobile">音频</button>
-<a class="nav-section-head desktop" href="/channel/audio.html">音频</a>
-</li>
-<li class="nav-section english "
- data-section="english"
->
-<button class="nav-section-head mobile">每日英语</button>
-<a class="nav-section-head desktop" href="/channel/english.html">每日英语</a>
-</li>
-<li class="nav-section rewired "
- data-section="rewired"
->
-<button class="nav-section-head mobile">换脑ReWired</button>
-<a class="nav-section-head desktop" href="/channel/rewired.html">换脑ReWired</a>
-</li>
-<li class="nav-section mobile login">
-<ul>
-<li class="nav-item">
-<a class="nav-link" onclick="showOverlay('overlay-login')">登录</a>
-</li>
-<li class="nav-item">
-<a class="nav-link" href="http://user.ftchinese.com/register">免费注册</a>
-</li>
-</ul>
-</li>
-<li class="nav-section mobile logout">
-<ul>
-<li class="nav-item">
-<a class="nav-link" href="/channel/myftlocal.html">我的FT</a>
-</li>
-<li class="nav-item">
-<a class="nav-link" href="/users/setting/vip">会员中心</a>
-</li>
-<li class="nav-item">
-<a class="nav-link" href="/users/setting/index">设置</a>
-</li>
-<li class="nav-item">
-<a class="nav-link" href="/users/logout">登出</a>
-</li>
-</ul>
-</li>
-</ol>
-</nav>
-<a class="header-left-ai-icon-mobile P-only" href="/ftacademy.php"></a>
-<ul class="o-nav__extra-tools">
-<li class="tools-section" aria-haspopup="true">
-<a class="tools-section-head" href="/m/corp/follow.html">关注我们</a>
-<ol class="tools-items">
-<li><a href="/m/corp/follow.html" target="_blank">微信公众号</a></li>
-<li><a href="http://weibo.com/ftchinese" target="_blank">新浪微博</a></li>
-<li><a href="/m/corp/follow.html" target="_blank">Flipboard</a></li>
-<li><a href="https://twitter.com/FTChinese" target="_blank">Twitter</a></li>
-<li><a href="https://www.facebook.com/financialtimeschinese" target="_blank">Facebook</a></li>
-<li><a href="https://www.linkedin.com/company/4865254?trk=hp-feed-company-name" target="_blank">LinkedIn</a></li>
-</ol>
-</li>
-<li class="tools-section" aria-haspopup="true">
-<span class="tools-section-head">工具</span>
-<ol class="tools-items">
-<li><a href="http://app.ftchinese.com/" class="o-client-id-link">移动应用大全</a></li>
-<li><a href="/users/setting/index">基本设置</a></li>
-<li><a href="/users/setting/vip">会员中心</a></li>
-<li><a href="/users/setting/maillist">邮件订阅</a></li>
-<li><a href="/index.php/snsapi/index">同步微博</a></li>
-<li><a href="/users/commentstory">我的评论</a></li>
-<li><a href="/users/favstorylist">管理收藏</a></li>
-</ol>
-</li>
-<li class="tools-section">
-<a class="tools-section-head follow__rss" href="/channel/rss.html" title="RSS"><span>RSS</span></a>
-</li>
-</ul>
-</div><!-- o-nav__inner -->
-</div><!-- o-nav__outer -->
-<div class="o-nav__meganav-placeholder"></div>
-</div><!-- o-nav -->
-</div><style>
-.special-report-container {
-width: 100%;
-height: 600px;
-position: relative;
-background-color: #386eb2;
-margin-bottom: 30px;
-margin-top: -30px;}
-.special-report-image {
-position: absolute;
-width: 50%;
-right: 0;
-top: 0;
-bottom: 0;
-background-image: url(https://thumbor.ftacademy.cn/unsafe/picture/4/000239284_piclink.jpg);
-background-repeat: no-repeat;
-background-size: cover;
-background-position: 50%;
-}
-.special-report-inner {
-max-width: 1200px;
-height: 100%;
-margin: auto;
-}
-.special-report-intro {
-display: table;
-width: 50%;
-height: 100%;
-color: white;
-font-size: 32px;
-}
-.special-report-intro-container {
-display: table-cell;
-vertical-align: middle;
-text-align: right;
-padding: 0 30px 0 0;
-}
-.special-report-tag a {
-color: white;
-text-decoration: none;
-}
-.special-report-title {
-margin-bottom: 1em;
-}
-.special-report-title:after {
-content: "";
-display: block;
-border-bottom: 1px solid white;
-width: 200px;
-max-width: 100%;
-padding-top: .416em;
-}
-.special-report-content {
-font-size: 18px;
-}
-.special-report-content p {
-margin-bottom: 1em;
-}
-@media all and (max-width: 1300px) {
-.special-report-container {
-height: 550px;
-}
-}
-@media all and (max-width: 1270px) {
-.special-report-container {
-height: 450px;
-}
-.special-report-intro-container {
-padding: 0 30px;
-}
-}
-@media all and (max-width: 739px) {
-.special-report-container {
-height: auto;
-}
-.special-report-image {
-position: static;
-height: auto;
-width: 100%;
-padding-top: 61.8%;
-}
-.special-report-intro {
-width: 100%;
-}
-.special-report-intro-container {
-padding: 30px;
-}
-}
-@media all and (max-width: 490px) {
-.special-report-image {
-background-image: url(https://thumbor.ftacademy.cn/unsafe/picture/4/000239284_piclink.jpg);
-}
-}
-</style>
-<div class="special-report-container">
-<div class="special-report-inner">
-<div class="special-report-intro">
-<div class="special-report-intro-container">
-<div class="special-report-content"><p><style>.header-left-ai-icon,.header-left-ai-icon-mobile{display:none!important;}.header-container, .o-nav{background-color:#386eb2!important;}.special-report-container{margin-top:0!important;}.o-nav__placeholder{height:0!important;}@media only screen and (max-width: 740px) {.special-report-inner{height:auto;}}</style>FT中文网与DealStreetAsia联合推出高端会员联名订阅活动，限时5折，买一得二，尊享双平台1年期高端订阅权益。</p><p>此双平台联名订阅将助您在全球和区域市场中掌握先机，做出更明智的决策。您将获得FT中文网提供的中英双语内容，涵盖全球经济、金融市场、创新经济等多个领域的深度分析和独立见解，以及DealStreetAsia提供的英文内容，深入分析东南亚、大中华区和印度的私募股权、风险投资及初创企业的商业动向。</p><p>FTChinese, in collaboration with DealStreetAsia, is launching a premium bundle subscription offer. For a limited time, enjoy a 50% discount—buy one, get two, and receive a 1-year premium subscription to both platforms.</p><p>This dual-platform subscription will help you stay ahead in global and regional markets, enabling you to make more informed decisions. Access FTChinese's bilingual insights on global economics and finance, plus DealStreetAsia's deep analysis of private equity and startups in Southeast Asia, Greater China, and India.</p></div>
-</div>
-</div>
-</div>
-<div class="special-report-image"></div>
-</div><div class="block-container no-side">
-<div class="block-inner">
-<div class="content-container">
-<div class="content-inner">
-<div class="list-container">
-<div class="list-inner">
-<div class="items hide" id="membership-login-prompt">
-<div class="no-image">
-<div class="item-inner">
-<div class="item-lead">
-<a href="screen://myft/account">您还没有登录。如果您希望更方便地享受您购买的会员服务，请点击此处登录或注册新用户。</a>
-</div>
-</div>
-</div>
-</div>
-<div class="items hide" id="subscriber-contact-confirm">
-<div class="no-image">
-<div class="item-inner">
-<div class="item-lead"><a href="https://www.ftchinese.com/m/corp/preview.html?pageid=subscriptioninfoconfirm&to=all">为保障您的订阅权益，请点击此处确认您的联系方式</a></div>
-</div>
-</div>
-</div>
-<div class="items hide" id="membership-yellow-card-prompt">
-<div class="no-image">
-<div class="item-inner">
-<div class="item-lead">
-<div class="warn">亲爱的会员，您的账户近期在多台设备上异常登录。您的账户仅限您本人使用，如不是您本人操作，可能您的账号已泄漏。请您尽快进行如下操作：</div>
-<div class="warn">1. <a href="https://user.ftchinese.com/setting" target="_blank">修改密码，并妥善保护好新密码</a>。</div>
-<div class="warn">2. <a class="email-link" href="mailto: customer.service@ftchinese.com?subject=Appeal: Warning">点击此处寻求帮助</a>。</div>
-<div class="warn">为了保护您的利益，我们已经暂时锁定您的订阅账户，如有疑问，请联系客服。</div>
-</div></div>
-</div>
-</div>
-</div>
-<script>window.gYellowCardUserIds = '';</script>
-<div class="items hide" id="membership-red-card-prompt">
-<div class="no-image">
-<div class="item-inner">
-<div class="item-lead"><div class="warn">
-亲爱的会员，您的账号近期在多台设备上频繁异常登录。您的账户仅限您本人使用。为了保证您的利益，该账户已被暂时锁定。您可以：
-<a class="email-link" href="mailto: customer.service@ftchinese.com?subject=Appeal: Red Warning">点击此处与我们联系进行认证</a>。
-</div></div>
-</div>
-</div>
-</div>
-<script>window.gRedCardUserIds = '';</script>
-<script>checkUserWarnings();</script>
-</div>
-</div>
-<div class="clearfloat block-bottom"></div>
-</div>
-</div>
-<div class="clearfloat"></div>
-</div>
-</div>
-<div class="block-container dark-green has-side side-right all" ><div class="block-inner">
-<div class="content-container">
-<div class="content-inner">
-
-<div class="list-container"><div class="list-inner"><h2 class="list-title">
-<a class="list-link" href="#" >联名订阅权益</a>
-</h2>
-<div class="items">
-
- 
-
-<div class="item-container XL6 L6 L-double-width M12 S6 P12 no-image" data-update="1724231150"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" class="item-headline-link ">FT中文网高端会员</a></h2>
-<div class="item-lead"><p style="line-height: 1.6; text-align: justify;">• 精选中英双语资讯、深度分析与观点</p><p style="line-height: 1.6; text-align: justify;">• 编辑精选，每周五，总编/各版块主编推荐本周必读资讯，分享他们的思考与观点</p><p style="line-height: 1.6; text-align: justify;">• FT商学院高端专享内容，提升投资战略格局与投资视野</p><p style="line-height: 1.6; text-align: justify;">• 高端专享邮件服务：《加密金融每周资讯速递》周一必达，《人工智能周报》周五必达</p><p style="line-height: 1.6; text-align: justify;">• 英语电台、金融英语速读</p><p style="line-height: 1.6; text-align: justify;">• 15万历史文章</p><p style="line-height: 1.6; text-align: justify;">• FT中文网2024年度论坛门票2张</p><p style="line-height: 1.6; text-align: justify;">注：所有活动门票不可折算现金、不能转让、不含差旅与食宿。</p></div>
-<div class="item-bottom"></div>
-</div></div>
-
- 
-<div class=" MT PT"></div>
-<div class="item-container XL6 L6 L-double-width M12 M-half S6 P12 P-half no-image" data-update="1724231150"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" class="item-headline-link ">DealStreetAsia高端会员</a></h2>
-<div class="item-lead"><p style="line-height: 1.6; text-align: justify;">• 每天超过30篇最新英文商业分析资讯，及时掌握最新商业动态</p><p style="line-height: 1.6; text-align: justify;">• 覆盖东南亚、大中华区和印度的私募股权、风险投资及初创企业，提供深入的商业分析和洞察</p><p style="line-height: 1.6; text-align: justify;">• 全球顶级领导者的独家采访，深入了解市场趋势与发展</p></div>
-<div class="item-bottom"></div>
-</div></div>
-<div data-o-ads-name="infoflow1" class="o-ads infoflow" data-o-ads-formats-default="false" data-o-ads-formats-small="FtcInfoFlow" data-o-ads-formats-medium="false" data-o-ads-formats-large="false" data-o-ads-formats-extra="false" data-o-ads-targeting="cnpos=info1;"></div><div class="clearfloat"></div>
-</div>
-</div></div> <div class="list-container list-with-text">
-<div class="list-inner">
-<div class="items">
-<div class="no-image">
-<div class="item-inner">
-<div class="item-lead">
-<p><div style="margin:0 auto;display:block;text-align:center;"><span style="font-size:20px;">原价 </span><s style="color:#9E2F50;font-size:20px;">4,868 元/年</s>       <span style="font-size:20px;">联名价</span><span style="color:#9E2F50;font-size:20px;"> 2,298 元/年</span></div><div style="text-align:center;font-size:20px;margin-top:10px;">限时5折，买一得二</div></p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div> 
-<div class="list-container"><div class="list-inner"><h2 class="list-title">
-<a class="list-link" href="#" >Buddle Subscription</a>
-</h2>
-<div class="items">
-
- 
-
-<div class="item-container XL6 L6 L-double-width M12 M-half S6 P12 P-half no-image" data-update="1724231150"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" class="item-headline-link ">FTChinese Premium</a></h2>
-<div class="item-lead"><p style="line-height: 1.6; text-align: justify;">• Global analysis, and opinions in bilingual Chinese and English.</p><p style="line-height: 1.6; text-align: justify;">• Editor's Picks: Every Friday, the Editor-in-Chief and section editors recommend the week’s must-reads, sharing their insights and perspectives.</p><p style="line-height: 1.6; text-align: justify;">• Access premium content from FT Academy to enhance your investment strategies and broaden your perspective.</p><p style="line-height: 1.6; text-align: justify;">• Exclusive Email Service: Cryptofinance Weekly Newsletter every Monday and Artificial Intelligence Weekly Newsletter every Friday.</p><p style="line-height: 1.6; text-align: justify;">• English podcasts and Speed Read.</p><p style="line-height: 1.6; text-align: justify;">• 150,000+ archived articles.</p><p style="line-height: 1.6; text-align: justify;">• Two tickets to the FTChinese 2024 Annual Forum</p><p style="line-height: 1.6; text-align: justify;"><strong>Note:</strong> All event tickets are non-refundable, non-transferable, and do not include travel or accommodation expenses.</p></div>
-<div class="item-bottom"></div>
-</div></div>
-
- 
-<div class=" MT PT"></div>
-<div class="item-container XL6 L6 L-double-width M12 M-half S6 P12 P-half no-image" data-update="1724231150"><div class="item-inner">
-<h2 class="item-headline"><a target="_blank" class="item-headline-link ">DSA Premium</a></h2>
-<div class="item-lead"><p style="line-height: 1.6; text-align: justify;">• Access to 30+ English news stories per day</p><p style="line-height: 1.6; text-align: justify;">• Extensive coverage in SE Asia, Greater China, India</p><p style="line-height: 1.6; text-align: justify;">• Interviews with top leaders shaping the ecosystem</p></div>
-<div class="item-bottom"></div>
-</div></div>
-<div class="clearfloat"></div>
-</div>
-</div></div> <div class="list-container list-with-text">
-<div class="list-inner">
-<div class="items">
-<div class="no-image">
-<div class="item-inner">
-<div class="item-lead">
-<p><div style="margin:0 auto;display:block;text-align:center;"><span style="font-size:20px;">Original Price </span><s style="color:#9E2F50;font-size:20px;">635 USD/Year</s>       <span style="font-size:20px;"> Bundle Price </span><span style="color:#9E2F50;font-size:20px;">320 USD/Year</span></div><div style="text-align:center;font-size:20px;margin-top:10px;">Buy One, Get Two, Save 50% Today!</div></p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div> 
-<div class="list-container"><div class="list-inner"><h2 class="list-title">
-<a class="list-link" href="#" >如何领取</a>
-</h2>
-<div class="items">
-<div class="no-image">
-<div class="item-inner">
-<div class="item-lead"><p style="line-height: 1.6; text-align: justify;">完成FT中文网注册/登录与购买成功后，即可开通两个高端会员权限:</p><p style="line-height: 1.6; text-align: justify;">• FT中文网高端会员领取: 购买成功后，会员权限将自动激活。请关注FT中文网的微信公众号，获取FT中文网App下载链接，登录后解锁会员权限。</p><p style="line-height: 1.6; text-align: justify;">• DealStreetAsia高端会员领取: 购买后您将收到会员激活邮件，查看邮箱收件箱（或垃圾邮件），点击会员激活链接，完成注册后领取高端会员权限。</p></div>
-</div>
-</div>
-</div>
-<div class="items">
-<div class="clearfloat"></div>
-</div>
-</div></div> 
-<div class="list-container"><div class="list-inner"><h2 class="list-title">
-<a class="list-link" href="#" >Subscription Activation</a>
-</h2>
-<div class="items">
-<div class="no-image">
-<div class="item-inner">
-<div class="item-lead"><p style="line-height: 1.6; text-align: justify;">• FTChinese Premium Subscription Activation: After successful purchase, the subscription will be automatically activated. Please follow FTChinese’s WeChat official account to get the download link for the FTChinese app and proceed to log in or register.</p><p style="line-height: 1.6; text-align: justify;">• DealStreetAsia Premium Subscription Activation: Upon purchase, you will receive a subscription activation email. Please check your inbox or spam folder, click the activation link, and complete the registration to activate your Premium subscription.</p></div>
-</div>
-</div>
-</div>
-<div class="items">
-<div class="clearfloat"></div>
-</div>
-</div></div> 
-<div class="list-container"><div class="list-inner"><h2 class="list-title">
-<a class="list-link" href="#" >购买须知</a>
-</h2>
-<div class="items">
-<div class="no-image">
-<div class="item-inner">
-<div class="item-lead"><p style="line-height: 1.6; text-align: justify;">• 活动时间：2024年9月05日-9月18日24时（北京时间）</p><p style="line-height: 1.6; text-align: justify;">• 本次联合订阅仅限FT中文网非会员购买，iOS内购用户不参加本次活动。</p><p style="line-height: 1.6; text-align: justify;">• 本产品包括一年FT中文网高端会员权益和一年DealStreetAsia高端会员权益。</p><p style="line-height: 1.6; text-align: justify;">• FT中文网提供中英双语内容，DealStreetAsia仅提供英文内容。请访问FT中文网、DealStreetAsia了解详情，再决定是否购买。</p><p style="line-height: 1.6; text-align: justify;">• 购买成功后，FT 中文网会员权限将自动激活。请及时查看您的注册邮箱，获取DealStreetAsia高端会员激活链接，完成注册后即可领取高端会员权限。</p><p style="line-height: 1.6; text-align: justify;">• 付费订阅为虚拟内容服务，一经订阅成功概不退款，请谨慎购买。</p><p style="line-height: 1.6; text-align: justify;">• 本次活动的最终解释权归FT中文网所有。</p><p style="line-height: 1.6; text-align: justify;">• 若购买与使用过程中有任何问题，请及时与相关平台客服联系：</p><p style="line-height: 1.6; text-align: justify;"><b style="display: block; margin-top: 15px;">FT中文网</b></p><p style="line-height: 1.6; text-align: justify;">客服：<a href="mailto:subscriber.service@ftchinese.com" style="color: #1a0dab;">subscriber.service@ftchinese.com</a></p><p style="line-height: 1.6; text-align: justify;">微信：搜索公号 “小T服务在线” （工作日9:30-17:30）</p><p style="line-height: 1.6; text-align: justify;"><b style="display: block; margin-top: 15px;">DealStreetAsia</b></p><p style="line-height: 1.6; text-align: justify;">客服：<a href="mailto:subs@dealstreetasia.com" style="color: #1a0dab;">subs@dealstreetasia.com</a>（仅提供英文客服）</p></div>
-</div>
-</div>
-</div>
-<div class="items">
-<div class="clearfloat"></div>
-</div>
-</div></div> 
-<div class="list-container"><div class="list-inner"><h2 class="list-title">
-<a class="list-link" href="#" >Purchase Terms</a>
-</h2>
-<div class="items">
-<div class="no-image">
-<div class="item-inner">
-<div class="item-lead"><p style="line-height: 1.6; text-align: justify;">• Duration: September 5th - 18th, 2024 (Beijing Time)</p><p style="line-height: 1.6; text-align: justify;">• This bundle subscription is available exclusively to non-subscribers of FTChinese. iOS in-app purchase users are not eligible for this offer.</p><p style="line-height: 1.6; text-align: justify;">• This bundle package includes a one-year premium subscription for both FTChinese and DealStreetAsia.</p><p style="line-height: 1.6; text-align: justify;">• FTChinese offers bilingual content in Chinese and English, while DealStreetAsia provides content exclusively in English. Please visit the official websites of FTChinese and DealStreetAsia for more details before making a purchase.</p><p style="line-height: 1.6; text-align: justify;">• Upon successful purchase, your FTChinese membership will be automatically activated. Please check your registered email for the DealStreetAsia activation link and follow the instructions to complete your membership activation.</p><p style="line-height: 1.6; text-align: justify;">• The subscription service is for virtual content, and no refunds will be issued once the subscription is completed. Please make your purchase carefully.</p><p style="line-height: 1.6; text-align: justify;">• FTChinese reserves the right to the final interpretation of this promotion.</p><p style="line-height: 1.6; text-align: justify;">• If you encounter any issues during the purchase or usage, please contact the respective customer service teams:</p><p style="line-height: 1.6; text-align: justify;"><b style="display: block; margin-top: 15px;">FTChinese</b></p><p style="line-height: 1.6; text-align: justify;">Email: <a href="mailto:subscriber.service@ftchinese.com" style="color: #1a0dab;">subscriber.service@ftchinese.com</a></p><p style="line-height: 1.6; text-align: justify;">WeChat Service Account: search for "小T服务在线" (available on weekdays from 9:30 to 17:30)</p><p style="line-height: 1.6; text-align: justify;"><b style="display: block; margin-top: 15px;">DealStreetAsia</b></p><p style="line-height: 1.6; text-align: justify;">Email: <a href="mailto:subs@dealstreetasia.com" style="color: #1a0dab;">subs@dealstreetasia.com</a>（English customer service only）</p>
-</div>
-</div>
-</div>
-</div>
-<div class="items">
-<div class="clearfloat"></div>
-</div>
-</div></div>       <div class="clearfloat block-bottom"></div>
-</div>  </div>  <!--smarty sideMpuCount in block: -->
-<div class="side-container"><div class="side-inner">
-	
-                <div class="side-list first-child BigImageAndLead">
-<h2 class="list-title">
-<a href="#">关于FT中文网</a>
-</h2>
-  <div class="item-container first has-image"><div class="item-inner">
-<a class="image" target="_blank" href="https://www.chineseft.net/"><figure class="loading" data-url="https://thumbor.ftacademy.cn/unsafe/picture/0/000239000_piclink.png"></figure></a><div class="item-lead item-description">FT中文网 (http://www.FTChinese.com) 是英国《金融时报》集团旗下唯一的中文商业财经网站，旨在为中国商业菁英和决策者们提供每日不可或缺的商业财经资讯、深度分析以及评论。凭借英国《金融时报》遍布全球的丰富资源，FT中文网深入分析对中国经济和全球商业具有影响力的重大事件，并揭示事件的来龙去脉，以真正富有国际视野的权威内容成为中国高级管理人员“必读”的商业财经资讯网站。FT中文网目前拥有逾300万注册用户，移动产品已覆盖iOS、Android和Windows系统。2018年4月，FT中文网正式推出付费订阅业务，为专属会员提供精选资讯与个性化服务。<br />
-<br>FTChinese is the Financial Times' Chinese language website, providing unrivalled news and information to China's top business executives and decision makers. The FT’s international team of journalists has access to senior corporate executives and politicians both in China and around the world, making it a must read for China's business leaders. FTChinese has over 3 million registered users and is also available via iOS, Android and Windows platforms. In April 2018, FTChinese launched its paid-for subscription service.</br></div>
-</div></div>  </div>    <div class="side-list BigImageAndLead">
-<h2 class="list-title">
-<a href="#">关于 DealStreetAsia</a>
-</h2>
-  <div class="item-container first has-image"><div class="item-inner">
-<a class="image" target="_blank" href="https://www.dealstreetasia.com/"><figure class="loading" data-url="https://thumbor.ftacademy.cn/unsafe/picture/0/000238970_piclink.png"></figure></a><div class="item-lead item-description">DealStreetAsia 是一家专注于东南亚、大中华区和印度市场的商业新闻媒体公司。它致力于提供关于私募股权、风险投资和初创企业发展的深入报道和分析。凭借其驻扎在九个市场的记者团队，DealStreetAsia 为读者提供独家见解、行业领先的分析以及基于专有数据的研究报告。此外，其内容还包括与全球顶级领导者的独家采访，帮助读者掌握区域动态和有价值的商业情报。<br />
-<br>With a team of journalists based in nine markets, DealStreetAsia provides readers with exclusive insights, industry-leading analysis, and research reports based on proprietary data. Its content includes exclusive interviews with top global leaders, enabling readers to access regional dynamics and valuable business intelligence.</br></div>
-</div></div>  </div>    <div 
-data-o-ads-name="mpu-right1"
-class="o-ads"  
-data-o-ads-formats-default="false" 
-data-o-ads-formats-small="false" 
-data-o-ads-formats-medium="FtcMpu"
-data-o-ads-formats-large="FtcMpu"
-data-o-ads-targeting="cnpos=right1;"
-data-cy='[{"devices":["PC","PadApp","PadWeb"],"pattern":"MPU","position":"Right1"}]'
->
-</div>
-<div 
-data-o-ads-name="mpu-middle1"
-class="o-ads"  
-data-o-ads-formats-default="false" 
-data-o-ads-formats-small="FtcMobileMpu" 
-data-o-ads-formats-medium="false"
-data-o-ads-formats-large="false"
-data-o-ads-formats-extra="false"
-data-o-ads-targeting="cnpos=middle1;"
-data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp"],"pattern":"MPU","position":"Middle1"}]'
->
-</div>
-    	
-</div>  </div>  <div class="clearfloat"></div>
-</div> </div> <!--v: , isiOS: no-->
-<!--premiumBuyLink: https://www.ftacademy.cn/subscription.html?from=&ccode=&tap=premium#no_universal_links-->
-<style>.fixed-buttons-placeholder{height:50px}.fixed-buttons{position:fixed;bottom:0;left:0;right:0;width:100%;height:70px;overflow:hidden;display:grid;grid-template-columns:repeat(auto-fill,minmax(1fr,240px));grid-auto-flow:column;column-gap:15px;justify-content:center;align-items:center;background-color:rgba(0,0,0,.7);padding:0 15px;box-sizing:border-box;z-index:1}.fixed-buttons button{color:#fff;width:100%;height:44px;border-radius:8px;letter-spacing:3px}#promo-box-container{display:none!important}@media only screen and (min-width:491px){.fixed-buttons-placeholder{height:80px}.fixed-buttons{column-gap:30px;height:80px}.fixed-buttons button{width:100%;height:50px;font-size:1.4em}}</style>
-<div class="fixed-buttons-placeholder"><div class="fixed-buttons">
-<a href="https://www.ftacademy.cn/subscription.html" target="_blank" class="fixed-button-link" data-subscription="standard" data-duration="yearly" data-discountCode="" data-ccode=""><button style="background-color: #a00606; color: #FFFFFF!important;">购买联名订阅 (Subscribe) >></button></a>
-</div></div>
-<div 
-data-o-ads-name="paidpost2"
-class="o-ads paid-post"  
-data-o-ads-formats-default="false" 
-data-o-ads-formats-small="false"
-data-o-ads-formats-medium="false"
-data-o-ads-formats-large="FtcPaidpost"
-data-o-ads-formats-extra="FtcPaidpost"
-data-o-ads-targeting="cnpos=paidpost2;"
->
-</div>
-<div 
-data-o-ads-name="paidpost"
-class="o-ads paid-post"  
-data-o-ads-formats-default="false" 
-data-o-ads-formats-small="false"
-data-o-ads-formats-medium="false"
-data-o-ads-formats-large="FtcPaidpost"
-data-o-ads-formats-extra="FtcPaidpost"
-data-o-ads-targeting="cnpos=paidpost;"
->
-</div>
-<div class="footer-container"><div class="footer-inner">
-<div>
-<a href="/m/corp/aboutus.html">关于我们</a>
-<a href="https://ft.wd3.myworkdayjobs.com/FT_Chinese_External_Careers" target="_blank">加入我们</a>
-<a href="/m/corp/faq.html">问题回馈</a>
-<a href="/m/corp/contact.html">联系方式</a>
-<a href="/m/corp/partner.html">合作伙伴</a>
-<a href="/m/corp/service.html">服务条款</a>
-<a href="/m/corp/sales.html">广告业务 </a>
-<a href="/m/corp/copyright.html">版权声明</a>
-<a href="/m/marketing/ftc.html">最新动态</a>
-</div>
-<p>
-<span class="copyright"><b>© The Financial Times Ltd 2024</b></span> 
-<span><acronym title="Financial Times">FT</acronym> and 'Financial Times' are trademarks of The Financial Times Ltd.</span>
-</p>
-</div></div>
+    <script>var gUaOfPage = navigator.userAgent || navigator.vendor || "";</script><script>
+    window.newAd = true;
+    </script>
+    <div id="promo-box-container">
+    <style>
+    .noneSubscriber.subscription-promo-container {
+    background-color: #4ea3f0;
+    }
+    .noneSubscriber .subscription-promo-text {
+    background-color: #fdff5d;
+    border-color: #fdff5d;
+    }
+    .noneSubscriber .subscription-promo-text {
+    color: #000000;
+    }
+    .noneSubscriber .subscription-promo-box {
+    background-image: url(https://thumbor.ftacademy.cn/unsafe/picture/0/000211270_piclink.png);
+    }
+    @media only screen and (max-width: 490px) {
+    .noneSubscriber .subscription-promo-box {
+    background-image: url(https://thumbor.ftacademy.cn/unsafe/picture/1/000211271_piclink.png);
+    }
+    }
+    </style>
+    <div class="subscription-promo-container show-image-in-mobile noneSubscriber">
+    <div class="subscription-promo-inner">
+    <a  href="https://www.ftacademy.cn/subscription.html?ccode=2CAcquisitionWebPBoxNon" class="subscription-promo-box n-internal-promo" data-promo-target="noneSubscriber" data-promo-id="2CAcquisitionWebPBoxNon" data-promo-name="开通会员 见他人之未见" data-promo-creative="https://thumbor.ftacademy.cn/unsafe/picture/0/000211270_piclink.png" data-promo-position="promoBox">
+    <div class="subscription-promo-text">开通会员 见他人之未见</div>
+    </a>
+    </div>
+    </div>
+    <script type="text/javascript">
+    window.userId = GetCookie('USER_ID') || '';
+    if (window.userId === '') {
+    gtag('event', 'Display', {'event_label': '2CAcquisitionWebPBoxNon', 'event_category': 'PromoBox', 'non_interaction': true});
+    }
+    </script>
+    </div>
+    <script type="text/javascript">
+    function addUserId(ele) {
+    if (ele === null) {
+    return;
+    }
+    var userId;
+    if (typeof GetCookie === 'function') {
+    userId = GetCookie('USER_ID');
+    } else {
+    userId = getCookie('USER_ID');
+    }
+    if (userId && typeof userId === 'string' && userId !== '') {
+    var link = ele.href;
+    var connector = (link.indexOf('?') >= 0) ? '&' : '?';
+    ele.href = link + connector + 'u=' + userId;
+    }
+    }
+    var premiumLink = document.querySelector('[data-promo-target=premium]');
+    addUserId(premiumLink);
+    </script>
+    <header class="header-container">
+    <div class="header-inner">
+    <div class="header-title">FT中文网</div>
+    <a href="/" class="header-side header-left">
+    <div class="header-brand"><figure class="loading logo" data-url="https://thumbor.ftacademy.cn/unsafe/0x114/https://d2785ji6wtdqx8.cloudfront.net/img/png/brand-ftc-masthead.png"></figure></div>
+    </a>
+    <div class="header-side header-right">
+    <span class="visitor-box">
+    <a onclick="showOverlay('overlay-login')">登录</a>
+    <a class="more last" href="http://user.ftchinese.com/register">免费注册</a>
+    </span>
+    <span class="member-box">
+    <a href="/channel/myftlocal.html">我的FT</a>
+    <a id="ft-login-your-account" href="/users/cp">设置</a>
+    <a id="ft-login-logout" href="/users/logout">登出</a>
+    </span>
+    </div>
+    </div>
+    </header>
+    <div class="overlay-container" id="overlay-login">
+    <div class="overlay-inner">
+    <div class="overlay-bg" data-parentid="overlay-login"></div>
+    <div class="overlay-content-outer">
+    <div class="overlay-content-inner">
+    <div class="overlay-content">
+    <div class="overlay-title">登录<i class="overlay-close" data-parentid="overlay-login">×</i></div>
+    <form method="post" action="/users/login" id="overlay-login-form">
+    <span id="overlay-login-container">
+    <div class="input-title" id="login-reason"></div>
+    <div class="input-title">电子邮件/用户名</div>
+    <div class="input-container"><input type="text" class="input-oneline" name="username" id="ft-login-input-username"></div>
+    <div class="input-title">密码</div>
+    <div class="input-container"><input type="password" class="input-oneline" name="password" id="ft-login-input-password"></div>
+    <div><input type="checkbox" class="checkbox" value="1" checked="checked" name="saveme" id="ft-login-input-remember">记住我</div>
+    <div class="login-btn input-submit-container center"><input class="" type="submit" value="登录"></div>
+    <div class="center register-find"><a href="/register" class="blue-link">免费注册</a><span></span><a href="/users/findpassword" class="blue-link">找回密码</a></div>
+    <div class="phone-login-container" id="phone-login-trigger">
+    <div class="center phone-login"><a onclick="showPhoneLogin()" class="blue-link">短信登录</a></div>
+    </div>
+    <div class="wx-login-container">
+    <div class="center wx-login"><a href="https://www.ftacademy.cn/wxlogin" class="blue-link">微信登录</a></div>
+    </div>
+    </span>
+    </form>
+    <span id="phone-ftc-binding-container">
+    <div>请输入邮箱和密码进行绑定操作：</div>
+    <div><input placeholder="请输入邮箱" type="email" autocorrect="off" id="phone-binding-email" class="input-oneline"/></div>
+    <div><input placeholder="请输入密码" type="password" class="input-oneline" id="phone-binding-password"/></div>
+    <div class="topmargin statusmsg" id="phone-binding-status"></div>
+    <div><input type="button" value="绑定" class="n-button-inner" onclick="binding('phone')"/></div>
+    </span>
+    <span id="phone-login-container">
+    <div class="user-name-container">请输入手机号码，通过短信验证（目前仅支持中国大陆地区的手机号）：</div>
+    <div><input onkeyup="resetPhoneLogin()" placeholder="请输入中国大陆的手机号码" type="tel" autocorrect="off" name="phone" id="phone-number" class="input-oneline"/></div>
+    <div><input placeholder="请输入验证码"  pattern="\d*" maxlength="6" name="phonecapcha"  class="input-oneline" id="phone-captcha"/></div>
+    <div class="topmargin statusmsg" id="phone-login-status"></div>
+    <div>请您阅读我们的<a class="agreeDetail" href="/m/corp/service.html" target="_blank">用户注册协议</a>和<a class="agreeDetail" href="/m/corp/service.html#privacy" target="_blank">隐私权保护政策</a>，点击下方按钮即视为您接受。</div>
+    <div><input id="phone-login-submit-button" type="button" value="获取验证码" class="n-button-inner" onclick="phoneLogin()"/></div>
+    </span>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div><div class="o-nav__placeholder">
+    <div class="o-nav">
+    <div class="o-nav__outer">
+    <div class="o-nav__inner">
+    <div class="o-nav__search"  data-o-component="o-toggler">
+    <button class="o-nav__search-toggle" data-o-toggler-button aria-controls="search-form">
+    <span class="search-toggle--open">搜索</span>
+    <span class="search-toggle--close">关闭</span>
+    </button>
+    <form action="/search/" id="search-form" role="search" data-o-toggler-target>
+    <input id="search-term" type="search" name="keys" class="search-input" placeholder="输入年月日‘xxxx-xx-xx’可搜索该日存档" />
+    <input id="type_news" type="hidden" value="type_news" name="ftsearchType" checked />
+    <button class="search-button" tabindex="1"><span>搜索</span></button>
+    </form>
+    </div>
+    <div class="o-header__masthead-mobile">
+    <a href="/" title="前往FT中文网首页"><span>FT中文网</span></a>
+    </div>
+    <nav class="o-nav__container" role="navigation">
+    <button class="nav-toggle" data-o-nav-togglable><span>Menu</span></button>
+    <ol class="o-nav__meganav">
+    <li class="nav-section mobile">
+    <button class="nav-section-head mobile" aria-selected="true">切换版本</button>
+    <ol class="nav-items">
+    <li class="nav-item">
+    <a class="nav-link" href="https://big5.ftchinese.com/">繁体中文版</a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" href="http://www.ft.com/">FT.com</a>
+    </li>
+    </ol>
+    </li>
+    <li class="nav-section home "
+     aria-selected="true" data-section="home"
+    >
+    <button class="nav-section-head mobile">首页</button>
+    <a class="nav-section-head desktop" href="/">首页</a>
+    <ol class="nav-items">
+    <li class="nav-item mobile">
+    <a class="nav-link" href="/">
+    FT中文网首页
+    </a>
+    </li>
+    <li class="nav-item"  aria-haspopup="true" data-channel="special">
+    <a class="nav-link" href="/channel/special.html">特别报导</a>
+    <ol class="nav-sub-items">
+    <li><a href="https://pif.ftmailbox.cn/">创投新模式：立足当下 改变未来</a></li>
+    <li><a href="/tag/可持续发展">理想未来，共生永存-可持续发展</a></li>
+    <li><a href="/m/marketing/antfinancial.html">“新四大发明”背后的中国浪潮</a></li>
+    <li><a href="/tag/与FT共进午餐">与FT共进午餐</a></li>
+    <li><a href="/tag/智慧城市群">西门子·智慧城市群</a></li>
+    <li><a href="/m/marketing/creditease.html">未来生活 未来金融</a></li>
+    </ol>
+    </li>
+    <li class="nav-item"  data-channel="premiumsubscription">
+    <a class="nav-link" href="/channel/premiumsubscription.html">高端订阅</a>
+    </li>
+    <li class="nav-item"  data-channel="standardsubscription">
+    <a class="nav-link" href="/channel/standardsubscription.html">标准订阅</a>
+    </li>
+    <li class="nav-item"  data-channel="weekly">
+    <a class="nav-link" href="/channel/weekly.html">热门文章</a>
+    </li>
+    <li class="nav-item"  data-channel="event">
+    <a class="nav-link" href="/m/events/event.html">会议活动</a>
+    </li>
+    <li class="nav-item"  data-channel="member">
+    <a class="nav-link" href="/m/marketing/home.html">市场活动</a>
+    </li>
+    <li class="nav-item"  data-channel="mba">
+    <a class="nav-link" href="/channel/mba.html">FT商学院</a>
+    </li>
+    <li class="nav-item"  data-channel="ebook">
+    <a class="nav-link" href="/m/marketing/ebook.html">FT电子书</a>
+    </li>
+    <li class="nav-item"  data-channel="job">
+    <a class="nav-link" href="https://ft.wd3.myworkdayjobs.com/FT_Chinese_External_Careers">职业机会</a>
+    </li>
+    <li class="nav-item"  data-channel="ftmall">
+    <a class="nav-link" href="https://h5.youzan.com/v2/showcase/homepage?alias=16e315o1t">FT商城</a>
+    </li>
+    <li class="nav-item"  data-channel="nikkei">
+    <a class="nav-link" href="/tag/日经中文网精选">日经中文网精选</a>
+    </li>
+    </ol>
+    </li>
+    <li class="nav-section china "
+     data-section="china"
+    >
+    <button class="nav-section-head mobile">中国</button>
+    <a class="nav-section-head desktop" href="/channel/china.html">中国</a>
+    </li>
+    <li class="nav-section world "
+     data-section="world"
+    >
+    <button class="nav-section-head mobile">全球</button>
+    <a class="nav-section-head desktop" href="/channel/world.html">全球</a>
+    </li>
+    <li class="nav-section economy "
+     data-section="economy"
+    >
+    <button class="nav-section-head mobile">经济</button>
+    <a class="nav-section-head desktop" href="/channel/economy.html">经济</a>
+    </li>
+    <li class="nav-section markets "
+     data-section="markets"
+    >
+    <button class="nav-section-head mobile">金融市场</button>
+    <a class="nav-section-head desktop" href="/channel/markets.html">金融市场</a>
+    </li>
+    <li class="nav-section business "
+     data-section="business"
+    >
+    <button class="nav-section-head mobile">商业</button>
+    <a class="nav-section-head desktop" href="/channel/business.html">商业</a>
+    </li>
+    <li class="nav-section innovation "
+     data-section="innovation"
+    >
+    <button class="nav-section-head mobile">创新经济</button>
+    <a class="nav-section-head desktop" href="/channel/innovation.html">创新经济</a>
+    </li>
+    <li class="nav-section education "
+     data-section="education"
+    >
+    <button class="nav-section-head mobile">教育</button>
+    <a class="nav-section-head desktop" href="/channel/education.html?newnav=yes">教育</a>
+    </li>
+    <li class="nav-section opinion "
+     data-section="opinion"
+    >
+    <button class="nav-section-head mobile">观点</button>
+    <a class="nav-section-head desktop" href="/channel/opinion.html">观点</a>
+    </li>
+    <li class="nav-section management "
+     data-section="management"
+    >
+    <button class="nav-section-head mobile">管理</button>
+    <a class="nav-section-head desktop" href="/channel/management.html">管理</a>
+    </li>
+    <li class="nav-section lifestyle "
+     data-section="lifestyle"
+    >
+    <button class="nav-section-head mobile">生活时尚</button>
+    <a class="nav-section-head desktop" href="/channel/lifestyle.html">生活时尚</a>
+    </li>
+    <li class="nav-section stream "
+     data-section="stream"
+    >
+    <button class="nav-section-head mobile">视频</button>
+    <a class="nav-section-head desktop" href="/channel/stream.html">视频</a>
+    </li>
+    <li class="nav-section audio "
+     data-section="audio"
+    >
+    <button class="nav-section-head mobile">音频</button>
+    <a class="nav-section-head desktop" href="/channel/audio.html">音频</a>
+    </li>
+    <li class="nav-section english "
+     data-section="english"
+    >
+    <button class="nav-section-head mobile">每日英语</button>
+    <a class="nav-section-head desktop" href="/channel/english.html">每日英语</a>
+    </li>
+    <li class="nav-section rewired "
+     data-section="rewired"
+    >
+    <button class="nav-section-head mobile">换脑ReWired</button>
+    <a class="nav-section-head desktop" href="/channel/rewired.html">换脑ReWired</a>
+    </li>
+    <li class="nav-section mobile login">
+    <ul>
+    <li class="nav-item">
+    <a class="nav-link" onclick="showOverlay('overlay-login')">登录</a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" href="http://user.ftchinese.com/register">免费注册</a>
+    </li>
+    </ul>
+    </li>
+    <li class="nav-section mobile logout">
+    <ul>
+    <li class="nav-item">
+    <a class="nav-link" href="/channel/myftlocal.html">我的FT</a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" href="/users/setting/vip">会员中心</a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" href="/users/setting/index">设置</a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" href="/users/logout">登出</a>
+    </li>
+    </ul>
+    </li>
+    </ol>
+    </nav>
+    <a class="header-left-ai-icon-mobile P-only" href="/ftacademy.php"></a>
+    <ul class="o-nav__extra-tools">
+    <li class="tools-section" aria-haspopup="true">
+    <a class="tools-section-head" href="/m/corp/follow.html">关注我们</a>
+    <ol class="tools-items">
+    <li><a href="/m/corp/follow.html" target="_blank">微信公众号</a></li>
+    <li><a href="http://weibo.com/ftchinese" target="_blank">新浪微博</a></li>
+    <li><a href="/m/corp/follow.html" target="_blank">Flipboard</a></li>
+    <li><a href="https://twitter.com/FTChinese" target="_blank">Twitter</a></li>
+    <li><a href="https://www.facebook.com/financialtimeschinese" target="_blank">Facebook</a></li>
+    <li><a href="https://www.linkedin.com/company/4865254?trk=hp-feed-company-name" target="_blank">LinkedIn</a></li>
+    </ol>
+    </li>
+    <li class="tools-section" aria-haspopup="true">
+    <span class="tools-section-head">工具</span>
+    <ol class="tools-items">
+    <li><a href="http://app.ftchinese.com/" class="o-client-id-link">移动应用大全</a></li>
+    <li><a href="/users/setting/index">基本设置</a></li>
+    <li><a href="/users/setting/vip">会员中心</a></li>
+    <li><a href="/users/setting/maillist">邮件订阅</a></li>
+    <li><a href="/index.php/snsapi/index">同步微博</a></li>
+    <li><a href="/users/commentstory">我的评论</a></li>
+    <li><a href="/users/favstorylist">管理收藏</a></li>
+    </ol>
+    </li>
+    <li class="tools-section">
+    <a class="tools-section-head follow__rss" href="/channel/rss.html" title="RSS"><span>RSS</span></a>
+    </li>
+    </ul>
+    </div><!-- o-nav__inner -->
+    </div><!-- o-nav__outer -->
+    <div class="o-nav__meganav-placeholder"></div>
+    </div><!-- o-nav -->
+    </div>
+    <div class="story-hero-container travel">
+    <div class="story-hero-inner">
+    <div class="story-hero-intro">
+    <div class="story-hero-intro-container">
+    <div class="story-hero-logo" style="background-image: url(https://www.ft.com/__assets/creatives/globetrotter/cities/800w/hong-kong.jpg)"></div>
+    <div class="story-hero-tag">FT环球旅行家</div>
+    <div class="story-hero-title">与FT共游香港</div>
+    <div class="story-hero-content"><p>探索 • 美食 • 运动 • 体验 • 启发</p></div>
+    <div class="story-hero-sponsor">
+    <span class="story-hero-sponsor-credit">赞助商：</span>
+    <div class="story-hero-sponsor-logo" style="background-image: url(https://www.ft.com/__assets/creatives/globetrotter/cities/800w/hong-kong.jpg)"></div>
+    </div>
+    </div>
+    </div>
+    </div>
+    <div class="story-hero-image"><figure data-url="https://www.ft.com/__assets/creatives/globetrotter/cities/800w/hong-kong.jpg" class="loading"></figure></div>
+    </div>
+    <style>
+    .partner-container {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 99999;
+    height: 35px;
+    border-bottom: 5px solid #ccc;
+    box-sizing: content-box;
+    }
+    .partner-inner {
+    height: 100%;
+    max-width: 1230px;
+    margin: auto;
+    position: relative;
+    }
+    .partner-inner .main-content {
+    text-align: center;
+    color: #355778;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 25px;
+    cursor: pointer;
+    }
+    .partner-inner .main-content::after {
+    content: '';
+    display: inline-block;
+    background-image: url('https://ft-bc-cms.herokuapp.com/_resources/themes/simpleBC/dist/static/pcHeader/information_hover.png?m=1611672393');
+    width: 17px;
+    height: 17px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin-left: 5px;
+    }
+    .partner-inner .left-icon {
+    position: absolute;
+    line-height: 35px;
+    left: 15px;
+    top: 0;
+    bottom: 0;
+    color: #939598;
+    font-size: 20px;
+    text-transform: uppercase;
+    font-weight: 600;
+    }
+    .partner-inner .right-icon {
+    position: absolute;
+    line-height: 35px;
+    right: 15px;
+    top: 0;
+    bottom: 0;
+    color: #939598;
+    }
+    .partner-inner .right-icon::before {
+    content: '分享';
+    display: inline-block;
+    }
+    .partner-inner .right-icon::after {
+    content: '';
+    display: inline-block;
+    width: 13px;
+    height: 17px;
+    background-image: url('https://ft-bc-cms.herokuapp.com/_resources/themes/simpleBC/dist/static/pcHeader/btn_export.png?m=1611672393');
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-left: 5px;
+    }
+    .partner-inner .explain {
+    display: none;
+    position: absolute;
+    background: #fff;
+    -webkit-box-shadow: 0 1px 4px rgb(77 72 69 / 15%), 0 8px 14px rgb(77 72 69 / 20%);
+    box-shadow: 0 1px 4px rgb(77 72 69 / 15%), 0 8px 14px rgb(77 72 69 / 20%);
+    top: 55px;
+    max-width: 325px;
+    width: 100%;
+    right: 50%;
+    -webkit-transform: translate(50%);
+    transform: translate(50%);
+    padding: 15px;
+    text-align: center;
+    }
+    .partner-inner .explain.on {
+    display: block;
+    }
+    .partner-inner .shares {
+    cursor: pointer;
+    }
+    .partner-inner .share {
+    display: none;
+    position: absolute;
+    background: #fff;
+    -webkit-box-shadow: 0 1px 4px rgb(77 72 69 / 15%), 0 8px 14px rgb(77 72 69 / 20%);
+    box-shadow: 0 1px 4px rgb(77 72 69 / 15%), 0 8px 14px rgb(77 72 69 / 20%);
+    top: 55px;
+    max-width: 325px;
+    width: 100%;
+    right: 50%;
+    -webkit-transform: translate(50%);
+    transform: translate(50%);
+    padding: 15px;
+    text-align: center;
+    }
+    .partner-inner .share.on {
+    display: block;
+    }
+    .explain-btn, .share-btn {
+    position: absolute;
+    cursor: pointer;
+    right: 5px;
+    top: 0;
+    }
+    .explain-btn img, .share-btn img {
+    height: 10px;
+    }
+    .share-title {
+    font-weight: bold;
+    text-align: center;
+    }
+    .pc__share-more-btn__link {
+    display: inline-block;
+    width: 40px;
+    margin: 15px;
+    }
+    @media only screen and (max-width: 490px) {
+    .partner-inner .right-icon::before {
+    display: none;
+    }
+    }
+    </style>
+    <div class="partner-container">
+    <div class="partner-inner">
+    <div class="main-content">FT环球旅行家-与FT共游香港</div>
+    <div class="left-icon">Bvlgari</div>
+    <div class="right-icon shares"></div>
+    <div class="explain">
+    <div class="explain-btn">
+    <img src="https://ft-bc-cms.herokuapp.com/_resources/themes/simpleBC/dist/static/pcHeader/close.svg?m=1611672393">
+    </div>
+    
+    </div>
+    <div class="share">
+    <div class="share-btn">
+    <img src="https://ft-bc-cms.herokuapp.com/_resources/themes/simpleBC/dist/static/pcHeader/close.svg?m=1611672393">
+    </div>
+    <div class="share-title">分享</div>
+    <div class="pc__share-more-btn">
+    <div class="pc__share-more-btn__link -fb">
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.ftchinese.com/channel/page/cytiva" target="_blank">
+    <div class="pc__share-more-link-btn">
+    <div class="pc__share-more-link-btn-img">
+    <img src="https://ft-bc-cms.herokuapp.com/_resources/themes/simpleBC/dist/static/social/facebook.png?m=1611672393">
+    </div>
+    </div>
+    </a>
+    </div>
+    <div class="pc__share-more-btn__link -tw">
+    <a href="https://twitter.com/share?url=https://www.ftchinese.com/channel/page/cytiva&amp;text=The+Global+Biopharma+Resilience+Index&amp;related=ftcompanies&amp;via=ft_content" target="_blank">
+    <div class="pc__share-more-link-btn">
+    <div class="pc__share-more-link-btn-img">
+    <img src="https://ft-bc-cms.herokuapp.com/_resources/themes/simpleBC/dist/static/social/twitter.png?m=1611672393">
+    </div>
+    </div>
+    </a>
+    </div>
+    <div class="pc__share-more-btn__link -li">
+    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.ftchinese.com/channel/page/cytiva&amp;title=The+Global+Biopharma+Resilience+Index&amp;summary=&amp;source=@ft_content" target="_blank">
+    <div class="pc__share-more-link-btn">
+    <div class="pc__share-more-link-btn-img">
+    <img src="https://ft-bc-cms.herokuapp.com/_resources/themes/simpleBC/dist/static/social/linkedin.png?m=1611672393">
+    </div>
+    </div>
+    </a>
+    </div>
+    <div class="pc__share-more-btn__link -wa">
+    <a href="whatsapp://send?text=The+Global+Biopharma+Resilience+Index-https://www.ftchinese.com/channel/page/cytiva" target="_blank">
+    <div class="pc__share-more-link-btn">
+    <div class="pc__share-more-link-btn-img">
+    <img src="https://ft-bc-cms.herokuapp.com/_resources/themes/simpleBC/dist/static/social/whatsapp.png?m=1611672393">
+    </div>
+    </div>
+    </a>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    <script>
+    function toggleEle(className) {
+    var ele = document.querySelector('.partner-inner .' + className);
+    console.log(ele);
+    if (!ele) {return;}
+    ele.classList.toggle('on');
+    }
+    function toggleExplain() {
+    toggleEle('explain');
+    }
+    function toggleShare() {
+    toggleEle('share');
+    }
+    document.querySelector('.main-content').onclick = toggleExplain;
+    document.querySelector('.explain-btn').onclick = toggleExplain;
+    document.querySelector('.right-icon.shares').onclick = toggleShare;
+    document.querySelector('.share-btn').onclick = toggleShare;
+    </script><div class="block-container no-side">
+    <div class="block-inner">
+    <div class="content-container">
+    <div class="content-inner">
+    <div class="list-container">
+    <div class="list-inner">
+    <div class="items hide" id="membership-login-prompt">
+    <div class="no-image">
+    <div class="item-inner">
+    <div class="item-lead">
+    <a href="screen://myft/account">您还没有登录。如果您希望更方便地享受您购买的会员服务，请点击此处登录或注册新用户。</a>
+    </div>
+    </div>
+    </div>
+    </div>
+    <div class="items hide" id="subscriber-contact-confirm">
+    <div class="no-image">
+    <div class="item-inner">
+    <div class="item-lead"><a href="https://www.ftchinese.com/m/corp/preview.html?pageid=subscriptioninfoconfirm&to=all">为保障您的订阅权益，请点击此处确认您的联系方式</a></div>
+    </div>
+    </div>
+    </div>
+    <div class="items hide" id="membership-yellow-card-prompt">
+    <div class="no-image">
+    <div class="item-inner">
+    <div class="item-lead">
+    <div class="warn">亲爱的会员，您的账户近期在多台设备上异常登录。您的账户仅限您本人使用，如不是您本人操作，可能您的账号已泄漏。请您尽快进行如下操作：</div>
+    <div class="warn">1. <a href="https://user.ftchinese.com/setting" target="_blank">修改密码，并妥善保护好新密码</a>。</div>
+    <div class="warn">2. <a class="email-link" href="mailto: customer.service@ftchinese.com?subject=Appeal: Warning">点击此处寻求帮助</a>。</div>
+    <div class="warn">为了保护您的利益，我们已经暂时锁定您的订阅账户，如有疑问，请联系客服。</div>
+    </div></div>
+    </div>
+    </div>
+    </div>
+    <script>window.gYellowCardUserIds = '';</script>
+    <div class="items hide" id="membership-red-card-prompt">
+    <div class="no-image">
+    <div class="item-inner">
+    <div class="item-lead"><div class="warn">
+    亲爱的会员，您的账号近期在多台设备上频繁异常登录。您的账户仅限您本人使用。为了保证您的利益，该账户已被暂时锁定。您可以：
+    <a class="email-link" href="mailto: customer.service@ftchinese.com?subject=Appeal: Red Warning">点击此处与我们联系进行认证</a>。
+    </div></div>
+    </div>
+    </div>
+    </div>
+    <script>window.gRedCardUserIds = '';</script>
+    <script>checkUserWarnings();</script>
+    </div>
+    </div>
+    <div class="clearfloat block-bottom"></div>
+    </div>
+    </div>
+    <div class="clearfloat"></div>
+    </div>
+    </div>
+    <div class="block-container dark-green has-side side-right all" ><div class="block-inner">
+    <div class="content-container">
+    <div class="content-inner">
+    
+    <div class="list-container"><div class="list-inner"><div class="items">
+    
+     
+    
+    <div class="item-container XL8 L12 M12 S12 S-double-width P12 has-image" data-update="1733314645"><div class="item-inner">
+    <h2 class="item-headline"><a target="_blank" href="/interactive/183608" class="item-headline-link locked vip">完美呈现：2024年最佳花园和室内装饰书籍 </a></h2>
+    <a class="image" target="_blank" href="/interactive/183608" >
+    <figure class="loading" data-url="https://thumbor.ftmailbox.cn/unsafe//picture/0/000253170_piclink.jpg"></figure>
+    </a>
+    <div class="item-lead"></div>
+    <div class="item-bottom"></div>
+    </div></div>
+    
+     
+    <div class=" LT MT PT ST"></div>
+    <div class="item-container XL4 XL-right XL-no-tag L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1732428168"><div class="item-inner">
+    <h2 class="item-headline"><a target="_blank" href="/interactive/182026" class="item-headline-link locked vip">罗歇之家为何成为巴黎最受关注的公寓</a></h2>
+    <a class="image" target="_blank" href="/interactive/182026" >
+    <figure class="loading" data-url="https://thumbor.ftmailbox.cn/unsafe//picture/1/000251631_piclink.jpg"></figure>
+    </a>
+    <div class="item-lead"></div>
+    <div class="item-bottom"></div>
+    </div></div>
+    <div data-o-ads-name="infoflow1" class="o-ads infoflow" data-o-ads-formats-default="false" data-o-ads-formats-small="FtcInfoFlow" data-o-ads-formats-medium="false" data-o-ads-formats-large="false" data-o-ads-formats-extra="false" data-o-ads-targeting="cnpos=info1;"></div>
+     
+    <div class=" MT PT"></div>
+    <div class="item-container XL4 XL-right XL-half XL-no-tag L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1728090123"><div class="item-inner">
+    <h2 class="item-headline"><a target="_blank" href="/interactive/174341" class="item-headline-link locked vip">西方奢侈品牌借助文化联系引起中国买家共鸣</a></h2>
+    <a class="image" target="_blank" href="/interactive/174341" >
+    <figure class="loading" data-url="https://thumbor.ftmailbox.cn/unsafe//picture/6/000244366_piclink.jpg"></figure>
+    </a>
+    <div class="item-lead">展览、委托当地艺术家和教育活动越来越受到消费者的欢迎。</div>
+    <div class="item-bottom"></div>
+    </div></div>
+    
+     
+    <div class="XLT LT MT PT ST"></div>
+    <div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1728203775"><div class="item-inner">
+    <h2 class="item-headline"><a target="_blank" href="/interactive/174502" class="item-headline-link locked vip">艺术家劳伦斯•莱克利用AI探索机器人是否会感受到痛苦</a></h2>
+    <a class="image" target="_blank" href="/interactive/174502" >
+    <figure class="loading" data-url="https://thumbor.ftmailbox.cn/unsafe//picture/7/000244507_piclink.jpg"></figure>
+    </a>
+    <div class="item-lead">2024年弗里兹艺术家奖的获得者创造了一个有情绪问题的“护理机器人”。</div>
+    <div class="item-bottom"></div>
+    </div></div>
+    
+     
+    <div class=" MT PT"></div>
+    <div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1728782454"><div class="item-inner">
+    <h2 class="item-headline"><a target="_blank" href="/interactive/175513" class="item-headline-link locked vip">离开喀布尔：塔利班回归后发生了什么</a></h2>
+    <a class="image" target="_blank" href="/interactive/175513" >
+    <figure class="loading" data-url="https://thumbor.ftmailbox.cn/unsafe//picture/4/000245414_piclink.jpg"></figure>
+    </a>
+    <div class="item-lead">阿富汗实行民主20年后的一天早上，总统出逃，战斗人员进入城市。我和儿子逃了出来。</div>
+    <div class="item-bottom"></div>
+    </div></div>
+    
+     
+    <div class=" LT MT PT ST"></div>
+    <div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1731675801"><div class="item-inner">
+    <h2 class="item-headline"><a target="_blank" href="/interactive/180799" class="item-headline-link whitelist">房屋与家居滑雪生活特惠</a></h2>
+    <a class="image" target="_blank" href="/interactive/180799" >
+    <figure class="loading" data-url="https://thumbor.ftmailbox.cn/unsafe//picture/7/000250347_piclink.jpg"></figure>
+    </a>
+    <div class="item-lead">在我们的季节性特辑中，我们将从瑞士的房产热点到不列颠哥伦比亚省的房产热点，权衡当代木屋和传统草皮小屋的吸引力，照亮根植于阿尔卑斯文化的艺术和设计--并探索如何在山区享受全年生活。</div>
+    <div class="item-bottom"></div>
+    </div></div>
+    <div data-o-ads-name="mpu-middle1" class="o-ads" data-o-ads-formats-default="false" data-o-ads-formats-small="FtcMobileMpu" data-o-ads-formats-medium="false" data-o-ads-formats-large="false" data-o-ads-formats-extra="false" data-o-ads-targeting="cnpos=middle1;" data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"MPU","position":"Middle1"}]'></div>
+     
+    <div class="XLT MT PT"></div>
+    <div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1731735939"><div class="item-inner">
+    <h2 class="item-headline"><a target="_blank" href="/interactive/180887" class="item-headline-link locked vip">滑雪中的艺术人群为度假胜地带来文化高潮 </a></h2>
+    <a class="image" target="_blank" href="/interactive/180887" >
+    <figure class="loading" data-url="https://thumbor.ftmailbox.cn/unsafe//picture/6/000250416_piclink.jpg"></figure>
+    </a>
+    <div class="item-lead"></div>
+    <div class="item-bottom"></div>
+    </div></div>
+    
+     
+    <div class=" LT MT PT ST"></div>
+    <div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1731755232"><div class="item-inner">
+    <h2 class="item-headline"><a target="_blank" href="/interactive/180915" class="item-headline-link locked vip">大都会博物馆的秘密员工艺术展不再神秘</a></h2>
+    <a class="image" target="_blank" href="/interactive/180915" >
+    <figure class="loading" data-url="https://thumbor.ftmailbox.cn/unsafe//picture/7/000250447_piclink.jpg"></figure>
+    </a>
+    <div class="item-lead"></div>
+    <div class="item-bottom"></div>
+    </div></div>
+    
+     
+    <div class=" MT PT"></div>
+    <div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1731915812"><div class="item-inner">
+    <h2 class="item-headline"><a target="_blank" href="/interactive/181085" class="item-headline-link locked vip">房屋博物馆第93号： 弗雷德里克-埃德温-丘奇的奥拉娜</a></h2>
+    <a class="image" target="_blank" href="/interactive/181085" >
+    <figure class="loading" data-url="https://thumbor.ftmailbox.cn/unsafe//picture/8/000250648_piclink.jpg"></figure>
+    </a>
+    <div class="item-lead">一位艺术家梦幻般的美国风景和他充满波斯风情的家。</div>
+    <div class="item-bottom"></div>
+    </div></div>
+    
+     
+    <div class="XLT LT MT PT ST"></div>
+    <div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1732695872"><div class="item-inner">
+    <h2 class="item-headline"><a target="_blank" href="/interactive/182494" class="item-headline-link locked vip">迈阿密的私人美术馆--伟大的继承问题</a></h2>
+    <a class="image" target="_blank" href="/interactive/182494" >
+    <figure class="loading" data-url="https://thumbor.ftmailbox.cn/unsafe//picture/5/000252145_piclink.jpg"></figure>
+    </a>
+    <div class="item-lead">一代杰出的收藏家让这座城市充满了生机勃勃的艺术空间。但是，他们会比他们的创始人更长寿吗？</div>
+    <div class="item-bottom"></div>
+    </div></div>
+    <div data-o-ads-name="infoflow2" class="o-ads infoflow" data-o-ads-formats-default="false" data-o-ads-formats-small="FtcInfoFlow" data-o-ads-formats-medium="false" data-o-ads-formats-large="false" data-o-ads-formats-extra="false" data-o-ads-targeting="cnpos=info2;"></div>
+     
+    <div class=" MT PT"></div>
+    <div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1732816244"><div class="item-inner">
+    <h2 class="item-headline"><a target="_blank" href="/interactive/182793" class="item-headline-link locked vip">2024年迈阿密海滩巴塞尔艺术博览会</a></h2>
+    <a class="image" target="_blank" href="/interactive/182793" >
+    <figure class="loading" data-url="https://thumbor.ftmailbox.cn/unsafe//picture/3/000252433_piclink.jpg"></figure>
+    </a>
+    <div class="item-lead">博览会新任总监布里奇特-芬恩(Bridget Finn)谈在分裂的美国销售艺术品。另外：对迈阿密画廊继承人Anastasia Samoylova的采访。</div>
+    <div class="item-bottom"></div>
+    </div></div>
+    
+     
+    <div class=" LT MT PT ST"></div>
+    <div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1733206587"><div class="item-inner">
+    <h2 class="item-headline"><a target="_blank" href="/interactive/183360" class="item-headline-link locked vip">值得珍藏的记忆</a></h2>
+    <a class="image" target="_blank" href="/interactive/183360" >
+    <figure class="loading" data-url="https://thumbor.ftmailbox.cn/unsafe//picture/4/000252934_piclink.jpg"></figure>
+    </a>
+    <div class="item-lead"></div>
+    <div class="item-bottom"></div>
+    </div></div>
+    
+     
+    <div class="XLT MT PT"></div>
+    <div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1732874490"><div class="item-inner">
+    <h2 class="item-headline"><a target="_blank" href="/interactive/182892" class="item-headline-link locked vip">马略卡联排别墅，每个房间都是画廊</a></h2>
+    <a class="image" target="_blank" href="/interactive/182892" >
+    <figure class="loading" data-url="https://thumbor.ftmailbox.cn/unsafe//picture/5/000252515_piclink.jpg"></figure>
+    </a>
+    <div class="item-lead"></div>
+    <div class="item-bottom"></div>
+    </div></div>
+    
+     
+    <div class=" LT MT PT ST"></div>
+    <div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1732879160"><div class="item-inner">
+    <h2 class="item-headline"><a target="_blank" href="/interactive/182901" class="item-headline-link locked vip">如何度过12月</a></h2>
+    <a class="image" target="_blank" href="/interactive/182901" >
+    <figure class="loading" data-url="https://thumbor.ftmailbox.cn/unsafe//picture/8/000252528_piclink.jpg"></figure>
+    </a>
+    <div class="item-lead"></div>
+    <div class="item-bottom"></div>
+    </div></div>
+    <div data-o-ads-name="mpu-middle2" class="o-ads" data-o-ads-formats-default="false" data-o-ads-formats-small="FtcMobileMpu" data-o-ads-formats-medium="false" data-o-ads-formats-large="false" data-o-ads-formats-extra="false" data-o-ads-targeting="cnpos=middle2;" data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"MPU","position":"Middle2"}]'></div>
+     
+    <div class=" MT PT"></div>
+    <div class="item-container XL4 L6 L-half M12 M-half S6 P12 P-half has-image" data-update="1733159245"><div class="item-inner">
+    <h2 class="item-headline"><a target="_blank" href="/interactive/183291" class="item-headline-link locked vip">不容错过--半边天最受欢迎的报道</a></h2>
+    <a class="image" target="_blank" href="/interactive/183291" >
+    <figure class="loading" data-url="https://thumbor.ftmailbox.cn/unsafe//picture/9/000252859_piclink.jpg"></figure>
+    </a>
+    <div class="item-lead">以下是本周深受读者喜爱的故事--从秋季盛宴特辑到吟唱的治愈力量。</div>
+    <div class="item-bottom"></div>
+    </div></div>
+    <div class="clearfloat"></div>
+    </div>
+    </div></div>      <div class="clearfloat block-bottom"></div>
+    </div>  </div>  <!--smarty sideMpuCount in block: -->
+    <div class="side-container"><div class="side-inner">
+        
+      <div 
+    data-o-ads-name="mpu-right1"
+    class="o-ads"  
+    data-o-ads-formats-default="false" 
+    data-o-ads-formats-small="false" 
+    data-o-ads-formats-medium="FtcMpu"
+    data-o-ads-formats-large="FtcMpu"
+    data-o-ads-targeting="cnpos=right1;"
+    data-cy='[{"devices":["PC","PadApp","PadWeb"],"pattern":"MPU","position":"Right1"}]'
+    >
+    </div>
+    <div 
+    data-o-ads-name="mpu-middle1"
+    class="o-ads"  
+    data-o-ads-formats-default="false" 
+    data-o-ads-formats-small="FtcMobileMpu" 
+    data-o-ads-formats-medium="false"
+    data-o-ads-formats-large="false"
+    data-o-ads-formats-extra="false"
+    data-o-ads-targeting="cnpos=middle1;"
+    data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp"],"pattern":"MPU","position":"Middle1"}]'
+    >
+    </div>
+      <div 
+    data-o-ads-name="mpu-right2"
+    class="o-ads ftc-mpu"  
+    data-o-ads-formats-default="false" 
+    data-o-ads-formats-small="false" 
+    data-o-ads-formats-medium="FtcMpu"
+    data-o-ads-formats-large="FtcMpu"
+    data-o-ads-targeting="cnpos=right2;"
+    data-cy='[{"devices":["PC","PadApp","PadWeb"],"pattern":"MPU","position":"Right2"}]'
+    >
+    </div>
+    <div 
+    data-o-ads-name="mpu-middle2"
+    class="o-ads" 
+    data-o-ads-formats-default="false" 
+    data-o-ads-formats-small="FtcMobileMpu" 
+    data-o-ads-formats-medium="false"
+    data-o-ads-formats-large="false"
+    data-o-ads-formats-extra="false"
+    data-o-ads-targeting="cnpos=middle2;"
+    data-cy='[{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"MPU","position":"Middle2"}]'
+    >
+    </div>
+            
+    </div>  </div>  <div class="clearfloat"></div>
+    </div> </div> <!--Pagination Included -->
+    <div class="pagination-container"><div class="pagination-inner"></div></div>
+    <script type="text/javascript">
+    function addPaginationHTML(maxIndex) {
+    var paginationEle = document.querySelector('.pagination-inner');
+    if (!paginationEle) {return;}
+    var p = paravalue(window.location.href, 'p');
+    if (p === '') {
+    p = 1;
+    }
+    var currentIndex = parseInt(p, 10);
+    if (typeof currentIndex !== 'number' || p <= 0) {return;}
+    var indexLength = (w && w>490) ? 10 : 5;
+    var startIndex = Math.max(1, currentIndex - Math.floor(indexLength/2));
+    var endIndex = startIndex + indexLength -1;
+    if (endIndex > maxIndex) {
+    endIndex = maxIndex;
+    startIndex = Math.max(1, endIndex - indexLength + 1);
+    }
+    var currentHTML = '';
+    var currentUrl = window.location.href.replace(/p=[0-9]+/g, '');
+    var connector = (currentUrl.indexOf('?') >= 0) ? '&' : '?';
+    currentUrl = currentUrl + connector;
+    currentUrl = currentUrl.replace(/\?&/g,'?').replace(/&+/g,'&');
+    for (var i=startIndex; i<=endIndex; i++) {
+    if (i === currentIndex) {
+    currentHTML += '<span class="current">' + i + '</span>';
+    } else {
+    currentHTML += '<a href="' + currentUrl + 'p=' + i + '">' + i + '</a>';
+    }
+    }
+    var nextIndex = currentIndex + 1;
+    if (nextIndex <= maxIndex) {
+    currentHTML += '<a href="' + currentUrl + 'p=' + nextIndex + '">&rsaquo;&rsaquo;下一页</a>';
+    }
+    if (endIndex < maxIndex) {
+    currentHTML += '<a href="' + currentUrl + 'p=' + maxIndex + '">&rsaquo;|</a>';
+    }
+    var prevIndex = currentIndex - 1; 
+    if (prevIndex >= 1) {
+    currentHTML = '<a href="' + currentUrl + 'p=' + prevIndex + '">上一页&lsaquo;&lsaquo;</a>' + currentHTML;
+    }
+    if (startIndex > 1) {
+    currentHTML = '<a href="' + currentUrl + 'p=1">|&lsaquo;</a>' + currentHTML;
+    }
+    paginationEle.innerHTML = currentHTML;
+    }
+    </script><div 
+    data-o-ads-name="paidpost2"
+    class="o-ads paid-post"  
+    data-o-ads-formats-default="false" 
+    data-o-ads-formats-small="false"
+    data-o-ads-formats-medium="false"
+    data-o-ads-formats-large="FtcPaidpost"
+    data-o-ads-formats-extra="FtcPaidpost"
+    data-o-ads-targeting="cnpos=paidpost2;"
+    >
+    </div>
+    <div 
+    data-o-ads-name="paidpost"
+    class="o-ads paid-post"  
+    data-o-ads-formats-default="false" 
+    data-o-ads-formats-small="false"
+    data-o-ads-formats-medium="false"
+    data-o-ads-formats-large="FtcPaidpost"
+    data-o-ads-formats-extra="FtcPaidpost"
+    data-o-ads-targeting="cnpos=paidpost;"
+    >
+    </div>
+    <div class="footer-container"><div class="footer-inner">
+    <div>
+    <a href="/m/corp/aboutus.html">关于我们</a>
+    <a href="https://ft.wd3.myworkdayjobs.com/FT_Chinese_External_Careers" target="_blank">加入我们</a>
+    <a href="/m/corp/faq.html">问题回馈</a>
+    <a href="/m/corp/contact.html">联系方式</a>
+    <a href="/m/corp/partner.html">合作伙伴</a>
+    <a href="/m/corp/service.html">服务条款</a>
+    <a href="/m/corp/sales.html">广告业务 </a>
+    <a href="/m/corp/copyright.html">版权声明</a>
+    <a href="/m/marketing/ftc.html">最新动态</a>
+    </div>
+    <p>
+    <span class="copyright"><b>© The Financial Times Ltd 2024</b></span> 
+    <span><acronym title="Financial Times">FT</acronym> and 'Financial Times' are trademarks of The Financial Times Ltd.</span>
+    </p>
+    </div></div>
+    <div class="debug-model-container">
+    <div style="text-align: center; background-color: #FFFFFF; font-size: 38px; margin: 20px;font-weight:bold;"><a title="刷新本页CDN与服务器缓存" href="/index.php/marketing/flushcache?url=https://www.ftchinese.com%2Fm%2Fcorp%2Fpreview.html%3Fpageid%3Dtest%26to%3Dall%26showImage%3Dyes">刷新本页缓存</a></div>
+    <div style="text-align: center; background-color: #FFFFFF; font-size: 38px; margin: 20px;font-weight:bold;"><a title="提取本页的所有链接，便于在谷歌分析中查询流量" onclick="javascript:getAllLinksFromPage(this);">提取本页链接</a></div>
+    <script>
+    function getAllLinksFromPage(ele) {
+    var allLinks = document.querySelectorAll('.item-container a[href]');
+    var linksArray = [];
+    var hostName = window.location.host;
+    for (var i=0; i<allLinks.length; i++) {
+    var linkText = allLinks[i].href;
+    linkText = linkText.replace('http://' + hostName, "");
+    if (/story\/|interactive\/|video\/|photonews/.test(linkText)) {
+    linkText = linkText.replace(/[\?#].*$/g, '');
+    if (linksArray.indexOf(linkText)<0) {
+    linksArray.push(linkText);
+    }
+    }
+    }
+    ele.innerHTML = '<textarea rows=3 style="width:100%">'+linksArray.join('|')+'</textarea>'
+    }
+    </script>
+    <style>
+    #promo-box-preview {
+    padding: 15px;
+    }
+    #promo-box-preview label {
+    width: 120px;
+    display: inline-block;
+    }
+    #promo-box-preview div {
+    line-height: 1.7em;
+    }
+    #promo-box-preview select, #promo-box-preview input {
+    width: 120px;
+    }
+    </style>
+    <div style="text-align: center; background-color: #FFFFFF; font-size: 38px; margin: 20px;font-weight:bold;"><a title="预览Promo Box的效果" onclick="javascript:previewPromoBox();">预览Promo Box</a></div>
+    <script type="text/javascript">
+    function previewPromoBox() {
+    var firstBanner = document.querySelector('[data-o-ads-name="banner1"]');
+    var newNode = document.createElement('DIV');
+    var formHTML = '<div><b>模拟各种会员身份：</b></div>';
+    formHTML += '<div><label>Type: </label><select data-key="promoTarget" class="o-input-text"><option value="noneSubscriber">noneSubscriber</option><option value="standard" selected="">standard</option><option value="premium">premium</option></select></div>';
+    formHTML += '<div><label>Source: </label><select data-key="SubscriberSource" class="o-input-text"><option value="2C" selected="">2C</option><option value="2B">2B</option><option value="All">All</option></select></div>';
+    formHTML += '<div><label>Duration: </label><select data-key="Duration" class="o-input-text"><option value=""></option><option value="yearly" selected="">yearly</option><option value="monthly">monthly</option></select></div>';
+    formHTML += '<div><label>Platform: </label><select data-key="Platform" class="o-input-text"><option value="WebSite">Web Site</option><option value="iOSApp">iOS App</option><option value="AndroidApp">Android App</option></select></div>';
+    formHTML += '<div><label>Expire: </label><input data-key="ExpireDate" type="text" value="" placeholder="YYYY-MM-DD"></div>';
+    formHTML += '<div><label>Renewal: </label><select data-key="PendingRenewal" class="o-input-text"><option value="">No Matter</option><option value="On">On</option><option value="Off">Off</option></select></div>';
+    formHTML += '<div><button onclick="refreshPromoBoxPreview();">Done</button></div>';
+    formHTML = '<div style="padding: 15px;" id="promo-box-preview">' + formHTML + '</div>';
+    newNode.innerHTML = formHTML;
+    var existingPromoBoxPreview = document.getElementById('promo-box-preview');
+    if (existingPromoBoxPreview) {
+    existingPromoBoxPreview.parentNode.removeChild(existingPromoBoxPreview);
+    }
+    firstBanner.parentNode.insertBefore(newNode, firstBanner);
+    window.scrollTo(0, 0);
+    }
+    function refreshPromoBoxPreview() {
+    window.htmlClass = document.documentElement.className;
+    window.htmlClass = window.htmlClass.replace(/\ is\-subscriber/g, '').replace(/\ is\-premium/g, '').replace(/\ is\-standard/g, '');
+    var subscriptionType = document.querySelector('[data-key="promoTarget"]').value;
+    if (subscriptionType === 'premium') {
+    window.htmlClass += ' is-subscriber is-premium';
+    subscriptionType = 'premium';
+    } else if (subscriptionType === 'standard'){
+    window.htmlClass += ' is-subscriber is-standard';
+    subscriptionType = 'standard';
+    }
+    var ccode = (document.querySelector('[data-key="SubscriberSource"]').value === '2C') ? '00000000' : '7SXXXXX';
+    var expireDateString = document.querySelector('[data-key="ExpireDate"]').value;
+    var expireDate = Math.round((new Date(expireDateString + ' 00:00:00')).getTime() / 1000);
+    var duration = document.querySelector('[data-key="Duration"]').value;
+    var platform = document.querySelector('[data-key="Platform"]').value;
+    var pendingRenewal = document.querySelector('[data-key="PendingRenewal"]').value;
+    var xhr = new XMLHttpRequest();
+    xhr.open('get', '/m/corp/partial.html?include=promoboxone&type=' + subscriptionType + '&expire=' + expireDate + '&ccode=' + ccode + '&duration=' + duration + '&platform=' + platform + '&pendingRenewal=' + pendingRenewal);
+    xhr.setRequestHeader('Content-Type', 'application/text');
+    xhr.onload = function() {
+    if (xhr.status === 200) {
+    var data = xhr.responseText;
+    if (data !== '') {
+    var promoboxContainer = document.getElementById('promo-box-container');
+    if (promoboxContainer) {
+    promoboxContainer.innerHTML = data;
+    startCountdown(promoboxContainer, expireDate);
+    //sendTracking(promoboxContainer);
+    }
+    }
+    }
+    };
+    xhr.send(null);
+    document.documentElement.className = window.htmlClass;
+    }
+    </script>
+    </div>
     
 
 </body>
