@@ -4,7 +4,7 @@
 // MARK: - We only need this to work for modern mobile devices. And this file is alway requested async and not depended by any other process. So I'll use async/await and fetch without needing the jshint, which validates other codes that do need to be backward-compatible. 
 (async()=>{
 
-    const maxHours = 6;
+    const maxHours = 1;
     let displaySeconds = 5;
     const maxWidthToDisplay = 490;
 
@@ -34,7 +34,6 @@
 
     function pickoutCreative(creatives) {
         if (creatives.length === 0) {return null};
-    
         const priorityOrder = ["sponsorship", "standard", "house"];
         let sortedCreatives = creatives
             .filter(x=>{

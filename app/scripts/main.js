@@ -918,7 +918,7 @@ function checkFullGridItem() {
     var fullGridItems = document.querySelectorAll('[data-layout-width="full-grid"], blockquote, .n-content-big-number, [data-table-layout-largescreen="full-grid"]');
     var bodyHeight = getBodyHeight();
     var isFullGridItemInView = false;
-    // console.log(fullGridItems);
+    console.log(fullGridItems);
     for (var i=0; i<fullGridItems.length; i++) {
       var itemHeight = fullGridItems[i].offsetHeight;
       var itemTop = findTop(fullGridItems[i]);

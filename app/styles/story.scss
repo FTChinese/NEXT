@@ -459,17 +459,37 @@ a.o-responsive-video-caption:link, a.o-responsive-video-caption:visited, a.o-res
 	}
 	.story-container {
 		max-width: 100%;
-		.story-theme, .story-headline, .story-lead, .story-action-placeholder, .story-byline, .n-content-layout, #story-body-container > *, > * {
+		.story-theme,
+		.story-headline,
+		.story-lead,
+		.story-action-placeholder,
+		.story-byline,
+		.copyrightstatement-container,
+		.ai-disclaimer-container,
+		.story-comments-container,
+		#story-body-container > div,
+		#story-body-container > p,
+		#story-body-container > h1,
+		#story-body-container > h2,
+		#story-body-container > h3,
+		#story-body-container > img,
+		#story-body-container > blockquote,
+		#story-body-container > ul,
+		#story-body-container > ol,
+		#story-body-container > table,
+		#story-body-container > pre,
+		#story-body-container > code,
+		#story-body-container > hr {
 			max-width: 700px;
 			margin-left: auto;
 			margin-right: auto;
 			display: block;
 			float: none;
-			&.story-body {
-				max-width: 100%;
-			}
 		}
-		[data-layout-width="full-grid"] {
+		#story-body-container > .story-body {
+			max-width: 100%;
+		}
+		#story-body-container > div[data-layout-width="full-grid"] {
 			max-width: 100%;
 			p, div, h1, h2, hr, blockquote, .n-content-pullquote, .story-theme, .story-headline, .story-lead, .story-image, .story-action-placeholder, .story-byline, .n-content-layout {
 				max-width: 100%;
@@ -485,31 +505,6 @@ a.o-responsive-video-caption:link, a.o-responsive-video-caption:visited, a.o-res
 			text-align: center;
 		}
 	}
-
-	// .story-topper {
-    //     width: 100%;
-    //     height: 600px;
-    //     position: relative;
-    //     // background-color: <%$section.BackgroundColor%>;
-    //     margin-bottom: 30px;
-    //     // <%if $smarty.get.webview != "ftcapp"%>margin-top: -30px;<%/if%>
-    // }
-    // .story-topper-image {
-    //     position: absolute;
-    //     width: 50%;
-    //     right: 0;
-    //     top: 0;
-    //     bottom: 0;
-    //     // background-image: url(<%$section.BackgroundImage%>);
-    //     background-repeat: no-repeat;
-    //     background-size: cover;
-    //     background-position: 50%;
-    // }
-    // .story-topper-inner {
-    //     max-width: 1200px;
-    //     height: 100%;
-    //     margin: auto;
-    // }
 
 }
 
