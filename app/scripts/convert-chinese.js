@@ -12,14 +12,31 @@ function containsChinese(str) {
 }
 
 function fixQuotes(text) {
-    // Replace any traditional Chinese quote (single or double) with an English single quote
-    // This regex matches any of the four traditional Chinese quote characters
-    // MARK: - If it is a JSON string, fixing quotes might corrupt the JSON structure
-    if (/^[\[\{]/.test(text)) {return text;}
-    return text
-        .replace(/(^|[^\u4e00-\u9fff])[『』]([^\u4e00-\u9fff]|$)/g, `$1'$2`)
-        .replace(/(^|[^\u4e00-\u9fff])[「」]([^\u4e00-\u9fff]|$)/g, `$1"$2`);
+    // If the text appears to be a JSON structure, return it as-is to avoid corruption
+    if (/^[\[\{].*[\]\}]$/.test(text.trim())) {
+        return text;
+    }
+
+    // Define ranges for Chinese characters and punctuation
+    const chineseRange = '\u4E00-\u9FFF\u3000-\u303F\uFF00-\uFFEF';
+
+    // Helper to replace quotes
+    const replaceQuotes = (regex, replacement) =>
+        text.replace(regex, replacement);
+
+    // Replace traditional single and double quotes
+    text = replaceQuotes(
+        new RegExp(`(^|[^${chineseRange}])[『』]([^${chineseRange}]|$)`, 'g'),
+        `$1'$2`
+    );
+    text = replaceQuotes(
+        new RegExp(`(^|[^${chineseRange}])[「」]([^${chineseRange}]|$)`, 'g'),
+        `$1"$2`
+    );
+
+    return text;
 }
+
 
 async function convertChinese(text, language) {
 
