@@ -5025,7 +5025,7 @@ Genres: {
     ru: 'Регистрация'
   },
   "Translation Helper": {
-    "Zh": "翻译助手",
+    "zh": "翻译助手",
     "en": "Translation Helper",
     "es": "Asistente de Traducción",
     "fr": "Assistant de Traduction",
@@ -5039,7 +5039,7 @@ Genres: {
     "ru": "Помощник перевода"
   },
   "loginOrSignUp": {
-    "Zh": "请在购买前登录或注册！",
+    "zh": "请在购买前登录或注册！",
     "en": "Please login or sign up before making any purchase!",
     "es": "¡Inicia sesión o regístrate antes de realizar cualquier compra!",
     "fr": "Veuillez vous connecter ou vous inscrire avant d'effectuer un achat !",
@@ -5053,7 +5053,7 @@ Genres: {
     "ru": "Пожалуйста, войдите или зарегистрируйтесь перед покупкой!"
   },
   "checkoutFailedStatus": {
-    "Zh": "无法创建结账会话。服务器响应状态为 [status]。",
+    "zh": "无法创建结账会话。服务器响应状态为 [status]。",
     "en": "Failed to create checkout session. The server responded with [status].",
     "es": "No se pudo crear la sesión de pago. El servidor respondió con [status].",
     "fr": "Échec de la création de la session de paiement. Le serveur a répondu avec [status].",
@@ -5081,7 +5081,7 @@ Genres: {
     "ru": "Пожалуйста, <a href=\"/subscription\">обновите подписку до [tierToBuy]</a>, чтобы получить доступ к этой функции."
   },
   "checkoutFailedTryAgain": {
-    "Zh": "无法创建结账会话。请重试。",
+    "zh": "无法创建结账会话。请重试。",
     "en": "Failed to create checkout session. Please try again.",
     "es": "No se pudo crear la sesión de pago. Por favor, inténtalo de nuevo.",
     "fr": "Échec de la création de la session de paiement. Veuillez réessayer.",
