@@ -5832,8 +5832,138 @@ Genres: {
       "zh-TW": "FT的報導",
       "zh-HK": "FT的報導",
       "ru": "Репортажи FT"
+    },
+    RedeemCodeEmpty: {
+      "zh": "兑换码为空。",
+      "en": "Redeem code is empty.",
+      "es": "El código de canje está vacío.",
+      "fr": "Le code d'échange est vide.",
+      "de": "Der Einlösecode ist leer.",
+      "ja": "引き換えコードが空です。",
+      "ko": "교환 코드가 비어 있습니다.",
+      "pt": "O código de resgate está vazio.",
+      "it": "Il codice di riscatto è vuoto.",
+      "zh-TW": "兌換碼為空。",
+      "zh-HK": "兌換碼為空。",
+      "ru": "Код активации пуст."
+    },
+    RedeemSuccessNoSubscription: {
+        "zh": "兑换码已成功兑换！(未返回订阅信息)",
+        "en": "Redeem code successfully redeemed! (No subscription info returned)",
+        "es": "¡Código de canje canjeado con éxito! (No se devolvió información de suscripción)",
+        "fr": "Code d'échange échangé avec succès ! (Aucune information d'abonnement retournée)",
+        "de": "Einlösecode erfolgreich eingelöst! (Keine Abonnementinformationen zurückgegeben)",
+        "ja": "引き換えコードが正常に引き換えられました！（サブスクリプション情報が返されませんでした）",
+        "ko": "교환 코드가 성공적으로 교환되었습니다! (구독 정보가 반환되지 않음)",
+        "pt": "Código de resgate resgatado com sucesso! (Nenhuma informação de assinatura retornada)",
+        "it": "Codice riscattato con successo! (Nessuna informazione sull'abbonamento restituita)",
+        "zh-TW": "兌換碼已成功兌換！（未返回訂閱資訊）",
+        "zh-HK": "兌換碼已成功兌換！（未返回訂閱資訊）",
+        "ru": "Код успешно активирован! (Информация о подписке не возвращена)"
+    },
+    LoginOrSignUp: {
+        "zh": "请登录或注册。",
+        "en": "Please log in or sign up.",
+        "es": "Por favor inicie sesión o regístrese.",
+        "fr": "Veuillez vous connecter ou vous inscrire.",
+        "de": "Bitte melden Sie sich an oder registrieren Sie sich.",
+        "ja": "ログインまたはサインアップしてください。",
+        "ko": "로그인 또는 가입 해주세요.",
+        "pt": "Por favor, faça login ou inscreva-se.",
+        "it": "Per favore accedi o registrati.",
+        "zh-TW": "請登入或註冊。",
+        "zh-HK": "請登入或註冊。",
+        "ru": "Пожалуйста, войдите или зарегистрируйтесь."
+    },
+    RedeemFailed: {
+        "zh": "兑换失败：",
+        "en": "Failed to redeem code:",
+        "es": "Error al canjear el código:",
+        "fr": "Échec de l'échange du code :",
+        "de": "Code-Einlösung fehlgeschlagen:",
+        "ja": "コードの引き換えに失敗しました：",
+        "ko": "코드 교환 실패:",
+        "pt": "Falha ao resgatar o código:",
+        "it": "Impossibile riscattare il codice:",
+        "zh-TW": "兌換失敗：",
+        "zh-HK": "兌換失敗：",
+        "ru": "Не удалось активировать код:"
+    },
+    UnexpectedError: {
+        "zh": "发生意外错误，请重试。",
+        "en": "An unexpected error occurred. Please try again.",
+        "es": "Ocurrió un error inesperado. Por favor intente de nuevo.",
+        "fr": "Une erreur inattendue s'est produite. Veuillez réessayer.",
+        "de": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es erneut.",
+        "ja": "予期しないエラーが発生しました。もう一度お試しください。",
+        "ko": "예기치 않은 오류가 발생했습니다. 다시 시도해 주세요.",
+        "pt": "Ocorreu um erro inesperado. Por favor, tente novamente.",
+        "it": "Si è verificato un errore imprevisto. Per favore riprova.",
+        "zh-TW": "發生意外錯誤，請重試。",
+        "zh-HK": "發生意外錯誤，請重試。",
+        "ru": "Произошла неожиданная ошибка. Пожалуйста, попробуйте еще раз."
+    },
+    RedeemSuccessfulHeader: {
+      zh: '兑换成功！',
+      en: 'Redeem Successful!',
+      es: '¡Canje exitoso!',
+      fr: 'Échange réussi!',
+      de: 'Einlösung erfolgreich!',
+      ja: '引き換え成功！',
+      ko: '교환 성공!',
+      pt: 'Resgate bem-sucedido!',
+      it: 'Riscatto riuscito!',
+      'zh-TW': '兌換成功！',
+      'zh-HK': '兌換成功！',
+      ru: 'Успешное погашение!'
+    },
+    YourMembershipTier: {
+        zh: '您的会员等级',
+        en: 'Your Membership Tier',
+        es: 'Su nivel de membresía',
+        fr: 'Votre niveau d’adhésion',
+        de: 'Ihre Mitgliedsstufe',
+        ja: 'あなたの会員レベル',
+        ko: '귀하의 회원 등급',
+        pt: 'Seu nível de associação',
+        it: 'Il tuo livello di appartenenza',
+        'zh-TW': '您的會員等級',
+        'zh-HK': '您的會員等級',
+        ru: 'Ваш уровень членства'
+    },
+    ExpireDate: {
+        zh: '到期日期',
+        en: 'Expiration Date',
+        es: 'Fecha de vencimiento',
+        fr: 'Date d’expiration',
+        de: 'Ablaufdatum',
+        ja: '有効期限',
+        ko: '만료 날짜',
+        pt: 'Data de expiração',
+        it: 'Data di scadenza',
+        'zh-TW': '到期日期',
+        'zh-HK': '到期日期',
+        ru: 'Дата окончания'
+    },
+    StartUsing: {
+        zh: '开始使用',
+        en: 'Start Using',
+        es: 'Comience a usar',
+        fr: 'Commencer à utiliser',
+        de: 'Anfangen zu benutzen',
+        ja: '使用を開始する',
+        ko: '사용 시작',
+        pt: 'Comece a usar',
+        it: 'Inizia a usare',
+        'zh-TW': '開始使用',
+        'zh-HK': '開始使用',
+        ru: 'Начать использование'
     }
 };
+
+
+
+
 
 // MARK: - Normalize the statusDict to make it case-insensitive for lookup
 let statusDict = {};
