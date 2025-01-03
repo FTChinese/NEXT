@@ -5958,6 +5958,34 @@ Genres: {
         'zh-TW': '開始使用',
         'zh-HK': '開始使用',
         ru: 'Начать использование'
+    },
+    StandardAddon: {
+      zh: '您还有{{standardAddon}}天标准会员的权限，在当前的订阅权限到期后会自动启用。',
+      en: 'You have {{standardAddon}} days of Standard Membership remaining, which will activate automatically after your current subscription expires.',
+      es: 'Le quedan {{standardAddon}} días de membresía estándar, que se activarán automáticamente después de que expire su suscripción actual.',
+      fr: 'Il vous reste {{standardAddon}} jours d’abonnement standard, qui s’activeront automatiquement après l’expiration de votre abonnement actuel.',
+      de: 'Sie haben noch {{standardAddon}} Tage Standardmitgliedschaft, die nach Ablauf Ihres aktuellen Abonnements automatisch aktiviert wird.',
+      ja: '{{standardAddon}}日間のスタンダードメンバーシップが残っています。現在のサブスクリプションが終了した後、自動的に有効になります。',
+      ko: '{{standardAddon}}일의 표준 회원권이 남아 있으며, 현재 구독이 만료된 후 자동으로 활성화됩니다.',
+      pt: 'Você tem {{standardAddon}} dias de assinatura padrão restantes, que serão ativados automaticamente após o vencimento da sua assinatura atual.',
+      it: 'Hai ancora {{standardAddon}} giorni di abbonamento Standard, che si attiveranno automaticamente al termine dell’abbonamento attuale.',
+      'zh-TW': '您還有{{standardAddon}}天標準會員的權限，在當前的訂閱權限到期後會自動啟用。',
+      'zh-HK': '您還有{{standardAddon}}天標準會員的權限，在當前的訂閱權限到期後會自動啟用。',
+      ru: 'У вас осталось {{standardAddon}} дней стандартного членства, которое автоматически активируется после окончания текущей подписки.'
+    },
+    PremiumAddon: {
+        zh: '您还有{{premiumAddon}}天高端会员的权限，在当前的订阅权限到期后会自动启用。',
+        en: 'You have {{premiumAddon}} days of Premium Membership remaining, which will activate automatically after your current subscription expires.',
+        es: 'Le quedan {{premiumAddon}} días de membresía premium, que se activarán automáticamente después de que expire su suscripción actual.',
+        fr: 'Il vous reste {{premiumAddon}} jours d’abonnement premium, qui s’activeront automatiquement après l’expiration de votre abonnement actuel.',
+        de: 'Sie haben noch {{premiumAddon}} Tage Premium-Mitgliedschaft, die nach Ablauf Ihres aktuellen Abonnements automatisch aktiviert wird.',
+        ja: '{{premiumAddon}}日間のプレミアムメンバーシップが残っています。現在のサブスクリプションが終了した後、自動的に有効になります。',
+        ko: '{{premiumAddon}}일의 프리미엄 회원권이 남아 있으며, 현재 구독이 만료된 후 자동으로 활성화됩니다.',
+        pt: 'Você tem {{premiumAddon}} dias de assinatura premium restantes, que serão ativados automaticamente após o vencimento da sua assinatura atual.',
+        it: 'Hai ancora {{premiumAddon}} giorni di abbonamento Premium, che si attiveranno automaticamente al termine dell’abbonamento attuale.',
+        'zh-TW': '您還有{{premiumAddon}}天高端會員的權限，在當前的訂閱權限到期後會自動啟用。',
+        'zh-HK': '您還有{{premiumAddon}}天高端會員的權限，在當前的訂閱權限到期後會自動啟用。',
+        ru: 'У вас осталось {{premiumAddon}} дней премиум-членства, которое автоматически активируется после окончания текущей подписки.'
     }
 };
 

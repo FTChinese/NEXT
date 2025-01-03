@@ -260,7 +260,7 @@ delegate.on('click', '.quiz-share[data-quiz-id]', (event) => {
   }
   
   // Construct the share URL using the current window's host name and port
-  const hostname = 'https://ai.ftchinese.com';
+  const hostname = 'https://www.ftchinese.com';
   const shareUrl = `${hostname}/powertranslate/chat.html#action=news-quiz&id=${id}&language=${language}&utm_source=quiz&utm_medium=share&utm_campaign=social_sharing`;
 
   shareText += `\n${shareUrl}`;
