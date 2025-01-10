@@ -1965,8 +1965,7 @@ async function showFTPage(content, language, reply) {
         const endDate = new Date('2025-01-19T23:59:59+08:00').getTime();
         const now = new Date().getTime();
         const showPromotion = now >= startDate && now <= endDate;
-        const domain = isInNativeApp ? 'www.ftchinese.com' : 'www.ftchinese.com';
-        const promotion = showPromotion ? `<a href="https://${domain}/m/corp/preview.html?pageid=2024D11&to=all&ccode=2C2024D11chatftclp" target="_blank"><img class="promotion" src="https://thumbor.ftacademy.cn/unsafe/picture/1/000256781_piclink.jpg" width="300" height="250"></a>` : '';
+        const promotion = showPromotion ? `<a href="/m/corp/preview.html?pageid=2025CNY&to=all&ccode=2C2025CNYchatftcmpu" target="_blank"><img class="promotion" src="https://thumbor.ftacademy.cn/unsafe/picture/1/000256781_piclink.jpg" width="300" height="250"></a>` : '';
         html += promotion;
         
           
@@ -2116,8 +2115,7 @@ function getActionOptions() {
     const endDate = new Date('2025-01-19T23:59:59+08:00').getTime();
     const now = new Date().getTime();
     const showPromotion = now >= startDate && now <= endDate;
-    const domain = isInNativeApp ? 'www.ftchinese.com' : 'www.ftchinese.com';
-    const promotion = showPromotion ? `<a target="_blank" href="https://${domain}/m/corp/preview.html?pageid=2025CNY&to=all&ccode=2C2025CNYchatftclp">${localize('PromotionActionButton')}</a>` : '';
+    const promotion = showPromotion ? `<a target="_blank" href="/m/corp/preview.html?pageid=2025CNY&to=all&ccode=2C2025CNYchatftclp">${localize('PromotionActionButton')}</a>` : '';
     result = `
       <div class="chat-item-actions">
         <a data-purpose="show-ft-page" data-lang="${language}" data-content='home' data-reply="${localize('FindingMyFT')}" data-reply-action="set-preference">${localize('Top News For Me')}</a>
