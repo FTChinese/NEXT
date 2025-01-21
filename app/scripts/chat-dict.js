@@ -5483,6 +5483,48 @@ Genres: {
       "zh-HK": "請稍候...",
       "ru": "Пожалуйста, подождите немного..."
     },
+    CheckIfUserWantsToRemoveAccount: {
+      "zh": "您确定要注销您的账户吗？",
+      "en": "Are you sure you want to remove your account?",
+      "es": "¿Estás seguro de que deseas eliminar tu cuenta?",
+      "fr": "Êtes-vous sûr de vouloir supprimer votre compte ?",
+      "de": "Möchten Sie Ihr Konto wirklich löschen?",
+      "ja": "本当にアカウントを削除しますか？",
+      "ko": "정말로 계정을 삭제하시겠습니까?",
+      "pt": "Tem certeza de que deseja remover sua conta?",
+      "it": "Sei sicuro di voler rimuovere il tuo account?",
+      "zh-TW": "您確定要註銷您的帳戶嗎？",
+      "zh-HK": "您確定要註銷您的帳戶嗎？",
+      "ru": "Вы уверены, что хотите удалить свой аккаунт?"
+    },
+    WarnAboutLosingAllInformationConnectedToTheAccount: {
+      "zh": "此操作无法撤销，请谨慎进行。注销账户之后，您的所有注册信息，包括订阅权益将完全删除，无法找回。",
+      "en": "This action is irreversible. Removing your account will delete all your registered information, including subscription rights, permanently and cannot be recovered.",
+      "es": "Esta acción es irreversible. Eliminar tu cuenta eliminará toda tu información registrada, incluidos los derechos de suscripción, de forma permanente y no se podrá recuperar.",
+      "fr": "Cette action est irréversible. La suppression de votre compte supprimera toutes vos informations enregistrées, y compris les droits d'abonnement, de manière permanente et ne pourra pas être récupérée.",
+      "de": "Diese Aktion ist unwiderruflich. Durch das Löschen Ihres Kontos werden alle Ihre registrierten Informationen, einschließlich Abonnementrechte, dauerhaft gelöscht und können nicht wiederhergestellt werden.",
+      "ja": "この操作は元に戻せません。アカウントを削除すると、登録情報や購読権を含むすべての情報が完全に削除され、復元できません。",
+      "ko": "이 작업은 되돌릴 수 없습니다. 계정을 삭제하면 등록된 모든 정보(구독 권한 포함)가 영구적으로 삭제되며 복구할 수 없습니다.",
+      "pt": "Esta ação é irreversível. Remover sua conta excluirá todas as informações registradas, incluindo direitos de assinatura, permanentemente e não poderá ser recuperado.",
+      "it": "Questa azione è irreversibile. La rimozione del tuo account eliminerà tutte le informazioni registrate, inclusi i diritti di abbonamento, in modo permanente e non potranno essere recuperati.",
+      "zh-TW": "此操作無法撤銷，請謹慎進行。註銷帳戶之後，您的所有註冊信息，包括訂閱權益將完全刪除，無法找回。",
+      "zh-HK": "此操作無法撤銷，請謹慎進行。註銷帳戶之後，您的所有註冊信息，包括訂閱權益將完全刪除，無法找回。",
+      "ru": "Это действие необратимо. Удаление вашей учетной записи приведет к безвозвратному удалению всей зарегистрированной информации, включая права на подписку."
+    },
+    lastCheckAboutRemovingAccount: {
+      "zh": "最后一次确认，您真的要注销账户，删除所有信息吗？",
+      "en": "Final confirmation: Are you sure you want to remove your account and delete all information?",
+      "es": "Confirmación final: ¿Estás seguro de que deseas eliminar tu cuenta y toda la información?",
+      "fr": "Confirmation finale : Êtes-vous sûr de vouloir supprimer votre compte et toutes vos informations ?",
+      "de": "Letzte Bestätigung: Möchten Sie Ihr Konto und alle Informationen wirklich löschen?",
+      "ja": "最終確認: アカウントを削除し、すべての情報を削除してもよろしいですか？",
+      "ko": "최종 확인: 계정을 삭제하고 모든 정보를 삭제하시겠습니까?",
+      "pt": "Confirmação final: Tem certeza de que deseja remover sua conta e excluir todas as informações?",
+      "it": "Conferma finale: Sei sicuro di voler rimuovere il tuo account ed eliminare tutte le informazioni?",
+      "zh-TW": "最後一次確認，您真的要註銷帳戶，刪除所有信息嗎？",
+      "zh-HK": "最後一次確認，您真的要註銷帳戶，刪除所有信息嗎？",
+      "ru": "Последнее подтверждение: Вы уверены, что хотите удалить свою учетную запись и всю информацию?"
+    },
     sixDigitCodeFromEmail: {
       "zh": "来自您邮箱的6位数验证码",
       "en": "6-digit code from your email",

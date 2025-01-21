@@ -324,9 +324,9 @@ function login(fromwhere) {
         var j;
         if (this.readyState === 4) {
             if (this.status === 200) {
-                //console.log (this.responseText);
+                // console.log (this.responseText);
                 var l = JSON.parse(this.responseText);
-                //console.log (l);
+                // console.log (l);
                 var k;
                 if (l.status && l.status === 'ok') {
 
@@ -343,7 +343,6 @@ function login(fromwhere) {
                         loginEles[j].innerHTML = u;
                     }
                     var loginComments = document.querySelectorAll('.logincomment, .logincommentc, .logged');
-                    
                     for (k=0; k<loginComments.length; k++) {
                         loginComments[k].style.display = 'block';
                     }
@@ -455,6 +454,9 @@ function logout() {
 function checkLogin() {
     window.username = GetCookie('USER_NAME') || GetCookie('USER_NAME_FT');
     window.userId = GetCookie('USER_ID');
+
+    console.log(`check login: user name: ${window.username}, user id: ${window.userId}`);
+
     var eles = document.querySelectorAll('.logincomment, .nologincomment, .logged, .notLogged');
     if (eles.length === 0) {return;}
     var i;
