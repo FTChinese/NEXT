@@ -1562,7 +1562,21 @@ updateStickyRightRail();
     document.documentElement.classList.add('is-ftc-app');
   }
 
+  // Since lots of pages share the same cache content between different domains, use javascript to hide elements for certain domains
+  function hideNavForDomains() {
+    try {
+      const chinaDomains = ['www.ftmembercare.com'];
+      const hostname = window?.location?.hostname ?? '';
+      if (!chinaDomains.includes(hostname)) {return;}
+      document.documentElement.classList.add('hide_nav');
+    } catch(err) {
+      console.error(`hideNavForDomains error: `);
+      console.log(err);
+    }
+  }
+
   try {
+    hideNavForDomains();
     checkFTCApp();
     // MARK: - iPhone App Use the same process as well
     if (!window.userId) {return;}

@@ -1721,21 +1721,35 @@ function showCommonSuggestions() {
     div.innerHTML = ebody;
     ebody = div.innerText;
 
-    // use lower case as key
     var currencyMap = {
         '$': '美元',
         '£': '英镑',
         '€': '欧元',
         'rmb': '元人民币',
+        'cny': '元人民币',
         'jpy': '日元',
-        '¥': '元', // '¥' can be either JPY or CNY
+        '¥': '元',
+        'c$': '加元', // Canadian Dollar
+        'cad': '加元',
+        'a$': '澳元', // Australian Dollar
+        'aud': '澳元',
+        's$': '新加坡元', // Singapore Dollar
+        'sgd': '新加坡元',
+        'hkd': '港元', // Hong Kong Dollar
+        'nzd': '新西兰元', // New Zealand Dollar
+        'chf': '瑞士法郎', // Swiss Franc
+        'inr': '印度卢比', // Indian Rupee
+        'krw': '韩元', // South Korean Won
+        'rub': '俄罗斯卢布', // Russian Ruble
+        'mxn': '墨西哥比索', // Mexican Peso
     };
 
     var rules = [
         {
-            pattern: /([$£€¥]|rmb|jpy)([\d\.,]+)(mn|bn|tn)?/gi,
+            pattern: /([$£€¥]|C\$|A\$|S\$|HKD|NZD|CAD|AUD|SGD|CHF|INR|KRW|RUB|MXN|CNY|JPY)(\s?\d{1,3}(?:,\d{3})*(?:\.\d+)?)(mn|bn|tn)?/gi,
             generateSuggestion: function (match, currencySymbol, number, unit) {
-                var currencyName = currencyMap[currencySymbol.toLowerCase()] || '';
+                var currencyKey = currencySymbol.trim().toLowerCase();
+                var currencyName = currencyMap[currencyKey] || '';
                 var amount = parseFloat(number.replace(/,/g, ''));
                 var unitMultiplier = 1;
 
@@ -1754,14 +1768,7 @@ function showCommonSuggestions() {
                 var chineseAmount = convertToChineseNumber(totalAmount);
                 return chineseAmount + currencyName;
             }
-        },
-        {
-            pattern: /Alphabet/g,
-            generateSuggestion: function (match) {
-                return 'Alphabet';
-            }
         }
-        // Add more rules here as needed
     ];
 
     var infoOriginals = document.querySelectorAll('.info-original');
@@ -1807,6 +1814,8 @@ function showCommonSuggestions() {
     }
     checkInfoHelpers();
 }
+
+
 
 function convertToChineseNumber(num) {
     var units = [

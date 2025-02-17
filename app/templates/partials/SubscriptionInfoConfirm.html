@@ -41,15 +41,10 @@
 						<div class="center n-button-container">
 							<button class="n-button-inner subscription-button" id="subscription-button" onclick="submitContactInfo()">确认并提交</button>
 						</div>
-            <%if $list.SkipButton != "" && ($v >= "125" || $v == "")%>
+            <%if $list.SkipButton != ""%>
             <div class="center n-button-container">
               <button class="n-button-inner skip-button" id="skip-button" onclick="skipContactInfo(this)"><%$list.SkipButton%></button>
             </div>
-            <%/if%>
-            <%if $smarty.get.android != "" && 1>2%>
-              <div id="android-debug-info">Android Debug Info...</div>
-              <div>Membership: <%$smarty.get.membership%></div>
-              <div>Action: <%$smarty.get.action%></div>
             <%/if%>
 					</div>
 				</div>

@@ -11,6 +11,18 @@
 	}
 }
 
+.hide_nav {
+	.o-nav__placeholder {
+		@include oGridRespondTo(L) {
+			display: none;
+		}
+	}
+	.nav-toggle, .mps {
+		display: none;
+	}
+}
+
+
 @if variable-exists(mastHeadBig5) {
 	.is-big5 .o-header__masthead-mobile {
 		> a {

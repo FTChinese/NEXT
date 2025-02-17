@@ -202,10 +202,10 @@
         <%/if%>
     <%/if%>
     <%*<!--MARK: Show FT Academy on top during public holidays and weekends-->*%>
-    <%if date("Ymd", $smarty.now) == 20240929 || date("Ymd", $smarty.now) == 20241012%>
+    <%if date("Ymd", $smarty.now) == 20250126 || date("Ymd", $smarty.now) == 20250208 || date("Ymd", $smarty.now) == 20250427 || date("Ymd", $smarty.now) == 20250928 || date("Ymd", $smarty.now) == 20251011%>
         <%*<!--MARK: When weekend days are working days in China because of long public holidays exchanges such as Chinese new year, National day, etc... -->*%>
         <%assign var="isPublicHoliday" value="no"%>
-    <%elseif date("Ymd", $smarty.now) >= 20250101 && date("Ymd", $smarty.now) <= 20250101%>
+    <%elseif (date("Ymd", $smarty.now) >= 20250128 && date("Ymd", $smarty.now) <= 20250204) || (date("Ymd", $smarty.now) >= 20250404 && date("Ymd", $smarty.now) <= 20250406) || (date("Ymd", $smarty.now) >= 20250501 && date("Ymd", $smarty.now) <= 20250505) || (date("Ymd", $smarty.now) >= 20250531 && date("Ymd", $smarty.now) <= 20250602) || (date("Ymd", $smarty.now) >= 20251001 && date("Ymd", $smarty.now) <= 20251008)%>
         <%assign var="isPublicHoliday" value="yes"%>
     <%elseif date("w", $smarty.now) == 0 || date("w", $smarty.now) == 6%>
         <%assign var="isPublicHoliday" value="yes"%>
