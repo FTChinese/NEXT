@@ -353,7 +353,7 @@ function getAnnotaionsInfo(content, language) {
     const now = new Date().getTime();
     const showPromotion = now >= startDate && now <= endDate;
     const domain = isInNativeApp ? 'www.ftchinese.com' : 'www.ftchinese.com';
-    const promotion = showPromotion ? `<a class="story-side-ad-inner" href="/m/corp/preview.html?pageid=2025CNY&to=all&ccode=2C2025CNYchatftcmpu" target="_blank"><img src="https://thumbor.ftacademy.cn/unsafe/picture/1/000256781_piclink.jpg" width="300" height="250"></a>` : '';
+    const promotion = showPromotion ? `<a class="story-side-ad-inner" href="/m/corp/preview.html?pageid=2025CNY&to=all&ccode=2C2025CNYchatftcmpu" target="_blank"><img src="https://d1sh1cgb4xvhl.cloudfront.net/unsafe/picture/1/000256781_piclink.jpg" width="300" height="250"></a>` : '';
     annotationsHTMLMentions = `
         <div class="story-side-ad-container">${promotion}</div>`;
     return {

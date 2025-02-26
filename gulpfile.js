@@ -72,7 +72,7 @@ gulp.task('origami', () => {
         .then(response => {
           var body = response.body;
           if (module.source.indexOf('o-ads') >= 0) {
-            // const gptUrl = 'creatives.ftacademy.cn/ads/gpt.js'; 
+            // const gptUrl = 'd2hgac2iiu3amu.cloudfront.net/ads/gpt.js'; 
             const gptUrl = 'd2785ji6wtdqx8.cloudfront.net/js/gpt.js';
             body = body.replace(/www\.googletagservices\.com\/tag\/js\/gpt\.js/g, `${gptUrl}?${now}`);
           }

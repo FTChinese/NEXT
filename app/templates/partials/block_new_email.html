@@ -197,7 +197,7 @@
                     <%elseif $feedType == "photonews"%>
                         <%assign var="itemImage" value=$item.illustration|default:$item.cover|default:$item.thumb_url%>
                         <%if $itemImage != ""%>
-                            <%assign var="itemImage" value="https://thumbor.ftacademy.cn/unsafe/`$itemImage`"%>
+                            <%assign var="itemImage" value="https://d1sh1cgb4xvhl.cloudfront.net/unsafe/`$itemImage`"%>
                         <%/if%>
                     <%else%>
                         <%assign var="itemImage" value=$item.image|default:$item.story_pic.cover|default:$item.story_pic.smallbutton|default:$item.story_pic.other|default:$item.story_pic.bigbutton%>
@@ -312,8 +312,8 @@
                                         <td class="SContent cover" align="center" style="font-size:14px;line-height:23px;color:#505050;">
                                             <%if $itemImage != "" && $smarty.get.showImage != "no"%>
                                                 <%assign var="itemImage" value=$itemImage|regex_replace:"/^http:\/\/i\.ftimg\.net\//":""%>
-                                                <%assign var="itemImage" value="https://thumbor.ftacademy.cn/unsafe/`$imageWidth`x`$imageHeight`/`$itemImage`"%>
-                                                <%assign var="itemImage" value=$itemImage|replace:"/upload/":"/"|replace:"/https://thumbor.ftacademy.cn/unsafe/":"/"|replace:"//picture":"/picture"%>
+                                                <%assign var="itemImage" value="https://d1sh1cgb4xvhl.cloudfront.net/unsafe/`$imageWidth`x`$imageHeight`/`$itemImage`"%>
+                                                <%assign var="itemImage" value=$itemImage|replace:"/upload/":"/"|replace:"/https://d1sh1cgb4xvhl.cloudfront.net/unsafe/":"/"|replace:"//picture":"/picture"%>
                                                 <table  width="100%" cellpadding="0" cellspacing="0" border="0" >
                                                     <tr style="background-color:#990F3D;">
                                                         <td align="center">
@@ -396,8 +396,8 @@
                                                                 <td class="SContent cover" style="font-size:14px;line-height:23px;color:#505050;">
                                                                     <%if $itemImage != "" && $smarty.get.showImage != "no"%>
                                                                         <%assign var="itemImage" value=$itemImage|regex_replace:"/^http:\/\/i\.ftimg\.net\//":""%>
-                                                                        <%assign var="itemImage" value="https://thumbor.ftacademy.cn/unsafe/`$imageWidth`x`$imageHeight`/`$itemImage`"%>
-                                                                        <%assign var="itemImage" value=$itemImage|replace:"/upload/":"/"|replace:"/https://thumbor.ftacademy.cn/unsafe/":"/"|replace:"//picture":"/picture"%>
+                                                                        <%assign var="itemImage" value="https://d1sh1cgb4xvhl.cloudfront.net/unsafe/`$imageWidth`x`$imageHeight`/`$itemImage`"%>
+                                                                        <%assign var="itemImage" value=$itemImage|replace:"/upload/":"/"|replace:"/https://d1sh1cgb4xvhl.cloudfront.net/unsafe/":"/"|replace:"//picture":"/picture"%>
                                                                         <div class="lineH1_4 P-Only" style="line-height:28px;font-size:20px;display:none;">
                                                                             <%$itemMainTag%>
                                                                             <a class="headLine" style="font-weight:bold; text-decoration:none; color:#111;" <%$itemHref%>><%$itemHeadline%></a><%$tierMark%>

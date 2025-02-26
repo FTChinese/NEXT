@@ -137,7 +137,7 @@
 								<%assign var="itemData" value=" data-id=\"`$storyall[$cs].id`\" data-type=\"interactive\"`$audioData``$subTypeData`"%>
 							<%/if%>
 							<div class="item-container<%if $i===0%> first<%/if%><%$sideItemClass%>"<%$itemData%>><div class="item-inner">
-							<a class="image" href="/interactive/<%$storyall[$cs].id%>" target=_blank><figure class="loading" data-url="<%$storyall[$cs].story_pic.cover|default:$storyall[$cs].story_pic.smallbutton|default:$storyall[$cs].story_pic.bigbutton|replace:"http://i.ftimg.net/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>"></figure></a>
+							<a class="image" href="/interactive/<%$storyall[$cs].id%>" target=_blank><figure class="loading" data-url="<%$storyall[$cs].story_pic.cover|default:$storyall[$cs].story_pic.smallbutton|default:$storyall[$cs].story_pic.bigbutton|replace:"http://i.ftimg.net/picture/":"https://d1sh1cgb4xvhl.cloudfront.net/unsafe/picture/"%>"></figure></a>
 							<h2 class="item-headline"><a href="/interactive/<%$storyall[$cs].id%>" target=_blank class="item-headline-link"><%*$iTag*%><%$storyall[$cs].cheadline%></a></h2>
 							</div></div>
 							<%assign var="echostoryid" value=`$storyall[$cs].id`,$echostoryid%>
@@ -147,7 +147,7 @@
 					<%elseif $ps<$photocount && 1<0 && ($storyall[$cs].pubdate<$photoall[$cp].add_times || $cs>=$storycount)%>
 						<%if !in_array($photoall[$cp].en_title , explode(',',$echostoryid)) && $photoall[$cp].thumb_url %>
 							<div class="item-container<%if $i===0%> first<%/if%>"><div class="item-inner">
-							<a class="image" href="/photonews/<%$photoall[$cp].photonewsid%>" target=_blank><figure class="loading" data-url="https://thumbor.ftacademy.cn/unsafe/<%$photoall[$cp].thumb_url%>"></figure></a>
+							<a class="image" href="/photonews/<%$photoall[$cp].photonewsid%>" target=_blank><figure class="loading" data-url="https://d1sh1cgb4xvhl.cloudfront.net/unsafe/<%$photoall[$cp].thumb_url%>"></figure></a>
 							<h2 class="item-headline"><a href="/photonews/<%$photoall[$cp].photonewsid%>" target=_blank>【图辑】<%$photoall[$cp].cn_title%></a></h2>
 							</div></div>
 							<%assign var="echostoryid" value=`$photoall[$cp].en_title`,$echostoryid%>
@@ -234,7 +234,7 @@
 					<%/if%>
 					<div class="item-container first static-image<%if $hasImage == "no"%> no-image<%/if%>"><div class="item-inner">
 					<%if $hasImage == "yes"%>
-						<a class="image" href="/interactive/<%$ftAcademyItems[0].id%>" target=_blank><figure class="loading" data-url="<%$ftAcademyItems[0].story_pic.cover|default:$ftAcademyItems[0].story_pic.smallbutton|default:$ftAcademyItems[0].story_pic.bigbutton|replace:"http://i.ftimg.net/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>"></figure></a>
+						<a class="image" href="/interactive/<%$ftAcademyItems[0].id%>" target=_blank><figure class="loading" data-url="<%$ftAcademyItems[0].story_pic.cover|default:$ftAcademyItems[0].story_pic.smallbutton|default:$ftAcademyItems[0].story_pic.bigbutton|replace:"http://i.ftimg.net/picture/":"https://d1sh1cgb4xvhl.cloudfront.net/unsafe/picture/"%>"></figure></a>
 					<%/if%>
 					<h2 class="item-headline"><a href="/interactive/<%$ftAcademyItems[0].id%>" class="item-headline-link<%$vip%>" target=_blank><%$ftAcademyItems[0].cheadline%></a></h2>
 					<div class="item-lead"><%$ftAcademyItems[0].clongleadbody|default:$ftAcademyItems[0].cshortleadbody%></div>
@@ -349,7 +349,7 @@
 							-->*%>
 							<%assign var="interactiveLink" value="/interactive/`$storyall[$cs].id`"%>
 							<div class="item-container<%if $i===0%> first<%/if%><%$sideItemClass%>"<%$itemData%>><div class="item-inner">
-							<a class="image" href="<%$interactiveLink%>" target=_blank><figure class="loading" data-url="<%$storyall[$cs].story_pic.cover|default:$storyall[$cs].story_pic.smallbutton|default:$storyall[$cs].story_pic.bigbutton|replace:"http://i.ftimg.net/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>"></figure></a>
+							<a class="image" href="<%$interactiveLink%>" target=_blank><figure class="loading" data-url="<%$storyall[$cs].story_pic.cover|default:$storyall[$cs].story_pic.smallbutton|default:$storyall[$cs].story_pic.bigbutton|replace:"http://i.ftimg.net/picture/":"https://d1sh1cgb4xvhl.cloudfront.net/unsafe/picture/"%>"></figure></a>
 							<h2 class="item-headline"><a href="<%$interactiveLink%>" target=_blank class="item-headline-link"><%*$iTag*%><%$storyall[$cs].cheadline%></a></h2>
 							</div></div>
 							<%assign var="echostoryid" value=`$storyall[$cs].id`,$echostoryid%>
@@ -359,7 +359,7 @@
 					<%elseif $ps<$photocount && ($storyall[$cs].pubdate<$photoall[$cp].add_times || $cs>=$storycount)%>
 						<%if !in_array($photoall[$cp].en_title , explode(',',$echostoryid)) && $photoall[$cp].thumb_url %>
 							<div class="item-container<%if $i===0%> first<%/if%>"><div class="item-inner">
-							<a class="image" href="/photonews/<%$photoall[$cp].photonewsid%>" target=_blank><figure class="loading" data-url="https://thumbor.ftacademy.cn/unsafe/<%$photoall[$cp].thumb_url%>"></figure></a>
+							<a class="image" href="/photonews/<%$photoall[$cp].photonewsid%>" target=_blank><figure class="loading" data-url="https://d1sh1cgb4xvhl.cloudfront.net/unsafe/<%$photoall[$cp].thumb_url%>"></figure></a>
 							<h2 class="item-headline"><a href="/photonews/<%$photoall[$cp].photonewsid%>" target=_blank>【图辑】<%$photoall[$cp].cn_title%></a></h2>
 							</div></div>
 							<%assign var="echostoryid" value=`$photoall[$cp].en_title`,$echostoryid%>
@@ -403,7 +403,7 @@
 		<%if $cryptoItems|@count > 0%>
 			<div class="interactives P-hide nikkei-container">
 				<h2 class="list-title"><a href="/tag/加密金融">Web3与加密金融</a></h2>
-				<%assign var="firstImage" value=$cryptoItems[0].story_pic.cover|default:$cryptoItems[0].story_pic.smallbutton|default:$cryptoItems[0].story_pic.bigbutton|replace:"http://i.ftimg.net/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>
+				<%assign var="firstImage" value=$cryptoItems[0].story_pic.cover|default:$cryptoItems[0].story_pic.smallbutton|default:$cryptoItems[0].story_pic.bigbutton|replace:"http://i.ftimg.net/picture/":"https://d1sh1cgb4xvhl.cloudfront.net/unsafe/picture/"%>
 				<div class="item-container first static-image<%if $firstImage == ""%> no-image<%/if%>"><div class="item-inner">
 				<%if $firstImage != ""%>
 					<a class="image" href="/<%$cryptoItems[0].item_type%>/<%$cryptoItems[0].id%>" target=_blank><figure class="loading" data-url="<%$firstImage%>"></figure></a>
@@ -429,7 +429,7 @@
 		<%assign var="nikkeiItems" value=$interactivemodel->get_interactive_by_field_search($nikkeiSqlQuery,0,3,30,10800)%>
 		<div class="interactives P-hide nikkei-container">
 			<h2 class="list-title"><a href="/tag/日经中文网精选">日经中文网精选</a></h2>
-			<%assign var="firstImage" value=$nikkeiItems[0].story_pic.cover|default:$nikkeiItems[0].story_pic.smallbutton|default:$nikkeiItems[0].story_pic.bigbutton|replace:"http://i.ftimg.net/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>
+			<%assign var="firstImage" value=$nikkeiItems[0].story_pic.cover|default:$nikkeiItems[0].story_pic.smallbutton|default:$nikkeiItems[0].story_pic.bigbutton|replace:"http://i.ftimg.net/picture/":"https://d1sh1cgb4xvhl.cloudfront.net/unsafe/picture/"%>
 			<div class="item-container first static-image<%if $firstImage == ""%> no-image<%/if%>"><div class="item-inner">
 			<%if $firstImage != ""%>
 				<a class="image" href="/interactive/<%$nikkeiItems[0].id%>" target=_blank><figure class="loading" data-url="<%$firstImage%>"></figure></a>
@@ -549,7 +549,7 @@
 								<%assign var="itemData" value=" data-id=\"`$storyall[$cs].id`\" data-type=\"interactive\"`$audioData``$subTypeData`"%>
 							<%/if%>
 							<div class="item-container<%if $i===0%> first<%/if%><%$sideItemClass%>"<%$itemData%>><div class="item-inner">
-							<a class="image" href="/interactive/<%$storyall[$cs].id%>" target=_blank><figure class="loading" data-url="<%$storyall[$cs].story_pic.cover|default:$storyall[$cs].story_pic.smallbutton|default:$storyall[$cs].story_pic.bigbutton|replace:"http://i.ftimg.net/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>"></figure></a>
+							<a class="image" href="/interactive/<%$storyall[$cs].id%>" target=_blank><figure class="loading" data-url="<%$storyall[$cs].story_pic.cover|default:$storyall[$cs].story_pic.smallbutton|default:$storyall[$cs].story_pic.bigbutton|replace:"http://i.ftimg.net/picture/":"https://d1sh1cgb4xvhl.cloudfront.net/unsafe/picture/"%>"></figure></a>
 							<h2 class="item-headline"><a href="/interactive/<%$storyall[$cs].id%>" target=_blank class="item-headline-link"><%*$iTag*%><%$storyall[$cs].cheadline%></a></h2>
 							</div></div>
 							<%assign var="echostoryid" value=`$storyall[$cs].id`,$echostoryid%>
@@ -559,7 +559,7 @@
 					<%elseif $ps<$photocount && 1<0 && ($storyall[$cs].pubdate<$photoall[$cp].add_times || $cs>=$storycount)%>
 						<%if !in_array($photoall[$cp].en_title , explode(',',$echostoryid)) && $photoall[$cp].thumb_url %>
 							<div class="item-container<%if $i===0%> first<%/if%>"><div class="item-inner">
-							<a class="image" href="/photonews/<%$photoall[$cp].photonewsid%>" target=_blank><figure class="loading" data-url="https://thumbor.ftacademy.cn/unsafe/<%$photoall[$cp].thumb_url%>"></figure></a>
+							<a class="image" href="/photonews/<%$photoall[$cp].photonewsid%>" target=_blank><figure class="loading" data-url="https://d1sh1cgb4xvhl.cloudfront.net/unsafe/<%$photoall[$cp].thumb_url%>"></figure></a>
 							<h2 class="item-headline"><a href="/photonews/<%$photoall[$cp].photonewsid%>" target=_blank>【图辑】<%$photoall[$cp].cn_title%></a></h2>
 							</div></div>
 							<%assign var="echostoryid" value=`$photoall[$cp].en_title`,$echostoryid%>
@@ -642,7 +642,7 @@
 						<%assign var="itemLink" value=" href=\"/interactive/`$item.id`\""%>
 						<%assign var="itemData" value=" data-id=\"`$item.id`\" data-type=\"interactive\"`$audioData``$subTypeData`"%>
 						<div class="item-container<%if $i===0%> first<%/if%><%$sideItemClass%>"<%$itemData%>><div class="item-inner">
-							<a class="image"<%$itemLink%> target=_blank><figure class="loading" data-url="<%$item.story_pic.cover|default:$item.story_pic.smallbutton|default:$item.story_pic.bigbutton|replace:"http://i.ftimg.net/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>"></figure></a>
+							<a class="image"<%$itemLink%> target=_blank><figure class="loading" data-url="<%$item.story_pic.cover|default:$item.story_pic.smallbutton|default:$item.story_pic.bigbutton|replace:"http://i.ftimg.net/picture/":"https://d1sh1cgb4xvhl.cloudfront.net/unsafe/picture/"%>"></figure></a>
 							<h2 class="item-headline"><a<%$itemLink%> target=_blank class="item-headline-link"><%$item.cheadline%></a></h2>
 						</div></div>
 					<%/foreach%>
@@ -750,7 +750,7 @@
 								<%assign var="itemData" value=" data-id=\"`$storyall[$cs].id`\" data-type=\"interactive\"`$audioData`"%>
 							<%/if%>
 							<div class="item-container<%if $i===0%> first<%/if%><%$sideItemClass%>"<%$itemData%>><div class="item-inner">
-							<a class="image" href="/interactive/<%$storyall[$cs].id%>" target=_blank><figure class="loading" data-url="<%$storyall[$cs].story_pic.cover|default:$storyall[$cs].story_pic.smallbutton|default:$storyall[$cs].story_pic.bigbutton|replace:"http://i.ftimg.net/picture/":"https://thumbor.ftacademy.cn/unsafe/picture/"%>"></figure></a>
+							<a class="image" href="/interactive/<%$storyall[$cs].id%>" target=_blank><figure class="loading" data-url="<%$storyall[$cs].story_pic.cover|default:$storyall[$cs].story_pic.smallbutton|default:$storyall[$cs].story_pic.bigbutton|replace:"http://i.ftimg.net/picture/":"https://d1sh1cgb4xvhl.cloudfront.net/unsafe/picture/"%>"></figure></a>
 							<h2 class="item-headline"><a href="/interactive/<%$storyall[$cs].id%>" target=_blank class="item-headline-link"><%*$iTag*%><%$storyall[$cs].cheadline%></a></h2>
 							</div></div>
 							<%assign var="echostoryid" value=`$storyall[$cs].id`,$echostoryid%>
@@ -760,7 +760,7 @@
 					<%elseif $ps<$photocount && ($storyall[$cs].pubdate<$photoall[$cp].add_times || $cs>=$storycount)%>
 						<%if !in_array($photoall[$cp].en_title , explode(',',$echostoryid)) && $photoall[$cp].thumb_url %>
 							<div class="item-container<%if $i===0%> first<%/if%>"><div class="item-inner">
-							<a class="image" href="/photonews/<%$photoall[$cp].photonewsid%>" target=_blank><figure class="loading" data-url="https://thumbor.ftacademy.cn/unsafe/<%$photoall[$cp].thumb_url%>"></figure></a>
+							<a class="image" href="/photonews/<%$photoall[$cp].photonewsid%>" target=_blank><figure class="loading" data-url="https://d1sh1cgb4xvhl.cloudfront.net/unsafe/<%$photoall[$cp].thumb_url%>"></figure></a>
 							<h2 class="item-headline"><a href="/photonews/<%$photoall[$cp].photonewsid%>" target=_blank>【图辑】<%$photoall[$cp].cn_title%></a></h2>
 							</div></div>
 							<%assign var="echostoryid" value=`$photoall[$cp].en_title`,$echostoryid%>

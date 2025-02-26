@@ -21,7 +21,7 @@
     
     // Function to load the first script and then the second
     function loadScriptsSequentially() {
-        loadScript('https://creatives.ftacademy.cn/ads/gpt.js', function() {
+        loadScript('https://d2hgac2iiu3amu.cloudfront.net/ads/gpt.js', function() {
             window.adCodeLoaded = false;
             // MARK: - This is a key step to destroy Google's blockage on ad display
             window.googletag = undefined;

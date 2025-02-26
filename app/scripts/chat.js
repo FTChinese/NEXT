@@ -734,7 +734,7 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
               if (location.host === 'ftcoffer.herokuapp.com') {
                 visualHeading = `https://www.ft.com/__origami/service/image/v2/images/raw/${encodeURIComponent(visualHeading)}?fit=scale-down&source=next&width=1920`;
               } else {
-                visualHeading = `https://thumbor.ftacademy.cn/unsafe/1920x0/${encodeURIComponent(visualHeading)}`;
+                visualHeading = `https://d1sh1cgb4xvhl.cloudfront.net/unsafe/1920x0/${encodeURIComponent(visualHeading)}`;
               }
               visualHeading = `<div class="story-image image"><figure class=""><img src="${visualHeading}"></figure></div>`;
           }
@@ -1965,7 +1965,7 @@ async function showFTPage(content, language, reply) {
         const endDate = new Date('2025-01-19T23:59:59+08:00').getTime();
         const now = new Date().getTime();
         const showPromotion = now >= startDate && now <= endDate;
-        const promotion = showPromotion ? `<a href="/m/corp/preview.html?pageid=2025CNY&to=all&ccode=2C2025CNYchatftcmpu" target="_blank"><img class="promotion" src="https://thumbor.ftacademy.cn/unsafe/picture/1/000256781_piclink.jpg" width="300" height="250"></a>` : '';
+        const promotion = showPromotion ? `<a href="/m/corp/preview.html?pageid=2025CNY&to=all&ccode=2C2025CNYchatftcmpu" target="_blank"><img class="promotion" src="https://d1sh1cgb4xvhl.cloudfront.net/unsafe/picture/1/000256781_piclink.jpg" width="300" height="250"></a>` : '';
         html += promotion;
         
           
@@ -2024,7 +2024,7 @@ function showImagesForExpandedGroups() {
     if (!url) {continue;}
     const imageWidth = 800;
     const imageHeight = Math.round(imageWidth * 9 / 16);
-    let src = `https://thumbor.ftacademy.cn/unsafe/${imageWidth}x${imageHeight}/${encodeURIComponent(url)}`;
+    let src = `https://d1sh1cgb4xvhl.cloudfront.net/unsafe/${imageWidth}x${imageHeight}/${encodeURIComponent(url)}`;
     if (location.host === 'ftcoffer.herokuapp.com') {
       src = `https://www.ft.com/__origami/service/image/v2/images/raw/${encodeURIComponent(url)}?fit=scale-down&source=next&width=${imageWidth}&height=${imageHeight}`;
     }
@@ -2035,7 +2035,7 @@ function showImagesForExpandedGroups() {
   // if (location.host === 'ftcoffer.herokuapp.com') {
   //   visualHeading = `https://www.ft.com/__origami/service/image/v2/images/raw/${encodeURIComponent(visualHeading)}?fit=scale-down&source=next&width=1920`;
   // } else {
-  //   visualHeading = `https://thumbor.ftacademy.cn/unsafe/1920x0/${encodeURIComponent(visualHeading)}`;
+  //   visualHeading = `https://d1sh1cgb4xvhl.cloudfront.net/unsafe/1920x0/${encodeURIComponent(visualHeading)}`;
   // }
 }
 

@@ -213,8 +213,8 @@ function runLoadImages() {
     var shouldLoadImage = false;
     var loadedClass = '';
     var imageServiceHost = 'https://www.ft.com/__origami/service/image/v2/images/raw/';
-    var imageServiceHostFTC = 'https://thumbor.ftacademy.cn/unsafe/';
-    var ftcStaticServer = 'https://thumbor.ftacademy.cn/unsafe/';
+    var imageServiceHostFTC = 'https://d1sh1cgb4xvhl.cloudfront.net/unsafe/';
+    var ftcStaticServer = 'https://d1sh1cgb4xvhl.cloudfront.net/unsafe/';
     var imageExists = true;
 
     // console.log(`imageUrl: ${imageUrl}, imageWidth: ${imageWidth}, imageHeight: ${imageHeight}`);
@@ -249,13 +249,16 @@ function runLoadImages() {
       imageUrl = imageUrl.replace(imageServiceHostFTC, '')
         .replace(/^[0-9x]+\//g, '')
         .replace(/^(picture)/g, ftcStaticServer + '$1');
-      
     }
     if (/brand/.test(figureParentClass)) {
       fitType = 'contain';
     }
-    imageUrlBack = encodeURIComponent(imageUrl);
-    imageUrlPart = imageUrl.replace(/^(https:\/\/thumbor\.ftacademy\.cn\/unsafe\/)|(http:\/\/i\.ftimg\.net\/)/g, '');
+    imageUrlBack = imageUrl;
+    if (/^\/picture\//.test(imageUrlBack)) {
+      imageUrlBack = `https://dq4atoxl7csa1.cloudfront.net/unsafe${imageUrlBack}`;
+    }
+    imageUrlBack = encodeURIComponent(imageUrlBack);
+    imageUrlPart = imageUrl.replace(/^(https:\/\/thumbor\.ftacademy\.cn\/unsafe\/)|(http:\/\/i\.ftimg\.net\/)|(http:\/\/d1sh1cgb4xvhl\.cloudfront\.net\/unsafe\/)/g, '');
     // console.log(`imageUrl: ${imageUrl}, fitType: ${fitType}, loadedClass: ${loadedClass}, imageWidth: ${imageWidth}, imageHeight: ${imageHeight}`);
     if (imageUrl.indexOf('bokecc.com')>=0) {
       // Nothing needs to be done since it is an image hosted on CC Video
@@ -266,7 +269,7 @@ function runLoadImages() {
       imageUrlBack = imageServiceHost + imageUrlBack + '?source=ftchinese&height=' + imageHeight + '&fit=' + fitType + '&from=next001';
       shouldLoadImage = true;
     } else if (imageWidth > 0 && imageHeight > 0) {
-      imageUrl = imageServiceHostFTC + imageWidth + 'x' + imageHeight + '/' + imageUrlPart;
+      imageUrl = imageServiceHostFTC + imageWidth + 'x' + imageHeight + '/' + imageUrlPart.replace(/^\//g, '');
       imageUrlBack = imageServiceHost + imageUrlBack + '?source=ftchinese&width=' + imageWidth + '&height=' + imageHeight + '&fit=' + fitType + '&from=next001';
       shouldLoadImage = true;
     }
@@ -1088,16 +1091,19 @@ for (var i=0; i<refreshTimes.length; i++) {
 // MARK: - A cool trick to handle images that fail to load
 try {
   delegate.on('error', 'img', function(){
-    if (this.getAttribute('src') === '') {
+    const src = this.getAttribute('src') ?? '';
+    if ( src === '') {
       return;
     }
     var backupImg = this.getAttribute('data-backupimage') || '';
     if (backupImg !== '') {
       this.setAttribute('data-backupimage', '');
       this.src = backupImg;
+      this.setAttribute('data-failed-1', src);
     } else {
       this.setAttribute('data-hide-image-reason', 'failed to load');
       this.style.display = 'none';
+      this.setAttribute('data-failed-2', src);
     }
     //console.log ('load image error handled: ' + this.src); 
   });
