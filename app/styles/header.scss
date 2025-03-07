@@ -1,7 +1,7 @@
 @use "sass:math";
-
 @import "header-input.scss";
 @import "main-search-new.scss";
+
 
 .header-container {
 	@include headerContainer;
@@ -30,6 +30,8 @@
 		background-image: $mastHeadBig5;
 	}
 }
+
+
 .header-side {
 	position: absolute;
 	top: 0;
@@ -58,7 +60,9 @@
 				width: 32px;
 				background-repeat: no-repeat;
 				background-position: center;
-				background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><circle cx="512" cy="409.5" r="102.4" fill="%2333302E"/><path d="M512 563.1c-128 0-179.2 25.6-179.2 102.4v102.6h358.4V665.5c0-77.3-51.2-102.4-179.2-102.4z" fill="%2333302E"/></svg>');			}
+				@include my-account-icon();
+				// background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><circle cx="512" cy="409.5" r="102.4" fill="%2333302E"/><path d="M512 563.1c-128 0-179.2 25.6-179.2 102.4v102.6h358.4V665.5c0-77.3-51.2-102.4-179.2-102.4z" fill="%2333302E"/></svg>');			
+			}
 			&:hover, &:active  {
 				&:after {
 					left: 32px;
@@ -73,11 +77,15 @@
 				right: 0;
 				left: 0;
 				bottom: 10px;
-				background-color: black;
+				background-color: $header_underline_color;
 			}
 		}
 	}
 }
+
+
+
+
 
 .header-left {
 	left: $defaultPadding;
