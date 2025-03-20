@@ -6028,7 +6028,21 @@ Genres: {
         'zh-TW': '您還有{{premiumAddon}}天高端會員的權限，在當前的訂閱權限到期後會自動啟用。',
         'zh-HK': '您還有{{premiumAddon}}天高端會員的權限，在當前的訂閱權限到期後會自動啟用。',
         ru: 'У вас осталось {{premiumAddon}} дней премиум-членства, которое автоматически активируется после окончания текущей подписки.'
-    }
+    },
+    cannotpaywiththispayment: {
+      zh: '支付方式目前不可用，请换用其他的支付方式。',
+      en: 'This payment method is currently unavailable. Please use a different payment method.',
+      es: 'Este método de pago no está disponible en este momento. Por favor, use otro método de pago.',
+      fr: 'Ce mode de paiement n’est actuellement pas disponible. Veuillez utiliser un autre mode de paiement.',
+      de: 'Diese Zahlungsmethode ist derzeit nicht verfügbar. Bitte verwenden Sie eine andere Zahlungsmethode.',
+      ja: 'この支払い方法は現在使用できません。別の支払い方法を使用してください。',
+      ko: '이 결제 방법은 현재 사용할 수 없습니다. 다른 결제 방법을 사용해 주세요.',
+      pt: 'Este método de pagamento não está disponível no momento. Por favor, utilize outro método de pagamento.',
+      it: 'Questo metodo di pagamento non è attualmente disponibile. Si prega di utilizzare un altro metodo di pagamento.',
+      'zh-TW': '支付方式目前不可用，請使用其他支付方式。',
+      'zh-HK': '支付方式目前不可用，請使用其他支付方式。',
+      ru: 'Этот способ оплаты в данный момент недоступен. Пожалуйста, используйте другой способ оплаты.'
+    },
 };
 
 

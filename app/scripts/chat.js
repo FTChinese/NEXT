@@ -1798,37 +1798,39 @@ async function handleActionClick(element) {
       let title = '';
 
       if (1>2 && articleEle.querySelector('.story-headline-english')) {
-          title = articleEle.querySelector('.story-headline-english').innerHTML;
+          title = articleEle.querySelector('.story-headline-english').innerText;
       } else {
-          title = articleEle.querySelector('.story-headline').innerHTML;
+          title = articleEle.querySelector('.story-headline').innerText;
       }
       let byline = '';
       if (1>2 && articleEle.querySelector('.story-author-english')) {
-          byline = articleEle.querySelector('.story-author-english').innerHTML;
+          byline = articleEle.querySelector('.story-author-english').innerText;
       } else {
-          byline = articleEle.querySelector('.story-author').innerHTML;
+          byline = articleEle.querySelector('.story-author').innerText;
       }
       let standfirst = '';
       if (1>2 && articleEle.querySelector('.story-lead-english')) {
-          standfirst = articleEle.querySelector('.story-lead-english').innerHTML;
+          standfirst = articleEle.querySelector('.story-lead-english').innerText;
       } else {
-          standfirst = articleEle.querySelector('.story-lead').innerHTML;
+          standfirst = articleEle.querySelector('.story-lead').innerText;
       }
       let storyBody = '';
       if (1>2 && articleEle.querySelector('.story-body-english')) {
-          storyBody = articleEle.querySelector('.story-body-english').innerHTML;
+          storyBody = articleEle.querySelector('.story-body-english').innerText;
       } else {
-          storyBody = articleEle.querySelector('.story-body').innerHTML;
+          storyBody = articleEle.querySelector('.story-body-container').innerText;
       }
-      const storyTime = articleEle.querySelector('.story-time').innerHTML;
+      const storyTime = articleEle.querySelector('.story-time').innerText;
       const contextPrefix = `Published at ${storyTime}\n`;
       let articleContextAll = `${title}\n${standfirst}\nby: ${byline.trim()}\n${storyBody.trim()}`;
       articleContextAll = articleContextAll
           .replace(/<\/p><p>/g, '\n')
           .replace(/(<([^>]+)>)/gi, '')
           .replace(/\[MUSIC PLAYING\]/g, '')
-          .replace(/[\s]+[\n\r]/g, '\n')
-      const articleContextChunks = textToChunks(articleContextAll, 1024, contextPrefix);
+          .replace(/[\s]+[\n\r]/g, '\n');
+      // console.log(`articleContextAll: \n`, articleContextAll);
+      const articleContextChunks = textToChunks(articleContextAll, 2048, contextPrefix);
+      // console.log(`articleContextChunks: \n`, JSON.stringify(articleContextChunks, null, 2));
       if (action === 'quiz') {
           await generateQuiz(id, language, articleContextChunks, action);
       } else if (action === 'socratic') {
