@@ -1,0 +1,263 @@
+@use "sass:math";
+@import "theme-default.scss";
+@import "variables.scss";
+
+
+.quiz-question, .survey-question, .preference-question {
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-bottom: math.div($defaultPadding, 2);
+}
+
+.quiz-options, .survey-options, .preference-options {
+    div {
+        background-color: rgb(230, 217, 206);
+        border-color: rgb(230, 217, 206);
+        border-width: 2px;
+        border-style: solid;
+        margin-bottom: math.div($defaultPadding, 2);
+        // font-weight: bold;
+        font-size: 1.2em;
+        padding: math.div($defaultPadding, 2);
+        cursor: pointer;
+    }
+}
+
+.quizzes-status {
+    padding-top: $defaultPadding;
+}
+
+.survey-options {
+    div.text-input {
+        border-width: 1px;
+        padding: 0;
+        input {
+            width: 100%;
+            font-size: 1em;
+            line-height: 1.4em;
+            padding: math.div($defaultPadding, 2);
+            border-width: 0;
+        }
+    }
+}
+
+.quiz-explanation {
+    display: none;
+    .is-done & {
+        display: block;
+    }
+}
+
+.quiz-container, .survey-item-container {
+    border-top: 1px solid $borderColor;
+    padding-top: 1.4em;
+    margin-bottom: 1.4em;
+    &:first-child, &.is-first-item {
+        border-color: transparent;
+        padding-top: 0;
+    }
+    .is-selected {
+        border-color: rgb(33, 114, 171);
+    }
+    &.is-done {
+        .is-correct {
+            border-color: rgb(120, 189, 107);
+        }
+    }
+    &.is-wrong {
+        .is-selected {
+            border-color: #CC0000;
+        }
+    }
+    .story-body-container & {
+        font-size: 0.85em;
+    }
+}
+
+.quiz-next, .survey-submit, .setting-next {
+    margin: auto auto $defaultPadding auto;
+    font-size: 1.2em;
+    padding: math.div($defaultPadding, 4) math.div($defaultPadding, 2);
+    width: auto;
+    height: auto;
+}
+
+.quiz-share {
+    width: 24px;
+    height: 24px;
+    display: inline-block;
+    cursor: pointer;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="%235f6368"><path d="M680-80q-50 0-85-35t-35-85q0-6 3-28L282-392q-16 15-37 23.5t-45 8.5q-50 0-85-35t-35-85q0-50 35-85t85-35q24 0 45 8.5t37 23.5l281-164q-2-7-2.5-13.5T560-760q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-24 0-45-8.5T598-672L317-508q2 7 2.5 13.5t.5 14.5q0 8-.5 14.5T317-452l281 164q16-15 37-23.5t45-8.5q50 0 85 35t35 85q0 50-35 85t-85 35Zm0-80q17 0 28.5-11.5T720-200q0-17-11.5-28.5T680-240q-17 0-28.5 11.5T640-200q0 17 11.5 28.5T680-160ZM200-440q17 0 28.5-11.5T240-480q0-17-11.5-28.5T200-520q-17 0-28.5 11.5T160-480q0 17 11.5 28.5T200-440Zm480-280q17 0 28.5-11.5T720-760q0-17-11.5-28.5T680-800q-17 0-28.5 11.5T640-760q0 17 11.5 28.5T680-720Zm0 520ZM200-480Zm480-280Z"/></svg>');
+    background-size: contain;
+    background-repeat: no-repeat;
+
+}
+
+.quiz-promotion-text-link {
+    float: right;
+    text-align: right;
+    
+}
+
+.quiz-detail {
+    width: 24px;
+    height: 24px;
+    display: inline-block;
+    cursor: pointer;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="%235f6368"><path d="M440-280h80v-240h-80v240Zm40-320q17 0 28.5-11.5T520-640q0-17-11.5-28.5T480-680q-17 0-28.5 11.5T440-640q0 17 11.5 28.5T480-600Zm0 520q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>');
+    background-size: contain;
+    background-repeat: no-repeat;
+
+
+}
+
+
+.stats-container {
+    margin: $defaultPadding * 0.5 auto;
+    background-color: $bannerBG;
+    border-radius: $defaultPadding * 0.25;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: $defaultPadding * 0.5;
+    text-align: center;
+    font-size: 0.85em;
+    font-weight: normal;
+}
+
+.stats-container h2 {
+    margin-bottom: 15px;
+    font-size: 2em;
+    color: $darkGrey;
+    &.win {
+        color: $correct;
+    }
+    &.lose {
+        color: $wrong;
+    }
+    &.gold {
+        color: $correct;
+        font-size: 2.5em;
+        animation: heartbeat 5s ease-in-out infinite;
+    }
+}
+
+.stats-item {
+    padding: $defaultPadding * 0.5;
+    border-bottom: 1px solid $sideBorderColor;
+    display: flex;
+    justify-content: space-between;
+}
+
+.stats-item:last-child {
+    border-bottom: none;
+}
+
+.stats-container {
+    @supports (animation-timeline: scroll()) {
+        @media (prefers-reduced-motion: no-preference) {
+            animation-fill-mode: both;
+            animation-name: polygon-in-opposing-corners;
+            animation-timing-function: linear;
+            animation-timeline: view();
+            animation-range: entry 50% entry 100%;
+        }
+    }
+}
+
+.add-to-calendar {
+    margin-top: $defaultPadding;
+    background-color: white;
+    border: 1px solid $borderColor;
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: left;
+    font-size: 0.9em;
+}
+.add-to-calendar a {
+    background-color: $correct;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    min-width: 120px;
+    text-align: center;
+    display: inline-block;
+}
+.add-to-calendar a:hover {
+    cursor: pointer;
+    background-color: $correct;
+}
+.calendar-icon {
+    font-size: 24px;
+    margin-right: 15px;
+}
+.calendar-text {
+    flex-grow: 1;
+}
+
+.chat-item-summary {
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-top: math.div($defaultPadding, 2);
+}
+
+
+@keyframes polygon-in-opposing-corners {
+    0% {
+        clip-path: polygon(0 0, 50% 50%, 100% 100%, 50% 50%);
+    }
+    to {
+        clip-path: polygon(0 0, 0 100%, 100% 100%, 100% 0);
+    }
+}
+
+
+.quiz-explanation {
+    @supports (animation-timeline: scroll()) {
+        @media (prefers-reduced-motion: no-preference) {
+            animation-fill-mode: both;
+            animation-name: fade-slide-in;
+            animation-timing-function: linear;
+            animation-timeline: view();
+            animation-range: entry 50% entry 100%;
+        }
+    }
+}
+
+@keyframes polygon-in-opposing-corners {
+    0% {
+        clip-path: polygon(0 0, 50% 50%, 100% 100%, 50% 50%);
+    }
+    to {
+        clip-path: polygon(0 0, 0 100%, 100% 100%, 100% 0);
+    }
+}
+
+
+@keyframes fade-slide-in {
+    0% {
+        opacity: 0;
+        transform: translateY(20px); /* Start slightly below */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0); /* End at the natural position */
+    }
+}
+
+@keyframes heartbeat {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.4);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+

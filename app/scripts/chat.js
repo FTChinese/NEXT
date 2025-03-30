@@ -23,16 +23,6 @@ const publicVapidKey = 'BCbyPnt30RUDSelV6n1jJk8jHzR9cT7ajJPXLRq7tohhQ8D6TVb1h3EN
 let registration;
 const readArticlesKey = 'Read Articles';
 
-// MARK: - scrollIntoView doesn't support offset
-const scrollOptions = { 
-  behavior: 'smooth', 
-  block: 'end',
-};
-const scrollOptionsStart = { 
-  behavior: 'smooth', 
-  block: 'start',
-  inline: "nearest"
-};
 
 
 var composing = false;
@@ -281,18 +271,7 @@ delegate.on('click', '#back-arrow',  (event) => {
   window.close();
 });
 
-function trackEvent(action = '', category = '', label = '', value = 0, nonInteraction = false) {
-  try {
-    if (action === '') {return;}
-    let options = {'event_label': label, 'event_category': category};
-    if (nonInteraction) {
-      options.non_interaction = true;
-    }
-    gtag('event', action, options);
-  } catch(err) {
-    console.log(err);
-  }
-}
+
 
 function shouldEventStop(event) {
   const element = event.target;
@@ -963,74 +942,6 @@ function showResultInChat(result, shouldScrollIntoView = true, isFullGrid = fals
   } else if (shouldScrollIntoView) {
     scrollIntoViewProperly(newResult);
       // newResult.scrollIntoView(scrollOptions);
-  }
-}
-
-function getOffsetTop(element) {
-  let offsetTop = 0;
-  while (element) {
-    offsetTop += element.offsetTop;
-    element = element.offsetParent;
-  }
-  return offsetTop;
-}
-
-// MARK: - Accurately controll how an element should be scrolled into view so that it feels totally natural and convenient for users. 
-function scrollIntoViewProperly(ele) {
-  const eleHeight = ele.offsetHeight || 0;
-  const windowHeight = window.innerHeight || 0;
-
-  const isQuiz = ele.classList.contains('quiz-container');
-  const hasStickyAudioPlaceHolder = ele.closest('.chat-talk-inner')?.querySelector('.audio-placeholder') ? true : false;
-  const topBottomEdgeHeight = hasStickyAudioPlaceHolder ? 200 : 100;
-  const visibleChatWindowHeight = windowHeight - topBottomEdgeHeight;
-
-  // console.log('\n\n===========');
-  // console.log(ele);
-  // console.log(`isQuiz: ${isQuiz}, hasStickyAudioPlaceHolder: ${hasStickyAudioPlaceHolder}, eleHeight: ${eleHeight}, visibleChatWindowHeight: ${visibleChatWindowHeight}, topBottomEdgeHeight: ${topBottomEdgeHeight}`);
-  if (eleHeight < visibleChatWindowHeight && !isQuiz) {
-    // console.log('Default scroll which has less controle. ');
-    ele.scrollIntoView(scrollOptions);
-  } else {
-    const offsetTop = getOffsetTop(ele);
-    const w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-    const hideTopNavWidth = 768;
-    const topEdge = (w <= hideTopNavWidth ) ? 88 : 64;
-    const offsetPosition = Math.max(0, offsetTop - topEdge);
-    // console.log(`Count the scroll height: offsetTop: ${offsetTop}, topEdge: ${topEdge}, offsetPosition: ${offsetPosition}`);
-    window.scrollTo({
-      top: offsetPosition,
-      behavior: 'smooth'
-    });
-  
-  }
-  
-}
-
-function scrollIntoViewProperlyForItems(eles) {
-  let eleHeight = 0;
-  for (const ele of eles || []) {
-    eleHeight += ele.offsetHeight || 0;
-  }
-  const ele = eles[0];
-  const windowHeight = window.innerHeight || 0;
-  const topBottomEdgeHeight = 100;
-  const visibleChatWindowHeight = windowHeight - topBottomEdgeHeight;
-
-  if (eleHeight < visibleChatWindowHeight) {
-    ele.scrollIntoView(scrollOptions);
-  } else {
-    const offsetTop = getOffsetTop(ele);
-    const w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-    const hideTopNavWidth = 768;
-    const topEdge = (w <= hideTopNavWidth ) ? 88 : 44;
-    const offsetPosition = Math.max(0, offsetTop - topEdge);
-    // console.log(eles?.[0]?.innerHTML);
-    console.log(`Count the scroll height: offsetTop: ${offsetTop}, offset position: ${offsetPosition}`);
-    window.scrollTo({
-      top: offsetPosition,
-      behavior: 'smooth'
-    });
   }
 }
 
