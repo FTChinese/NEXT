@@ -171,89 +171,89 @@ function getEventApplicationForm() {
     xhr.send();
 }
 
-function applyEvent(ele) {
-    var statusEle = document.getElementById('form-application-status');
-    statusEle.style.marginTop = '15px';
-    statusEle.style.color = '#9E2F50';
-    if (isSubmitting) {
-        statusEle.innerHTML = '请不要重复提交！';
-        return false;
-    }
-    var inputs = document.querySelectorAll('.event-application .input-oneline');
-    var errorMessages = [];
-    for (var m=0; m<inputs.length; m++) {
-        var required = inputs[m].getAttribute('data-required');
-        if (required !== 'yes') {continue;}
-        var inputGroup = inputs[m].parentNode.parentNode;
-        if (inputGroup.style.display === 'none') {continue;} 
-        var inputValue = inputs[m].value;
-        var inputType = inputs[m].type;
-        var inputTitle = inputs[m].getAttribute('placeholder');
-        if (inputType === 'text') {
-            if (inputValue === '') {
-                errorMessages.push(inputTitle);
-            }
-        }
-        if (inputType === 'email') {
-            const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            if (re.test(String(inputValue).toLowerCase()) === false) {
-                errorMessages.push(inputTitle);
-            }
-        }
-        if (inputType === 'tel') {
-            if (inputValue.length < 0 || /^[0-9\s\(\)]+$/.test(inputValue) === false) {
-                errorMessages.push(inputTitle);
-            }
-        }
-    }
-    if (errorMessages.length > 0) {
-        statusEle.innerHTML = '请正确填写如下信息：' + errorMessages.join('、');
-        return false;
-    }
-    statusEle.innerHTML = '正在提交中...';
-    isSubmitting = true;
-    var xhr = new XMLHttpRequest();
-    var formDest = (formPurpose === '2B') ? 'collect' : 'signup';
-    xhr.open('POST', '/index.php/user/' + formDest, true);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            var data = JSON.parse(xhr.responseText);
-            if (data.status === 'success') {
-                var statusNote = document.querySelector('.event-application').getAttribute('data-success-note') || '提交成功！';
-                statusEle.innerHTML = statusNote;
-            } else if (data.status === 'unqualified') {
-                var statusNote = document.querySelector('.event-application').getAttribute('data-hide-form-info') || '您没有参与资格！';
-                statusEle.innerHTML = statusNote;
-            } else {
-                statusEle.innerHTML = data.message;
-            }
-        } else if (xhr.status !== 200) {
-            if (location.host === 'www.ftacademy.cn') {
-                var statusNote = '您现在似乎无法连接到我们的服务器，请<a href="https://www.ftacademy.cn/annual_forum_2019.html">点击这里更换一个域名试试</a>';
-                statusEle.innerHTML = statusNote;
-            } else {
-                statusEle.innerHTML = '未能成功提交，请稍后再试';
-            }
-        }
-        isSubmitting = false;
-    };
-    var eventInfo = {};
-    for (var i=0; i<inputs.length; i++) {
-        var id = inputs[i].id;
-        var value = inputs[i].value;
-        if (formDest === 'signup') {
-            var n = i + 1; 
-            var mod = 'mod' + n;
-            eventInfo[mod] = value;
-        }
-        // MARK: - update user info
-        if (/\-[0-9]+$/.test(id) === false) {
-            eventInfo[id] = value;
-        }
-    }
-    xhr.send(JSON.stringify(eventInfo));
+async function applyEvent(ele) {
+  const statusEle = document.getElementById('form-application-status');
+  statusEle.style.marginTop = '15px';
+  statusEle.style.color = '#9E2F50';
+
+  if (isSubmitting) {
+    statusEle.innerHTML = '请不要重复提交！';
     return false;
+  }
+
+  const inputs = document.querySelectorAll('.event-application .input-oneline');
+  const errorMessages = [];
+
+  for (const input of inputs) {
+    const required = input.getAttribute('data-required');
+    if (required !== 'yes') continue;
+
+    const inputGroup = input.parentNode.parentNode;
+    if (inputGroup.style.display === 'none') continue;
+
+    const value = input.value.trim();
+    const title = input.getAttribute('placeholder') || input.id;
+    const type = input.type;
+
+    if (type === 'text' && value === '') errorMessages.push(title);
+    if (type === 'email' && !/^[^@]+@[^@]+\.[^@]+$/.test(value)) errorMessages.push(title);
+    if (type === 'tel' && (value.length === 0 || !/^[0-9\s()-]+$/.test(value))) errorMessages.push(title);
+  }
+
+  if (errorMessages.length > 0) {
+    statusEle.innerHTML = '请正确填写如下信息：' + errorMessages.join('、');
+    return false;
+  }
+
+  statusEle.innerHTML = '正在提交中...';
+  isSubmitting = true;
+
+  const eventInfo = {};
+  const formDest = (formPurpose === '2B') ? 'collect' : 'signup';
+
+  for (let i = 0; i < inputs.length; i++) {
+    const input = inputs[i];
+    const id = input.id;
+    const value = input.value;
+    if (formDest === 'signup') {
+      eventInfo[`mod${i + 1}`] = value;
+    }
+    if (!/\-[0-9]+$/.test(id)) {
+      eventInfo[id] = value;
+    }
+  }
+
+  try {
+    const response = await fetch('/' + formDest, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(eventInfo)
+    });
+
+    const data = await response.json();
+
+    if (data.status === 'success') {
+      const note = document.querySelector('.event-application').getAttribute('data-success-note') || '提交成功！';
+      statusEle.innerHTML = note;
+    } else if (data.status === 'unqualified') {
+      const note = document.querySelector('.event-application').getAttribute('data-hide-form-info') || '您没有参与资格！';
+      statusEle.innerHTML = note;
+    } else {
+      statusEle.innerHTML = data.message || '提交失败';
+    }
+
+  } catch (err) {
+    if (location.host === 'www.ftacademy.cn') {
+      statusEle.innerHTML = '您现在似乎无法连接到我们的服务器，请<a href="https://www.ftacademy.cn/annual_forum_2019.html">点击这里更换一个域名试试</a>';
+    } else {
+      statusEle.innerHTML = '未能成功提交，请稍后再试';
+    }
+  }
+
+  isSubmitting = false;
+  return false;
 }
 
 function loginOnAcademy() {

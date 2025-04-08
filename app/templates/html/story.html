@@ -412,6 +412,7 @@
 <%if $smarty.get.ad == "no" || preg_match("/去广告/is",$keys) || (preg_match("/高端专享/is",$keys) && $hasFoundSponsorship != "yes")%>
 	<%assign var="noAd" value="true"%>
 <%/if%>
+<%assign var="hidden_keys" value=$keys%>
 <%assign var="keys" value=$keys|regex_replace:"/白底|靠右|单页|去广告|插图|透明|高清|置顶|沉底|资料|突发|NoCopyrightCover|IsEdited/":""%>
 <%assign var="keys" value=$keys|regex_replace:"/,+/":","%>
 <%assign var="keys" value=$keys|regex_replace:"/^,/":""%>
@@ -1409,9 +1410,9 @@
 
 <%assign var="authorHeadshot" value=""%>
 <%assign var="genre" value="`$story.genre``$genre`"%>
-<%if $storyImage != "" && (preg_match("/双语阅读/is",$keys) || $itemType == "story" || $itemType == "premium") && ($isFullGridStory == "yes" || preg_match("/FT大视野|卧底经济学家|FT杂志|周末随笔/is",$keys))%>
+<%if $storyImage != "" && (preg_match("/双语阅读|高清/is",$hidden_keys) || $itemType == "story" || $itemType == "premium") && ($isFullGridStory == "yes" || preg_match("/FT大视野|卧底经济学家|FT杂志|周末随笔|高清/is",$hidden_keys))%>
 	<%assign var="showStoryHero" value="yes"%>
-	<%if preg_match("/周末随笔/is",$keys)%>
+	<%if preg_match("/周末随笔|高清/is",$hidden_keys)%>
 		<%assign var="storyHeroThemeClass" value=" story-hero-theme-pink"%>
 	<%/if%>
 <%elseif (preg_match("/comment|opinion|column|feature/is",$genre) || ($columninfo != "" && $columninfo.piclink != "")) && !preg_match("/FT商学院/is",$keys)%>

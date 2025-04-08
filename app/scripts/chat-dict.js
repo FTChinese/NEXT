@@ -6043,6 +6043,20 @@ Genres: {
       'zh-HK': '支付方式目前不可用，請使用其他支付方式。',
       ru: 'Этот способ оплаты в данный момент недоступен. Пожалуйста, используйте другой способ оплаты.'
     },
+    confirmInformation: {
+      zh: '确认信息',
+      en: 'Confirm',
+      es: 'Confirmar',
+      fr: 'Confirmer',
+      de: 'Bestätigen',
+      ja: '確認する',
+      ko: '확인',
+      pt: 'Confirmar',
+      it: 'Conferma',
+      'zh-TW': '確認資訊',
+      'zh-HK': '確認資訊',
+      ru: 'Подтвердить'
+    },
 };
 
 
