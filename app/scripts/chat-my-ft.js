@@ -348,12 +348,14 @@ function getAnnotaionsInfo(content, language) {
             <ul class="top10">${annotationsHTML}</ul>
         </div></div>`;
     }
-    const startDate = new Date('2025-01-06T00:00:00+08:00').getTime();
-    const endDate = new Date('2025-01-19T23:59:59+08:00').getTime();
+    const startDate = new Date('2025-04-14T00:00:00+08:00').getTime();
+    const endDate = new Date('2025-04-27T23:59:59+08:00').getTime();
     const now = new Date().getTime();
     const showPromotion = now >= startDate && now <= endDate;
     const domain = isInNativeApp ? 'www.ftchinese.com' : 'www.ftchinese.com';
-    const promotion = showPromotion ? `<a class="story-side-ad-inner" href="/m/corp/preview.html?pageid=2025CNY&to=all&ccode=2C2025CNYchatftcmpu" target="_blank"><img src="https://d1sh1cgb4xvhl.cloudfront.net/unsafe/picture/1/000256781_piclink.jpg" width="300" height="250"></a>` : '';
+    const promotion = showPromotion ? `<a class="story-side-ad-inner" href="/m/corp/preview.html?pageid=2025SubApr&to=all&ccode=2C2025Aprchatftclp
+" target="_blank"><img src="https://d1sh1cgb4xvhl.cloudfront.net/unsafe/picture/6/000271226_piclink.jpg
+" width="300" height="250"></a>` : '';
     annotationsHTMLMentions = `
         <div class="story-side-ad-container">${promotion}</div>`;
     return {

@@ -55,14 +55,25 @@
 
 
 
+
+
+
 <%<!--MARK: - The MD5 is only used here for Android Native App-->%>
 <%if $smarty.get.android != ""%>
+
+Test: 
+http://<%$smarty.server.HTTP_HOST%><%$smarty.server.REQUEST_URI%>
+
+
 <script type="text/javascript">
 var isAndroidApp = true;
 var androidSecret = 'ftchinese';
+
 function requestExistingInfoFromAndroidApp() {
   // MARK: - Check this Every Two Seconds
+
   if (window.androidUserInfo) {
+
     var loginData = {
       user_id: androidUserInfo.id,
       secret: MD5(androidUserInfo.id+androidSecret)
