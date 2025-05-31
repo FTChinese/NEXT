@@ -101,8 +101,37 @@ const organisationsSet = new Set(['Federal Reserve']);
 
 const authorsSet = new Set(window.authors);
 
+
+function isSuspiciousValue(value) {
+    if (typeof value !== 'string') return false;
+    return /[<>"]/.test(value) || value.toLowerCase().includes('javascript:') || value.toLowerCase().includes('onerror=');
+}
+
+function deepSanitizeFrontend(obj) {
+    if (Array.isArray(obj)) {
+        return obj
+            .map(deepSanitizeFrontend)
+            .filter(item => {
+                if (typeof item === 'object' && item !== null) {
+                    return !Object.values(item).some(isSuspiciousValue);
+                }
+                return !isSuspiciousValue(item);
+            });
+    } else if (typeof obj === 'object' && obj !== null) {
+        const sanitized = {};
+        for (const key in obj) {
+            sanitized[key] = deepSanitizeFrontend(obj[key]);
+        }
+        return sanitized;
+    } else {
+        return obj;
+    }
+}
+
+
 async function savePreference(myPreference) {
     let p = JSON.parse(JSON.stringify(myPreference));
+    p = deepSanitizeFrontend(p);
     p.time = new Date();
     localStorage.setItem('preference', JSON.stringify(p));
     updateNavigation().catch(error => {
@@ -1280,13 +1309,7 @@ delegate.on('click', '.preference-options [data-value]', async (event) => {
         target.classList.remove('selected');
     }
     targetEle.classList.add('selected');
-    let myPreference = {};
-    const myPreferenceString = localStorage.getItem('preference');
-    if (myPreferenceString && myPreferenceString !== '') {
-      try {
-        myPreference = JSON.parse(myPreferenceString);
-      } catch(ignore) {}
-    }
+    let myPreference = getMyPreference();
     const key = containerEle.getAttribute('data-key');
     if (!key) {return;}
     myPreference[key] = value;

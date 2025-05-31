@@ -185,13 +185,7 @@ delegate.on('change', '.select-container select', async (event) => {
   const newValue = element.value;
   const name = element.id;
   if (newValue === '' || !name) {return;}
-  let myPreference = {};
-  const myPreferenceString = localStorage.getItem('preference');
-  if (myPreferenceString && myPreferenceString !== '') {
-    try {
-      myPreference = JSON.parse(myPreferenceString);
-    } catch(ignore) {}
-  }
+  let myPreference = getMyPreference();
   myPreference[name] = newValue;
   savePreference(myPreference);
   if (name === 'Language') {
@@ -1306,13 +1300,7 @@ async function setPreference(category, language, reply) {
   const mySettings = settings[category];
   if (!mySettings || mySettings.length === 0) {return;}
   let html = '';
-  let myPreference = {};
-  const myPreferenceString = localStorage.getItem('preference');
-  if (myPreferenceString && myPreferenceString !== '') {
-    try {
-      myPreference = JSON.parse(myPreferenceString);
-    } catch(ignore) {}
-  }
+  let myPreference = getMyPreference();
   for (const setting of mySettings) {
     const type = setting.type;
     const id = setting.name;
@@ -2079,12 +2067,16 @@ function showError(message) {
   chatContent.appendChild(newChat);
 }
 
+
+
+
 function getMyPreference() {
   let myPreference = {};
   const myPreferenceString = localStorage.getItem('preference');
   if (myPreferenceString && myPreferenceString !== '') {
     try {
       myPreference = JSON.parse(myPreferenceString);
+      myPreference = deepSanitizeFrontend(myPreference);
     } catch(ignore) {}
   }
   return myPreference;
