@@ -316,7 +316,7 @@ delegate.on('click', '.add-name-entity', function(event){
     var ele = this.closest('.name-entity-translation');
     var en = ele.getAttribute('data-key');
     var cn = ele.querySelector('.name-entity-shortcut').innerText;
-    var domain = location.hostname === 'localhost' ? 'https://backyard.ftchinese.com' : '';
+    var domain = location.hostname === 'localhost' ? 'https://d2fip1ztbdfija.cloudfront.net' : '';
     var url = domain + '/falcon.php/glossary/add?en=' + en + '&cn=' + cn;
     window.open(url, '_blank');
 });

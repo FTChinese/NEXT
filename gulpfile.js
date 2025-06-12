@@ -138,7 +138,7 @@ gulp.task('story', () => {
   return co(function *() {
     const date = new Date();
     const timeStamp = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;  
-    // const cookies = yield got('https://backyard.ftchinese.com/falcon.php/cmsusers/login')
+    // const cookies = yield got('https://d2fip1ztbdfija.cloudfront.net/falcon.php/cmsusers/login')
     // .then(response => {
     //   const cookies = response.headers['set-cookie'].map(cookie => {
     //      const obj =  Cookie.parse(cookie);
@@ -149,7 +149,7 @@ gulp.task('story', () => {
 
     const cookie = `PHPSESSID=78f011e58763cbca4400e42b265d4e33; ftcms_uid=13; ftcms_username=oliver.zhang; ftcms_groups=editor`;
 
-    const response = yield got(`https://backyard.ftchinese.com/falcon.php/homepage/getstoryapi/${timeStamp}`, {
+    const response = yield got(`https://d2fip1ztbdfija.cloudfront.net/falcon.php/homepage/getstoryapi/${timeStamp}`, {
       'headers': {
         'user-agent': 'ftc',
         'cookie': cookie
