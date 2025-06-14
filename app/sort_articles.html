@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>View Transitions：卡片平滑移动</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 2rem;
+      background: #f9f9f9;
+    }
+
+    button {
+      margin-bottom: 1rem;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+
+    .card img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 10px;
+    }
+
+    .card h3 {
+      font-size: 18px;
+      margin: 0 0 5px;
+    }
+
+    .card p {
+      font-size: 14px;
+      color: #555;
+    }
+
+    /* View Transition 动画 */
+    ::view-transition-old(*),
+    ::view-transition-new(*) {
+      animation: fade-move 300ms ease;
+    }
+
+    @keyframes fade-move {
+      from {
+        opacity: 0.8;
+        transform: scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <button id="shuffle">重新排序</button>
+
+  <div class="grid" id="grid">
+    <!-- 卡片将插入 -->
+  </div>
+
+  <script>
+    const data = [
+      { id: 'a', title: "经济放缓影响全球", image: "https://picsum.photos/id/1011/400/200", lead: "各国政府面临前所未有的挑战。" },
+      { id: 'b', title: "科技创新突破边界", image: "https://picsum.photos/id/1015/400/200", lead: "人工智能正在重塑商业格局。" },
+      { id: 'c', title: "全球气候变化加剧", image: "https://picsum.photos/id/1025/400/200", lead: "极端天气频发，引发全球关注。" },
+      { id: 'd', title: "数字货币监管趋严", image: "https://picsum.photos/id/1043/400/200", lead: "政策变化影响市场走势。" },
+      { id: 'e', title: "亚洲市场回暖", image: "https://picsum.photos/id/1035/400/200", lead: "投资者信心逐步恢复。" },
+      { id: 'f', title: "教育技术快速发展", image: "https://picsum.photos/id/1050/400/200", lead: "远程学习成为新常态。" }
+    ];
+
+    const grid = document.getElementById('grid');
+
+    // 初始插入卡片
+    data.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.setAttribute('data-id', item.id);
+      card.style.viewTransitionName = item.id; // 必须稳定不变
+      card.innerHTML = `
+        <img src="${item.image}" alt="${item.title}" />
+        <div class="card-content">
+          <h3>${item.title}</h3>
+          <p>${item.lead}</p>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+
+    function shuffleAndAnimate() {
+      const cards = Array.from(grid.children);
+      const shuffled = cards.sort(() => Math.random() - 0.5);
+
+      if (document.startViewTransition) {
+        document.startViewTransition(() => {
+          // 重新附加 DOM 节点，避免创建新元素
+          shuffled.forEach(card => grid.appendChild(card));
+        });
+      } else {
+        shuffled.forEach(card => grid.appendChild(card));
+      }
+    }
+
+    document.getElementById('shuffle').addEventListener('click', shuffleAndAnimate);
+  </script>
+</body>
+</html>
