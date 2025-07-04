@@ -407,6 +407,24 @@ input[type=submit], select {
     margin-bottom: 15px;
 }
 
+
+::view-transition-old(*),
+::view-transition-new(*) {
+  animation: fade-move 300ms ease;
+}
+
+@keyframes fade-move {
+  from {
+    opacity: 0.8;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
 // MARK: - Our page run ad. Ad codes might have things like style="width: 414px", which makes the page scrolling horizontally. This is a very bad user experience, especially on mobile screens. So this code is quite important. 
 @media screen and (max-width: 490px) {
 	html, body {

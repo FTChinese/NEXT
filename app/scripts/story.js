@@ -1,7 +1,8 @@
-
 /*Global Variables*/
 var fontOptionsEle;
 var fs;
+
+const tranditionalLanguages = ['zh-TW', 'zh-HK'];
 
 function updateFontClass(currentClass) {
     var fontClasses = ['normal', 'bigger', 'biggest', 'smaller', 'smallest'];
@@ -171,6 +172,7 @@ function getDeviceSpecie() {
     }
     return deviceSpecie;
 }
+
 var deviceSpecie = getDeviceSpecie();
 try {
     if (openApp){
@@ -192,6 +194,277 @@ try {
 } catch (ignore) {
 
 }
+
+
+function updateReadIdsInStorage(storageKey, newId, maxLength = 300) {
+  if (!newId) {return;}
+
+  try {
+    const stored = localStorage.getItem(storageKey);
+    let ids = Array.isArray(stored) ? stored : JSON.parse(stored || '[]');
+
+    if (!Array.isArray(ids)) {ids = [];}
+
+    ids = ids.filter(id => id !== newId);
+    ids.unshift(newId);
+    ids = ids.slice(0, maxLength);
+
+    localStorage.setItem(storageKey, JSON.stringify(ids));
+    // console.log(`storage ${storageKey}: `, ids);
+  } catch (err) {
+    console.warn(`Failed to update ${storageKey}:`, err);
+  }
+}
+
+
+function addContentAsRead() {
+
+  const ftid = window.ftid;
+  const itemType = window.type;
+  const itemId = window.id;
+
+  if (ftid) {
+    updateReadIdsInStorage('readids', ftid);
+  }
+
+  // console.log(`itemType: ${itemType}, itemId: ${itemId}`);
+  if (itemType && itemId) {
+    const itemTypeId = `${itemType}${itemId}`;
+    // console.log(`item type id: ${itemTypeId}`);
+    updateReadIdsInStorage('ftcreadids', itemTypeId, 500);
+  }
+
+}
+
+addContentAsRead();
+
+
+async function updateLiveBlogTimestamps() {
+  var elements = document.querySelectorAll('.live-blog-container [data-publish-time]');
+  var preferredLang = document.documentElement.getAttribute('data-preferred-language') || 'zh';
+  var now = new Date();
+
+  for (var i = 0; i < elements.length; i++) {
+    var el = elements[i];
+    var timestamp = parseInt(el.getAttribute('data-publish-time'), 10);
+    var langAttr = el.getAttribute('data-language');
+    var isChinese = langAttr === 'zh';
+    var lang = isChinese ? preferredLang : 'en';
+
+    if (isNaN(timestamp)) {
+      continue;
+    }
+
+    var time = new Date(timestamp);
+    var diffMs = now - time;
+    var diffSeconds = Math.floor(diffMs / 1000);
+    var diffMinutes = Math.floor(diffSeconds / 60);
+    var diffHours = Math.floor(diffMinutes / 60);
+    var diffDays = Math.floor(diffHours / 24);
+
+    var humanReadable;
+
+    if (diffDays > 7) {
+      var y = time.getFullYear();
+      var m = String(time.getMonth() + 1).padStart(2, '0');
+      var d = String(time.getDate()).padStart(2, '0');
+      humanReadable = y + '-' + m + '-' + d;
+    } else if (diffDays >= 1) {
+      if (lang === 'en') {
+        if (diffDays === 1) {
+          humanReadable = '1 day ago';
+        } else {
+          humanReadable = diffDays + ' days ago';
+        }
+      } else {
+        humanReadable = diffDays + '天前';
+      }
+    } else if (diffHours >= 1) {
+      if (lang === 'en') {
+        if (diffHours === 1) {
+          humanReadable = '1 hour ago';
+        } else {
+          humanReadable = diffHours + ' hours ago';
+        }
+      } else {
+        humanReadable = diffHours + '小时前';
+      }
+    } else if (diffMinutes >= 1) {
+      if (lang === 'en') {
+        if (diffMinutes === 1) {
+          humanReadable = '1 minute ago';
+        } else {
+          humanReadable = diffMinutes + ' minutes ago';
+        }
+      } else {
+        humanReadable = diffMinutes + '分钟前';
+      }
+    } else {
+      if (lang === 'en') {
+        humanReadable = 'just now';
+      } else {
+        humanReadable = '刚刚';
+      }
+    }
+
+    // Optional conversion to Traditional Chinese
+    if (isChinese && (preferredLang === 'zh-TW' || preferredLang === 'zh-HK')) {
+      try {
+        humanReadable = await convertChinese(humanReadable, preferredLang);
+      } catch (e) {
+        console.warn('Chinese conversion failed:', e);
+      }
+    }
+
+    el.innerHTML = humanReadable;
+  }
+}
+
+async function checkLiveBlogUpdates(isDebug = false) {
+  try {
+    const id = window.ftid;
+    if (!id) { return; }
+    const blogsEles = document.querySelectorAll('.live-blog-container[data-id]');
+    if (blogsEles.length === 0) { return; }
+    let existingIds = [];
+    for (const ele of blogsEles) {
+      const id = ele.getAttribute('data-id');
+      if (!id) { continue; }
+      existingIds.push(id);
+    }
+
+    if (isDebug) {
+      existingIds = existingIds.slice(0, 79);
+    }
+
+    const postData = { id, existingIds };
+    const response = await fetch('/check_live_blogs', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(postData)
+    });
+
+    if (!response.ok) {
+      throw new Error(`Server returned ${response.status}`);
+    }
+
+    const updates = await response.json();
+    // console.log('Live blog update check result:', JSON.stringify(updates, null, 2));
+    
+    if (updates && Array.isArray(updates) && updates.length > 0) {
+    const container = document.querySelector('.live-blog-container')?.parentElement;
+    if (!container) {return;}
+
+    // Insert each new item at the top in reverse order to preserve chronological order
+    for (let i = updates.length - 1; i >= 0; i--) {
+      const update = updates[i];
+      const div = document.createElement('div');
+      div.className = 'live-blog-container';
+      div.setAttribute('data-id', update.id);
+      let preferedChineseLanguage = document.documentElement?.getAttribute('data-preferred-language') ?? '';
+      if (!tranditionalLanguages.includes(preferedChineseLanguage)) {
+        preferedChineseLanguage = 'zh';
+      }
+      let byline = update.byline;
+      let title = update.titleTranslation;
+      let bodyXML = update.bodyXMLTranslation;
+      if (window.is_language_en) {
+        byline = update.byline_original;
+        title = update.title;
+        bodyXML = update.bodyXML;
+      } else if (tranditionalLanguages.includes(preferedChineseLanguage)) {
+        byline = await convertChinese(byline, preferedChineseLanguage);
+        title = await convertChinese(title, preferedChineseLanguage);
+        bodyXML = await convertChinese(bodyXML, preferedChineseLanguage);
+      }
+      const language = window.is_language_en ? 'en' : 'zh';
+      div.innerHTML = `
+        <hr class="is-live-blog">
+        <div class="time-byline-container">
+          <div>
+            <span class="story-time" data-publish-time="${new Date(update.publishedDate).getTime()}" data-language="${language}"></span>
+          </div>
+          <div class="story-author">${byline}</div>
+        </div>
+        <h1>${title}</h1>
+        ${bodyXML}
+      `;
+      container.insertBefore(div, container.firstChild);
+    }
+
+    // Show a fixed message at the bottom
+    let notice = document.getElementById('new-updates-notice');
+    if (!notice) {
+      notice = document.createElement('div');
+      notice.id = 'new-updates-notice';
+      notice.style.cssText = 'position:fixed;bottom:0;left:0;right:0;background:#ff0;padding:10px;text-align:center;cursor:pointer;z-index:9999;';
+      notice.innerText = `有 ${updates.length} 条最新动态，点击查看`;
+      document.body.appendChild(notice);
+      notice.addEventListener('click', () => {
+        const firstNew = document.querySelector(`.live-blog-container[data-id="${updates[0].id}"]`);
+        if (firstNew) {
+          firstNew.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        notice.remove();
+      });
+    }
+  }
+
+  } catch (err) {
+    console.error(`checkLiveBlogUpdates error: `, err);
+  } finally {
+    updateLiveBlogTimestamps();
+  }
+}
+
+async function updateLiveBlogLinks() {
+  try {
+    const eles = document.querySelectorAll('.live-blog-container[data-id]');
+    if (eles.length === 0) {return;}
+    // TODO: - use fetch get to check the endpoint, /show_detail_link_for_live_blog, it should return a json, if it has a property of show, and it is a bool true, then continue, other wise return immediately
+    const response = await fetch('/show_detail_link_for_live_blog');
+    const data = await response.json();
+    if (!data?.show) {
+      return;
+    }
+    let preferedChineseLanguage = document.documentElement?.getAttribute('data-preferred-language') ?? '';
+    if (!tranditionalLanguages.includes(preferedChineseLanguage)) {
+      preferedChineseLanguage = 'zh';
+    }
+    for (const ele of eles) {
+      const id = ele.getAttribute('data-id');
+      if (!id) {continue;}
+      console.log(`id: ${id}`);
+      const linkEle = ele.querySelector('.detail-link');
+      if (linkEle) {continue;}
+      let link = document.createElement('P');
+      link.innerHTML = `<a href="/powertranslate/chat.html#ftid=${id}&language=${preferedChineseLanguage}&action=read" target="_blank">More</a>`;
+      link.className = 'detail-link';
+      link.style.textAlign = 'right';
+      ele.appendChild(link);
+    }
+  } catch(err) {
+    console.error(`update live blog links error: `, err);
+  }
+}
+updateLiveBlogLinks();
+
+
+
+// checkLiveBlogUpdates(true);
+
+// Initial call
+updateLiveBlogTimestamps();
+
+// Re-run every 60 seconds
+setInterval(function () {
+  checkLiveBlogUpdates();
+}, 60000);
+
+
+
 
 // MARK: - When the user copied our story text, add some copyright info at the top of clipboardData
 document.addEventListener('copy', function(e) {

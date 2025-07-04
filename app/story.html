@@ -313,621 +313,479 @@ var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现�
  </head>
  <body>
     
-    <header class="header-container">
-        <div class="header-inner">
-            <div class="masthead"></div>
-            <div class="header-side header-left expandable">
-                <div class="current-edition" id="current-edition"></div>
-            </div>
-            <a class="header-side header-left-ai-icon" href="/powertranslate/chat.html"></a>
-            
-            <script>
-                (function () {
-                    const dict = {
-                        'zh-CN': '简体中文',
-                        'zh-TW': '臺灣正體',
-                        'zh-HK': '香港繁體'
-                    };
-                    const languagePlaceHolder = 'current_preferred_chinese_language';
-                    let currentPreferredChineseLanguage = languagePlaceHolder;
-                    if (!Object.keys(dict).includes(languagePlaceHolder)) {
-                        currentPreferredChineseLanguage = 'zh-CN';
-                    }
-                    const currentLanguageLabel = dict[currentPreferredChineseLanguage] ?? dict['zh-CN'];
-            
-                    // Render content in the `current-edition` div with data attributes for each language
-                    document.getElementById('current-edition').innerHTML = `
-                        <span>${currentLanguageLabel}</span>
-                        ${Object.keys(dict)
-                            .filter(key => key !== currentPreferredChineseLanguage)
-                            .map(key => `<a class="switch_preferred_chinese_language" data-language="${key}">${dict[key]}</a>`)
-                            .join('')}
-                        <a href="http://www.ft.com/">FT.com</a>
-                    `;
-                })();
-            </script>    <div class="header-side header-right">
-                <span class="visitor-box">
-                    <a href="/login" title="log in">登录</a>
-                    <a class="more last" href="/register" title="register">注册</a>
-                </span>
-                <span class="member-box">
-                    <a href="/myaccount" title="subscrition" class="my-account">我的账户</a>
-                    <a id="ft-login-logout" class="ft-log-out" title="log out" onclick="logout()">登出</a>
-                </span>
-            </div>
-        </div>
-        </header>
-        
-        
-            <div class="o-nav__placeholder">
-              <div class="o-nav">
-                <div class="o-nav__outer">
-                  <div class="o-nav__inner">
-                    <div class="o-nav__search" data-o-component="o-toggler">
-                      <button class="o-nav__search-toggle" data-o-toggler-button aria-controls="search-form">
-                        <span class="search-toggle--open">搜索</span>
-                        <span class="search-toggle--close">关闭</span>
-                      </button>
-                      
-                    <form action="/search/" id="search-form" role="search" data-o-toggler-target >
-                    <input id="search-term" type="search" name="keys" class="custom-search-input" placeholder="搜索你想要搜索的内容和标签、作者" />
-                    <input id="type_news" type="hidden" value="default" name="type" checked />
-                    <button class="search-button" tabindex="1"><span>搜索</span></button>
-                    </form>
-                    <div class="search-topic-intention"></div>
-        
-                    </div>
-                    <div class="o-header__masthead-mobile">
-                      <a href="/" title="前往FT中文网首页"><span>FT中文网</span></a>
-                    </div>
-                    <nav class="o-nav__container" role="navigation">
-                      <button class="nav-toggle" data-o-nav-togglable><span>Menu</span></button>
-                      <ol class="o-nav__meganav">
-                          <li class="nav-section home" data-section="home" ><button class="nav-section-head mobile">首页</button><a class="nav-section-head desktop" href="/">首页</a><ol class="nav-items"><li class="nav-item mobile"><a class="nav-link" href="/">FT中文网首页</a></li><li class="nav-item" aria-haspopup="true" data-channel="special" ><a class="nav-link" href="/channel/special.html">特别报导</a><ol class="nav-sub-items"><li><a href="https://pif.ftmailbox.cn/">创投新模式：立足当下 改变未来</a></li><li><a href="/m/marketing/antfinancial.html">“新四大发明”背后的中国浪潮</a></li><li><a href="/tag/与FT共进午餐">与FT共进午餐</a></li><li><a href="/tag/智慧城市群">西门子·智慧城市群</a></li><li><a href="/m/marketing/creditease.html">未来生活 未来金融</a></li></ol></li><li class="nav-item"  data-channel="premiumsubscription" ><a class="nav-link" href="/channel/premiumsubscription.html">高端订阅</a></li><li class="nav-item"  data-channel="standardsubscription" ><a class="nav-link" href="/channel/standardsubscription.html">标准订阅</a></li><li class="nav-item" aria-haspopup="true" data-channel="weekly" ><a class="nav-link" href="/channel/weekly.html">热门文章</a><ol class="nav-sub-items"><li><a href="/channel/weekly.html">一周</a></li><li><a href="/channel/monthly.html">一月</a></li><li><a href="/channel/quarterly.html">季度</a></li><li><a href="/channel/year.html">一年</a></li></ol></li><li class="nav-item"  data-channel="event" ><a class="nav-link" href="/m/events/event.html">会议活动</a></li><li class="nav-item"  data-channel="member" ><a class="nav-link" href="/m/marketing/home.html">市场活动</a></li><li class="nav-item"  data-channel="mba" ><a class="nav-link" href="/channel/mba.html">FT商学院</a></li><li class="nav-item"  data-channel="ebook" ><a class="nav-link" href="/m/marketing/ebook.html">FT电子书</a></li><li class="nav-item"  data-channel="job" ><a class="nav-link" href="https://ft.wd3.myworkdayjobs.com/FT_Chinese_External_Careers">职业机会</a></li><li class="nav-item"  data-channel="ftmall" ><a class="nav-link" href="https://h5.youzan.com/v2/showcase/homepage?alias=16e315o1t">FT商城</a></li><li class="nav-item"  data-channel="nikkei" ><a class="nav-link" href="/tag/日经中文网精选">日经中文网精选</a></li></ol></li><li class="nav-section china" data-section="china" ><button class="nav-section-head mobile">中国</button><a class="nav-section-head desktop" href="/channel/china.html">中国</a><ol class="nav-items"><li class="nav-item mobile"><a class="nav-link" href="/channel/china.html">频道首页</a></li><li class="nav-item"  data-channel="chinareport" ><a class="nav-link" href="/channel/chinareport.html">政经</a></li><li class="nav-item"  data-channel="chinabusiness" ><a class="nav-link" href="/channel/chinabusiness.html">商业</a></li><li class="nav-item"  data-channel="chinamarkets" ><a class="nav-link" href="/channel/chinamarkets.html">金融市场</a></li><li class="nav-item"  data-channel="chinastock" ><a class="nav-link" href="/channel/chinastock.html">股市</a></li><li class="nav-item"  data-channel="chinaproperty" ><a class="nav-link" href="/channel/chinaproperty.html">房地产</a></li><li class="nav-item"  data-channel="culture" ><a class="nav-link" href="/channel/culture.html">社会与文化</a></li><li class="nav-item"  data-channel="chinaopinion" ><a class="nav-link" href="/channel/chinaopinion.html">观点</a></li></ol></li><li class="nav-section world" data-section="world" ><button class="nav-section-head mobile">全球</button><a class="nav-section-head desktop" href="/channel/world.html">全球</a><ol class="nav-items"><li class="nav-item mobile"><a class="nav-link" href="/channel/world.html">频道首页</a></li><li class="nav-item"  data-channel="usa" ><a class="nav-link" href="/channel/usa.html">美国</a></li><li class="nav-item"  data-channel="uk" ><a class="nav-link" href="/channel/uk.html">英国</a></li><li class="nav-item"  data-channel="asiapacific" ><a class="nav-link" href="/channel/asiapacific.html">亚太</a></li><li class="nav-item"  data-channel="europe" ><a class="nav-link" href="/channel/europe.html">欧洲</a></li><li class="nav-item"  data-channel="americas" ><a class="nav-link" href="/channel/americas.html">美洲</a></li><li class="nav-item"  data-channel="africa" ><a class="nav-link" href="/channel/africa.html">非洲</a></li></ol></li><li class="nav-section economy" data-section="economy" ><button class="nav-section-head mobile">经济</button><a class="nav-section-head desktop" href="/channel/economy.html">经济</a><ol class="nav-items"><li class="nav-item mobile"><a class="nav-link" href="/channel/economy.html">频道首页</a></li><li class="nav-item"  data-channel="globaleconomy" ><a class="nav-link" href="/channel/globaleconomy.html">全球经济</a></li><li class="nav-item"  data-channel="chinaeconomy" ><a class="nav-link" href="/channel/chinaeconomy.html">中国经济</a></li><li class="nav-item"  data-channel="trade" ><a class="nav-link" href="/channel/trade.html">贸易</a></li><li class="nav-item"  data-channel="environment" ><a class="nav-link" href="/channel/environment.html">环境</a></li><li class="nav-item"  data-channel="economics" ><a class="nav-link" href="/channel/economics.html">经济评论</a></li></ol></li><li class="nav-section markets" data-section="markets" ><button class="nav-section-head mobile">金融市场</button><a class="nav-section-head desktop" href="/channel/markets.html">金融市场</a><ol class="nav-items"><li class="nav-item mobile"><a class="nav-link" href="/channel/markets.html">频道首页</a></li><li class="nav-item"  data-channel="stock" ><a class="nav-link" href="/channel/stock.html">股市</a></li><li class="nav-item"  data-channel="forex" ><a class="nav-link" href="/channel/forex.html">外汇</a></li><li class="nav-item"  data-channel="bond" ><a class="nav-link" href="/channel/bond.html">债市</a></li><li class="nav-item"  data-channel="commodity" ><a class="nav-link" href="/channel/commodity.html">大宗商品</a></li><li class="nav-item"  data-channel="marketsdata" ><a class="nav-link" href="https://markets.ft.com/data">金融市场数据</a></li></ol></li><li class="nav-section business" data-section="business" ><button class="nav-section-head mobile">商业</button><a class="nav-section-head desktop" href="/channel/business.html">商业</a><ol class="nav-items"><li class="nav-item mobile"><a class="nav-link" href="/channel/business.html">频道首页</a></li><li class="nav-item"  data-channel="finance" ><a class="nav-link" href="/channel/finance.html">金融</a></li><li class="nav-item"  data-channel="technology" ><a class="nav-link" href="/channel/technology.html">科技</a></li><li class="nav-item"  data-channel="auto" ><a class="nav-link" href="/channel/auto.html">汽车</a></li><li class="nav-item"  data-channel="property" ><a class="nav-link" href="/channel/property.html">地产</a></li><li class="nav-item"  data-channel="agriculture" ><a class="nav-link" href="/channel/agriculture.html">农林</a></li><li class="nav-item"  data-channel="energy" ><a class="nav-link" href="/channel/energy.html">能源</a></li><li class="nav-item"  data-channel="industrials" ><a class="nav-link" href="/channel/industrials.html">工业和采矿</a></li><li class="nav-item"  data-channel="airline" ><a class="nav-link" href="/channel/airline.html">航空和运输</a></li><li class="nav-item"  data-channel="pharma" ><a class="nav-link" href="/channel/pharma.html">医药</a></li><li class="nav-item"  data-channel="entertainment" ><a class="nav-link" href="/channel/entertainment.html">娱乐</a></li><li class="nav-item"  data-channel="consumer" ><a class="nav-link" href="/channel/consumer.html">零售和消费品</a></li><li class="nav-item"  data-channel="media" ><a class="nav-link" href="/channel/media.html">传媒和文化</a></li></ol></li><li class="nav-section innovation" data-section="innovation" ><button class="nav-section-head mobile">创新经济</button><a class="nav-section-head desktop" href="/channel/innovation.html">创新经济</a><ol class="nav-items"><li class="nav-item mobile"><a class="nav-link" href="/channel/innovation.html">频道首页</a></li><li class="nav-item"  data-channel="ai" ><a class="nav-link" href="/tag/人工智能">人工智能</a></li><li class="nav-item"  data-channel="bigdata" ><a class="nav-link" href="/tag/大数据">大数据</a></li><li class="nav-item"  data-channel="internet" ><a class="nav-link" href="/tag/互联网">互联网</a></li><li class="nav-item"  data-channel="newenergy" ><a class="nav-link" href="/channel/newenergy.html">新能源与新交通</a></li><li class="nav-item"  data-channel="innovationother" ><a class="nav-link" href="/channel/innovationother.html">其他</a></li><li class="nav-item"  data-channel="digitalmoney" ><a class="nav-link" href="/tag/数字货币">区块链与数字货币</a></li></ol></li><li class="nav-section education" data-section="education" ><button class="nav-section-head mobile">教育</button><a class="nav-section-head desktop" href="/channel/education.html?newnav=yes">教育</a><ol class="nav-items"><li class="nav-item mobile"><a class="nav-link" href="/channel/education.html?newnav=yes">频道首页</a></li><li class="nav-item"  data-channel="preschooledu" ><a class="nav-link" href="/channel/preschooledu.html?newnav=yes">学前教育</a></li><li class="nav-item"  data-channel="secondaryedu" ><a class="nav-link" href="/channel/secondaryedu.html?newnav=yes">中小学与国际学校</a></li><li class="nav-item"  data-channel="higheredu" ><a class="nav-link" href="/channel/higheredu.html?newnav=yes">高等教育与海外留学</a></li><li class="nav-item"  data-channel="businessedu" ><a class="nav-link" href="/channel/businessedu.html?newnav=yes">商业与职场教育</a></li><li class="nav-item"  data-channel="edureform" ><a class="nav-link" href="/channel/edureform.html?newnav=yes">教育改革与创新</a></li></ol></li><li class="nav-section opinion" data-section="opinion" ><button class="nav-section-head mobile">观点</button><a class="nav-section-head desktop" href="/channel/opinion.html">观点</a><ol class="nav-items"><li class="nav-item mobile"><a class="nav-link" href="/channel/opinion.html">频道首页</a></li><li class="nav-item"  data-channel="lex" ><a class="nav-link" href="/channel/lex.html">Lex专栏</a></li><li class="nav-item"  data-channel="column" ><a class="nav-link" href="/channel/column.html">专栏</a></li><li class="nav-item"  data-channel="analysis" ><a class="nav-link" href="/channel/analysis.html">分析</a></li><li class="nav-item"  data-channel="comment" ><a class="nav-link" href="/channel/comment.html">评论</a></li><li class="nav-item"  data-channel="editorial" ><a class="nav-link" href="/channel/editorial.html">社评</a></li><li class="nav-item"  data-channel="book" ><a class="nav-link" href="/channel/book.html">书评</a></li><li class="nav-item"  data-channel="letter" ><a class="nav-link" href="/channel/letter.html">读者有话说</a></li></ol></li><li class="nav-section management" data-section="management" ><button class="nav-section-head mobile">管理</button><a class="nav-section-head desktop" href="/channel/management.html">管理</a><ol class="nav-items"><li class="nav-item mobile"><a class="nav-link" href="/channel/management.html">频道首页</a></li><li class="nav-item"  data-channel="mba" ><a class="nav-link" href="/channel/mba.html">FT商学院</a></li><li class="nav-item"  data-channel="career" ><a class="nav-link" href="/channel/career.html">职场</a></li><li class="nav-item"  data-channel="leadership" ><a class="nav-link" href="/channel/leadership.html">领导力</a></li><li class="nav-item"  data-channel="wealth" ><a class="nav-link" href="/tag/%E8%B4%A2%E5%AF%8C%E7%AE%A1%E7%90%86">财富管理</a></li><li class="nav-item"  data-channel="people" ><a class="nav-link" href="/channel/people.html">人物</a></li></ol></li><li class="nav-section lifestyle" data-section="lifestyle"  aria-selected="true"><button class="nav-section-head mobile">生活时尚</button><a class="nav-section-head desktop" href="/channel/lifestyle.html">生活时尚</a><ol class="nav-items"><li class="nav-item mobile"><a class="nav-link" href="/channel/lifestyle.html">频道首页</a></li><li class="nav-item"  data-channel="pursuit" ><a class="nav-link" href="/channel/pursuit.html">乐尚街</a></li><li class="nav-item"  data-channel="wine" ><a class="nav-link" href="/channel/wine.html">美食与美酒</a></li><li class="nav-item"  data-channel="artculture" ><a class="nav-link" href="/channel/art_culture.html">艺术及文化活动</a></li><li class="nav-item"  data-channel="taste" ><a class="nav-link" href="/channel/taste.html">品味</a></li><li class="nav-item"  data-channel="travel"  aria-selected="true"><a class="nav-link" href="/channel/travel.html">旅行</a></li><li class="nav-item"  data-channel="life" ><a class="nav-link" href="/channel/life.html">生活话题</a></li><li class="nav-item"  data-channel="art" ><a class="nav-link" href="/channel/art.html">艺术与娱乐</a></li><li class="nav-item"  data-channel="spend" ><a class="nav-link" href="/channel/spend.html">消费经</a></li></ol></li><li class="nav-section stream" data-section="stream" ><button class="nav-section-head mobile">视频</button><a class="nav-section-head desktop" href="/channel/stream.html">视频</a><ol class="nav-items"><li class="nav-item mobile"><a class="nav-link" href="/channel/stream.html">频道首页</a></li><li class="nav-item"  data-channel="vpolitics" ><a class="nav-link" href="/channel/vpolitics.html">政经</a></li><li class="nav-item"  data-channel="vbusiness" ><a class="nav-link" href="/channel/vbusiness.html">产经</a></li><li class="nav-item"  data-channel="vfinance" ><a class="nav-link" href="/channel/vfinance.html">金融</a></li><li class="nav-item"  data-channel="vculture" ><a class="nav-link" href="/channel/vculture.html">文化</a></li><li class="nav-item"  data-channel="vfeatures" ><a class="nav-link" href="/channel/vfeatures.html">FT看见</a></li></ol></li><li class="nav-section audio" data-section="audio" ><button class="nav-section-head mobile">音频</button><a class="nav-section-head desktop" href="/channel/audio.html">音频</a><ol class="nav-items"><li class="nav-item mobile"><a class="nav-link" href="/channel/audio.html">频道首页</a></li><li class="nav-item"  data-channel="learnenglish" ><a class="nav-link" href="/tag/麦可林学英语?topnav=audio">麦可林学英语</a></li><li class="nav-item"  data-channel="boomear" ><a class="nav-link" href="/channel/boomear.html?topnav=audio">BoomEar艺术播客</a></li><li class="nav-item"  data-channel="yibohaoshu" ><a class="nav-link" href="/tag/一波好书">一波好书</a></li><li class="nav-item"  data-channel="lifeofasong" ><a class="nav-link" href="/channel/lifeofasong.html?topnav=audio">音乐之生</a></li><li class="nav-item"  data-channel="iTF" ><a class="nav-link" href="/tag/i听粉">i听粉</a></li></ol></li><li class="nav-section english" data-section="english" ><button class="nav-section-head mobile">每日英语</button><a class="nav-section-head desktop" href="/channel/english.html">每日英语</a><ol class="nav-items"><li class="nav-item mobile"><a class="nav-link" href="/channel/english.html">频道首页</a></li><li class="nav-item"  data-channel="ce" ><a class="nav-link" href="/channel/ce.html">双语阅读</a></li><li class="nav-item"  data-channel="speedread" ><a class="nav-link" href="/channel/speedread.html">FT英语速读</a></li><li class="nav-item"  data-channel="ev" ><a class="nav-link" href="/channel/ev.html">原声视频</a></li><li class="nav-item"  data-channel="radio" ><a class="nav-link" href="/channel/radio.html">FT英语电台</a></li><li class="nav-item"  data-channel="lifeofasong" ><a class="nav-link" href="/tag/音乐之生">音乐之生</a></li><li class="nav-item"  data-channel="learnenglish" ><a class="nav-link" href="/tag/麦可林学英语">麦可林学英语</a></li><li class="nav-item"  data-channel="dailyword" ><a class="nav-link" href="/channel/dailyword.html">每日一词</a></li></ol></li><li class="nav-section rewired" data-section="rewired" ><button class="nav-section-head mobile">换脑ReWired</button><a class="nav-section-head desktop" href="/channel/rewired.html">换脑ReWired</a><ol class="nav-items"><li class="nav-item mobile"><a class="nav-link" href="/channel/rewired.html">频道首页</a></li></ol></li>
-                      </ol>
-                    </nav>
-                    <a class="header-left-ai-icon-mobile P-only" href="/powertranslate/chat.html"></a>
-                    <ul class="o-nav__extra-tools">
-            <li class="tools-section" aria-haspopup="true">
-            <a class="tools-section-head" href="/m/corp/follow.html">关注我们</a>
-            <ol class="tools-items">
-            <li><a href="/m/corp/follow.html" target="_blank">微信公众号</a></li>
-            <li><a href="https://weibo.com/ftchinese" target="_blank">新浪微博</a></li>
-            <li><a href="https://x.com/FTChinese" target="_blank">X</a></li>
-            <li><a href="https://www.facebook.com/financialtimeschinese" target="_blank">Facebook</a></li>
-            <li><a href="https://www.linkedin.com/company/4865254?trk=hp-feed-company-name" target="_blank">LinkedIn</a></li>
-            </ol>
-            </li>
-            <li class="tools-section" aria-haspopup="true">
-            <span class="tools-section-head">工具</span>
-            <ol class="tools-items">
-            <li><a href="http://app.ftchinese.com/" class="o-client-id-link">移动应用大全</a></li>
-            <li><a href="/subscription">会员订阅</a></li>
-            <li><a href="/newsletters">邮件订阅</a></li>
-            <li><a href="/my_comments">我的评论</a></li>
-            <li><a href="/saved_content">我的收藏</a></li>
-            </ol>
-            </li>
-            <li class="tools-section">
-            <a class="tools-section-head follow__rss" href="/channel/rss.html" title="RSS"><span>RSS</span></a>
-            </li>
-            </ul>
-                    </div><!-- o-nav__inner -->
-                  </div><!-- o-nav__outer -->
-                  <div class="o-nav__meganav-placeholder"></div>
-                </div><!-- o-nav -->
-            </div><!-- o-nav__placeholder -->
-        
-                <div class="o-ads" data-o-ads-name="banner1"
-                data-o-ads-center="true"
-                data-o-ads-formats-default="false"
-                data-o-ads-formats-small="FtcMobileBanner"
-                data-o-ads-formats-medium="false"
-                data-o-ads-formats-large="FtcLeaderboard"
-                data-o-ads-formats-extra="FtcLeaderboard"
-                data-o-ads-targeting="cnpos=top1;">
-                </div>
-        
-        
-        
-        
-        
-        
-        
-        <div class="block-container has-side story-page">
-            <div class="block-inner">
-                <div class="content-container">
-                    <div class="content-inner">
-                        <div class="story-container cn">
-        
-                            <div class="ai-disclaimer-container">为了第一时间为您呈现此信息，中文内容为AI翻译，仅供参考。</div>
-        
-                            <div class="story-topper">
-                                    <div class="story-theme"><a href="/tag/冒险之旅">冒险之旅</a><button class="myft-follow plus" data-tag="冒险之旅" data-type="tag">关注</button></div>
-                                    <h1 class="story-headline story-headline-large" id="story-headline-ios">从安第斯山脉的葡萄园到津巴布韦的犀牛：2024年FT旅行作家的发现</h1>
-                                    <div class="story-lead">斯坦利•斯图尔特、莫妮莎•拉杰什、威廉•达尔林普尔以及其他许多人分享了他们在过去一年中的个人发现和失望。</div>
-                                
-                            </div>
-                            
-        
-                            <div class="story-tools">
-                                <div class="story-action-placeholder" id="story-action-placeholder">
-                                    <div class="story-action">
-                                        <div class="action-inner">
-                                
-        
-                                            <a class="action-icon icon-wechat" href="/m/corp/qrshare.html?url=https%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F184917&amp;title=从安第斯山脉的葡萄园到津巴布韦的犀牛：2024年FT旅行作家的发现 - FT中文网" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" class="icon"><path d="M690.1 377.4c5.9 0 11.8.2 17.6.5-24.4-128.7-158.3-227.1-319.9-227.1C209 150.8 64 271.4 64 420.2c0 81.1 43.6 154.2 111.9 203.6a21.5 21.5 0 0 1 9.1 17.6c0 2.4-.5 4.6-1.1 6.9-5.5 20.3-14.2 52.8-14.6 54.3-.7 2.6-1.7 5.2-1.7 7.9 0 5.9 4.8 10.8 10.8 10.8 2.3 0 4.2-.9 6.2-2l70.9-40.9c5.3-3.1 11-5 17.2-5 3.2 0 6.4.5 9.5 1.4 33.1 9.5 68.8 14.8 105.7 14.8 6 0 11.9-.1 17.8-.4-7.1-21-10.9-43.1-10.9-66 0-135.8 132.2-245.8 295.3-245.8zm-194.3-86.5c23.8 0 43.2 19.3 43.2 43.1s-19.3 43.1-43.2 43.1c-23.8 0-43.2-19.3-43.2-43.1s19.4-43.1 43.2-43.1zm-215.9 86.2c-23.8 0-43.2-19.3-43.2-43.1s19.3-43.1 43.2-43.1 43.2 19.3 43.2 43.1-19.4 43.1-43.2 43.1zm586.8 415.6c56.9-41.2 93.2-102 93.2-169.7 0-124-120.8-224.5-269.9-224.5-149 0-269.9 100.5-269.9 224.5S540.9 847.5 690 847.5c30.8 0 60.6-4.4 88.1-12.3 2.6-.8 5.2-1.2 7.9-1.2 5.2 0 9.9 1.6 14.3 4.1l59.1 34c1.7 1 3.3 1.7 5.2 1.7a9 9 0 0 0 6.4-2.6 9 9 0 0 0 2.6-6.4c0-2.2-.9-4.4-1.4-6.6-.3-1.2-7.6-28.3-12.2-45.3-.5-1.9-.9-3.8-.9-5.7.1-5.9 3.1-11.2 7.6-14.5zM600.2 587.2c-19.9 0-36-16.1-36-35.9 0-19.8 16.1-35.9 36-35.9s36 16.1 36 35.9c0 19.8-16.2 35.9-36 35.9zm179.9 0c-19.9 0-36-16.1-36-35.9 0-19.8 16.1-35.9 36-35.9s36 16.1 36 35.9a36.08 36.08 0 0 1-36 35.9z"/></svg></a>
-                                            <a class="action-icon icon-weibo" href="http://service.weibo.com/share/share.php?appkey=4221537403&amp;url=https%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F184917?ccode=2G169001&amp;title=【从安第斯山脉的葡萄园到津巴布韦的犀牛：2024年FT旅行作家的发现】（分享自 @FT中文网）&amp;ralateUid=1698233740&amp;source=&amp;sourceUrl=&amp;content=utf-8&amp;pic=" target="_blank"><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" class="icon"><path d="M457.3 543c-68.1-17.7-145 16.2-174.6 76.2-30.1 61.2-1 129.1 67.8 151.3 71.2 23 155.2-12.2 184.4-78.3 28.7-64.6-7.2-131-77.6-149.2zm-52 156.2c-13.8 22.1-43.5 31.7-65.8 21.6-22-10-28.5-35.7-14.6-57.2 13.7-21.4 42.3-31 64.4-21.7 22.4 9.5 29.6 35 16 57.3zm45.5-58.5c-5 8.6-16.1 12.7-24.7 9.1-8.5-3.5-11.2-13.1-6.4-21.5 5-8.4 15.6-12.4 24.1-9.1 8.7 3.2 11.8 12.9 7 21.5zm334.5-197.2c15 4.8 31-3.4 35.9-18.3 11.8-36.6 4.4-78.4-23.2-109a111.39 111.39 0 0 0-106-34.3 28.45 28.45 0 0 0-21.9 33.8 28.39 28.39 0 0 0 33.8 21.8c18.4-3.9 38.3 1.8 51.9 16.7a54.2 54.2 0 0 1 11.3 53.3 28.45 28.45 0 0 0 18.2 36zm99.8-206c-56.7-62.9-140.4-86.9-217.7-70.5a32.98 32.98 0 0 0-25.4 39.3 33.12 33.12 0 0 0 39.3 25.5c55-11.7 114.4 5.4 154.8 50.1 40.3 44.7 51.2 105.7 34 159.1-5.6 17.4 3.9 36 21.3 41.7 17.4 5.6 36-3.9 41.6-21.2v-.1c24.1-75.4 8.9-161.1-47.9-223.9zM729 499c-12.2-3.6-20.5-6.1-14.1-22.1 13.8-34.7 15.2-64.7.3-86-28-40.1-104.8-37.9-192.8-1.1 0 0-27.6 12.1-20.6-9.8 13.5-43.5 11.5-79.9-9.6-101-47.7-47.8-174.6 1.8-283.5 110.6C127.3 471.1 80 557.5 80 632.2 80 775.1 263.2 862 442.5 862c235 0 391.3-136.5 391.3-245 0-65.5-55.2-102.6-104.8-118zM443 810.8c-143 14.1-266.5-50.5-275.8-144.5-9.3-93.9 99.2-181.5 242.2-195.6 143-14.2 266.5 50.5 275.8 144.4C694.4 709 586 796.6 443 810.8z"/></svg></a>
-                                            <a class="action-icon icon-x" href="https://twitter.com/intent/tweet?url=https://www.ftchinese.com/interactive/184917&text=从安第斯山脉的葡萄园到津巴布韦的犀牛：2024年FT旅行作家的发现&via=FTChinese" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><path d="M21.647 18.469 28.932 10h-1.726l-6.326 7.353L15.827 10H10l7.64 11.12L10 30h1.726l6.68-7.765L23.744 30h5.827l-7.924-11.531Zm-2.365 2.748-.774-1.107-6.16-8.81H15l4.971 7.11.774 1.107 6.462 9.242h-2.652l-5.273-7.541"></path></svg></a>
-                                            <a class="action-icon icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.ftchinese.com%2Finteractive%2F184917&amp;t=【从安第斯山脉的葡萄园到津巴布韦的犀牛：2024年FT旅行作家的发现】（分享自 @FT中文网）" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path d="M643.9 342h-48.2c-37.8 0-45.1 18-45.1 44.3v58.1h90.1l-11.7 91h-78.4V769h-94V535.5H378v-91h78.6v-67.1c0-77.9 47.6-120.3 117.1-120.3 33.3 0 61.9 2.5 70.2 3.6V342z"></path></svg></a>
-                                            <a class="action-icon icon-linkedin" href="https://www.linkedin.com/sharing/share-offsite/?url=https://www.ftchinese.com/interactive/184917" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path d="M264.4 426.2h106.2v341.4H264.4V426.2zm53.2-169.7c-34.1 0-61.6 27.6-61.6 61.5 0 34 27.5 61.5 61.6 61.5 33.9 0 61.5-27.6 61.5-61.5-.1-34-27.6-61.5-61.5-61.5zm323.1 161.2c-51.6 0-86.2 28.3-100.4 55.1h-1.5v-46.7H437.2v341.4h106V598.7c0-44.5 8.4-87.7 63.6-87.7 54.5 0 55.1 50.9 55.1 90.5v166H768V580.3c0-91.9-19.9-162.6-127.3-162.6z"></path></svg></a>
-        
-                                                <a class="icon-right icon-ch" href="/interactive/184917/ce"><button>对照</button></a>
-        
-        
-                                                <a class="icon-right icon-ch" href="/interactive/184917/en"><button>英文</button></a>
-        
-                                            <div class="icon-right icon-save">
-                                            <button class="save_content_button" data-item-type="interactive" data-item-id="184917">收藏</button>
-                                            </div>
-                                            <a class="icon-right icon-action icon-comments" href="/comments/index/001104485" target="_blank"></a>
-                                            <a class="icon-right icon-action icon-print P-hide" onclick="window.print()" target="_blank"></a>
-                                            <a class="icon-right icon-action icon-font-size" onclick="showOverlay('font-setting')"></a>
-        
-          
-                                            <div class="progress-container">
-                                                <svg
-                                                class="progress-ring"
-                                                height="40"
-                                                width="40"
-                                                >
-                                                <circle
-                                                    class="progress-ring__circle"
-                                                    stroke-width="2"
-                                                    stroke="transparent"
-                                                    r="18"
-                                                    cx="20"
-                                                    cy="20"
-                                                />
-                                                </svg>
-                                                <svg class="pregress-tick" width="24" height="24" viewBox="0 0 24 24">
-                                                    <path fill="none" d="M0 0h24v24H0z"/><path class="progress-tick-path" fill="transparent" d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
-                                                </svg>
-                                            </div>
-        
-        
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-        
-                            <div class="story-byline">
-                                <span class="story-time" data-publish-time=Sat Dec 14 2024 00:00:00 GMT+0800 (China Standard Time) data-update-time=Wed Dec 18 2024 15:14:40 GMT+0800 (China Standard Time)>发布于2024年12月14日 更新于2024年12月18日 15:14</span>
-                                <span class="story-author"><a href="/author/FT%E6%97%85%E8%A1%8C%E6%92%B0%E7%A8%BF%E4%BA%BA" target="_blank">FT旅行撰稿人</a></span>
-                            </div>
-                            <div class="story-body">
-                                
-                                <div id="story-body-container" class="has-picture">
 
-                                    <table class="data-table" data-table-collapse-rownum="" data-table-layout-largescreen="auto" data-table-layout-smallscreen="auto" data-table-theme="auto"><caption>菜谱</caption><thead><tr><th data-column-hidden="none" data-column-sortable="false" data-column-type="string" class="is-text-only" id="id-43">数量</th><th data-column-hidden="none" data-column-sortable="false" data-column-type="string" class="is-text-only" id="id-44">配料</th></tr></thead><tbody><tr><td class="is-text-only" id="id-45">1公斤 </td><td class="is-text-only" id="id-46">牛小排</td></tr><tr><td> </td><td class="is-text-only" id="id-47">大约1茶匙盐用于调味</td></tr><tr><td class="is-text-only" id="id-48">2 </td><td class="is-text-only" id="id-49">蒜瓣</td></tr><tr><td class="is-text-only" id="id-50">3 </td><td class="is-text-only" id="id-51">几枝百里香</td></tr><tr><td class="is-text-only" id="id-52">400g </td><td class="is-text-only" id="id-53">牛肉高汤</td></tr><tr><td class="is-text-only" id="id-54">50g </td><td class="is-text-only" id="id-55">软质深棕色红糖</td></tr><tr><td class="is-text-only" id="id-56">50g </td><td class="is-text-only" id="id-57">米林</td></tr><tr><td class="is-text-only" id="id-58">25g </td><td class="is-text-only" id="id-59">雪利酒醋</td></tr><tr><td class="is-text-only" id="id-60">25g </td><td class="is-text-only" id="id-61">酱油</td></tr><tr><td class="is-text-only" id="id-62">5g </td><td class="is-text-only" id="id-63">辣椒碎</td></tr><tr><td> </td><td class="is-text-only" id="id-64">挤一点青柠汁</td></tr></tbody><tfoot><tr><td colspan="1000"></td></tr></tfoot></table>
 
-                                        <div class="pic"><picture><img src="https://dq4atoxl7csa1.cloudfront.net/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/2cdd7a6d-fad5-4fc0-b424-388c16468341.png"></picture></div><div class="pic is-mixed" id="id-0"><picture><source media="screen and " srcset="https://dq4atoxl7csa1.cloudfront.net/unsafe/980x0/https://d1e00ek4ebabms.cloudfront.net/production/df6e9174-aad5-4255-b6c0-13bda47bd6c9.jpg"><img src="https://dq4atoxl7csa1.cloudfront.net/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/1a960e0c-ec80-4cfb-aac6-2bda51333060.jpg"></picture>科洛梅位于阿根廷西北部的萨尔塔省</div><p>这处房产坐落在阿根廷西北部内陆偏远的萨尔塔省（Salta Province）荒野丘陵间，位于一条蜿蜒的沙土小路尽头。一路前行，我以为会不断深入荒原，没想到却在一刻间迎来一条林荫大道，一个拱门，以及一组围绕庭院布局的雅致杏色建筑。我的房间面朝安第斯山脉，周围环绕着葡萄园和薰衣草花园。</p><p>科洛梅庄园始建于1831年，是阿根廷最古老、仍在持续酿造的葡萄园之一，海拔约2300米，也是世界上海拔最高的葡萄种植区之一。这样的高度足以让大多数法国酿酒师为之眩晕。2001年，瑞士商人唐纳德•赫斯（Donald Hess）收购了科洛梅，并将这家仍采用陶罐酿造的乡村酒作坊升级为世界级酒庄，由法国酿酒师蒂博特•德尔莫特（Thibaut Delmotte）领衔，将高海拔葡萄酒的独特风格展现得淋漓尽致。</p><p>然而，优质葡萄酒只是来此的理由之一。这里地处安第斯山脉之间，拥有原始自然的壮丽景观。偏远的科洛梅庄园散发着时尚而低调的庄园气息——漂白的木材、简约的土坯建筑、安第斯织物和殖民风格的拱廊构筑出纯粹氛围。客厅里陈列艺术作品和书籍，搭配深色皮椅；餐厅与其出产的葡萄酒一样令人满意。您还可以在一棵巨大的摩勒树下的鹅卵石露台上用餐。</p><p>接着还有惊喜：一座专为美国艺术家詹姆斯•特瑞尔（James Turrell）作品而建的艺术画廊；赫斯是特瑞尔的忠实拥趸。这九件光影装置如魔术般探究光与空间、幻象与感知的关系。就纯粹的震撼而言，它们与萨尔塔省的宏伟自然景观相得益彰。</p><em class="is-text-only" id="id-5">科洛梅庄园(Estancia Colomé)双人房（</em><a href="https://www.bodegacolome.com/en/homepage/"><em class="is-text-only" id="id-6">bodegacolome.com</em></a><em class="is-text-only" id="id-7">）价格约400美元起</em><p><strong>失望：</strong>迈阿密海滩（Miami Beach）。如果有更多时间，也许我能找到热辣的拉丁俱乐部和可爱的古巴小店。然而，只在南海滩度过的这个夜晚让我坚定地想永不再见迈阿密。诚然，我是刚从大沼泽地回来——那里有无边的水域、倒影和美丽的鸟类。在这种对比下，游人如织、满是拉客者的南海滩显得如同令人不安的噩梦。</p><p>迈阿密的餐饮据说很棒，我挑了位于迈阿密海滩的老字号Joe's Stone Crab，这家餐厅有穷困到繁荣的传奇故事，也被知名旅游杂志推荐。可一走进去，我的心就沉下去了——成百上千张桌子，场面更像是一座加工厂而非餐厅。美国梦在这里批量生产，转化为令人审美疲劳的用餐体验。</p><hr><div class="pic"><picture><img src="https://dq4atoxl7csa1.cloudfront.net/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/75ca161a-af26-41f8-8cd9-a50cce2b3f59.png"></picture></div><div class="n-content-layout" data-layout-name="auto" data-layout-width="full-grid"><div class="n-content-layout__container"><div class="n-content-layout__slot pic" data-slot-width="true"><picture><img alt="An overhead shot of an outdoor swimming pool with a solo swimmer. In the background are an orchard, a clock tower and mountains with clouds draped down their slopes" data-copyright="" data-image-type="image" longdesc="The pool at Hotel Schwarzschmied, looking out towards the village church" src="https://dq4atoxl7csa1.cloudfront.net/unsafe/https://d1e00ek4ebabms.cloudfront.net/production/e866b936-d79f-437c-bc31-6082068d9521.jpg"></picture><p class="is-text-only" id="id-10">施瓦茨施米德酒店(Hotel Schwarzschmied)的游泳池，面朝村庄的教堂</p> </div><div class="n-content-layout__slot pic" data-slot-width="true"><picture><img alt="A poolside view of an outdoor swimming pool overlooked by a modern hotel complex with balconies and overhanging foliage. In the background is a mountain slope" data-copyright="" data-image-type="image" longdesc="The hotel has 68 rooms and suites" src="https://dq4atoxl7csa1.cloudfront.net/unsafe/https://d1e00ek4ebabms.cloudfront.net/production/6e7e03ac-4c3a-4399-aadf-213e5548379d.jpg"></picture><p class="is-text-only" id="id-11">这家酒店共有68间客房和套房</p> </div></div></div><p>今年我为了新书研究而频繁旅行，但很少去舒适的地方。偶尔我的伴侣会同行，他对我的奔波始终支持。复活节时，我们决定真正放松一下，好好犒劳自己。我们通过<a href="https://www.designhotels.com/">designhotels.com</a>找到一笔划算的交易——对于我们这种注重美感的人，这个网站很有用。目标是意大利北部南蒂罗尔（South Tyrol）的拉纳村。</p><p>施瓦茨施米德酒店的宣传照看上去有些黯淡，建筑也显得方方正正，但我们信任网站的策展眼光并预订了。结果令人惊喜！照片完全没能体现出这里的美。我们的阳台俯瞰泳池和一片整齐的果园，远方有一座引人注目的尖塔；房间本身宛如日式与北欧极简主义的静谧避风港。从椰纤水杯到木质跑步机，每个细节都经过精心挑选，整体效果令人近乎不敢相信地奢华而简约。</p><p>我们在这现代又酷感十足的幻境里度过了五天：清晨瑜伽、泳池边的鸡尾酒、说走就走的山间探险。从拉纳出发，缆车和吊椅将我们带至Vigiljoch山口，使得攀登附近海拔2608米的Naturnser Hochwart在一天内即可完成。4月的天气堪称理想——山谷阳光明媚，适合穿着泳装散步；山顶仍有积雪，让雪地徒步凉爽愉悦。这是多年来最具疗愈效果的一次假期。如今我仍在对那段时光念念不忘。</p><em class="is-text-only" id="id-15">施瓦茨施米德酒店(Hotel Schwarzschmied)双人间（</em><a href="https://www.schwarzschmied.com/en"><em class="is-text-only" id="id-16">schwarzschmied.com</em></a><em class="is-text-only" id="id-17">）约290欧元起，含早餐</em><p><strong>失望：</strong>多年来，我一直想要一个乐斯菲斯(North Face)行李袋——那种大容量、防水、充满冒险气息的拉链袋，电影摄制组和石油业工人都青睐。最终我屈服了，因为我需要一个坚固的旅行袋来完成漫长穿越偏远地区的旅程。我买了“大号Base Camp”款，却发现它完全不实用：材质坚硬导致拉链不顺畅；肩带令人肩痛；最终我只能硬拖着走，还因此扭伤了肩袖。我不明白如果不靠空运，人们究竟怎么运输这种包？绝不会再买了。</p><hr><div class="pic"><picture><img src="https://dq4atoxl7csa1.cloudfront.net/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/a74510df-47e2-49ce-b6b1-a633dfba4133.png"></picture></div><div class="pic is-mixed" id="id-19"><picture><source media="screen and " srcset="https://dq4atoxl7csa1.cloudfront.net/unsafe/980x0/https://d1e00ek4ebabms.cloudfront.net/production/379ca309-f167-4934-b785-4de79eab68fc.jpg"><img src="https://dq4atoxl7csa1.cloudfront.net/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/59c0a194-4bcb-43fe-8544-c3b3d9f69d1e.jpg"></picture>贝尔餐厅于2021年获得米其林星级，坐落在一家旧的农场饲料店内。</div><p>洛斯阿拉莫斯（Los Alamos）位于圣巴巴拉县（Santa Barbara County），常住人口658人。在我年轻时，这里不过是101号公路上的一个出口，是从洛杉矶驱车前往蒙特雷半岛（Monterey Peninsula）漫长旅途中的一个路标。如今，这里已从一个不为人知的“秘密”胜地，变成了不再秘密的目的地，吸引那些疫情前可能选择前往西西里、门多萨甚至纳帕享受田园葡萄园假期的人。加州典型的圣伊内斯山谷（Santa Ynez Valley）风光依旧，但这里作为葡萄酒产区的声誉已远胜上世纪80年代，目前有数百家毗邻葡萄园的相关产业在此落地。</p><p>洛斯阿拉莫斯的主街上林立着品酒室和手工面包店；<a href="https://www.skyviewlosalamos.com/">Skyview汽车旅馆</a>也经过设计师的精心改造。不过，说到底，你是为贝尔餐厅(Bell’s)而来。格雷格和黛西•瑞安（Greg & Daisy Ryan）于2018年来到洛斯阿拉莫斯（黛西在这一山谷出生）。他们在纽约相识，当时黛西在托马斯•凯勒（Thomas Keller）的佩斯（Per Se）餐厅厨房工作，而格雷格则在格拉梅西酒馆（Gramercy Tavern）负责前厅。在贝尔餐厅，他们将彼此的高级餐饮经验融入加州式的自在理念。餐厅位于一间旧农用饲料店内，原始的乙烯基地板仍保留至今。这里的开放式厨房和吧台消除了传统高级餐厅的繁文缛节。</p><p>这并未阻止它在2021年获得米其林一星——这一荣誉肯定了瑞安和副厨们高超的技术，他们选用本地食材，用最朴实无华的方式呈现精湛料理。定价菜单可能包括点缀莫罗湾（Morro Bay）海胆的咸味奶油奶冻，或搭配半干本地番茄和圣巴巴拉（Santa Barbara）青香菜酱的比目鱼。午餐单点或许有全州最出色的牛排薯条和美味的蛋沙拉三明治。他们将自己的风格称为“Franch”（法式+牧场），不管你怎么称呼，这里都值得绕道品尝——即使从洛杉矶出发需要两个半小时车程。bellsrestaurant.com</p><p><strong>失望</strong>：罗马：喷泉被塑料覆盖；纪念碑裹上脚手架；特米尼车站（Termini Station）的翻新和威尼斯广场（Piazza Venezia）巨大的新地铁站工程每天让交通拥堵不堪。明年的教皇禧年是许多工程的起因，它自2000年以来就在规划之中。你本以为这些工程至少能错峰进行。毫无疑问，<em>罗马始终是世界之都</em>；但2024年的罗马却有点令人心疼的混乱。</p><hr><div class="pic"><picture><img src="https://dq4atoxl7csa1.cloudfront.net/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/260b865c-33a7-4ee3-a0d3-bce84f6ff9aa.png"></picture></div><div class="pic is-mixed" id="id-24"><picture><source media="screen and " srcset="https://dq4atoxl7csa1.cloudfront.net/unsafe/980x0/https://d1e00ek4ebabms.cloudfront.net/production/4f187055-7a60-4044-b0f8-414aa02cd7a2.jpg"><img src="https://dq4atoxl7csa1.cloudfront.net/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/72dbe1c8-fba0-4586-949c-40ba201bfeee.jpg"></picture>帕特莫斯的“启示录洞穴”，现已改建为一座教堂</div><p>我们并非首个身处末世时代的人。在耶稣去世大约100年后，一位名为约翰的先知为躲避罗马当局，从巴勒斯坦逃至爱琴海的帕特莫斯岛——这座岛形如海马，面向安纳托利亚海岸。岛上环境严酷，海岸线崎岖，有海蚀柱、坚硬的火山海湾，岛内则有野生长角山羊漫步。在这里，约翰在半山腰的一个洞穴中写下了非凡的末世愿景，即后来成为《圣经》末篇的《启示录》。</p><p>一千年后，当十字军东征开始向耶路撒冷进军时，拜占庭皇帝阿列克修斯•科穆宁（Alexios Komnenos）将帕特莫斯岛赐给僧侣克里斯托杜洛斯（Christodoulos），用于建一座修道院。修道院建在曾经的阿耳忒弥斯神庙遗址上，居高临下俯瞰约翰当年获启示的山间洞穴。凭借历代帝国的慷慨支持，这座修道院成为地中海地区最宏伟、最令人印象深刻的东正教中心之一。</p><p>这里与其说是祈祷场所，不如说更像堡垒，巨大的墙体旨在抵御土耳其人和海盗的攻击。穿过城堡式门楼，沿陡峭台阶进入院内，一个粉刷雪白的小庭院群展现在眼前：有拱廊、盆栽植物、芳香草本和攀援玫瑰，到处是钟声和来自大教堂“<em>主啊，怜悯</em>”的回声。更深处是拜占庭时期的伟大图书馆之一，收藏有染成紫色的帝国手稿和皇帝阿列克修斯亲笔签署的帝国金诏原件。</p><p>从山顶向下走二十分钟，就是如今称为“天启之洞”的地方。洞穴已改建为一座教堂，挂满圣像，点燃蜡烛，弥漫油灯与熏香的气息。黑暗、肃穆又神圣，这里由留着胡子的修士看守，仍可听见身穿黑衣、戴面纱的寡妇们低声祈祷的回响，她们在岩石裂缝前画十字、诵读经文。据说，上帝的启示就是透过这些裂缝向圣约翰(St John)传达。</p><div class="n-content-layout" data-layout-name="auto" data-layout-width="full-grid"><div class="n-content-layout__container"><div class="n-content-layout__slot pic is-mixed" data-slot-width="true" id="id-29"><picture><img alt="" data-copyright=" 盖蒂图片社(Getty Images)/iStockphoto" data-image-type="image" longdesc="A courtyard inside the Monastery of Saint约翰the Theologian on帕特莫斯" src="https://dq4atoxl7csa1.cloudfront.net/unsafe/https://d1e00ek4ebabms.cloudfront.net/production/05917405-3976-431c-96ff-c9b2887e7044.jpg"></picture>帕特莫斯圣约翰神学家修道院的庭院 盖蒂图片社/iStockphoto</div><div class="n-content-layout__slot pic is-mixed" data-slot-width="true" id="id-30"><picture><img alt="" data-copyright=" Alamy" data-image-type="image" longdesc="The entrance to the天启之洞" src="https://dq4atoxl7csa1.cloudfront.net/unsafe/https://d1e00ek4ebabms.cloudfront.net/production/55128058-adc2-405f-a09b-e886c19268fe.jpg"></picture>天启之洞的入口 Alamy</div></div></div><p>帕特莫斯岛仍是干燥而崎岖的：牛至、百里香和野生薰衣草覆盖山坡，松林和橄榄林护卫着一系列小海湾。岛上的修道院传统塑造了当地生活。1972年，帕特莫斯被宣布为受保护的景观和历史遗迹。这里没有夜总会，豪华酒店和现代别墅亦少，因水资源紧缺也少见游泳池。</p><p>我们住在一间由著名雅典建筑师亚历山德罗斯•C•萨马拉斯（Alexandros C Samaras）拥有并修缮的庭院宅邸内。房子有木地板、宏伟的奥斯曼横梁、古典窗户和拱门，还有一系列平顶露台，每个露台都针对一天中的不同时段而设计。</p><p>这座岛屿交通不便——没有机场——7月和8月可能炎热且拥挤。4月底至6月以及9月至10月是理想时段，届时秋风初起，风车帆影摇曳，游轮驶往更暖水域。在这些季节里，帕特莫斯仍呈现出近乎完好无损的拜占庭岛屿风貌，这在其他地方几乎绝迹。</p><em class="is-text-only" id="id-34">威廉•达尔林普尔（William Dalrymple）是Five Star Greece（</em><a href="https://www.fivestargreece.com/island_portrait/patmos/"><em class="is-text-only" id="id-35">fivestargreece.com</em></a><em class="is-text-only" id="id-36">）的嘉宾，该机构在帕特莫斯提供多处房屋出租</em><p><strong>失望：</strong>距新冠封锁已三年，英国航空（British Airways）仍在丢行李、客户服务不稳，还——根据我的经验——无法在商务舱里煮出一杯像样的咖啡。其“国际高管俱乐部”（Executive Club）服务热线，即使是金卡会员也需等待半小时方能接通，其他等级恐怕更糟。我出于习惯和也许是错误的爱国情结继续忠诚，但我开始质疑还能坚持多久。如果由塔塔集团管理的印度航空（Air India）能够整顿运营——新机队的加入令人期待——我或许很快会转投他家。</p><hr><div class="pic"><picture><img src="https://dq4atoxl7csa1.cloudfront.net/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/85c4afd6-b25c-4033-9bdd-726f8e7ec5f8.png"></picture></div><div class="pic is-mixed" id="id-38"><picture><source media="screen and " srcset="https://dq4atoxl7csa1.cloudfront.net/unsafe/980x0/https://d1e00ek4ebabms.cloudfront.net/production/42048cee-2d95-4745-b2f2-87973ada778e.jpg"><img src="https://dq4atoxl7csa1.cloudfront.net/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/b1b4c82f-5d51-47ab-b913-be81df93bd3c.jpg"></picture>今年在圣艾格尼丝（St Agnes）附近悬崖上的博尔斯特日庆典</div><p>5月5日，我在Chapel Porth海湾上方的悬崖顶端坐着，身处长满荆棘金雀花的斜坡上，海风裹挟雨水打在身上。周围约有200人，空气中弥漫期待。当远方的鼓声传来，期待感愈发强烈。</p><p>今天是博尔斯特日（Bolster Day），一个每年重现当地传说的庆典，传说中一个邪恶的巨人被一位美丽少女智取而败。这个活动完全由社区组织，免费、无商业色彩，也几乎不吸引外来游客——我们是午饭时在附近酒吧外看到一群脸涂红黑、穿着奇装异服的人演奏乐器才得知的。</p><p>下午接近五点，阴云笼罩的天空为这一刻增添几分诡秘。穿着戏服的村民队伍——有孩童也有成人——沿着海岸小径缓步而来，敲打缓慢的鼓点。他们攀上对面的岩石岬角，旗帜在风中猎猎作响。随后，一个由长杆操作的20英尺高巨人傀儡出现在悬崖之上，表演开始。这场活动仿佛混合了“柳条人”的古怪氛围和国民信托遗产的纯朴气息，让人欣慰的是，即使在旅游胜地，这样的传统仍然鲜活。</p><p><strong>失望</strong>：今年假期租车的行情似乎完全脱离现实。7月底我在梅诺卡岛需租车10天，机场附近的公司开价每天40到50英镑，但在线算法令人困惑，我竟找到远低于市价的价格——虽然价格每小时都在变动。最后，我通过总部在荷兰的carrentals.co.uk订到每天仅15.27英镑的价格。实际提供车辆的Record go公司似乎默认被压价，希望我到柜台时补买高价保险。当我拒绝时，工作人员脸色骤变：“如果发生什么事，我希望你记得今天这次谈话……”</p><p>某种意义上，我有点得意。我买了年度“租车超额保险”（仅34英镑，来自<a href="https://www.bettersafe.com/car-hire-excess-insurance">bettersafe.com</a>），成功绕过其陷阱。但不那么好玩的是，保险条款复杂，租车公司不再遵循旧标准，有时甚至不包含碰撞损害豁免。你可能需要花数小时细读条款才能明白你的保障范围。我们能否回归简单模式，消除困惑、中间商和柜台上的不愉快推销呢？这些在假日的开端就留下不佳印象。</p><hr><div class="pic"><picture><img src="https://dq4atoxl7csa1.cloudfront.net/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/fcb407ca-0eb6-4d54-baa4-3af511f19e50.png"></picture></div><div class="pic is-mixed" id="id-44"><picture><source media="screen and " srcset="https://dq4atoxl7csa1.cloudfront.net/unsafe/980x0/https://d1e00ek4ebabms.cloudfront.net/production/1cb1f8a3-c2d6-4cb7-8379-1adfd8f4fad3.jpg"><img src="https://dq4atoxl7csa1.cloudfront.net/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/a73ca5f6-dab4-4256-be78-ac1d791d12dc.jpg"></picture>社区犀牛保护计划(Community Rhino Conservation Initiative)中的一头南方白犀牛</div><p>11月，我前往津巴布韦万基国家公园（Hwange National Park）外的骆驼刺旅馆（Camelthorn Lodge），周边是社区用地。这片保护区栖息着超过十分之一的非洲象群。在金合欢树林里，虫鸣不绝，象群于林间穿行。沼泽百合如烟花般在骨白色沙地上绽放。</p><p>我的野生动物向导武萨•恩库贝（Vusa Ncube）来自附近的恩加莫村，是出色的自然学家。他带我参观社区项目：通过引入南部白犀牛吸引游客到公园外围。2022年，有两头白犀牛从津巴布韦其他地区迁移而来，现在生活在有围栏的168英亩保护区内。加上相邻社区9月引入的另一对，这是该地区40年来首次有白犀牛（当年公园内外约有100头）。</p><p>我与社区野生动物保护队（39人团队，24小时值守）成员一起看着犀牛在泥中翻滚。它们皮肤如盔甲，黑加仑般的眼睛闪着好奇的光。雨越下越大，我意识到我正如此接近一个濒危物种，以及犀牛为何需要如此严密保护。可当武萨和守护者轻声对犀牛低语，我也感受到救赎的希望——如同微小的振翅声在空气中回荡。</p><em class="is-text-only" id="id-48">骆驼刺旅馆(Camelthorn Lodge)双人间（</em><a href="http://www.imvelosafarilodges.com/"><em class="is-text-only" id="id-49">imvelosafarilodges.com</em></a><em class="is-text-only" id="id-50">）约1350美元/晚，包含所有费用，另加每人每次入住180美元的社区犀牛保护计划附加费。</em><p><strong>失望：</strong>在博茨瓦纳乔贝国家公园（Chobe National Park）一次清晨驱车游猎中，我和其他车辆鼻尾相接，在沙质河岸上缓慢前行。这里观赏“非洲五霸”（Big Five）的机会让它成为游客从津巴布韦维多利亚瀑布（Victoria Falls）越境的一日游热点。</p><p>有人在公共野餐区随意小便。游猎车靠近一群狮子，干扰了正努力拍摄的野生动物研究员。一大群大象在宽阔的柏油路上通过。非洲野狗——濒危物种——在斑驳树荫下徘徊，而导游车队却几乎不停顿就驶过。</p><p>这难道是野生动物园的动物园化？当珍稀生灵不过是路过的杂耍表演，国家公园应对所有人开放，但当旅游可能削弱公园保护的本意，该怎么办？离开乔贝时，我心情沉重，觉得这里似乎已失去了真正的野性灵魂。</p><hr><div class="pic"><picture><img src="https://dq4atoxl7csa1.cloudfront.net/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/706e0a02-07a9-4ba9-a624-d8dbcaed3e43.png"></picture></div><p>最近，奢华火车旅行正卷土重来。今年我搭乘东方快车（Eastern &amp; Oriental Express）穿越马来西亚乡村，四天的行程堪称卧铺之巅。</p><p>几个月后，我和妻子乘坐从布鲁塞尔到柏林的夜班火车，自然感觉逊色不少，但问题在下一段旅程才显现。捷克铁路（Czech Railway）从柏林到布拉格的日间列车是一项精心设计的功能性体验，但幸运的是，它配备了当今越来越稀有的设施：真正的餐车，配有桌布、独立椅子，还有身着背心、愉快而勤奋的服务生。</p><p>当我们沿着易北河谷前行，一边享用浇满肉汁的饺子，一边欣赏窗外不断更替的风景与过客：峡谷、城堡、共享矿泉水的哥特风少年、默契酌酒的老友，以及那位迷人又刚离婚的女士，每次去洗手间都请我们照看她包里的吉娃娃。</p><p>我逐渐领悟，餐车一直是长途列车那跳动、摇晃的心脏。这里充满永恒、低调的欢愉，在此旅行被分享，人生交汇，而窗外世界匆匆而过。</p><p>这也是我们在布鲁塞尔到柏林夜车上所缺失的体验。我们独自蜷在500欧元的卧铺包厢里，吃着超市自助餐般的食物，让人想起学生时代那些寒酸的铁路旅行时刻。尤其是当我用钥匙把软木塞推进瓶中、将半瓶酒洒在妻子枕头上时，更是让人哭笑不得。</p><p><strong>失望：</strong>“空中交通管制通知我，我们有了新起飞时段。”今年，大约有10位机长在登机后对乘客这样说，然后飞机就滑行到远离航站楼的角落停着。我们不得不在机上等待长达90分钟，半小时后机组会拿出免费软饮料和一小包椒盐卷饼安抚大家。</p><p>似乎没人愿意解释背后的原因，无论是实际延误还是为什么不让乘客在航站楼舒适等待的理由。好在今年我只因此错过一次转机，不过行李却错过了两次。</p><hr><div class="pic"><picture><img src="https://dq4atoxl7csa1.cloudfront.net/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/8e427980-5f0d-4037-a24f-24eccb3874f8.png"></picture></div><p>在地平线半途中，一股巨大的水龙卷从云中伸出触手，鞭打搅动海面。我们应该逃吗？无论对蜜月有何期待，都未曾想过遇到这般奇景。</p><p>巴巴多斯西海岸的阿莱恩斯湾海滩看似椰林天堂，却有更深层的趣味。沙滩上小海龟、幽灵蟹的足迹述说着故事。拂晓时，海龟巡逻队的年轻人挖出玳瑁龟巢，从中取出如水样的乒乓球般的蛋，小心重新埋好。若不将蛋移到更高处，上升的海平面会淹没它们。这些努力使海龟数量有所增长。</p><p>豪华别墅与酒店间，是真实的海岸生活。这里的人以海滩名相识。Party Ric卖面包果烧烤，山猫（Wildcat）做导游，Kevin Weasel则卖渔夫刚捕获的鲷鱼和金枪鱼。在远方，小船上微弱的灯光比星光更微小。据说有时可见夜间彩虹，其明亮拱弧悬于黑暗中。</p><p>这些奇观和紫色余晖、如吸血鬼灵魂般的军舰鸟，以及幻影般航行的云船交织在一起。水龙卷的旋转消散后化作骤雨落下。我们对巴巴多斯只要求这一片沙滩，但它却展现出一个陌生而丰富的世界。</p><p><strong>失望</strong>：开门或刷卡进入酒店房间，你会想：“太美了！”或“还不错！”或“将就吧”，这取决于你的心情。但等等，为什么浴室<em>没有门</em>？为什么洗手间与房间之间是一块半透明玻璃，而不是实心门？</p><p>带风景的厕所可以接受，但能看见使用者的厕所以及他们的各种动静实在让人不爽。无论是经济型还是精品酒店，门正逐渐消失。我们不需要粉色情调灯光下的磨砂玻璃——我们需要在亲密伴侣眼、耳、鼻前留存最后的神秘与尊严。近日在利物浦的Dockside Aparthotel，我看到双人床旁竟是敞开式浴室，马桶像个窥探者直对床铺。厕所不是观景窗。这种设计该停止了。</p><hr><div class="pic"><picture><img src="https://dq4atoxl7csa1.cloudfront.net/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/378da660-e252-499a-b42d-47b32413e543.png"></picture></div><div class="n-content-layout" data-layout-name="auto" data-layout-width="full-grid"><div class="n-content-layout__container"><div class="n-content-layout__slot pic" data-slot-width="true"><picture><img alt="A plate of pork belly on green leaves and a side bowl of green, red and orange sauces" data-copyright="" data-image-type="image" longdesc="Mauka’s pork belly confit" src="https://dq4atoxl7csa1.cloudfront.net/unsafe/https://d1e00ek4ebabms.cloudfront.net/production/572b2b70-6aaa-40e0-98c4-a295238714d4.jpg"></picture><p class="is-text-only" id="id-67">毛卡的五花肉油封</p> </div><div class="n-content-layout__slot pic" data-slot-width="true"><picture><img alt="A plate of trout fillet wrapped up with green leaves and stuffed with avocado" data-copyright="" data-image-type="image" longdesc="Trout with avocado and olluco" src="https://dq4atoxl7csa1.cloudfront.net/unsafe/https://d1e00ek4ebabms.cloudfront.net/production/7f6490d0-da91-421a-9982-92ec573e55e9.jpg"></picture><p class="is-text-only" id="id-68">鳟鱼配牛油果和乌柳科块茎</p> </div></div></div><p>书稿研究 nearing尾声时，我于6月意外前往秘鲁，首次来到这个国家。抵达库斯科（Cusco，海拔3400米）后，我被严格要求保持水分、避免饮酒、控制饮食。</p><p>然而，一到这座前印加帝国的首都，我就被直接带到名为“毛卡”（Mauka）的餐厅，递上一杯皮斯科酸酒，上面泡沫以苦精点缀。紧接着呈上安第斯猪肚、火烤块茎以及生食驼羊肉精致陶盘——美味可口，颜值在线。</p><p>毛卡位于Palacio Nazarenas酒店，由厨师Pía León掌舵，旨在呈现从亚马逊到安第斯各地的食材。如今，支持本地农户和食材已成为流行口号，但我常对此持怀疑态度。然而在这里，我体验了一场秘鲁食材的速成课，甚至了解到最稀有的种子和草药。印加人最早进行农业试验，在山坡上建造<em>梯田</em>，利用不同海拔微气候培育杂交谷物——这也是秘鲁拥有超过3000种土豆的原因。</p><p>几个小时里，我品尝鳟鱼与甜瓜丝带搭配的清爽组合，烟熏鸭肉薄片撒上藜麦，以及裹着亚马逊坚果的温热蚝菇。新鲜、芳香、几乎不过度烹调，仅用少许盐激发食材原味。虽然Pía León的创意料理充满玩味和魅力，但最让我难忘的居然是一块热腾腾的面包，甜如蛋糕，配上自制黄油令人回味无穷。</p><p><strong>失望：</strong>我与一位初次来维也纳的朋友同行，并说服她去尝试“原版萨赫蛋糕”——我们为此在巴黎的Maison Delano酒店预订了餐位，还打车穿城而去。排队等候在萨赫酒店(Hotel Sacher)外，人们拎着LV购物袋，这本该是预警，但我仍坚持。终于在楼上的红色天鹅绒休息室找到座位，用小勺切开蛋糕却发现它干燥易碎。即使有一层薄薄的杏子酱，口感仍像在嚼砖头。不如试试德梅尔（Café Demel）的版本。</p><hr><div class="pic"><picture><img src="https://dq4atoxl7csa1.cloudfront.net/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/5f899e1b-4b35-4558-81a3-ccaf1e9ddce9.png"></picture></div><div class="n-content-layout" data-layout-name="auto" data-layout-width="full-grid"><div class="n-content-layout__container"><div class="n-content-layout__slot pic is-mixed" data-slot-width="true" id="id-74"><picture><img alt="A double bed in a contemporary style hotel bedroom" data-copyright=" Jiri Lizler, jirilizler.com" data-image-type="image" longdesc="A bedroom at The Julius" src="https://dq4atoxl7csa1.cloudfront.net/unsafe/https://d1e00ek4ebabms.cloudfront.net/production/7cd3bd2d-2da7-4ba6-9bb8-42a7aec3ca39.jpg"></picture>The Julius酒店的一间卧室 Jiri Lizler，jirilizler.com</div><div class="n-content-layout__slot pic" data-slot-width="true"><picture><img alt="A hotel window under the eaves looking on to a baroque spire" data-copyright="" data-image-type="image" longdesc="The hotel is a few minutes’ walk from Prague’s historic landmarks" src="https://dq4atoxl7csa1.cloudfront.net/unsafe/https://d1e00ek4ebabms.cloudfront.net/production/3da48ed1-ec15-4b84-8575-ce87d3642076.jpg"></picture><p class="is-text-only" id="id-75">这家酒店距离布拉格的历史地标仅几分钟步行路程</p> </div></div></div><p>工作行程结束后，我们将周末延长留在布拉格，选择了新开业的朱利叶斯酒店（The Julius）住上几晚。此项目由奥地利老牌杂货商Julius Meinl家族投资，与奥地利的福南梅森类似。酒店位于市中心，从此步行五分钟到老城广场，约二十分钟到查尔斯桥。这是一座宏伟的19世纪末新文艺复兴风格建筑，经意大利建筑师马泰奥•图恩（Matteo Thun）巧妙改造。他曾师从奥地利-捷克艺术家奥斯卡•科科施卡（Oskar Kokoschka）。尽管客房整体为现代极简风，但从镶木地板、嵌入式屏风、座椅、天鹅绒窗帘和装饰中能感受到分离派艺术的气息。</p><p>作为住宿地，这里无可挑剔：安静、柔和的光线、直观的照明设计、完善的雨林式淋浴。更令我惊讶的是价格。通过<a href="https://www.mrandmrssmith.com/">mrandmrssmith.com</a>预订，可在有房时升级。我们住进一间豪华房，几乎是带厨房的单间公寓（配有Miele电器、Smeg水壶与烤面包机、Nespresso咖啡机及锅碗刀叉），每晚仅153英镑。</p><p>我们并不打算自己做饭，但如有需要，隔壁有Julius Meinl商店，住客有折扣。不想吃自助早餐？可以去附近的Kolacherie买一份夹有罂粟籽或杏仁奶油的kolache，再从酒店酒吧买杯外带咖啡。酒店还提供实惠的餐厅、健身房和共享办公区。</p><p>他们没有夜床服务，入住手续也多为自动化。除此之外，这里以三星价格提供五星体验。thejulius.eu</p><p><strong>失望：</strong>2000年冬季一个晚上，我们在安达卢西亚的龙达（Ronda）寻找餐厅，偶然发现一间空无一人的Tragabuches餐厅，进去尝试后被美食震撼。当时年轻厨师名叫丹尼尔•加西亚（Daniel García），我一直关注他的职业生涯。他获奖无数，拥有米其林星光。</p><p>如今，Dani García集团在20多家餐厅雇用1200名员工，但我仍抱有期望。去年冬天，La Chambre Bleue在巴黎Maison Delano酒店开业不久，我就预订了餐位。餐厅环境优雅，我们点的章鱼薄片和红鲻鱼海鲜饭还算不错，但对得起的只是价格，不见惊艳。尽管餐厅很空，服务却冷淡。加西亚是一位出色的厨师和精明的企业家，但看样子他的品牌正被过度延伸。</p><hr><div class="pic"><picture><img src="https://dq4atoxl7csa1.cloudfront.net/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/ddf2383b-5743-40c6-9f76-cf6794092f99.png"></picture></div><div class="pic is-mixed" id="id-82"><picture><source media="screen and " srcset="https://dq4atoxl7csa1.cloudfront.net/unsafe/980x0/https://d1e00ek4ebabms.cloudfront.net/production/62a249a7-6b47-432a-b4f6-a3e445fd1efd.jpg"><img src="https://dq4atoxl7csa1.cloudfront.net/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/066accbf-ae98-41d2-80bb-7ade2ac0c693.jpg"></picture>Treno Gottardo列车经过瑞士中部的阿姆施泰格</div><p>春天我前往瑞士意大利语区的提契诺州（Ticino），从苏黎世火车总站出发南下。我以为自己已体验过瑞士最美铁路路线：伯尔尼纳线、阿尔布拉线和冰川快车（Glacier Express）。因此带上工作想在路上消磨时间。结果，我什么工作都没做。Treno Gottardo虽不如其他瑞士列车闻名，却让人难以移开目光。</p><p>惊喜从起点就开始：我们的现代列车在锡尔布鲁格（Sihlbrugg）的遗产铁路线上与一辆喷汽坦克机车并肩而行。接着是楚格湖（Lake Zug）与卢塞恩湖（Lake Lucerne）的湖岸，蓝色湖面上帆船点点。当我们抵达埃尔斯特费尔德（Erstfeld）附近，对座的一位商人向我抱怨2023年因一列货运列车脱轨导致圣哥达基线隧道（Gotthard Base Tunnel，全长57公里，世界最长铁路隧道）无限期关闭。</p><p>他解释这对通勤者是场噩梦——封闭意味着他前往洛迦诺的行程多花一小时，因为火车现在必须改走阿尔卑斯高山上那条旧有的15公里长圣哥达隧道。我们沿着翠绿山坡不断盘旋上升，阿尔卑斯山峰渐近，耳膜开始感到压力变化，轨道下方甚至出现一座教堂的尖顶。当我们驶入旧隧道，那位商人摇头叹息，我却难掩内心的欣喜。</p><em class="is-text-only" id="id-86">Treno Gottardo列车自2024年9月圣哥达基线隧道重新开放后，从苏黎世至洛迦诺仅需两小时（沿途仍很美）。参见</em><a href="http://sbb.ch/"><em class="is-text-only" id="id-87">sbb.ch</em></a><p><strong>失望：</strong>德国铁路（Deutsche Bahn）曾是欧洲最佳铁路之一——好几次我在科隆换乘流线型ICE列车时，脑中都回响着Kraftwerk的《Trans-Europe Express》。然而，今年我亲眼见证德国铁路陷入所谓“危机”：延误和取消层出不穷，被归因于多年投资不足。科隆火车总站（Cologne Hauptbahnhof）的长时间延误倒是给了乘客参观旁边壮丽大教堂的机会（或为接下来的旅程祈祷）。</p><hr><div class="pic"><picture><img src="https://dq4atoxl7csa1.cloudfront.net/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/5aaf48a3-b9c8-4530-9155-0609bda66a38.png"></picture></div><div class="pic is-mixed" id="id-89"><picture><source media="screen and " srcset="https://dq4atoxl7csa1.cloudfront.net/unsafe/980x0/https://d1e00ek4ebabms.cloudfront.net/production/04ac516d-0efd-42e0-b265-cafc0dc66116.jpg"><img src="https://dq4atoxl7csa1.cloudfront.net/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/494410fc-8889-48f6-ac89-c3d008684aca.jpg"></picture>庞恰特雷恩酒店20世纪20年代的砖砌外墙</div><p>6月，我哥哥打电话想在新奥尔良（New Orleans）见面。他说不想住在法语区（French Quarter），于是我在花园区（Garden District）订了庞恰特雷恩酒店（Pontchartrain Hotel）——一座1920年代修建并在2016年翻新的红砖巨构。</p><p>从这里开车到法语区仅需10分钟，却能满足我们度过完美一晚所需的一切。许多酒店想做到这一点却很少成功，而这里却有股南方特有的奇妙与魅力。</p><p>黄昏时，当地人纷纷涌入酒店大门，前往能眺望城市天际线的Hot Tin酒吧。我们在Jack Rose餐厅用餐，它的氛围仿佛一名滑稽舞者的衣橱，但这丝毫不影响我们对鸭肉与安杜耶香肠浓汤的赞赏。稍后，在Bayou酒吧（田纳西•威廉斯和伊丽莎白•泰勒曾在此欢笑），一支世界级爵士乐队让位给歌手乔丹•安德森（Jordan Anderson），他邀请微醺的顾客与他齐声歌唱。</p><p>自我认识新奥尔良以来，它一直很难深入了解，但庞恰特雷恩却让我直抵其神髓。随着时光和薄荷酒流逝，我在各个房间间穿梭，仿佛置身彼得•格林纳威（Peter Greenaway）的电影中，最后回到七楼那间复古可爱的套房。</p><em class="is-text-only" id="id-94">庞恰特雷恩酒店（</em><a href="https://thepontchartrainhotel.com/"><em class="is-text-only" id="id-95">thepontchartrainhotel.com</em></a><em class="is-text-only" id="id-96">）双人房179美元起</em><p><strong>失望：</strong>从庞恰特雷恩出发，我们深入密西西比河三角洲，前往Myrtle Grove码头，搭上一艘小船追逐红鱼。一切都很地道：在拉里船长的店里吃Po’ boy（三点后才开门），有人在破旧屋舍的甲板上试枪，爆米花虾味道绝佳。然而，数代以来修建运河、石油勘探及泄漏对沼泽地的破坏累积成巨大创伤。这片土地正饱受蹂躏。</p><hr><h4></h4><div class="pic"><picture><img src="https://dq4atoxl7csa1.cloudfront.net/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/52b3387b-9950-4c0c-9dac-38daad11fffd.png"></picture></div><div class="pic is-mixed" id="id-98"><picture><source media="screen and " srcset="https://dq4atoxl7csa1.cloudfront.net/unsafe/980x0/https://d1e00ek4ebabms.cloudfront.net/production/6c04a635-8d65-4426-9681-690201f47e09.jpg"><img src="https://dq4atoxl7csa1.cloudfront.net/unsafe/1920x0/https://d1e00ek4ebabms.cloudfront.net/production/0e76bac7-90ea-4e83-aba7-abd687843402.jpg"></picture>在音乐之家(Haus der Musik)担任指挥体验</div><p>今年7月我首次前往维也纳，自以为知道会看到什么：身穿燕尾服的乐团指挥在巴洛克风格、红色天鹅绒音乐厅里指挥施特劳斯圆舞曲，以及与我同行的游客们沿途探访莫扎特曾短暂居住过的十几处住所之一。</p><p>我并未完全错，但音乐之家（Haus der Musik）——这座四层的博物馆，以声音的科学与艺术为主题——彻底超出我的预期。不久，我就挥动手臂在传感器前掷出虚拟骰子，协助创作一首全新华尔兹。我戴上耳机，体验贝多芬失聪带来的影响，并站在一个让鸟鸣、钟声与街声交错的声音圈中。通往一楼的楼梯是钢琴键，踩上去发出音符。我开始好奇，小提琴在乌龟的感官中听起来如何？</p><p>是的，你能看到舒伯特的眼镜，也能了解到海顿死后鹦鹉以相当于3.25万欧元的价格售出。但更令人惊奇的是，你能听到胎儿在子宫中所感知的声音。</p><p>当然，音乐之家的独特之处在其互动性。即使在听过“鲤鱼眼中的贝多芬第五交响曲”后，我离开时仍漫步大厅，偶遇一位游客在门口的黑色雅马哈钢琴上弹奏贝多芬。那演奏之动人，宛如身处金色大厅（Goldene Saal）。</p><p>那位来自丹麦的11岁亚历山大或许正走向音乐会钢琴家的道路。每个音符都提醒我，每一年都有被忽略的惊喜等待发掘，可能来自身边的旅伴。</p><em class="is-text-only" id="id-104">音乐之家（</em><a href="https://www.hdm.at/en/"><em class="is-text-only" id="id-105">hdm.at</em></a><em class="is-text-only" id="id-106">）门票成人17欧元，儿童7欧元</em><p><strong>失望：</strong>汽车文化本质上是亲密与社区的敌人，也损害民主。五十年来，我在洛杉矶的六车道公路中穿行，早知高速公路常是通往无处的约束之路。然而今年9月，我花了三个半小时才穿过城市一角到另一角。如果2028年洛杉矶奥运会如承诺般实现“无车”，那么最大的受益者将是那些平日被困在原地的城市居民。</p><em class="is-text-only" id="id-108">抢先了解我们的最新故事——</em> <em class="is-text-only" id="id-109">关注FTWeekend的</em><a href="https://www.instagram.com/ft_weekend/"><em class="is-text-only" id="id-110">Instagram</em></a><em class="is-text-only" id="id-111">和</em><a href="https://twitter.com/ftweekend"><em class="is-text-only" id="id-112">X账号</em></a><em class="is-text-only" id="id-113">，并订阅我们的</em><a href="https://www.ft.com/lifeandartpodcast"><em class="is-text-only" id="id-114">“生活与艺术”播客</em></a><em class="is-text-only" id="id-115">，无论你在哪里收听</em>
-                                </div>
-                                <div class="clearfloat"></div>
-                            </div>
-                            <div class="copyrightstatement-container">
-                                版权声明：本文版权归FT中文网所有，未经允许任何单位或个人不得转载，复制或以任何其他方式使用本文全部或部分，侵权必究。
-                            </div>
-                            
-                            <div class="clearfloat block-bottom"></div>
-                            <div class="story-comments-container">
-                                <div id="logincomment" class="logincomment">
-                                    <form id="storyForm">
-                                        <div class="comment-input-container">
-                                        <div class=container>
-                                        <div style="margin:5px 0;">FT中文网欢迎读者发表评论，部分评论会被选进《读者有话说》栏目。我们保留编辑与出版的权利。</div>
-                                        <textarea name="Talk" id="Talk" class="commentTextArea" width="100%" rows="3" placeholder="请针对本文发表评论，评论长度至少5个字符，并且不超过500个字符"></textarea>
-                                        <span style="display:none">
-                                        <input name="use_nickname" type="hidden" id="name" onclick="unuseit(this);"/>
-                                        <label for="name" style="display:none">匿名</label>
-                                        <input name="use_nickname" type="radio" id="userid" value="0" onclick="useit(this);" checked/>
-                                        <input type="text"  autocorrect="off" class="user_id textinput nick_name" name="NickName" id="nick_name" value=""/>
-                                        </span>
-                                        <input type="button" value="提交评论" class="comment_btn submitbutton button ui-light-btn" id="addnewcomment"/>
-                                        <input type="hidden" id="content_id" value="184917"/>
-                                        <input type="hidden" id="content_type" value="interactive"/>
-                                        </div>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div id="nologincomment" class="nologincomment">
-                                    <div class="container">
-                                        <a class="social-login-wechat" href="/login"><div class="centerButton"><button class="ui-light-btn stress">登录后发表评论</button></div></a>
-                                        <a class="social-login-wechat" href="/register"><div class="centerButton"><button class="ui-light-btn stress">免费注册</button></div></a>
-                                        <a class="social-login-wechat" href="/login/wechat"><div class="centerButton"><button class="ui-light-btn wechat-login">微信登录</button></div></a>
-                                    </div>
-                                </div>
-        
-                                <div class="user_comments_container">
-                                    <h2 class="box-title">
-                                        <div class="comments-sort-container" style="">
-                                            <label>排序方式</label>
-                                            <select class="commentsortby" id="commentsortby" data-id="184917" data-type="interactive">
-                                                <option value="1" selected>最新的在上方</option>
-                                                <option value="2">最早的在上方</option>
-                                                <option value="3">按热门程度</option>
-                                            </select>
-                                        </div>
-                                        <a class="list-link" href="#">读者评论</a>
-                                    </h2>
-                                    <div id="allcomments" class="allcomments container"></div>
-                                </div>
-        
-                                <script>
-                                (function() {
-                                    var script = document.createElement('script');
-                                    script.src = '/powertranslate/scripts/main-user-comments-new.js';
-                                    script.async = true;
-                                    script.onload = function() {
-                                        // Set up Intersection Observer with adjusted rootMargin
-                                        var observer = new IntersectionObserver(function(entries, observer) {
-                                            entries.forEach(function(entry) {
-                                                if (entry.isIntersecting) {
-                                                    // Load comments when the div is 500px away from entering the viewport
-                                                    loadcomment('184917', 'interactive');
-                                                    clickToSubmitComment();
-                                                    // Stop observing after loading comments
-                                                    observer.unobserve(entry.target);
-                                                }
-                                            });
-                                        }, {
-                                            root: null,
-                                            rootMargin: '0px 0px 500px 0px', // Expand the bottom margin by 500px
-                                            threshold: 0 // Trigger as soon as any part of the target intersects
-                                        });
-                                        var target = document.querySelector('.user_comments_container');
-                                        if (target) {
-                                            observer.observe(target);
-                                        } else {
-                                            console.error('Could not find user_comments_container element.');
-                                        }
-                                    };
-                                    script.onerror = function() {
-                                        console.error('Error loading the comments script.');
-                                    };
-                                    document.head.appendChild(script);
-                                })();
-                                </script>
-                            </div>
-                        </div>
-        
-                        <div class="items">
-                            <div
-                            data-o-ads-name="infoflow3"
-                            class="o-ads infoflow"
-                            data-o-ads-formats-default="false"
-                            data-o-ads-formats-small="FtcInfoFlow"
-                            data-o-ads-formats-medium="false"
-                            data-o-ads-formats-large="false"
-                            data-o-ads-formats-extra="false"
-                            data-o-ads-targeting="cnpos=info3;"
-                            >
-                            </div>
-                        </div>
-        
-                    </div>
-                </div>
-                <div class="side-container">
-                    <div class="side-inner">
-                        
-                        <div class="story-box"><h2 class="box-title"><a>冒险之旅</a></h2><ul class="top10"><li class="mp1"><a target="_blank" href="/interactive/166088">苏格兰的魔法山</a></li><li class="mp2"><a target="_blank" href="/interactive/154248">即将从8000米高峰一跃而下的人</a></li></ul></div>
-                        <div class="story-box last-child">
-            <h2 class="box-title"><a>相关话题</a></h2>
-            <ul class="top10">
-              <li class="story-theme">
-            <a target="_blank" href="/tag/冒险之旅">冒险之旅</a>
-            <div class="icon-right">
-            <button class="myft-follow plus" data-tag="冒险之旅" data-type="tag">关注</button>
-            </div>
-            </li><li class="story-theme">
-            <a target="_blank" href="/tag/FT商学院">FT商学院</a>
-            <div class="icon-right">
-            <button class="myft-follow plus" data-tag="FT商学院" data-type="tag">关注</button>
-            </div>
-            </li><li class="story-theme">
-            <a target="_blank" href="/tag/英航">英航</a>
-            <div class="icon-right">
-            <button class="myft-follow plus" data-tag="英航" data-type="tag">关注</button>
-            </div>
-            </li><li class="story-theme">
-            <a target="_blank" href="/tag/路易威登">路易威登</a>
-            <div class="icon-right">
-            <button class="myft-follow plus" data-tag="路易威登" data-type="tag">关注</button>
-            </div>
-            </li><li class="story-theme">
-            <a target="_blank" href="/tag/塔塔钢铁">塔塔钢铁</a>
-            <div class="icon-right">
-            <button class="myft-follow plus" data-tag="塔塔钢铁" data-type="tag">关注</button>
-            </div>
-            </li>
-            </ul>
-            </div>
-                    </div>
-                </div>
-                <div class="clearfloat"></div>
-            </div>
-        </div>
-        
-        
-            <div class="o-ads" data-o-ads-name="banner2"
-            data-o-ads-center="true"
-            data-o-ads-formats-default="false"
-            data-o-ads-formats-small="FtcMobileBanner"
-            data-o-ads-formats-medium="false"
-            data-o-ads-formats-large="FtcBanner"
-            data-o-ads-formats-extra="FtcBanner"
-            data-o-ads-targeting="cnpos=top2;">
-            </div>
-        
-        <div class="block-container has-side story-recommend-container"><div class="block-inner">
-        
-            <div class="content-container"><div class="content-inner" id="onward-journey">
-                
-                <div class="list-container">
-                    <div class="list-inner"><h2 class="list-title">
-                    <a class="list-link" href="/channel/mba.html">推荐阅读</a></h2>
-                    <div class="items"><div class="clearfloat"></div></div>
-                </div>
-        
-                <div class="card-grid">
-                
-                    <div class="item-container " data-update="1732090987"><div class="item-inner">
-                    <a class="image" target="_blank" href="/interactive/181394"><figure class="" data-url="http://i.ftimg.net/picture/7/000250967_piclink.jpg"><img src="https://d1sh1cgb4xvhl.cloudfront.net/unsafe/420x236/picture/7/000250967_piclink.jpg" data-backupimage="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fi.ftimg.net%2Fpicture%2F7%2F000250967_piclink.jpg?source=ftchinese&amp;width=420&amp;height=236&amp;fit=cover&amp;from=next001"></figure></a>
-                    <div class="item-headline-lead">
-                    <h2 class="item-headline">
-        
-                    <a target="_blank" href="/interactive/181394" class="item-headline-link locked vip">中东期待沙特阿拉伯制衡特朗普</a>
-                    </h2>
-                    <div class="item-lead">阿拉伯国家希望穆罕默德王储和美国当选总统特朗普的密切关系能够缓和特朗普政府的中东政策。</div>
-        
-                    </div>
-                    </div></div>
-        
-                    
-                    <div class="item-container " data-update="1732090278"><div class="item-inner">
-                    <a class="image" target="_blank" href="/interactive/181395"><figure class="" data-url="http://i.ftimg.net/picture/4/000250984_piclink.jpg"><img src="https://d1sh1cgb4xvhl.cloudfront.net/unsafe/420x236/picture/4/000250984_piclink.jpg" data-backupimage="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fi.ftimg.net%2Fpicture%2F4%2F000250984_piclink.jpg?source=ftchinese&amp;width=420&amp;height=236&amp;fit=cover&amp;from=next001"></figure></a>
-                    <div class="item-headline-lead">
-                    <h2 class="item-headline">
-        
-                    <a target="_blank" href="/interactive/181395" class="item-headline-link locked vip">投资者押注防务支出增加，Palantir成为“特朗普交易”赢家之一</a>
-                    </h2>
-                    <div class="item-lead">彼得•蒂尔创立的数据公司的最大客户是美国政府，自特朗普本月当选以来，其市值增加了230亿美元。</div>
-        
-                    </div>
-                    </div></div>
-        
-                    
-                    <div class="item-container " data-update="1732080842"><div class="item-inner">
-                    <a class="image" target="_blank" href="/interactive/181308"><figure class="" data-url="http://i.ftimg.net/picture/8/000250948_piclink.jpg"><img src="https://d1sh1cgb4xvhl.cloudfront.net/unsafe/420x236/picture/8/000250948_piclink.jpg" data-backupimage="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fi.ftimg.net%2Fpicture%2F8%2F000250948_piclink.jpg?source=ftchinese&amp;width=420&amp;height=236&amp;fit=cover&amp;from=next001"></figure></a>
-                    <div class="item-headline-lead">
-                    <h2 class="item-headline">
-        
-                    <a target="_blank" href="/interactive/181308" class="item-headline-link locked vip">Lex专栏：增长来之不易，雀巢前景平淡</a>
-                    </h2>
-                    <div class="item-lead">要实现其增长目标，这家瑞士集团需要增加营销投资。</div>
-        
-                    </div>
-                    </div></div>
-        
-                    
-                    <div class="item-container " data-update="1732077395"><div class="item-inner">
-                    <a class="image" target="_blank" href="/interactive/181321"><figure class="" data-url="http://i.ftimg.net/picture/9/000250949_piclink.jpg"><img src="https://d1sh1cgb4xvhl.cloudfront.net/unsafe/420x236/picture/9/000250949_piclink.jpg" data-backupimage="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fi.ftimg.net%2Fpicture%2F9%2F000250949_piclink.jpg?source=ftchinese&amp;width=420&amp;height=236&amp;fit=cover&amp;from=next001"></figure></a>
-                    <div class="item-headline-lead">
-                    <h2 class="item-headline">
-        
-                    <a target="_blank" href="/interactive/181321" class="item-headline-link locked vip">Lex专栏：便宜商品是沃尔玛股价上涨的基础</a>
-                    </h2>
-                    <div class="item-lead">沃尔玛通过吸引高收入顾客和增加其他收入来源，出色地应对了经济不景气和通胀带来的挑战。</div>
-        
-                    </div>
-                    </div></div>
-        
-                    
-                    <div class="item-container " data-update="1732009765"><div class="item-inner">
-                    <a class="image" target="_blank" href="/interactive/181225"><figure class="" data-url="http://i.ftimg.net/picture/2/000250802_piclink.jpg"><img src="https://d1sh1cgb4xvhl.cloudfront.net/unsafe/420x236/picture/2/000250802_piclink.jpg" data-backupimage="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fi.ftimg.net%2Fpicture%2F2%2F000250802_piclink.jpg?source=ftchinese&amp;width=420&amp;height=236&amp;fit=cover&amp;from=next001"></figure></a>
-                    <div class="item-headline-lead">
-                    <h2 class="item-headline">
-        
-                    <a target="_blank" href="/interactive/181225" class="item-headline-link locked vip">Lex专栏：奢侈品品牌寄希望于自己的美国梦</a>
-                    </h2>
-                    <div class="item-lead">奢侈品在美国越来越具有吸引力，可能为该行业提供新的增长跑道。</div>
-        
-                    </div>
-                    </div></div>
-        
-                    
-                    <div class="item-container " data-update="1731913651"><div class="item-inner">
-                    <a class="image" target="_blank" href="/interactive/180977"><figure class="" data-url="http://i.ftimg.net/picture/3/000212163_piclink.jpg"><img src="https://d1sh1cgb4xvhl.cloudfront.net/unsafe/420x236/picture/3/000212163_piclink.jpg" data-backupimage="https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fi.ftimg.net%2Fpicture%2F3%2F000212163_piclink.jpg?source=ftchinese&amp;width=420&amp;height=236&amp;fit=cover&amp;from=next001"></figure></a>
-                    <div class="item-headline-lead">
-                    <h2 class="item-headline">
-        
-                    <a target="_blank" href="/interactive/180977" class="item-headline-link locked vip">诺和诺德准备下一代减肥药的试验结果</a>
-                    </h2>
-                    <div class="item-lead">这家丹麦公司预计，最新数据将显示CagriSema可在一年多的时间内减轻25%的体重。</div>
-                    </div>
-                    </div></div>
-        
-                </div>
-        
-                
-            </div></div>
-        
-            <div class="side-container is-sticky-top"><div class="side-inner">
-                <div 
-                data-o-ads-name="mpu-right3"
-                class="o-ads"  
-                data-o-ads-formats-default="false" 
-                data-o-ads-formats-small="false" 
-                data-o-ads-formats-medium="FtcMpu"
-                data-o-ads-formats-large="FtcMpu"
-                data-o-ads-targeting="cnpos=right3;"
-                data-cy='[{"devices":["PC","PadWeb","PadApp"],"pattern":"MPU","position":"Right3"}]'
-                >
-                </div>
-            </div></div>
-        
-            <div class="clearfloat"></div>
-        
-        </div>
-        
-        
-        <div class="o-ads" data-o-ads-name="banner3"
-        data-o-ads-center="true" 
-        data-o-ads-formats-default="false"
-        data-o-ads-formats-small="FtcMobileBanner"
-        data-o-ads-formats-medium="false"
-        data-o-ads-formats-large="FtcBanner" 
-        data-o-ads-formats-extra="FtcBanner"
-        data-o-ads-targeting="cnpos=top3;"
-        data-cy='[{"devices":["PC"],"pattern":"Banner","position":"Num3"},{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"Banner","position":"Num3"}]'>
-        </div>
-        
-        
-        
-        <div class="o-ads" data-o-ads-name="banner3"
-        data-o-ads-center="true" 
-        data-o-ads-formats-default="false"
-        data-o-ads-formats-small="FtcMobileBanner"
-        data-o-ads-formats-medium="false"
-        data-o-ads-formats-large="FtcBanner" 
-        data-o-ads-formats-extra="FtcBanner"
-        data-o-ads-targeting="cnpos=top3;"
-        data-cy='[{"devices":["PC"],"pattern":"Banner","position":"Num3"},{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"Banner","position":"Num3"}]'>
-        </div>
-        
-        
-        
-        
-        
-        
-        
-        <div class="block-container no-side story-recommend-container" id="story-recommend-container"><div class="block-inner">
-            <div class="content-container"><div class="content-inner">
-                <div class="list-container"><div class="list-inner">
-                    <h2 class="list-title"><a class="list-link" href="#">您可能感兴趣的文章</a></h2>
-                    <div class="items" id="story-recommend-bottom"></div>
-                    <div class="items">
-                        <div
-                        data-o-ads-name="infoflow4"
-                        class="o-ads infoflow"
-                        data-o-ads-formats-default="false"
-                        data-o-ads-formats-small="FtcInfoFlow"
-                        data-o-ads-formats-medium="false"
-                        data-o-ads-formats-large="false"
-                        data-o-ads-formats-extra="false"
-                        data-o-ads-targeting="cnpos=info4;"
-                        >
-                        </div>
-                    </div>
-                </div></div>
-            </div></div>
-            <div class="clearfloat block-bottom"></div>
-        </div></div>
-        
-        
-        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-KP4V3G');</script>
-        
-        <div class="overlay-container" id="font-setting">
-        <div class="overlay-inner">
-        <div class="overlay-bg" data-parentid="font-setting"></div>
-        <div class="overlay-content-outer">
-        <div class="overlay-content-inner">
-        <div class="overlay-content">
-        <div class="overlay-title">设置字号<i class="overlay-close" data-parentid="font-setting">×</i></div>
-        <span class="font-options" id="font-options">
-        <div class="smallest first-child" data-font="0.8">最小</div>
-        <div class="smaller" data-font="0.9">较小</div>
-        <div class="normal" data-font="1">默认</div>
-        <div class="bigger" data-font="1.2">较大</div>
-        <div class="biggest" data-font="1.6">最大</div>
+
+
+
+    <header class="header-container is-big5">
+<div class="header-inner">
+    <div class="masthead"></div>
+    <div class="header-side header-left expandable">
+        <div class="current-edition" id="current-edition"></div>
+    </div>
+    <a class="header-side header-left-ai-icon" href="/powertranslate/chat.html"></a>
+    
+    <script>
+        (function () {
+            const dict = {
+                'zh-CN': '簡體中文',
+                'zh-TW': '臺灣正體',
+                'zh-HK': '香港繁體'
+            };
+            const languagePlaceHolder = 'zh-TW';
+            let currentPreferredChineseLanguage = languagePlaceHolder;
+            if (!Object.keys(dict).includes(languagePlaceHolder)) {
+                currentPreferredChineseLanguage = 'zh-CN';
+            }
+            const currentLanguageLabel = dict[currentPreferredChineseLanguage] ?? dict['zh-CN'];
+    
+            // Render content in the `current-edition` div with data attributes for each language
+            document.getElementById('current-edition').innerHTML = `
+                <span>${currentLanguageLabel}</span>
+                ${Object.keys(dict)
+                    .filter(key => key !== currentPreferredChineseLanguage)
+                    .map(key => `<a class="switch_preferred_chinese_language" data-language="${key}">${dict[key]}</a>`)
+                    .join('')}
+                <a href="http://www.ft.com/">FT.com</a>
+            `;
+        })();
+    </script>    <div class="header-side header-right">
+        <span class="visitor-box">
+            <a href="/login" title="支持郵件、簡訊、WeChat和谷歌登錄">登錄</a>
+            <a class="more last" href="/register" title="註冊">註冊</a>
         </span>
-        </div>
-        </div>
-        </div>
-        </div>
-        </div><div class="overlay-container" id="share-legacy">
-        <div class="overlay-inner">
-        <div class="overlay-bg" data-parentid="share-legacy"></div>
-        <div class="overlay-content-outer">
-        <div class="overlay-content-inner">
-        <div class="overlay-content">
-        <div class="overlay-title">分享<i class="overlay-close" data-parentid="share-legacy">×</i></div>
-        <span id="sharelinks"></span>
-        </div>
-        </div>
-        </div>
-        </div>
-        </div>
-        
-        <script type="text/javascript">
-        var follows = {
-            'tag': ['{follow-tags}'],
-            'topic': ['{follow-topics}'],
-            'industry': ['{follow-industries}'],
-            'area': ['{follow-areas}'],
-            'author': ['{follow-authors}'],
-            'column': ['{follow-columns}']
-        };
-        </script>
-        
-        
-        
-        
-        <div 
-        data-o-ads-name="paidpost2"
-        class="o-ads paid-post"  
-        data-o-ads-formats-default="false" 
-        data-o-ads-formats-small="false"
-        data-o-ads-formats-medium="false"
-        data-o-ads-formats-large="FtcPaidpost"
-        data-o-ads-formats-extra="FtcPaidpost"
-        data-o-ads-targeting="cnpos=paidpost2;"
-        >
-        </div>
-        
-        
-        <div 
-        data-o-ads-name="paidpost"
-        class="o-ads paid-post"  
-        data-o-ads-formats-default="false" 
-        data-o-ads-formats-small="false"
-        data-o-ads-formats-medium="false"
-        data-o-ads-formats-large="FtcPaidpost"
-        data-o-ads-formats-extra="FtcPaidpost"
-        data-o-ads-targeting="cnpos=paidpost;"
-        >
-        </div>
-        
-        
-        
-        <div class="footer-container"><div class="footer-inner">
-            <div>
-                <a href="/m/corp/aboutus.html">关于我们</a>
-                <a href="https://ft.wd3.myworkdayjobs.com/FT_Chinese_External_Careers" target="_blank">加入我们</a>
-                <a href="/m/corp/faq.html">问题回馈</a>
-                <a href="/m/corp/contact.html">联系方式</a>
-                <a href="/m/corp/partner.html">合作伙伴</a>
-                <a href="/m/corp/service.html">服务条款</a>
-                <a href="/m/corp/sales.html">广告业务 </a>
-                <a href="/m/corp/copyright.html">版权声明</a>
-                <a href="/m/marketing/ftc.html">最新动态</a>
-            </div>
-            <p>
-                <span class="copyright"><b>© The Financial Times Ltd 2024</b></span> 
-                <span><acronym title="Financial Times">FT</acronym> and 'Financial Times' are trademarks of The Financial Times Ltd.</span>
-            </p>
-        </div></div>
-        
+        <span class="member-box">
+            <a href="/myaccount" title="檢視您的登錄方式、訂閱和偏好" class="my-account">我的賬戶</a>
+            <a id="ft-login-logout" class="ft-log-out" title="log out" onclick="logout()">登出</a>
+        </span>
+    </div>
+</div>
+</header>
+
+
+<div class="o-nav__placeholder is-big5">
+<div class="o-nav">
+<div class="o-nav__outer">
+<div class="o-nav__inner">
+<div class="o-nav__search" data-o-component="o-toggler">
+<button class="o-nav__search-toggle" data-o-toggler-button aria-controls="search-form">
+<span class="search-toggle--open">搜尋</span>
+<span class="search-toggle--close">關閉</span>
+</button>
+
+<form action="/search/" id="search-form" role="search" data-o-toggler-target >
+<input id="search-term" type="search" name="keys" class="custom-search-input" placeholder="搜尋你想要搜尋的內容和標籤、作者" />
+<input id="type_news" type="hidden" value="default" name="type" checked />
+<button class="search-button" tabindex="1"><span>搜尋</span></button>
+</form>
+<div class="search-topic-intention"></div>
+
+</div>
+<div class="o-header__masthead-mobile">
+<a href="/" title="前往FT中文網首頁"><span>FT中文網</span></a>
+</div>
+<nav class="o-nav__container" role="navigation">
+<button class="nav-toggle" data-o-nav-togglable><span>Menu</span></button>
+<ol class="o-nav__meganav">
+<li class="nav-section home" data-section="home"  aria-selected="true"><button class="nav-section-head mobile">首頁</button><a class="nav-section-head desktop" href="/">首頁</a><ol class="nav-items"><li class="nav-item mobile"><a class="nav-link" href="/">FT中文網首頁</a></li><li class="nav-item" aria-haspopup="true" data-channel="special"><a class="nav-link" href="/channel/special.html">特別報導</a><ol class="nav-sub-items"><li><a href="/m/marketing/antfinancial.html">「新四大發明」背後的中國浪潮</a></li><li><a href="/tag/與FT共進午餐">與FT共進午餐</a></li><li><a href="/tag/智慧城市羣">西門子·智慧城市羣</a></li><li><a href="/m/marketing/creditease.html">未來生活 未來金融</a></li></ol></li><li class="nav-item"  data-channel="premiumsubscription"><a class="nav-link" href="/channel/premiumsubscription.html">高階訂閱</a></li><li class="nav-item"  data-channel="standardsubscription"><a class="nav-link" href="/channel/standardsubscription.html">標準訂閱</a></li><li class="nav-item" aria-haspopup="true" data-channel="weekly"><a class="nav-link" href="/channel/weekly.html">熱門文章</a><ol class="nav-sub-items"><li><a href="/channel/weekly.html">一週</a></li><li><a href="/channel/monthly.html">一月</a></li><li><a href="/channel/quarterly.html">季度</a></li><li><a href="/channel/year.html">一年</a></li></ol></li><li class="nav-item"  data-channel="event"><a class="nav-link" href="/m/events/event.html">會議活動</a></li><li class="nav-item"  data-channel="member"><a class="nav-link" href="/m/marketing/home.html">市場活動</a></li><li class="nav-item"  data-channel="mba"><a class="nav-link" href="/channel/mba.html">FT商學院</a></li><li class="nav-item"  data-channel="ebook"><a class="nav-link" href="/m/marketing/ebook.html">FT電子書</a></li><li class="nav-item"  data-channel="job"><a class="nav-link" href="https://ft.wd3.myworkdayjobs.com/FT_Chinese_External_Careers">職業機會</a></li><li class="nav-item"  data-channel="ftmall"><a class="nav-link" href="https://h5.youzan.com/v2/showcase/homepage?alias=16e315o1t">FT商城</a></li><li class="nav-item"  data-channel="nikkei"><a class="nav-link" href="/tag/日經中文網精選">日經中文網精選</a></li></ol></li><li class="nav-section china" data-section="china" ><button class="nav-section-head mobile">中國</button><a class="nav-section-head desktop" href="/channel/china.html">中國</a><ol class="nav-items"><li class="nav-item mobile"><a class="nav-link" href="/channel/china.html">頻道首頁</a></li><li class="nav-item"  data-channel="chinareport"><a class="nav-link" href="/channel/chinareport.html">政經</a></li><li class="nav-item"  data-channel="chinabusiness"><a class="nav-link" href="/channel/chinabusiness.html">商業</a></li><li class="nav-item"  data-channel="chinamarkets"><a class="nav-link" href="/channel/chinamarkets.html">金融市場</a></li><li class="nav-item"  data-channel="chinastock"><a class="nav-link" href="/channel/chinastock.html">股市</a></li><li class="nav-item"  data-channel="chinaproperty"><a class="nav-link" href="/channel/chinaproperty.html">房地產</a></li><li class="nav-item"  data-channel="culture"><a class="nav-link" href="/channel/culture.html">社會與文化</a></li><li class="nav-item"  data-channel="chinaopinion"><a class="nav-link" href="/channel/chinaopinion.html">觀點</a></li></ol></li><li class="nav-section world" data-section="world" ><button class="nav-section-head mobile">全球</button><a class="nav-section-head desktop" href="/channel/world.html">全球</a><ol class="nav-items"><li class="nav-item mobile"><a class="nav-link" href="/channel/world.html">頻道首頁</a></li><li class="nav-item"  data-channel="usa"><a class="nav-link" href="/channel/usa.html">美國</a></li><li class="nav-item"  data-channel="uk"><a class="nav-link" href="/channel/uk.html">英國</a></li><li class="nav-item"  data-channel="asiapacific"><a class="nav-link" href="/channel/asiapacific.html">亞太</a></li><li class="nav-item"  data-channel="europe"><a class="nav-link" href="/channel/europe.html">歐洲</a></li><li class="nav-item"  data-channel="americas"><a class="nav-link" href="/channel/americas.html">美洲</a></li><li class="nav-item"  data-channel="africa"><a class="nav-link" href="/channel/africa.html">非洲</a></li></ol></li><li class="nav-section economy" data-section="economy" ><button class="nav-section-head mobile">經濟</button><a class="nav-section-head desktop" href="/channel/economy.html">經濟</a><ol class="nav-items"><li class="nav-item mobile"><a class="nav-link" href="/channel/economy.html">頻道首頁</a></li><li class="nav-item"  data-channel="globaleconomy"><a class="nav-link" href="/channel/globaleconomy.html">全球經濟</a></li><li class="nav-item"  data-channel="chinaeconomy"><a class="nav-link" href="/channel/chinaeconomy.html">中國經濟</a></li><li class="nav-item"  data-channel="trade"><a class="nav-link" href="/channel/trade.html">貿易</a></li><li class="nav-item"  data-channel="environment"><a class="nav-link" href="/channel/environment.html">環境</a></li><li class="nav-item"  data-channel="economics"><a class="nav-link" href="/channel/economics.html">經濟評論</a></li></ol></li><li class="nav-section markets" data-section="markets" ><button class="nav-section-head mobile">金融市場</button><a class="nav-section-head desktop" href="/channel/markets.html">金融市場</a><ol class="nav-items"><li class="nav-item mobile"><a class="nav-link" href="/channel/markets.html">頻道首頁</a></li><li class="nav-item"  data-channel="stock"><a class="nav-link" href="/channel/stock.html">股市</a></li><li class="nav-item"  data-channel="forex"><a class="nav-link" href="/channel/forex.html">外匯</a></li><li class="nav-item"  data-channel="bond"><a class="nav-link" href="/channel/bond.html">債市</a></li><li class="nav-item"  data-channel="commodity"><a class="nav-link" href="/channel/commodity.html">大宗商品</a></li><li class="nav-item"  data-channel="marketsdata"><a class="nav-link" href="https://markets.ft.com/data">金融市場數據</a></li></ol></li><li class="nav-section business" data-section="business" ><button class="nav-section-head mobile">商業</button><a class="nav-section-head desktop" href="/channel/business.html">商業</a><ol class="nav-items"><li class="nav-item mobile"><a class="nav-link" href="/channel/business.html">頻道首頁</a></li><li class="nav-item"  data-channel="finance"><a class="nav-link" href="/channel/finance.html">金融</a></li><li class="nav-item"  data-channel="technology"><a class="nav-link" href="/channel/technology.html">科技</a></li><li class="nav-item"  data-channel="auto"><a class="nav-link" href="/channel/auto.html">汽車</a></li><li class="nav-item"  data-channel="property"><a class="nav-link" href="/channel/property.html">地產</a></li><li class="nav-item"  data-channel="agriculture"><a class="nav-link" href="/channel/agriculture.html">農林</a></li><li class="nav-item"  data-channel="energy"><a class="nav-link" href="/channel/energy.html">能源</a></li><li class="nav-item"  data-channel="industrials"><a class="nav-link" href="/channel/industrials.html">工業和採礦</a></li><li class="nav-item"  data-channel="airline"><a class="nav-link" href="/channel/airline.html">航空和運輸</a></li><li class="nav-item"  data-channel="pharma"><a class="nav-link" href="/channel/pharma.html">醫藥</a></li><li class="nav-item"  data-channel="entertainment"><a class="nav-link" href="/channel/entertainment.html">娛樂</a></li><li class="nav-item"  data-channel="consumer"><a class="nav-link" href="/channel/consumer.html">零售和消費品</a></li><li class="nav-item"  data-channel="media"><a class="nav-link" href="/channel/media.html">傳媒和文化</a></li></ol></li><li class="nav-section innovation" data-section="innovation" ><button class="nav-section-head mobile">創新經濟</button><a class="nav-section-head desktop" href="/channel/innovation.html">創新經濟</a><ol class="nav-items"><li class="nav-item mobile"><a class="nav-link" href="/channel/innovation.html">頻道首頁</a></li><li class="nav-item"  data-channel="ai"><a class="nav-link" href="/tag/人工智慧">人工智慧</a></li><li class="nav-item"  data-channel="bigdata"><a class="nav-link" href="/tag/大數據">大數據</a></li><li class="nav-item"  data-channel="internet"><a class="nav-link" href="/tag/網路">網路</a></li><li class="nav-item"  data-channel="newenergy"><a class="nav-link" href="/channel/newenergy.html">新能源與新交通</a></li><li class="nav-item"  data-channel="innovationother"><a class="nav-link" href="/channel/innovationother.html">其他</a></li><li class="nav-item"  data-channel="digitalmoney"><a class="nav-link" href="/tag/數位幣">區塊鏈與數位幣</a></li></ol></li><li class="nav-section education" data-section="education" ><button class="nav-section-head mobile">教育</button><a class="nav-section-head desktop" href="/channel/education.html?newnav=yes">教育</a><ol class="nav-items"><li class="nav-item mobile"><a class="nav-link" href="/channel/education.html?newnav=yes">頻道首頁</a></li><li class="nav-item"  data-channel="preschooledu"><a class="nav-link" href="/channel/preschooledu.html?newnav=yes">學前教育</a></li><li class="nav-item"  data-channel="secondaryedu"><a class="nav-link" href="/channel/secondaryedu.html?newnav=yes">中小學與國際學校</a></li><li class="nav-item"  data-channel="higheredu"><a class="nav-link" href="/channel/higheredu.html?newnav=yes">高等教育與海外留學</a></li><li class="nav-item"  data-channel="businessedu"><a class="nav-link" href="/channel/businessedu.html?newnav=yes">商業與職場教育</a></li><li class="nav-item"  data-channel="edureform"><a class="nav-link" href="/channel/edureform.html?newnav=yes">教育改革與創新</a></li></ol></li><li class="nav-section opinion" data-section="opinion" ><button class="nav-section-head mobile">觀點</button><a class="nav-section-head desktop" href="/channel/opinion.html">觀點</a><ol class="nav-items"><li class="nav-item mobile"><a class="nav-link" href="/channel/opinion.html">頻道首頁</a></li><li class="nav-item"  data-channel="lex"><a class="nav-link" href="/channel/lex.html">Lex專欄</a></li><li class="nav-item"  data-channel="column"><a class="nav-link" href="/channel/column.html">專欄</a></li><li class="nav-item"  data-channel="analysis"><a class="nav-link" href="/channel/analysis.html">分析</a></li><li class="nav-item"  data-channel="comment"><a class="nav-link" href="/channel/comment.html">評論</a></li><li class="nav-item"  data-channel="editorial"><a class="nav-link" href="/channel/editorial.html">社評</a></li><li class="nav-item"  data-channel="book"><a class="nav-link" href="/channel/book.html">書評</a></li><li class="nav-item"  data-channel="letter"><a class="nav-link" href="/channel/letter.html">讀者有話說</a></li></ol></li><li class="nav-section management" data-section="management" ><button class="nav-section-head mobile">管理</button><a class="nav-section-head desktop" href="/channel/management.html">管理</a><ol class="nav-items"><li class="nav-item mobile"><a class="nav-link" href="/channel/management.html">頻道首頁</a></li><li class="nav-item"  data-channel="mba"><a class="nav-link" href="/channel/mba.html">FT商學院</a></li><li class="nav-item"  data-channel="career"><a class="nav-link" href="/channel/career.html">職場</a></li><li class="nav-item"  data-channel="leadership"><a class="nav-link" href="/channel/leadership.html">領導力</a></li><li class="nav-item"  data-channel="wealth"><a class="nav-link" href="/tag/%E8%B4%A2%E5%AF%8C%E7%AE%A1%E7%90%86">財富管理</a></li><li class="nav-item"  data-channel="people"><a class="nav-link" href="/channel/people.html">人物</a></li></ol></li><li class="nav-section lifestyle" data-section="lifestyle" ><button class="nav-section-head mobile">生活時尚</button><a class="nav-section-head desktop" href="/channel/lifestyle.html">生活時尚</a><ol class="nav-items"><li class="nav-item mobile"><a class="nav-link" href="/channel/lifestyle.html">頻道首頁</a></li><li class="nav-item"  data-channel="pursuit"><a class="nav-link" href="/channel/pursuit.html">樂尚街</a></li><li class="nav-item"  data-channel="wine"><a class="nav-link" href="/channel/wine.html">美食與美酒</a></li><li class="nav-item"  data-channel="artculture"><a class="nav-link" href="/channel/art_culture.html">藝術及文化活動</a></li><li class="nav-item"  data-channel="taste"><a class="nav-link" href="/channel/taste.html">品味</a></li><li class="nav-item"  data-channel="travel"><a class="nav-link" href="/channel/travel.html">旅行</a></li><li class="nav-item"  data-channel="life"><a class="nav-link" href="/channel/life.html">生活話題</a></li><li class="nav-item"  data-channel="art"><a class="nav-link" href="/channel/art.html">藝術與娛樂</a></li><li class="nav-item"  data-channel="spend"><a class="nav-link" href="/channel/spend.html">消費經</a></li></ol></li><li class="nav-section stream" data-section="stream" ><button class="nav-section-head mobile">影片</button><a class="nav-section-head desktop" href="/channel/stream.html">影片</a><ol class="nav-items"><li class="nav-item mobile"><a class="nav-link" href="/channel/stream.html">頻道首頁</a></li><li class="nav-item"  data-channel="vpolitics"><a class="nav-link" href="/channel/vpolitics.html">政經</a></li><li class="nav-item"  data-channel="vbusiness"><a class="nav-link" href="/channel/vbusiness.html">產經</a></li><li class="nav-item"  data-channel="vfinance"><a class="nav-link" href="/channel/vfinance.html">金融</a></li><li class="nav-item"  data-channel="vculture"><a class="nav-link" href="/channel/vculture.html">文化</a></li><li class="nav-item"  data-channel="vfeatures"><a class="nav-link" href="/channel/vfeatures.html">FT看見</a></li></ol></li><li class="nav-section audio" data-section="audio" ><button class="nav-section-head mobile">音訊</button><a class="nav-section-head desktop" href="/channel/audio.html">音訊</a><ol class="nav-items"><li class="nav-item mobile"><a class="nav-link" href="/channel/audio.html">頻道首頁</a></li><li class="nav-item"  data-channel="learnenglish"><a class="nav-link" href="/tag/麥可林學英語?topnav=audio">麥可林學英語</a></li><li class="nav-item"  data-channel="boomear"><a class="nav-link" href="/channel/boomear.html?topnav=audio">BoomEar藝術播客</a></li><li class="nav-item"  data-channel="yibohaoshu"><a class="nav-link" href="/tag/一波好書">一波好書</a></li><li class="nav-item"  data-channel="lifeofasong"><a class="nav-link" href="/channel/lifeofasong.html?topnav=audio">音樂之生</a></li><li class="nav-item"  data-channel="iTF"><a class="nav-link" href="/tag/i聽粉">i聽粉</a></li></ol></li><li class="nav-section english" data-section="english" ><button class="nav-section-head mobile">每日英語</button><a class="nav-section-head desktop" href="/channel/english.html">每日英語</a><ol class="nav-items"><li class="nav-item mobile"><a class="nav-link" href="/channel/english.html">頻道首頁</a></li><li class="nav-item"  data-channel="ce"><a class="nav-link" href="/channel/ce.html">雙語閱讀</a></li><li class="nav-item"  data-channel="speedread"><a class="nav-link" href="/channel/speedread.html">FT英語速讀</a></li><li class="nav-item"  data-channel="ev"><a class="nav-link" href="/channel/ev.html">原聲影片</a></li><li class="nav-item"  data-channel="radio"><a class="nav-link" href="/channel/radio.html">FT英語電臺</a></li><li class="nav-item"  data-channel="lifeofasong"><a class="nav-link" href="/tag/音樂之生">音樂之生</a></li><li class="nav-item"  data-channel="learnenglish"><a class="nav-link" href="/tag/麥可林學英語">麥可林學英語</a></li><li class="nav-item"  data-channel="dailyword"><a class="nav-link" href="/channel/dailyword.html">每日一詞</a></li></ol></li><li class="nav-section rewired" data-section="rewired" ><button class="nav-section-head mobile">換腦ReWired</button><a class="nav-section-head desktop" href="/channel/rewired.html">換腦ReWired</a><ol class="nav-items"><li class="nav-item mobile"><a class="nav-link" href="/channel/rewired.html">頻道首頁</a></li></ol></li>
+
+<li class="nav-section mobile login">
+<ul>
+<li class="nav-item">
+<a class="nav-link" href="/login">登錄</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="/register">註冊</a>
+</li>
+</ul>
+</li>
+<li class="nav-section mobile logout">
+<ul>
+<li class="nav-item">
+<a class="nav-link" href="/myaccount" title="檢視您的登錄方式、訂閱和偏好" class="my-account">我的賬戶</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="/subscription">會員訂閱</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="/subscription.html?from=ft_exchange">兌換中心</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="/newsletters">郵件訂閱</a>
+</li>
+<li class="nav-item"><a class="nav-link" href="/channel/myftfollow.html">我的關注</a></li><li class="nav-item"><a class="nav-link" href="/my_comments">我的評論</a></li><li class="nav-item"><a class="nav-link" href="/saved_content">我的收藏</a></li><li class="nav-item"><a class="nav-link" href="/mybankcards">我的銀行卡</a></li>
+<li class="nav-item">
+<a class="nav-link" onclick="logout()">登出</a>
+</li>
+</ul>
+</li>
+</ol>
+</nav>
+<a class="header-left-ai-icon-mobile P-only" href="/powertranslate/chat.html"></a>
+<ul class="o-nav__extra-tools">
+<li class="tools-section" aria-haspopup="true">
+<a class="tools-section-head" href="/m/corp/follow.html">關注我們</a>
+<ol class="tools-items">
+<li><a href="/m/corp/follow.html" target="_blank">WeChat公衆號</a></li>
+<li><a href="https://weibo.com/ftchinese" target="_blank">新浪微網誌</a></li>
+<li><a href="https://x.com/FTChinese" target="_blank">X</a></li>
+<li><a href="https://www.facebook.com/financialtimeschinese" target="_blank">Facebook</a></li>
+<li><a href="https://www.linkedin.com/company/4865254?trk=hp-feed-company-name" target="_blank">LinkedIn</a></li>
+</ol>
+</li>
+<li class="tools-section" aria-haspopup="true">
+<span class="tools-section-head">工具</span>
+<ol class="tools-items">
+<li><a href="http://app.ftchinese.com/" class="o-client-id-link">移動應用大全</a></li>
+<li><a href="/subscription">會員訂閱</a></li>
+<li><a href="/subscription.html?from=ft_exchange">兌換中心</a></li>
+<li><a href="/newsletters">郵件訂閱</a></li>
+<li><a href="/channel/myftfollow.html">我的關注</a></li><li><a href="/my_comments">我的評論</a></li><li><a href="/saved_content">我的收藏</a></li><li><a href="/mybankcards">我的銀行卡</a></li>
+</ol>
+</li>
+<li class="tools-section">
+<a class="tools-section-head follow__rss" href="/channel/rss.html" title="RSS"><span>RSS</span></a>
+</li>
+</ul>
+</div><!-- o-nav__inner -->
+</div><!-- o-nav__outer -->
+<div class="o-nav__meganav-placeholder"></div>
+</div><!-- o-nav -->
+</div><!-- o-nav__placeholder -->
+
+
+
+
+
+
+
+
+<div class="block-container has-side story-page">
+<div class="block-inner">
+<div class="content-container">
+<div class="content-inner">
+<div class="story-container cn">
+
+<div class="ai-disclaimer-container">爲了第一時間爲您呈現此資訊，中文內容爲AI翻譯，僅供參考。</div>
+<div class="story-topper">
+<div class="story-theme"><a href="/tag/FT%E5%AE%9E%E6%97%B6%E6%96%B0%E9%97%BB">FT實時新聞</a><button class="myft-follow plus" data-tag="FT%E5%AE%9E%E6%97%B6%E6%96%B0%E9%97%BB" data-type="tag">關注</button></div>
+<h1 class="story-headline story-headline-large" id="story-headline-ios">以色列-伊朗第6天紀實：川普稱他『可能』或『可能不會』讓美國捲入衝突；伊朗最高領袖警告稱，如果華盛頓發動軍事行動，將造成『無法彌補的損失』</h1>
+<div class="story-lead"><ul><li><p>唐納•川普表示，他「可能」會，也「可能不會」下令美國與以色列一起對伊朗採取軍事行動，這是美國總統迄今爲止對可能打擊德黑蘭最明確的表態</p></li><li><p>伊朗常駐聯合國代表團表示，德黑蘭不會在「脅迫」下進行談判</p></li><li><p>伊朗最高領袖阿里•哈米尼警告稱，如果美國發動軍事行動，將造成「無法彌補的損害」</p></li><li><p>以色列表示，在<a href="https://x.com/IDF/status/1935202605677916236">新一輪空襲</a>中，出動了50多架戰機，打擊了離心機生產設施和武器工廠</p></li><li><p>伊朗對以色列的彈道飛彈襲擊次數較前幾天有所減少，但以色列軍方表示，他們攔截了三架伊朗無人機</p></li></ul></div>
+
+</div>
+
+<div class="story-tools">
+<div class="story-action-placeholder" id="story-action-placeholder">
+<div class="story-action">
+<div class="action-inner">
+<a class="action-icon icon-wechat" href="/qrshare?url=%2Finteractive%2Ffc48af92-4742-4814-ae69-60fb3fa46c56&amp;title=%E4%BB%A5%E8%89%B2%E5%88%97-%E4%BC%8A%E6%9C%97%E7%AC%AC6%E5%A4%A9%E7%BA%AA%E5%AE%9E%EF%BC%9A%E7%89%B9%E6%9C%97%E6%99%AE%E7%A7%B0%E4%BB%96%E2%80%98%E5%8F%AF%E8%83%BD%E2%80%99%E6%88%96%E2%80%98%E5%8F%AF%E8%83%BD%E4%B8%8D%E4%BC%9A%E2%80%99%E8%AE%A9%E7%BE%8E%E5%9B%BD%E5%8D%B7%E5%85%A5%E5%86%B2%E7%AA%81%EF%BC%9B%E4%BC%8A%E6%9C%97%E6%9C%80%E9%AB%98%E9%A2%86%E8%A2%96%E8%AD%A6%E5%91%8A%E7%A7%B0%EF%BC%8C%E5%A6%82%E6%9E%9C%E5%8D%8E%E7%9B%9B%E9%A1%BF%E5%8F%91%E5%8A%A8%E5%86%9B%E4%BA%8B%E8%A1%8C%E5%8A%A8%EF%BC%8C%E5%B0%86%E9%80%A0%E6%88%90%E2%80%98%E6%97%A0%E6%B3%95%E5%BC%A5%E8%A1%A5%E7%9A%84%E6%8D%9F%E5%A4%B1%E2%80%99 - FT中文網" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" class="icon"><path d="M690.1 377.4c5.9 0 11.8.2 17.6.5-24.4-128.7-158.3-227.1-319.9-227.1C209 150.8 64 271.4 64 420.2c0 81.1 43.6 154.2 111.9 203.6a21.5 21.5 0 0 1 9.1 17.6c0 2.4-.5 4.6-1.1 6.9-5.5 20.3-14.2 52.8-14.6 54.3-.7 2.6-1.7 5.2-1.7 7.9 0 5.9 4.8 10.8 10.8 10.8 2.3 0 4.2-.9 6.2-2l70.9-40.9c5.3-3.1 11-5 17.2-5 3.2 0 6.4.5 9.5 1.4 33.1 9.5 68.8 14.8 105.7 14.8 6 0 11.9-.1 17.8-.4-7.1-21-10.9-43.1-10.9-66 0-135.8 132.2-245.8 295.3-245.8zm-194.3-86.5c23.8 0 43.2 19.3 43.2 43.1s-19.3 43.1-43.2 43.1c-23.8 0-43.2-19.3-43.2-43.1s19.4-43.1 43.2-43.1zm-215.9 86.2c-23.8 0-43.2-19.3-43.2-43.1s19.3-43.1 43.2-43.1 43.2 19.3 43.2 43.1-19.4 43.1-43.2 43.1zm586.8 415.6c56.9-41.2 93.2-102 93.2-169.7 0-124-120.8-224.5-269.9-224.5-149 0-269.9 100.5-269.9 224.5S540.9 847.5 690 847.5c30.8 0 60.6-4.4 88.1-12.3 2.6-.8 5.2-1.2 7.9-1.2 5.2 0 9.9 1.6 14.3 4.1l59.1 34c1.7 1 3.3 1.7 5.2 1.7a9 9 0 0 0 6.4-2.6 9 9 0 0 0 2.6-6.4c0-2.2-.9-4.4-1.4-6.6-.3-1.2-7.6-28.3-12.2-45.3-.5-1.9-.9-3.8-.9-5.7.1-5.9 3.1-11.2 7.6-14.5zM600.2 587.2c-19.9 0-36-16.1-36-35.9 0-19.8 16.1-35.9 36-35.9s36 16.1 36 35.9c0 19.8-16.2 35.9-36 35.9zm179.9 0c-19.9 0-36-16.1-36-35.9 0-19.8 16.1-35.9 36-35.9s36 16.1 36 35.9a36.08 36.08 0 0 1-36 35.9z"/></svg></a>
+<a class="action-icon icon-weibo" href="http://service.weibo.com/share/share.php?appkey=4221537403&amp;url=https%3A%2F%2Fwww.ftchinese.com%2Finteractive%2Ffc48af92-4742-4814-ae69-60fb3fa46c56?ccode=2G169001&amp;title=【%E4%BB%A5%E8%89%B2%E5%88%97-%E4%BC%8A%E6%9C%97%E7%AC%AC6%E5%A4%A9%E7%BA%AA%E5%AE%9E%EF%BC%9A%E7%89%B9%E6%9C%97%E6%99%AE%E7%A7%B0%E4%BB%96%E2%80%98%E5%8F%AF%E8%83%BD%E2%80%99%E6%88%96%E2%80%98%E5%8F%AF%E8%83%BD%E4%B8%8D%E4%BC%9A%E2%80%99%E8%AE%A9%E7%BE%8E%E5%9B%BD%E5%8D%B7%E5%85%A5%E5%86%B2%E7%AA%81%EF%BC%9B%E4%BC%8A%E6%9C%97%E6%9C%80%E9%AB%98%E9%A2%86%E8%A2%96%E8%AD%A6%E5%91%8A%E7%A7%B0%EF%BC%8C%E5%A6%82%E6%9E%9C%E5%8D%8E%E7%9B%9B%E9%A1%BF%E5%8F%91%E5%8A%A8%E5%86%9B%E4%BA%8B%E8%A1%8C%E5%8A%A8%EF%BC%8C%E5%B0%86%E9%80%A0%E6%88%90%E2%80%98%E6%97%A0%E6%B3%95%E5%BC%A5%E8%A1%A5%E7%9A%84%E6%8D%9F%E5%A4%B1%E2%80%99】（分享自 @FT中文網）&amp;ralateUid=1698233740&amp;source=&amp;sourceUrl=&amp;content=utf-8&amp;pic=" target="_blank"><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" class="icon"><path d="M457.3 543c-68.1-17.7-145 16.2-174.6 76.2-30.1 61.2-1 129.1 67.8 151.3 71.2 23 155.2-12.2 184.4-78.3 28.7-64.6-7.2-131-77.6-149.2zm-52 156.2c-13.8 22.1-43.5 31.7-65.8 21.6-22-10-28.5-35.7-14.6-57.2 13.7-21.4 42.3-31 64.4-21.7 22.4 9.5 29.6 35 16 57.3zm45.5-58.5c-5 8.6-16.1 12.7-24.7 9.1-8.5-3.5-11.2-13.1-6.4-21.5 5-8.4 15.6-12.4 24.1-9.1 8.7 3.2 11.8 12.9 7 21.5zm334.5-197.2c15 4.8 31-3.4 35.9-18.3 11.8-36.6 4.4-78.4-23.2-109a111.39 111.39 0 0 0-106-34.3 28.45 28.45 0 0 0-21.9 33.8 28.39 28.39 0 0 0 33.8 21.8c18.4-3.9 38.3 1.8 51.9 16.7a54.2 54.2 0 0 1 11.3 53.3 28.45 28.45 0 0 0 18.2 36zm99.8-206c-56.7-62.9-140.4-86.9-217.7-70.5a32.98 32.98 0 0 0-25.4 39.3 33.12 33.12 0 0 0 39.3 25.5c55-11.7 114.4 5.4 154.8 50.1 40.3 44.7 51.2 105.7 34 159.1-5.6 17.4 3.9 36 21.3 41.7 17.4 5.6 36-3.9 41.6-21.2v-.1c24.1-75.4 8.9-161.1-47.9-223.9zM729 499c-12.2-3.6-20.5-6.1-14.1-22.1 13.8-34.7 15.2-64.7.3-86-28-40.1-104.8-37.9-192.8-1.1 0 0-27.6 12.1-20.6-9.8 13.5-43.5 11.5-79.9-9.6-101-47.7-47.8-174.6 1.8-283.5 110.6C127.3 471.1 80 557.5 80 632.2 80 775.1 263.2 862 442.5 862c235 0 391.3-136.5 391.3-245 0-65.5-55.2-102.6-104.8-118zM443 810.8c-143 14.1-266.5-50.5-275.8-144.5-9.3-93.9 99.2-181.5 242.2-195.6 143-14.2 266.5 50.5 275.8 144.4C694.4 709 586 796.6 443 810.8z"/></svg></a>
+<a class="action-icon icon-x" href="https://twitter.com/intent/tweet?url=https://www.ftchinese.com/interactive/fc48af92-4742-4814-ae69-60fb3fa46c56&text=%E4%BB%A5%E8%89%B2%E5%88%97-%E4%BC%8A%E6%9C%97%E7%AC%AC6%E5%A4%A9%E7%BA%AA%E5%AE%9E%EF%BC%9A%E7%89%B9%E6%9C%97%E6%99%AE%E7%A7%B0%E4%BB%96%E2%80%98%E5%8F%AF%E8%83%BD%E2%80%99%E6%88%96%E2%80%98%E5%8F%AF%E8%83%BD%E4%B8%8D%E4%BC%9A%E2%80%99%E8%AE%A9%E7%BE%8E%E5%9B%BD%E5%8D%B7%E5%85%A5%E5%86%B2%E7%AA%81%EF%BC%9B%E4%BC%8A%E6%9C%97%E6%9C%80%E9%AB%98%E9%A2%86%E8%A2%96%E8%AD%A6%E5%91%8A%E7%A7%B0%EF%BC%8C%E5%A6%82%E6%9E%9C%E5%8D%8E%E7%9B%9B%E9%A1%BF%E5%8F%91%E5%8A%A8%E5%86%9B%E4%BA%8B%E8%A1%8C%E5%8A%A8%EF%BC%8C%E5%B0%86%E9%80%A0%E6%88%90%E2%80%98%E6%97%A0%E6%B3%95%E5%BC%A5%E8%A1%A5%E7%9A%84%E6%8D%9F%E5%A4%B1%E2%80%99&via=FTChinese" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><path d="M21.647 18.469 28.932 10h-1.726l-6.326 7.353L15.827 10H10l7.64 11.12L10 30h1.726l6.68-7.765L23.744 30h5.827l-7.924-11.531Zm-2.365 2.748-.774-1.107-6.16-8.81H15l4.971 7.11.774 1.107 6.462 9.242h-2.652l-5.273-7.541"></path></svg></a>
+<a class="action-icon icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.ftchinese.com%2Finteractive%2Ffc48af92-4742-4814-ae69-60fb3fa46c56&amp;t=【%E4%BB%A5%E8%89%B2%E5%88%97-%E4%BC%8A%E6%9C%97%E7%AC%AC6%E5%A4%A9%E7%BA%AA%E5%AE%9E%EF%BC%9A%E7%89%B9%E6%9C%97%E6%99%AE%E7%A7%B0%E4%BB%96%E2%80%98%E5%8F%AF%E8%83%BD%E2%80%99%E6%88%96%E2%80%98%E5%8F%AF%E8%83%BD%E4%B8%8D%E4%BC%9A%E2%80%99%E8%AE%A9%E7%BE%8E%E5%9B%BD%E5%8D%B7%E5%85%A5%E5%86%B2%E7%AA%81%EF%BC%9B%E4%BC%8A%E6%9C%97%E6%9C%80%E9%AB%98%E9%A2%86%E8%A2%96%E8%AD%A6%E5%91%8A%E7%A7%B0%EF%BC%8C%E5%A6%82%E6%9E%9C%E5%8D%8E%E7%9B%9B%E9%A1%BF%E5%8F%91%E5%8A%A8%E5%86%9B%E4%BA%8B%E8%A1%8C%E5%8A%A8%EF%BC%8C%E5%B0%86%E9%80%A0%E6%88%90%E2%80%98%E6%97%A0%E6%B3%95%E5%BC%A5%E8%A1%A5%E7%9A%84%E6%8D%9F%E5%A4%B1%E2%80%99】（分享自 @FT中文網）" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path d="M643.9 342h-48.2c-37.8 0-45.1 18-45.1 44.3v58.1h90.1l-11.7 91h-78.4V769h-94V535.5H378v-91h78.6v-67.1c0-77.9 47.6-120.3 117.1-120.3 33.3 0 61.9 2.5 70.2 3.6V342z"></path></svg></a>
+<a class="action-icon icon-linkedin" href="https://www.linkedin.com/sharing/share-offsite/?url=https://www.ftchinese.com/interactive/fc48af92-4742-4814-ae69-60fb3fa46c56" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path d="M264.4 426.2h106.2v341.4H264.4V426.2zm53.2-169.7c-34.1 0-61.6 27.6-61.6 61.5 0 34 27.5 61.5 61.6 61.5 33.9 0 61.5-27.6 61.5-61.5-.1-34-27.6-61.5-61.5-61.5zm323.1 161.2c-51.6 0-86.2 28.3-100.4 55.1h-1.5v-46.7H437.2v341.4h106V598.7c0-44.5 8.4-87.7 63.6-87.7 54.5 0 55.1 50.9 55.1 90.5v166H768V580.3c0-91.9-19.9-162.6-127.3-162.6z"></path></svg></a>
+<a class="icon-right icon-ch" href="/interactive/fc48af92-4742-4814-ae69-60fb3fa46c56/ce"><button>對照</button></a>
+
+
+<a class="icon-right icon-ch" href="/interactive/fc48af92-4742-4814-ae69-60fb3fa46c56/en"><button>英文</button></a>
+<div class="icon-right icon-save">
+<button class="save_content_button" data-item-type="interactive" data-item-id="fc48af92-4742-4814-ae69-60fb3fa46c56">收藏</button>
+</div>
+<a class="icon-right icon-action icon-comments" href="/comments/index/001104485" target="_blank"></a>
+<a class="icon-right icon-action icon-print P-hide" onclick="window.print()" target="_blank"></a>
+<a class="icon-right icon-action icon-font-size" onclick="showOverlay('font-setting')"></a>
+<div class="progress-container">
+<svg
+class="progress-ring"
+height="40"
+width="40"
+>
+<circle
+class="progress-ring__circle"
+stroke-width="2"
+stroke="transparent"
+r="18"
+cx="20"
+cy="20"
+/>
+</svg>
+<svg class="pregress-tick" width="24" height="24" viewBox="0 0 24 24">
+<path fill="none" d="M0 0h24v24H0z"/><path class="progress-tick-path" fill="transparent" d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+</svg>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="story-body">
+
+<div id="story-body-container" class="has-picture">
+<hr class="is-live-blog"><div class="live-blog-container live-blog-pinned" data-id="133ff6bd-e1d0-4acf-99f4-c7cf2810c71c"><div class="time-byline-container"><div><span class="story-time" data-publish-time="1750208182000" data-language="zh">Wed Jun 18 2025 08:56:22 GMT+0800 (China Standard Time)</span></div><div class="story-author">喬治•斯蒂爾</div></div><h1>隨著伊朗與以色列緊張局勢升級，美國股市下跌</h1><p class="is-text-only" id="id-0">美國股市週二收盤下跌，回吐了前一交易日的漲幅，因爲以色列(Israel)與伊朗之間的衝突已持續到第五天。</p><p class="is-text-only" id="id-1">藍籌股標普500下跌0.8%，以科技股爲主的那斯達克綜合指數(Nasdaq Composite)下跌0.9%，同時美元走強，油價上漲。</p><p class="is-text-only" id="id-2">美國國債價格上漲，10年期國債收益率下跌0.07個百分點，至4.39%。收益率與價格呈反向變動。</p></div><hr class="is-live-blog"><div class="live-blog-container" data-id="fa66f36a-5934-42fd-b096-9fbb25ed8bf9"><div class="time-byline-container"><div><span class="story-time" data-publish-time="1750208713000" data-language="zh">Wed Jun 18 2025 09:05:13 GMT+0800 (China Standard Time)</span></div><div class="story-author">萊拉•阿布德</div></div><h1>馬克宏稱尋求伊朗政權更迭將是「最大錯誤」</h1><p class="is-text-only" id="id-0">法國總統艾曼紐•馬克宏(Emmanuel Macron)表示，尋求伊朗政權更迭將是「最大的錯誤」，儘管他並未直接點名以色列(Israel)或美國政府。</p><p class="is-text-only" id="id-1">在加拿大舉行的七國集團(G7)峯會上，馬克宏表示，通過軍事手段推翻伊朗領導人「將導致混亂」，正如過去在利比亞和伊拉克發生的那樣。</p><p class="is-text-only" id="id-2">就在美國總統唐納•川普(US President Donald Trump)週二加大對德黑蘭的言辭攻勢之際，他的副總統似乎暗示華盛頓可能會加大介入以色列對伊朗的襲擊。</p><p class="is-text-only" id="id-3">馬克宏則敦促川普推動和平談判。「我們需要美國讓各方重回談判桌，」他說。</p></div><hr class="is-live-blog"><div class="live-blog-container" data-id="d8c30084-fa02-43b4-986f-22054c811a6f"><div class="time-byline-container"><div><span class="story-time" data-publish-time="1750242870000" data-language="zh">Wed Jun 18 2025 18:34:30 GMT+0800 (China Standard Time)</span></div><div class="story-author">斯特夫•查維斯</div></div><h1>美國組建中東特別工作組，但尚無公民撤離計劃</h1><p class="is-text-only" id="id-0">美國國務院已成立中東工作組，以協調對本國公民、外交使團及工作人員的支持，但拒絕透露任何協助美國人撤離該地區的計劃。</p><p class="is-mixed" id="id-1">美國國務院發言人塔米•布魯斯(Tammy Bruce)表示，美國人可以撥打特別工作組的電話獲取資訊，但她不會討論任何撤離計劃，即使是從以色列(Israel)撤離。美國大使館在耶路撒冷表示，目前「無法協助或直接幫助美國人離開以色列」。布魯斯也未對川普正在權衡的軍事決策或美國是否希望看到伊朗政權更迭發表評論。</p></div><hr class="is-live-blog"><div class="live-blog-container" data-id="98c3770b-fbf3-401d-9544-f9233fbaf6e3"><div class="time-byline-container"><div><span class="story-time" data-publish-time="1750201167000" data-language="zh">Wed Jun 18 2025 06:59:27 GMT+0800 (China Standard Time)</span></div><div class="story-author"></div></div><h1>以色列國防軍稱已打擊伊朗的核彈道和指揮能力</h1><div style=" position: relative; width: 100%; display: flex; justify-content: center; align-items: center; overflow: hidden; background-color: #000; "><video controls="" playsinline="" preload="auto" poster="https://spark-clips-prod.s3.eu-west-1.amazonaws.com/poster-images/9c51dbac-5db9-43f7-ace3-94d3871eb3d8" src="https://next-media-api.ft.com/clips/optimised-media-files/17501903097230/1920x1080.mp4" style=" width: 100%; height: auto; object-fit: contain; background-color: #000; " aria-label="Brigadier Effie Defrin says Israel has hit Iran's nuclear ballistic and command capabilities" class="is-text-only" id="id-0">您的瀏覽器不支持 video 標籤。</video></div><div style="font-size: 0.9em; color: #555; line-height: 1.4; margin-bottom: 2em; margin-top: 1em;" class="is-text-only" id="id-1">准將埃菲•德夫林(Effie Defrin)表示，以色列已經打擊了伊朗的核彈道和指揮能力</div></div><hr class="is-live-blog"><div class="live-blog-container" data-id="d248ce4e-cc6c-47c0-8f27-dd09fb9f42e2"><div class="time-byline-container"><div><span class="story-time" data-publish-time="1750211389000" data-language="zh">Wed Jun 18 2025 09:49:49 GMT+0800 (China Standard Time)</span></div><div class="story-author">Lauren Fedor</div></div><h1>參議院共和黨領袖稱川普願意接受外交解決方案</h1><p class="is-text-only" id="id-0">參議院的美國共和黨領袖週二表示，唐納•川普(Donald Trump)的行爲「在他的許可權範圍之內」，並且他正在「分析伊朗接下來可能發生的情況」。</p><p class="is-text-only" id="id-1">多數黨領袖約翰•圖恩(John Thune)表示，作爲三軍總司令，川普擁有「很大的權力……可以應對世界各地發生的事件」，但他強調，總統仍然願意尋求通過外交途徑解決問題。</p><p class="is-text-only" id="id-2">圖恩在國會山莊對記者表示：「總統已經非常明確地向伊朗人表態，他希望參與協助談判一項能夠終結他們核計劃的協議。不管用什麼方式，他們都必須終止他們的核計劃。」</p><p class="is-text-only" id="id-3">在副總統JD•范錫(JD Vance)向共和黨參議員發表閉門午餐講話後，圖恩發表了講話。一些議員認爲，川普未經國會批准，不能授權對伊朗採取軍事行動。</p></div><hr class="is-live-blog"><div class="live-blog-container" data-id="3e317e6d-113f-498b-8e6b-30cdb0356d7f"><div class="time-byline-container"><div><span class="story-time" data-publish-time="1750211977000" data-language="zh">Wed Jun 18 2025 09:59:37 GMT+0800 (China Standard Time)</span></div><div class="story-author">FT reporters</div></div><h1>范錫稱川普『可能』會採取進一步行動終結伊朗的核濃縮活動</h1><p class="is-text-only" id="id-0">副總統JD•范錫(JD Vance)週二表示，唐納•川普(Donald Trump)「可能會決定採取進一步行動」來阻止伊朗濃縮鈾。</p><p class="is-text-only" id="id-1">范錫在X平臺上表示，川普「只關心利用美國軍隊來實現美國人民的目標」。與許多其他共和黨人相比，范錫在外交政策上持有更爲孤立主義的立場。</p><p class="is-text-only" id="id-2">范錫還寫道，總統「可能會決定需要採取進一步行動來終止伊朗的[鈾]濃縮」，這裏指的是既可用於生產核燃料也可用於製造武器級材料的工藝。他補充說：「這個決定最終屬於總統。」</p><p class="is-text-only" id="id-3">就在川普在自己的真相社交(Truth Social)上呼籲德黑蘭「無條件投降」並誇口稱伊朗最高領袖阿亞圖拉•阿里•哈米尼(Ayatollah Ali Khamenei)是個「容易的目標」前不到一小時，他發表了上述評論。</p><p class="is-text-only" id="id-4">川普還強調了美國對以色列(Israel)戰爭努力的貢獻，並將華盛頓與以色列宣稱在德黑蘭上空取得制空權的說法聯繫在一起。</p><p class="is-text-only" id="id-5">然而，法國總統(French President)艾曼紐•馬克宏(Emmanuel Macron)警告稱，尋求更迭伊朗政權將是「最大的錯誤」，他警告說，推翻伊朗領導人將導致「混亂」。</p><p class="is-text-only" id="id-6">據美國官員稱，在這場衝突中，華盛頓採取了防禦姿態，但這也包括利用美國海軍艦艇在地中海協助以色列擊落來襲的伊朗飛彈和無人機。</p><p class="is-text-only" id="id-7">如果美國直接介入，可能會從印度洋(Indian Ocean)的迪戈加西亞(Diego Garcia)基地部署B-2隱形轟炸機，對伊朗的核設施進行轟炸。</p><p class="is-text-only" id="id-8">其中一個這樣的目標可能是位於庫姆市附近的福爾多(Fordow)鈾濃縮設施，該設施建在山體內部，埋藏在數十米厚的鋼筋混凝土之下。</p><p class="is-text-only" id="id-9">據外交官透露，伊朗表示，只有在以色列軍隊停止轟炸行動後，纔會同意就結束衝突進行談判，並恢復其核計劃的會談。</p><p class="is-text-only" id="id-10">自週五開始發動襲擊以來， 以色列已向伊朗發射了多輪飛彈。伊朗則以多枚飛彈還擊以色列。雙方均有人員傷亡。</p></div><hr class="is-live-blog"><div class="live-blog-container" data-id="45ea5c9f-c2e9-4af2-b5fc-d9071b032ebf"><div class="time-byline-container"><div><span class="story-time" data-publish-time="1750206873000" data-language="zh">Wed Jun 18 2025 08:34:33 GMT+0800 (China Standard Time)</span></div><div class="story-author">威廉•桑德隆德</div></div><h1>以色列襲擊德黑蘭周邊地區</h1><p class="is-text-only" id="id-0">據該國空軍在社群媒體上的一則貼文稱， 以色列(Israel)已在德黑蘭地區發動新一輪襲擊。</p><p class="is-text-only" id="id-1">以色列空軍在X平臺發文稱：「空軍目前已在德黑蘭地區發起一波攻擊。」</p><p class="is-text-only" id="id-2">就在以色列與伊朗衝突進入第六天之際，相關公告發布。</p></div><hr class="is-live-blog"><div class="live-blog-container" data-id="3a5dac26-f4c9-4b4d-84f7-bda00a8903db"><div class="time-byline-container"><div><span class="story-time" data-publish-time="1750227783000" data-language="zh">Wed Jun 18 2025 14:23:03 GMT+0800 (China Standard Time)</span></div><div class="story-author">伊利亞•格里德內夫</div></div><h1>卡尼在七國集團閉幕致辭中聚焦伊朗局勢</h1><p class="is-text-only" id="id-0">加拿大總理馬克•卡尼(Mark Carney)表示，七國集團(G7)峯會的討論主要集中在伊朗局勢上。</p><p class="is-text-only" id="id-1">卡尼在週二的閉幕致辭是在美國總統唐納•川普(US President Donald Trump)因中東衝突升級於週一突然離開之後發表的。</p><p class="is-text-only" id="id-2">他說：「我們發表了一份聲明。鑑於伊朗局勢異常且變化迅速，我們把重點放在了那裏。」</p><p class="is-text-only" id="id-3">儘管七國集團成員努力推動結束俄羅斯在烏克蘭的戰爭，但伊朗與以色列(Israel)之間的衝突成爲了關注的焦點。</p><p class="is-text-only" id="id-4">作爲七國集團主席，卡尼在一份聲明中表示：「我們已經明確指出，伊朗是該地區不穩定和恐怖活動的主要根源，我們始終明確表示，伊朗絕不能擁有核武器。」</p></div><hr class="is-live-blog"><div class="live-blog-container" data-id="eed5ec63-b3d1-451a-bdf8-cf570d047c87"><div class="time-byline-container"><div><span class="story-time" data-publish-time="1750228980000" data-language="zh">Wed Jun 18 2025 14:43:00 GMT+0800 (China Standard Time)</span></div><div class="story-author">威廉•桑德隆德</div></div><h1>以色列空軍襲擊德黑蘭地區武器設施</h1><p class="is-text-only" id="id-0">據以色列國防軍在其官方社群媒體賬號上的一則訊息稱，以色列空軍週三襲擊了德黑蘭地區的離心機和武器生產設施。</p><p class="is-text-only" id="id-1">以色列空軍(IAF)在X平臺上寫道：「在精確情報的指引下，超過50架以色列空軍戰鬥機在過去數小時內對德黑蘭地區的軍事目標實施了一系列打擊，襲擊了一個離心機生產基地以及伊朗政權的多個武器生產基地。」</p><p class="is-text-only" id="id-2">「這些目標遭到攻擊，是以色列國防軍(IDF)爲打擊伊朗政權的核武器項目和飛彈生產工業所做努力的一部分。」</p></div><hr class="is-live-blog"><div class="live-blog-container" data-id="bef16ef4-5fde-46bd-9c1f-cb1042eb223a"><div class="time-byline-container"><div><span class="story-time" data-publish-time="1750226672000" data-language="zh">Wed Jun 18 2025 14:04:32 GMT+0800 (China Standard Time)</span></div><div class="story-author">納吉姆•博佐爾格梅爾，Tehran correspondent</div></div><h1>伊朗展開搜查行動，尋找涉嫌支持以色列襲擊者</h1><p class="is-text-only" id="id-0">據當地媒體週三報導，伊朗已展開一系列搜查行動，針對涉嫌支持以色列襲擊的個人和住所。</p><p class="is-text-only" id="id-1">據報道，五名摩薩德(Mossad)特工在西部省份洛雷斯坦被逮捕。在另一項行動中，德黑蘭警方突襲了市南部的一處住宅，追捕涉嫌計劃在首都人口稠密社區實施爆炸襲擊的嫌疑人。</p><p class="is-text-only" id="id-2">據媒體報導，當局在巴哈雷斯坦鎮查獲了一輛麪包車，車內裝有大量爆炸物、無人機部件和先進的通訊設備。</p><p class="is-text-only" id="id-3">伊斯蘭共和國(Islamic Republic)聲稱，許多此類行動是由在伊朗境內活動的摩薩德特工實施的，並誓言將對相關人員予以迅速且嚴厲的懲罰。</p></div><hr class="is-live-blog"><div class="live-blog-container" data-id="b781c667-5900-4305-a586-b80bafd92a53"><div class="time-byline-container"><div><span class="story-time" data-publish-time="1750228965000" data-language="zh">Wed Jun 18 2025 14:42:45 GMT+0800 (China Standard Time)</span></div><div class="story-author">Chloe Cornish</div></div><h1>阿拉伯聯合大公國呼籲聯合國推動實現停火</h1><p class="is-text-only" id="id-0">阿拉伯聯合大公國呼籲聯合國推動以色列(Israel)和伊朗之間實現停火，因爲海灣君主國擔心不斷升級的戰爭有可能破壞該地區的穩定。</p><p class="is-text-only" id="id-1">外交部長阿卜杜拉•本•扎耶德(Sheikh Abdullah bin Zayed)於週二晚間表示：</p><blockquote class="n-content-blockquote"><p class="is-text-only" id="id-2">阿拉伯聯合大公國(UAE)呼籲聯合國和安理會(Security Council)切實履行各自職責，防止局勢進一步升級，並採取緊急且必要的措施實現停火，維護國際和平與安全。</p></blockquote><p class="is-text-only" id="id-3">據國家媒體發佈的通稿，阿拉伯聯合大公國總統穆罕默德•本•扎耶德•阿勒納哈揚(Mohammed bin Zayed al-Nahyan)於週二晚與伊朗總統馬蘇德•佩澤什基安(Masoud Pezeshkian)通話，並「表達了阿拉伯聯合大公國對伊朗的聲援」。</p><p class="is-text-only" id="id-4">阿布扎比(Abu Dhabi)於2020年與以色列實現關係正常化，但已譴責以色列對伊朗的襲擊。</p></div><hr class="is-live-blog"><div class="live-blog-container" data-id="2ff5af93-2695-443b-8013-e99decc96151"><div class="time-byline-container"><div><span class="story-time" data-publish-time="1750228979000" data-language="zh">Wed Jun 18 2025 14:42:59 GMT+0800 (China Standard Time)</span></div><div class="story-author">威廉•桑德隆德</div></div><h1>油價徘徊在四個月高位附近</h1><p class="is-text-only" id="id-0">週三，油價徘徊在四個月來的高位，因交易員在權衡衝突是否會因美國軍方介入而進一步升級。</p><div class="pic is-mixed" id="id-1"><picture><img src="https://www.ft.com/__origami/service/image/v2/images/raw/https%3A%2F%2Fd6c748xw2pzm8.cloudfront.net%2Fprod%2F9b97ad60-4c0d-11f0-bdc5-75f1e73246a2-standard.png?source=next&amp;width=2400"><source media="screen and (max-width: 490px)" srcset="https://www.ft.com/__origami/service/image/v2/images/raw/https%3A%2F%2Fd6c748xw2pzm8.cloudfront.net%2Fprod%2F9b97ad60-4c0d-11f0-bdc5-75f1e73246a2-mobile.png?source=next&amp;width=2400"></picture>布倫特原油價格走勢圖（美元/桶），顯示油價處於四個月高位</div><p class="is-text-only" id="id-2">國際油價基準布倫特(Brent)原油一度跌破每桶76美元，但仍維持在自2月以來的高位附近，且較衝突爆發前上漲了約7%。</p><p class="is-text-only" id="id-3">由於美國總統唐納•川普(US President Donald Trump)發表了一系列好戰言論，週二油價上漲。</p><p class="is-text-only" id="id-4">德意志銀行(Deutsche Bank)的分析師表示：「言辭上的新一輪升級讓市場充滿不確定性。」</p></div><hr class="is-live-blog"><div class="live-blog-container" data-id="69141a70-90e3-47cd-8fa0-806fcf675661"><div class="time-byline-container"><div><span class="story-time" data-publish-time="1750229971000" data-language="zh">Wed Jun 18 2025 14:59:31 GMT+0800 (China Standard Time)</span></div><div class="story-author">Philip Georgiadis</div></div><h1>以色列攔截三架伊朗無人機</h1><p class="is-text-only" id="id-0">以色列(Israel)軍方表示，他們攔截了三架從伊朗發射的無人機。</p><p class="is-text-only" id="id-1">以色列空軍(Israeli Air Force)表示，這架「敵對飛機」已在戈蘭高地南部地區被擊落。</p></div><hr class="is-live-blog"><div class="live-blog-container" data-id="bade1561-cc99-4054-9196-fa203a96a774"><div class="time-byline-container"><div><span class="story-time" data-publish-time="1750233118000" data-language="zh">Wed Jun 18 2025 15:51:58 GMT+0800 (China Standard Time)</span></div><div class="story-author">Emily Herbert</div></div><h1>市場靜待美國可能干預的明確信號</h1><p class="is-text-only" id="id-0">週三早盤，歐洲市場表現平淡，只有少數股票出現顯著波動，投資者正等待以色列(Israel)與伊朗衝突下一步動向的明確信號。</p><p class="is-text-only" id="id-1">歐洲斯托克600指數下跌0.1%。德國DAX指數(Dax)持平，富時100(FTSE 100)指數也基本持平。</p><p class="is-text-only" id="id-2">投資者擔心衝突對石油供應的影響。任何對能源基礎設施的破壞都可能引發持續的通膨飆升。</p><p class="is-text-only" id="id-3">荷蘭國際集團的弗朗切斯科•佩索萊(Francesco Pesole)表示：「市場目前正在猜測美國可能對伊朗進行軍事幹預，油價再次上漲。」國際基準布倫特原油本週盤中一度升至每桶78美元以上，隨後回落至週三每桶76美元以上。</p></div><hr class="is-live-blog"><div class="live-blog-container" data-id="94e05a7e-7e0c-4053-9173-84a3102e3d87"><div class="time-byline-container"><div><span class="story-time" data-publish-time="1750253293000" data-language="zh">Wed Jun 18 2025 21:28:13 GMT+0800 (China Standard Time)</span></div><div class="story-author"></div></div><h1>以色列空軍公佈近期空襲影片</h1><p class="is-text-only" id="id-0">以色列空軍(Israeli Air Force)發佈了一段影片，稱其展示了週三早晨參與對德黑蘭地區軍事目標打擊的50多架戰機中的一架。這些目標包括一個離心機生產基地和武器工廠。</p><div style=" position: relative; width: 100%; display: flex; justify-content: center; align-items: center; overflow: hidden; background-color: #000; "><video controls="" playsinline="" preload="auto" poster="https://spark-clips-prod.s3.eu-west-1.amazonaws.com/poster-images/34e6c6aa-373d-40d9-a720-735985259536" src="https://next-media-api.ft.com/clips/optimised-media-files/17502316600440/1920x1080.mp4" style=" width: 100%; height: auto; object-fit: contain; background-color: #000; " aria-label="Israeli Air Force jets took part in raids in Iran" class="is-text-only" id="id-1">您的瀏覽器不支持 video 標籤。</video></div><div style="font-size: 0.9em; color: #555; line-height: 1.4; margin-bottom: 2em; margin-top: 1em;" class="is-text-only" id="id-2">以色列空軍戰機參與了對伊朗的襲擊</div></div><hr class="is-live-blog"><div class="live-blog-container" data-id="79b5e8e8-0c15-4e56-b837-38171fb58c89"><div class="time-byline-container"><div><span class="story-time" data-publish-time="1750236563000" data-language="zh">Wed Jun 18 2025 16:49:23 GMT+0800 (China Standard Time)</span></div><div class="story-author">內裏•齊爾伯</div></div><h1>伊朗發射的飛彈數量較近日減少</h1><p class="is-text-only" id="id-0">伊朗在夜間向以色列發射了兩輪飛彈襲擊，總共不到二十枚飛彈，延續了戰爭初期以來的下降趨勢。</p><p class="is-text-only" id="id-1">以色列當局表示，沒有飛彈落地，也沒有人員傷亡報告。</p><p class="is-text-only" id="id-2">以色列國防部長以色列•卡茨(Israel Katz)週三早上在社群平台X上寫道：「一場龍捲風正席捲德黑蘭。政府的象徵正在被轟炸並倒塌……獨裁政權就是這樣垮臺的。」</p></div><hr class="is-live-blog"><div class="live-blog-container" data-id="9e9ba480-2f77-4898-8b2a-40a96f68bf21"><div class="time-byline-container"><div><span class="story-time" data-publish-time="1750236853000" data-language="zh">Wed Jun 18 2025 16:54:13 GMT+0800 (China Standard Time)</span></div><div class="story-author">貝塔•加法裏</div></div><h1>伊朗稱在最新襲擊中使用了極音速飛彈</h1><p class="is-text-only" id="id-0">伊朗革命衛隊(Iran's Revolutionary Guard)表示，在最近對以色列(Israel)的打擊中，他們部署了一枚極音速彈道飛彈。</p><p class="is-text-only" id="id-1">官方媒體稱，「法塔赫-I」飛彈具有高度機動性，能夠防止被雷達系統攔截，並具備穿透加固掩體的能力。</p><p class="is-text-only" id="id-2">以色列官員表示，伊朗在夜間發射了兩輪飛彈襲擊，總共不到二十枚飛彈。</p><p class="is-text-only" id="id-3">以色列尚未就伊朗在最新襲擊中使用的飛彈類型作出評論。</p></div><hr class="is-live-blog"><div class="live-blog-container" data-id="080b1819-6b61-4b25-ac91-e1359db51d48"><div class="time-byline-container"><div><span class="story-time" data-publish-time="1750236961000" data-language="zh">Wed Jun 18 2025 16:56:01 GMT+0800 (China Standard Time)</span></div><div class="story-author">納吉姆•博佐爾格梅爾</div></div><h1>伊朗稱擊落了先進的以色列赫爾墨斯無人機</h1><p class="is-text-only" id="id-0">據伊朗媒體和以色列國防軍(Israel Defense Forces, IDF)報導，伊朗防空系統在伊朗中部的伊斯法罕(Isfahan)上空攔截了一架先進的以色列赫爾墨斯(Israeli Hermes)無人機。</p><p class="is-text-only" id="id-1">與伊斯蘭革命衛隊(Islamic Revolutionary Guard Corps)有關聯的塔斯尼姆通訊社稱：「伊朗公民被敦促將發現的任何可疑物品報告給警方。」</p><p class="is-text-only" id="id-2">以色列國防軍週三上午發佈訊息稱，一枚伊朗地對空飛彈向一架以色列空軍(Israeli Air Force)無人機發射。「該無人機墜落在伊朗境內，」聲明稱。「沒有人員傷亡，也不存在資訊洩露的風險。」</p><p class="is-text-only" id="id-3">週二，伊朗宣稱又擊落了一架赫爾梅斯無人機。</p><p class="is-text-only" id="id-4">赫爾梅斯是一系列先進的以色列無人機，用於情報、監視、偵察和戰術任務。</p></div><hr class="is-live-blog"><div class="live-blog-container" data-id="8e0bfd10-8d32-4080-88ca-88d54401bff4"><div class="time-byline-container"><div><span class="story-time" data-publish-time="1750240373000" data-language="zh">Wed Jun 18 2025 17:52:53 GMT+0800 (China Standard Time)</span></div><div class="story-author">喬納森•惠特利</div></div><h1>國際原子能總署稱伊朗兩處離心機生產設施遭襲</h1><p class="is-text-only" id="id-0">國際原子能總署(International Atomic Energy Agency, IAEA)表示，其掌握的資訊顯示，伊朗的兩個離心機生產設施「遭到襲擊」。</p><p class="is-text-only" id="id-1">國際原子能總署週三在社群媒體上的貼文似乎證實了以色列關於伊朗離心機生產設施遭到打擊的說法。</p><p class="is-text-only" id="id-2">曾經負責監督伊朗核計劃的國際原子能總署表示，有兩個地點遭到襲擊：位於德黑蘭的一個「研究中心」和位於卡拉季的一個「產線」</p><blockquote class="n-content-blockquote"><p class="is-text-only" id="id-3">在德黑蘭工廠，一座用於製造和測試先進離心機轉子的建築遭到襲擊。在卡拉季，兩座用於生產不同離心機部件的建築被摧毀。</p></blockquote></div><hr class="is-live-blog"><div class="live-blog-container" data-id="042bdbd0-e77a-459e-ba2f-fc17cebdfa7b"><div class="time-byline-container"><div><span class="story-time" data-publish-time="1750261223000" data-language="zh">Wed Jun 18 2025 23:40:23 GMT+0800 (China Standard Time)</span></div><div class="story-author">李•哈里斯，伊恩•史密斯</div></div><h1>倫敦勞合社主席稱戰爭是保險市場的「重大問題」</h1><p class="is-text-only" id="id-0">倫敦勞合社(Lloyd's of London)新任主席表示，以色列-伊朗戰爭帶來的地緣政治威脅，已成爲這個擁有數百年曆史的保險市場面臨的「重大問題」。</p><p class="is-text-only" id="id-1">在倫敦舉行的英國《金融時報》全球保險峯會(Global Insurance Summit)上，查爾斯•羅克斯伯勒(Charles Roxburgh)爵士首次公開發表講話。他對七國集團(G7)領導人呼籲緩和衝突表示歡迎，並表示勞合社將密切管理風險敞口以及更具破壞性的衝突所帶來的尾部風險。</p><p class="is-text-only" id="id-2">「這對市場來說是一個重大問題，」他對與會代表表示。</p><p class="is-text-only" id="id-3">保險公司尤其擔心捲入衝突的船隻及其他受保資產可能帶來的索賠，以及更廣泛的供應鏈中斷風險。</p></div><hr class="is-live-blog"><div class="live-blog-container" data-id="df06b318-a215-471b-8db3-d04ae6b4819f"><div class="time-byline-container"><div><span class="story-time" data-publish-time="1750253052000" data-language="zh">Wed Jun 18 2025 21:24:12 GMT+0800 (China Standard Time)</span></div><div class="story-author">李•哈里斯</div></div><h1>穿越荷莫茲海峽船隻的保險價格大幅上漲</h1><div class="pic is-mixed" id="id-0"><picture><img src="https://www.ft.com/__origami/service/image/v2/images/raw/https%3A%2F%2Fd1e00ek4ebabms.cloudfront.net%2Fproduction%2Fd359ebb0-8080-43b7-a7da-24c21967f16a.jpg?source=next&amp;width=2400"></picture>油輪通過荷莫茲海峽</div><p class="is-text-only" id="id-1">自以色列(Israel)與伊朗開戰以來，經過荷莫茲海峽的船隻保險價格已上漲超過60%。</p><p class="is-text-only" id="id-2">據全球最大的保險經紀公司達信麥克倫南(Marsh McLennan)稱，截至本週，通過該海峽——這一連接海灣與阿拉伯海、對原油運輸至關重要的咽喉要道——以及更廣泛海灣地區航行的船隻，其赫爾及機械保險費用已從船舶價值的0.125%上升至約0.2%。</p><p class="is-mixed" id="id-3">這使得爲一艘價值1億美元的赫爾號船舶投保的費用從12.5萬美元上升到20萬美元。船體與機器保險是針對船舶本身的損害進行保障，而不是針對貨物或第三方責任。<a href="https://www.ft.com/content/fa7dac93-8b4b-45d3-80f5-5ddd527a0d70">點擊此處閱讀更多</a>。</p></div><hr class="is-live-blog"><div class="live-blog-container" data-id="9ebeef2a-72aa-4899-88a1-00dbde6897fb"><div class="time-byline-container"><div><span class="story-time" data-publish-time="1750265032000" data-language="zh">Thu Jun 19 2025 00:43:52 GMT+0800 (China Standard Time)</span></div><div class="story-author">貝塔•加法裏</div></div><h1>伊朗最高領袖警告稱：若美國參戰將造成「無法彌補的損害」</h1><div style=" position: relative; width: 100%; display: flex; justify-content: center; align-items: center; overflow: hidden; background-color: #000; "><video controls="" playsinline="" preload="auto" poster="https://spark-clips-prod.s3.eu-west-1.amazonaws.com/poster-images/a1236e32-e2c2-4d9e-a3ff-157286b7f65f" src="https://next-media-api.ft.com/clips/optimised-media-files/17502595451160/1920x1080.mp4" style=" width: 100%; height: auto; object-fit: contain; background-color: #000; " aria-label="Iran’s supreme leader Ayatollah Ali Khamenei warns of “irreparable damage” if the US launches military action" class="is-text-only" id="id-0">您的瀏覽器不支持 video 標籤。</video></div><div style="font-size: 0.9em; color: #555; line-height: 1.4; margin-bottom: 2em; margin-top: 1em;" class="is-text-only" id="id-1">伊朗最高領袖阿亞圖拉•阿里•哈米尼(Ayatollah Ali Khamenei)警告稱，如果美國發動軍事行動，將造成「無法彌補的損害」</div><p class="is-text-only" id="id-2">伊朗最高領袖阿亞圖拉•阿里•哈米尼(Ali Khamenei)警告稱，如果美國對伊朗發動軍事行動，將會造成「無法彌補的損害」。</p><p class="is-text-only" id="id-3">哈米尼在衝突爆發以來第二次向伊朗人民發表電視講話時表示：「美國人應該知道，任何美國的軍事介入都無疑會造成無法彌補的損害。」</p><p class="is-text-only" id="id-4">這位領袖表示：「瞭解伊朗、伊朗人民及其歷史的有識之士，絕不會用威脅的語言對這個民族說話，因爲他們永遠不會屈服。」</p><p class="is-text-only" id="id-5">美國總統唐納•川普(US President Donald Trump)週二呼籲德黑蘭「無條件投降」，並稱哈米尼是一個「容易的目標」。</p><p class="is-text-only" id="id-6">哈米尼表示，無論是在「被強加的戰爭」還是「被強加的和平」中，伊朗都絕不會屈服。</p></div><hr class="is-live-blog"><div class="live-blog-container" data-id="0c9b0184-3b17-4897-a96a-797f8a678765"><div class="time-byline-container"><div><span class="story-time" data-publish-time="1750246140000" data-language="zh">Wed Jun 18 2025 19:29:00 GMT+0800 (China Standard Time)</span></div><div class="story-author">Emily Herbert</div></div><h1>華爾街股市開盤有望小幅上漲</h1><p class="is-text-only" id="id-0">儘管有跡象顯示美國總統唐納•川普(US President Donald Trump)正在考慮參與中東的軍事行動，華爾街預計將在幾個小時後的開盤時小幅上漲。</p><p class="is-text-only" id="id-1">追蹤標普500和那斯達克綜合指數(Nasdaq Composite)的期貨分別上漲了0.2%和0.3%。截至週三，目前油價下跌了0.4%，降至每桶略高於76美元。</p><p class="is-text-only" id="id-2">皇家倫敦資產管理(Royal London Asset Management)的多元資產投資組合經理特雷弗•葛利森(Trevor Greetham)表示，市場在事情開始發生之前，很難把大局納入考量。</p><p class="is-text-only" id="id-3">葛利森表示：「如果美國介入，我們預計股市將大幅下跌，油價則會上漲。」他還補充說，川普關於伊朗擁有現役核武器項目的說法，將足以成爲美國加入衝突的觸發點。</p></div><hr class="is-live-blog"><div class="live-blog-container" data-id="0fe3f082-e989-42dd-92a0-b92be372f7ca"><div class="time-byline-container"><div><span class="story-time" data-publish-time="1750246054000" data-language="zh">Wed Jun 18 2025 19:27:34 GMT+0800 (China Standard Time)</span></div><div class="story-author"></div></div><h1>以色列空軍發佈打擊伊朗飛彈發射裝置的畫面</h1><p class="is-text-only" id="id-0">以色列空軍(Israeli Air Force)在網上發佈了一段影片，稱其顯示了週三摧毀伊朗地對空飛彈發射裝置的畫面。</p><div style=" position: relative; width: 100%; display: flex; justify-content: center; align-items: center; overflow: hidden; background-color: #000; "><video controls="" playsinline="" preload="auto" poster="https://spark-clips-prod.s3.eu-west-1.amazonaws.com/poster-images/04d5b320-6762-4e38-ac9e-4b92d7d46e8c" src="https://next-media-api.ft.com/clips/optimised-media-files/17502450171700/1920x1080.mp4" style=" width: 100%; height: auto; object-fit: contain; background-color: #000; " aria-label="Israeli Air Force strikes a surface-to-surface missile launcher" class="is-text-only" id="id-1">您的瀏覽器不支持 video 標籤。</video></div><div style="font-size: 0.9em; color: #555; line-height: 1.4; margin-bottom: 2em; margin-top: 1em;" class="is-text-only" id="id-2">以色列空軍打擊了一座地對地飛彈發射器</div></div>
+</div>
+<div class="clearfloat"></div>
+</div>
+<div class="copyrightstatement-container">
+版權聲明：本文版權歸FT中文網所有，未經允許任何單位或個人不得轉載，複製或以任何其他方式使用本文全部或部分，侵權必究。
+</div>
+
+<div class="clearfloat block-bottom"></div>
+<div class="chat-talk"><div class="chat-talk-inner"><div id="story-quiz-container"></div></div></div>
+<div class="story-comments-container">
+<div id="logincomment" class="logincomment">
+<form id="storyForm">
+<div class="comment-input-container">
+<div class=container>
+<div style="margin:5px 0;">FT中文網歡迎讀者發表評論，部分評論會被選進《讀者有話說》欄目。我們保留編輯與出版的權利。</div>
+<textarea name="Talk" id="Talk" class="commentTextArea" width="100%" rows="3" placeholder="請針對本文發表評論，評論長度至少5個字元，並且不超過500個字元"></textarea>
+<span style="display:none">
+<input name="use_nickname" type="hidden" id="name" onclick="unuseit(this);"/>
+<label for="name" style="display:none">匿名</label>
+<input name="use_nickname" type="radio" id="userid" value="0" onclick="useit(this);" checked/>
+<input type="text"  autocorrect="off" class="user_id textinput nick_name" name="NickName" id="nick_name" value=""/>
+</span>
+<input type="button" value="提交評論" class="comment_btn submitbutton button ui-light-btn" id="addnewcomment"/>
+<input type="hidden" id="content_id" value="fc48af92-4742-4814-ae69-60fb3fa46c56"/>
+<input type="hidden" id="content_type" value="interactive"/>
+</div>
+</div>
+</form>
+</div>
+<div id="nologincomment" class="nologincomment">
+<div class="container">
+<a class="social-login-wechat" href="/login"><div class="centerButton"><button class="ui-light-btn stress">登錄後發表評論</button></div></a>
+<a class="social-login-wechat" href="/register"><div class="centerButton"><button class="ui-light-btn stress">免費註冊</button></div></a>
+<a class="social-login-wechat" href="/login/wechat"><div class="centerButton"><button class="ui-light-btn wechat-login">WeChat登錄</button></div></a>
+</div>
+</div>
+
+<div class="user_comments_container">
+<h2 class="box-title">
+<div class="comments-sort-container" style="">
+<label>排序方式</label>
+<select class="commentsortby" id="commentsortby" data-id="fc48af92-4742-4814-ae69-60fb3fa46c56" data-type="interactive">
+<option value="1" selected>最新的在上方</option>
+<option value="2">最早的在上方</option>
+<option value="3">按熱門程度</option>
+</select>
+</div>
+<a class="list-link" href="#">讀者評論</a>
+</h2>
+<div id="allcomments" class="allcomments container"></div>
+</div>
+
+<script>
+(function() {
+var script = document.createElement('script');
+script.src = '/powertranslate/scripts/main-user-comments-new.js';
+script.async = true;
+script.onload = function() {
+// Set up Intersection Observer with adjusted rootMargin
+var observer = new IntersectionObserver(function(entries, observer) {
+entries.forEach(function(entry) {
+if (entry.isIntersecting) {
+// Load comments when the div is 500px away from entering the viewport
+loadcomment('fc48af92-4742-4814-ae69-60fb3fa46c56', 'interactive');
+clickToSubmitComment();
+// Stop observing after loading comments
+observer.unobserve(entry.target);
+}
+});
+}, {
+root: null,
+rootMargin: '0px 0px 500px 0px', // Expand the bottom margin by 500px
+threshold: 0 // Trigger as soon as any part of the target intersects
+});
+var target = document.querySelector('.user_comments_container');
+if (target) {
+observer.observe(target);
+} else {
+console.error('Could not find user_comments_container element.');
+}
+};
+script.onerror = function() {
+console.error('Error loading the comments script.');
+};
+document.head.appendChild(script);
+})();
+</script>
+</div>
+</div>
+
+<div class="items">
+<div
+data-o-ads-name="infoflow3"
+class="o-ads infoflow"
+data-o-ads-formats-default="false"
+data-o-ads-formats-small="FtcInfoFlow"
+data-o-ads-formats-medium="false"
+data-o-ads-formats-large="false"
+data-o-ads-formats-extra="false"
+data-o-ads-targeting="cnpos=info3;"
+>
+</div>
+</div>
+
+</div>
+</div>
+<div class="side-container">
+<div class="side-inner">
+
+<div class="story-box"><h2 class="box-title"><a>FT實時新聞</a></h2><ul class="top10"><li class="mp1"><a target="_blank" href="/interactive/5f22c630-ffdb-4a9d-8049-93e22a724b1b">以色列-伊朗第11天紀要：唐納•川普稱以色列和伊朗已同意停火；德黑蘭曾提前通報對卡達美軍基地的襲擊行動</a></li></ul></div>
+<div class="story-box last-child">
+    <h2 class="box-title"><a>相關話題</a></h2>
+    <ul class="top10">
+      <li class="story-theme">
+    <a target="_blank" href="/tag/FT%E5%AE%9E%E6%97%B6%E6%96%B0%E9%97%BB">FT實時新聞</a>
+    <div class="icon-right">
+    <button class="myft-follow plus" data-tag="FT%E5%AE%9E%E6%97%B6%E6%96%B0%E9%97%BB" data-type="tag">關注</button>
+    </div>
+    </li><li class="story-theme">
+    <a target="_blank" href="/tag/%E9%93%80">鈾</a>
+    <div class="icon-right">
+    <button class="myft-follow plus" data-tag="%E9%93%80" data-type="tag">關注</button>
+    </div>
+    </li><li class="story-theme">
+    <a target="_blank" href="/tag/%E4%BC%8A%E6%9C%97%E6%A0%B8%E5%8D%8F%E8%AE%AE">伊朗核協議</a>
+    <div class="icon-right">
+    <button class="myft-follow plus" data-tag="%E4%BC%8A%E6%9C%97%E6%A0%B8%E5%8D%8F%E8%AE%AE" data-type="tag">關注</button>
+    </div>
+    </li><li class="story-theme">
+    <a target="_blank" href="/tag/FT%E5%AE%9E%E6%97%B6%E6%96%B0%E9%97%BB">FT實時新聞</a>
+    <div class="icon-right">
+    <button class="myft-follow plus" data-tag="FT%E5%AE%9E%E6%97%B6%E6%96%B0%E9%97%BB" data-type="tag">關注</button>
+    </div>
+    </li><li class="story-theme">
+    <a target="_blank" href="/tag/%E4%BB%A5%E8%89%B2%E5%88%97">以色列</a>
+    <div class="icon-right">
+    <button class="myft-follow plus" data-tag="%E4%BB%A5%E8%89%B2%E5%88%97" data-type="tag">關注</button>
+    </div>
+    </li><li class="story-theme">
+    <a target="_blank" href="/tag/%E7%BE%8E%E4%BC%8A%E5%B1%80%E5%8A%BF">美伊局勢</a>
+    <div class="icon-right">
+    <button class="myft-follow plus" data-tag="%E7%BE%8E%E4%BC%8A%E5%B1%80%E5%8A%BF" data-type="tag">關注</button>
+    </div>
+    </li><li class="story-theme">
+    <a target="_blank" href="/tag/%E4%B8%AD%E4%B8%9C%E6%94%BF%E6%B2%BB%E4%B8%8E%E7%A4%BE%E4%BC%9A">中東政治與社會</a>
+    <div class="icon-right">
+    <button class="myft-follow plus" data-tag="%E4%B8%AD%E4%B8%9C%E6%94%BF%E6%B2%BB%E4%B8%8E%E7%A4%BE%E4%BC%9A" data-type="tag">關注</button>
+    </div>
+    </li><li class="story-theme">
+    <a target="_blank" href="/tag/%E6%96%B0%E9%97%BB">新聞</a>
+    <div class="icon-right">
+    <button class="myft-follow plus" data-tag="%E6%96%B0%E9%97%BB" data-type="tag">關注</button>
+    </div>
+    </li><li class="story-theme">
+    <a target="_blank" href="/author/%E5%A8%81%E5%BB%89%E2%80%A2%E6%A1%91%E5%BE%B7%E9%9A%86%E5%BE%B7%EF%BC%8C%E8%90%A8%E6%8B%89%E2%80%A2%E6%99%AE%E7%BD%97%E6%96%87%EF%BC%8C%E4%B9%94%E7%BA%B3%E6%A3%AE%E2%80%A2%E6%83%A0%E7%89%B9%E5%88%A9%EF%BC%8C%E6%B3%BD%E8%B5%AB%E6%8B%89%E2%80%A2%E7%A9%86%E5%B0%BC%E5%B0%94%EF%BC%8CPhilip%20Georgiadis%EF%BC%8C%E4%BA%9A%E5%8E%86%E5%B1%B1%E5%BE%B7%E6%8B%89%E2%80%A2%E6%80%80%E7%89%B9%EF%BC%8C%E5%BD%BC%E5%BE%97%E2%80%A2%E9%9F%A6%E5%B0%94%E6%96%AF">威廉•桑德隆德，薩拉•普羅文，喬納森•惠特利，澤赫拉•穆尼爾，Philip Georgiadis，亞歷山德拉•懷特，彼得•韋爾斯</a>
+    <div class="icon-right">
+    <button class="myft-follow plus" data-tag="%E5%A8%81%E5%BB%89%E2%80%A2%E6%A1%91%E5%BE%B7%E9%9A%86%E5%BE%B7%EF%BC%8C%E8%90%A8%E6%8B%89%E2%80%A2%E6%99%AE%E7%BD%97%E6%96%87%EF%BC%8C%E4%B9%94%E7%BA%B3%E6%A3%AE%E2%80%A2%E6%83%A0%E7%89%B9%E5%88%A9%EF%BC%8C%E6%B3%BD%E8%B5%AB%E6%8B%89%E2%80%A2%E7%A9%86%E5%B0%BC%E5%B0%94%EF%BC%8CPhilip%20Georgiadis%EF%BC%8C%E4%BA%9A%E5%8E%86%E5%B1%B1%E5%BE%B7%E6%8B%89%E2%80%A2%E6%80%80%E7%89%B9%EF%BC%8C%E5%BD%BC%E5%BE%97%E2%80%A2%E9%9F%A6%E5%B0%94%E6%96%AF" data-type="author">關注</button>
+    </div>
+    </li>
+    </ul>
+    </div>
+</div>
+</div>
+<div class="clearfloat"></div>
+</div>
+</div>
+
+
+
+
+
+
+
+<div class="o-ads" data-o-ads-name="banner3"
+data-o-ads-center="true" 
+data-o-ads-formats-default="false"
+data-o-ads-formats-small="FtcMobileBanner"
+data-o-ads-formats-medium="false"
+data-o-ads-formats-large="FtcBanner" 
+data-o-ads-formats-extra="FtcBanner"
+data-o-ads-targeting="cnpos=top3;"
+data-cy='[{"devices":["PC"],"pattern":"Banner","position":"Num3"},{"devices":["iPhoneWeb","AndroidWeb","iPhoneApp","AndroidApp"],"pattern":"Banner","position":"Num3"}]'>
+</div>
+
+
+
+
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-KP4V3G');</script>
+
+<div class="overlay-container" id="font-setting">
+<div class="overlay-inner">
+<div class="overlay-bg" data-parentid="font-setting"></div>
+<div class="overlay-content-outer">
+<div class="overlay-content-inner">
+<div class="overlay-content">
+<div class="overlay-title">設置字型大小<i class="overlay-close" data-parentid="font-setting">×</i></div>
+<span class="font-options" id="font-options">
+<div class="smallest first-child" data-font="0.8">最小</div>
+<div class="smaller" data-font="0.9">較小</div>
+<div class="normal" data-font="1">默認</div>
+<div class="bigger" data-font="1.2">較大</div>
+<div class="biggest" data-font="1.6">最大</div>
+</span>
+</div>
+</div>
+</div>
+</div>
+</div><div class="overlay-container" id="share-legacy">
+<div class="overlay-inner">
+<div class="overlay-bg" data-parentid="share-legacy"></div>
+<div class="overlay-content-outer">
+<div class="overlay-content-inner">
+<div class="overlay-content">
+<div class="overlay-title">分享<i class="overlay-close" data-parentid="share-legacy">×</i></div>
+<span id="sharelinks"></span>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<script type="text/javascript">
+var follows = {
+    'tag': ['{follow-tags}'],
+    'topic': ['{follow-topics}'],
+    'industry': ['{follow-industries}'],
+    'area': ['{follow-areas}'],
+    'author': ['{follow-authors}'],
+    'column': ['{follow-columns}']
+};
+</script>
+
+
+
+
+
+
+
+
+
+<div class="footer-container"><div class="footer-inner">
+	<div>
+		<a href="/m/corp/aboutus.html">關於我們</a>
+		<a href="https://ft.wd3.myworkdayjobs.com/FT_Chinese_External_Careers" target="_blank">加入我們</a>
+		<a href="/m/corp/faq.html">問題回饋</a>
+		<a href="/m/corp/contact.html">聯繫方式</a>
+		<a href="/m/corp/partner.html">合作伙伴</a>
+		<a href="/m/corp/service.html">服務條款</a>
+		<a href="/m/corp/sales.html">廣告業務 </a>
+		<a href="/m/corp/copyright.html">版權聲明</a>
+		<a href="/m/marketing/ftc.html">最新動態</a>
+	</div>
+	<p>
+		<span class="copyright"><b>© The Financial Times Ltd 2025</b></span> 
+		<span><acronym title="Financial Times">FT</acronym> and 'Financial Times' are trademarks of The Financial Times Ltd.</span>
+		
+	</p>
+</div></div>
+
+
+
+
+
+
 
 
  </body>

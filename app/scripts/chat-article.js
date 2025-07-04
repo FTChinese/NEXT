@@ -223,7 +223,7 @@ delegate.on('click', '[data-action="edit-ai-translation"]', async (event) => {
         const title = container.querySelector('[data-translation-property="title"]')?.innerText ?? '';
         if (title === '') {return;}
         const standfirst = container.querySelector('[data-translation-property="standfirst"]')?.innerText ?? '';
-        if (standfirst === '') {return;}
+        // if (standfirst === '') {return;}
         const eles = container.querySelectorAll('.story-body-container .rightp[id]');
         let bodyInfo = {};
         for (const ele of eles) {
@@ -236,7 +236,7 @@ delegate.on('click', '[data-action="edit-ai-translation"]', async (event) => {
         const info = {
             id: id,
             title: title,
-            standfirst: standfirst,
+            ...standfirst && {standfirst},
             body: bodyInfo,
             language: preferredLanguage
         };

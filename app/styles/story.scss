@@ -267,6 +267,31 @@ hr:before {
     width: 60px;
     display: inline-block;
 }
+hr.is-live-blog:before {
+		// width: 100%;
+	// rgb(204, 193, 183)
+	border: 1px solid $borderColor;
+	border-width: 1px 0;
+	width: 100%;
+}
+.live-blog-pinned {
+	background-color: rgb(255, 247, 239);
+	padding: $defaultPadding * 0.5;
+
+	.time-byline-container {
+		background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCAxMDI0IDEwMjQiPjxwYXRoIGZpbGw9IiMwMDAiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTIxMy4zMzMgMTA2LjY2NmMwLTExLjc4MiA5LjU1MS0yMS4zMzMgMjEuMzMzLTIxLjMzM2g1NTQuNjY3YzExLjc4MiAwIDIxLjMzMyA5LjU1MSAyMS4zMzMgMjEuMzMzdjE3MC42NjdjMCAxMS43ODItOS41NTEgMjEuMzMzLTIxLjMzMyAyMS4zMzNoLTc3LjEyOHYxMzkuNjU2bDEwNy41MSAyNTcuNDU3YzUuODY4IDE0LjA1NC00LjQ1NiAyOS41NTQtMTkuNjg2IDI5LjU1NEg1NTQuNjY2Vjg5Nkw1MTIgOTM4LjY2NiA0NjkuMzMzIDg5NlY3MjUuMzMzSDIyMy45NzVjLTE1LjIzIDAtMjUuNTU1LTE1LjUtMTkuNjg2LTI5LjU1NEwzMTEuNzk1IDQzOC4zM1YyOTguNjY2aC03Ny4xMjljLTExLjc4MiAwLTIxLjMzMy05LjU1MS0yMS4zMzMtMjEuMzMzem0xODMuNzk1IDE5MmgyMjkuNzQ0djE1Ni43NThMNzAzLjk0OCA2NDBIMzIwLjA1Nmw3Ny4wNzItMTg0LjU2OXptMzI4LjIwNS04NS4zMzNIMjk4LjY2NnYtNDIuNjY3aDQyNi42Njd6IiBjbGlwLXJ1bGU9ImV2ZW5vZGQiLz48L3N2Zz4K");
+		background-size: 32px;
+		padding-left: 32px + 0.5 * $defaultPadding;
+		background-repeat: no-repeat;
+		background-position: 0 50%;
+	}
+
+}
+
+// <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 1024 1024"><path fill="#000" fill-rule="evenodd" d="M213.333 106.666c0-11.782 9.551-21.333 21.333-21.333h554.667c11.782 0 21.333 9.551 21.333 21.333v170.667c0 11.782-9.551 21.333-21.333 21.333h-77.128v139.656l107.51 257.457c5.868 14.054-4.456 29.554-19.686 29.554H554.666V896L512 938.666 469.333 896V725.333H223.975c-15.23 0-25.555-15.5-19.686-29.554L311.795 438.33V298.666h-77.129c-11.782 0-21.333-9.551-21.333-21.333zm183.795 192h229.744v156.758L703.948 640H320.056l77.072-184.569zm328.205-85.333H298.666v-42.667h426.667z" clip-rule="evenodd"/></svg>
+// .live-blog-container {
+	
+// }
 .bullet-point {
 	display: block;
     position: relative;
@@ -650,6 +675,10 @@ This results in wasted space and memory for subscribers' device and does not inc
 	}
 }
 
+recommended, ft-content {
+	display: none;
+}
+
 // MARK: - Side-by-side portrait images
 @media only screen and (min-width: 691px) {
 	[data-layout-width="full-grid"] .n-content-layout__container {
@@ -682,7 +711,27 @@ This results in wasted space and memory for subscribers' device and does not inc
 }
 
 
-
+.story-lead {
+	li {
+		position: relative;
+		padding-left: $defaultPadding;
+		font-size: 0.9em;
+		&::before {
+			color: black;
+			content: "•";
+			display: inline-block;
+			left: 0px;
+			margin-top: 0;
+			position: absolute;
+			transform: scale(2);
+			transform-origin: left center;
+		}
+		a {
+			color: $darkGreen;
+			font-weight: normal;
+		}
+	}
+}
 // @keyframes greeting--leaveview { 
 // 	to {
 // 	  opacity: 0;

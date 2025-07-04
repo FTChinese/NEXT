@@ -1,6 +1,7 @@
 .n-content-blockquote {
 	border-left: 4px solid #1a1817;
 	padding-left: $defaultPadding * 0.5;
+	margin-bottom: 1em;
 	&:before {
 		display: inline-block;
 		background-repeat: no-repeat;
@@ -39,18 +40,21 @@
 		max-width: 100%;
 	}
 }
+
+
 @media all and (min-width: 1200px) {
 	.full-grid-story .story-container {
 		blockquote, .n-content-pullquote, .n-content-big-number {
 			margin-left: 250px;
 		}
-		[data-layout-width="full-grid"] {
+		[data-layout-width="full-grid"], .live-blog-container  {
 			blockquote, .n-content-pullquote, .n-content-big-number {
 				margin-left: 0;
 			}
 		}
 	}
 }
+
 @media all and (max-width: 1199px) and (min-width: 700px) {
 	.full-grid-story .story-container {
 		blockquote, .n-content-pullquote, .n-content-big-number {
