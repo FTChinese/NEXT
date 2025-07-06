@@ -1,5 +1,6 @@
 // Global Constants
 const key = 'my-ft-follow';
+const keyForLocal = 'my-ft-follow-ftc';
 const last_sync_time_key = 'last_sync_time';
 
 // follow and unfollow topic
@@ -133,7 +134,9 @@ async function checkFollow() {
 
                 if (serverData && typeof serverData === 'object') {
                     savedFollowListJSON = serverData; // Only use valid server data
-                    console.log('Using server follow data:', savedFollowListJSON);
+
+                    // console.log('Using server follow data:', savedFollowListJSON);
+                    localStorage.setItem(keyForLocal, JSON.stringify(savedFollowListJSON));
                 }
             } else {
                 console.warn('Failed to fetch follows from server, falling back to local storage.');
