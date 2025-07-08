@@ -413,6 +413,70 @@ input[type=submit], select {
   animation: fade-move 300ms ease;
 }
 
+.reorder-box {
+  h3,
+  div {
+    margin-bottom: 1em;
+  }
+
+  label {
+    margin-right: 1em;
+  }
+
+}
+
+.reorder-toggle {
+accent-color: $darkGreen; // Modern browsers support this
+}
+
+.reorder-slider {
+  width: 100%;
+
+  // Reset default appearance
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 3px;
+  background: #ccc;
+  margin: 10px 0;
+
+  // Track
+  &::-webkit-slider-runnable-track {
+    height: 6px;
+    background: $darkGreen;
+    border-radius: 3px;
+  }
+
+  &::-moz-range-track {
+    height: 6px;
+    background: $darkGreen;
+    border-radius: 3px;
+  }
+
+  // Thumb
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: white;
+    border: 2px solid $darkGreen;
+    margin-top: -5px; // half of thumb height minus half of track height
+    cursor: pointer;
+  }
+
+  &::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: white;
+    border: 2px solid $darkGreen;
+    cursor: pointer;
+  }
+}
+
+
+
 @keyframes fade-move {
   from {
     opacity: 0.8;

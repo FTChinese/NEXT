@@ -1,3 +1,4 @@
+
 // === Attribute Mapping ===
 const attributeMap = [
   ['data-ft-id', 'ftid'],
@@ -23,6 +24,15 @@ const attrToKeyMap = Object.fromEntries(attributeMap);
 
 let follows = new Set();
 
+// === Recommendation Weights ===
+const recommendationWeights = {
+  editorial: 20,
+  popularity: 10,
+  relevance: 30,
+  readPenalty: true,
+  freshnessBonus: true
+};
+
 
 // === Kickstart ===
 runRecommendationForDoms();
@@ -34,6 +44,8 @@ function runRecommendationForDoms() {
   if (lists.length === 0) {return;}
 
   updateFollows();
+  updateWeights();
+
 
   for (const [listIndex, list] of lists.entries()) {
     let items = [];
@@ -57,8 +69,55 @@ function runRecommendationForDoms() {
 
     items = calculateScores(items);
     reorderListWithScores(list, items);
+    // TODO: show a description just about the list container, saying things like "The items are reordered based on your interests, editorial recommendation and other factors, click here to customise" in Chinese. 
+    showCustomisation(list);
   }
 }
+
+
+function showCustomisation(list) {
+  if (!list || list.parentNode.querySelector('.reorder-description')) {
+    return;
+  }
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'items reorder-description';
+
+  const container = document.createElement('div');
+  container.className = 'no-image';
+
+  const inner = document.createElement('div');
+  inner.className = 'item-inner';
+
+  const lead = document.createElement('div');
+  lead.className = 'item-lead';
+
+  const preferredLanguage = (window.preferredLanguage || 'zh-CN').toLowerCase();
+
+  let langKey = 'zh';
+  if (preferredLanguage.startsWith('zh-tw')) {
+    langKey = 'zh-TW';
+  } else if (preferredLanguage.startsWith('zh-hk') || preferredLanguage.startsWith('zh-mo')) {
+    langKey = 'zh-HK';
+  }
+
+  const texts = {
+    'zh-TW': `本列表已根據您的關注偏好、編輯推薦、內容熱度等因素重新排序。<a href="#">點擊這裡自訂</a>`,
+    'zh-HK': `本列表已根據您的關注偏好、編輯推薦、內容熱度等因素重新排序。<a href="#">點擊這裡自定義</a>`,
+    'zh': `本列表已根据您的关注偏好、编辑推荐、内容热度等因素重新排序。<a href="#">点击这里自定义</a>`
+  };
+
+  lead.innerHTML = texts[langKey] || texts.zh;
+
+  inner.appendChild(lead);
+  container.appendChild(inner);
+  wrapper.appendChild(container);
+
+  list.parentNode.insertBefore(wrapper, list);
+}
+
+
+
 
 
 // === Final Score Calculation ===
@@ -82,13 +141,19 @@ function calculateScores(items) {
         console.error(`read ft ids error: `, err);
     }
   }
-//   console.log(`read ids: `, readIds);
+
+  const GENRE_WEIGHT_FRACTION = 0.01;
+  const genreRawWeight = (
+    recommendationWeights.editorial +
+    recommendationWeights.popularity +
+    recommendationWeights.relevance
+  ) * GENRE_WEIGHT_FRACTION;
 
   const rawWeights = {
-    editorial: 2,
-    popularity: 1,
-    relevance: 3,
-    genre: 0.2
+    editorial: recommendationWeights.editorial,
+    popularity: recommendationWeights.popularity,
+    relevance: recommendationWeights.relevance,
+    genre: genreRawWeight
   };
 
   const WEIGHTS = normalizeWeights(rawWeights);
@@ -138,13 +203,14 @@ function calculateScores(items) {
     const annotationsMain = item?.annotationsMain ?? '';
     const isUpdatingContent = /FT Live news/gi.test(annotationsMain);
     const read = !isUpdatingContent && (readIds.has(ftid) || readIds.has(itemTypeId));
-    const readMinusScore = read ? 1 : 0;
+    const readMinusScore = read ? (recommendationWeights.readPenalty ? 1 : 0) : 0;
     item.readMinusScore = readMinusScore;
 
 
     // For unseen items, which are updated after the score is last calculated, we want to raise it up
     const lastVisitTs = parseInt(localStorage.getItem('ftc-last-recommendation-ts'), 10) || 0;
-    const unSeenItemBonus = updateTimestamp > lastVisitTs ? 1 : 0;
+    const unSeenItemBonus = updateTimestamp > lastVisitTs ? (recommendationWeights.freshnessBonus ? 1 : 0) : 0;
+
     item.unSeenItemBonus = unSeenItemBonus;
 
 
@@ -200,6 +266,37 @@ function updateFollows() {
 
 //   console.log(`follows: `, follows);
 }
+
+
+function updateWeights() {
+  const preference = localStorage.getItem('preference');
+
+  if (!preference) {
+    console.warn('No preference found in localStorage. Using default weights.');
+    return;
+  }
+
+  try {
+    const parsedPreference = JSON.parse(preference);
+    const weightsFromPref = parsedPreference?.recommendationWeights;
+
+    if (!weightsFromPref || typeof weightsFromPref !== 'object') {
+      console.warn('No valid recommendationWeights in preference. Skipping update.');
+      return;
+    }
+
+    for (const key in recommendationWeights) {
+      if (Object.prototype.hasOwnProperty.call(weightsFromPref, key)) {
+        recommendationWeights[key] = weightsFromPref[key];
+      }
+    }
+
+    // console.log(`recommendationWeights: `, recommendationWeights);
+  } catch (err) {
+    console.warn('Failed to parse or apply recommendationWeights from preference:', err);
+  }
+}
+
 
 // === Relevance Calculation ===
 function calculateRelevanceScores(items) {
@@ -429,3 +526,180 @@ function reorderListWithScores(list, items) {
 }
 
 
+delegate.on('click', '.reorder-description a', function () {
+  const preferredLanguage = (window.preferredLanguage || 'zh-CN').toLowerCase();
+  let langKey = 'zh';
+  if (preferredLanguage.startsWith('zh-tw')) {
+    langKey = 'zh-TW';
+  } else if (preferredLanguage.startsWith('zh-hk') || preferredLanguage.startsWith('zh-mo')) {
+    langKey = 'zh-HK';
+  }
+
+  const labels = {
+    'zh': {
+      title: '内容推荐排序设置',
+      editorial: '编辑推荐权重',
+      popularity: '热门程度权重',
+      relevance: '兴趣匹配权重',
+      readPenalty: '已读内容靠后',
+      freshnessBonus: '新内容提升优先级',
+      save: '保存设置'
+    },
+    'zh-HK': {
+      title: '內容推薦排序設定',
+      editorial: '編輯推薦權重',
+      popularity: '熱門程度權重',
+      relevance: '興趣匹配權重',
+      readPenalty: '已讀內容排後',
+      freshnessBonus: '新內容提升優先級',
+      save: '儲存設定'
+    },
+    'zh-TW': {
+      title: '內容推薦排序設定',
+      editorial: '編輯推薦權重',
+      popularity: '熱門程度權重',
+      relevance: '興趣匹配權重',
+      readPenalty: '已讀內容往後排',
+      freshnessBonus: '新內容優先顯示',
+      save: '儲存設定'
+    }
+  };
+
+  const t = labels[langKey] || labels.zh;
+
+  const options = [
+    { key: 'editorial', label: t.editorial, type: 'range', min: 0, max: 100, step: 0.1 },
+    { key: 'popularity', label: t.popularity, type: 'range', min: 0, max: 100, step: 0.1 },
+    { key: 'relevance', label: t.relevance, type: 'range', min: 0, max: 100, step: 0.1 },
+    { key: 'readPenalty', label: t.readPenalty, type: 'checkbox' },
+    { key: 'freshnessBonus', label: t.freshnessBonus, type: 'checkbox' }
+  ];
+
+  // Remove existing
+  document.querySelectorAll('.reorder-controls').forEach(e => e.remove());
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'items reorder-controls';
+
+  const container = document.createElement('div');
+  container.className = 'no-image';
+
+  const inner = document.createElement('div');
+  inner.className = 'item-inner';
+
+  const lead = document.createElement('div');
+  lead.className = 'item-lead';
+
+  // Populate lead with settings
+  const box = document.createElement('div');
+  box.className = 'reorder-box';
+
+  const title = document.createElement('h3');
+  title.textContent = t.title;
+  box.appendChild(title);
+
+  options.forEach(opt => {
+    const row = document.createElement('div');
+    row.className = 'reorder-row';
+
+    if (opt.type === 'range') {
+      const label = document.createElement('label');
+      label.className = 'reorder-label';
+      label.textContent = opt.label;
+
+      const input = document.createElement('input');
+      input.type = 'range';
+      input.name = opt.key;
+      input.min = opt.min;
+      input.max = opt.max;
+      input.step = opt.step;
+      input.value = recommendationWeights[opt.key];
+      input.className = 'reorder-slider';
+
+      row.appendChild(label);
+      row.appendChild(input);
+    } else if (opt.type === 'checkbox') {
+      const label = document.createElement('label');
+      label.className = 'reorder-toggle-label';
+
+      const input = document.createElement('input');
+      input.type = 'checkbox';
+      input.name = opt.key;
+      input.checked = !!recommendationWeights[opt.key];
+      input.className = 'reorder-toggle';
+
+      label.appendChild(input);
+      label.append(` ${opt.label}`);
+      row.appendChild(label);
+    }
+
+    box.appendChild(row);
+  });
+
+  const buttonRow = document.createElement('div');
+  buttonRow.className = 'reorder-row';
+  const button = document.createElement('button');
+  button.className = 'button button-primary reorder-save-button';
+  button.dataset.action = 'reorderItems';
+  button.textContent = t.save;
+  buttonRow.appendChild(button);
+  box.appendChild(buttonRow);
+
+  lead.appendChild(box);
+  inner.appendChild(lead);
+  container.appendChild(inner);
+  wrapper.appendChild(container);
+
+  const desc = document.querySelector('.reorder-description');
+  if (desc) {
+    desc.parentNode.insertBefore(wrapper, desc.nextSibling);
+  }
+});
+
+
+
+
+delegate.on('click', '[data-action="reorderItems"]', function () {
+  // 1. Collect updated values
+  const newWeights = {};
+
+  document.querySelectorAll('.reorder-slider').forEach(input => {
+    const key = input.name;
+    const val = parseFloat(input.value);
+    if (key && !isNaN(val)) {
+      newWeights[key] = val;
+    }
+  });
+
+  document.querySelectorAll('.reorder-toggle').forEach(input => {
+    const key = input.name;
+    newWeights[key] = !!input.checked;
+  });
+
+  // 2. Get existing preference
+  let preference = {};
+  try {
+    preference = getMyPreference();
+  } catch (err) {
+    console.warn('Failed to read existing preference. Creating new one.', err);
+    preference = {};
+  }
+
+  // 3. Merge weights and save
+  preference.recommendationWeights = {
+    ...preference.recommendationWeights,
+    ...newWeights
+  };
+
+  try {
+    localStorage.setItem('preference', JSON.stringify(preference));
+  } catch (err) {
+    console.error('Failed to save updated weights to localStorage', err);
+  }
+
+  // 4. Recalculate + reorder
+  runRecommendationForDoms();
+
+  // 5. Clean up UI
+  document.querySelectorAll('.reorder-controls').forEach(e => e.remove());
+});
