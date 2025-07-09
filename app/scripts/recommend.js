@@ -37,6 +37,7 @@ const recommendationWeights = {
 // === Kickstart ===
 runRecommendationForDoms();
 
+displayRecommendationInContentPageLazy();
 
 // === Main Flow ===
 function runRecommendationForDoms() {
@@ -71,6 +72,60 @@ function runRecommendationForDoms() {
     reorderListWithScores(list, items);
     // TODO: show a description just about the list container, saying things like "The items are reordered based on your interests, editorial recommendation and other factors, click here to customise" in Chinese. 
     showCustomisation(list);
+  }
+}
+
+function displayRecommendationInContentPageLazy() {
+  const containers = document.querySelectorAll('.list-recommendation');
+  if (containers.length === 0) {return;}
+  console.log(`Load recommendation lazy! `);
+  const observer = new IntersectionObserver(async (entries) => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) {continue;}
+      
+      try {
+        const response = await fetch('/recommend', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ source: 'ftchinese' })
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        let items = await response.json();
+        items = calculateScores(items).sort((a, b) => b.finalScore - a.finalScore).slice(0, 6);
+        // console.log(`recommended items sorted: `, JSON.stringify(items, null, 2));
+        entry.target.innerHTML = items.map(item => {
+          const update = Math.round((item?.updateTimestamp ?? 0)/1000);
+          const type = item?.type ?? 'interactive';
+          const id = item?.id ?? '';
+          const cheadline = item?.cheadline ?? '';
+          const clongleadbody = item?.clongleadbody ?? '';
+          return `<div class="item-container " data-update="${update}"><div class="item-inner">
+          <a class="image" target="_blank" href="/${type}/${id}"><figure class="loading" data-url="${item.pictures?.main ?? ''}"></figure></a>
+          <div class="item-headline-lead">
+          <h2 class="item-headline">
+          <a target="_blank" href="/${type}/${id}" class="item-headline-link">${cheadline}</a>
+          </h2>
+          <div class="item-lead">${clongleadbody}</div>
+          </div>
+          </div></div>`;
+        }).join('');
+        // Stop observing after loading
+        observer.unobserve(entry.target);
+      } catch (error) {
+        console.error('Error fetching recommendations:', error);
+      }
+    }
+  }, { rootMargin: '500px' });
+
+  // Observe each recommendation container
+  for (const container of containers) {
+    observer.observe(container);
   }
 }
 
@@ -123,6 +178,8 @@ function showCustomisation(list) {
 // === Final Score Calculation ===
 function calculateScores(items) {
 
+  // console.log(`items: `, JSON.stringify(items));
+
   items = calculateRelevanceScores(items);
 
   let readIds = new Set();
@@ -159,6 +216,7 @@ function calculateScores(items) {
   const WEIGHTS = normalizeWeights(rawWeights);
 
   const DECAY_HALFLIFE_IN_HOURS = {
+    LiveBlogPackage: 1,
     News: 6,
     Feature: 12,
     Opinion: 12,
@@ -172,8 +230,8 @@ function calculateScores(items) {
     const updateTimestamp = !isNaN(rawUpdate) ? rawUpdate * 1000 : now - 3 * 24 * 60 * 60 * 1000;
 
     const ageMs = now - updateTimestamp;
-    const genre = detectGenre(item.annotationsMain);
-    const halfLifeMs = (DECAY_HALFLIFE_IN_HOURS[genre] || DECAY_HALFLIFE_IN_HOURS.Other) * 60 * 60 * 1000;
+    const genreOrSubtype = detectGenre(item.annotationsMain, item.subtype);
+    const halfLifeMs = (DECAY_HALFLIFE_IN_HOURS[genreOrSubtype] || DECAY_HALFLIFE_IN_HOURS.Other) * 60 * 60 * 1000;
 
     // const subtype = item.subtype;
     // console.log(`subtype: `, subtype);
@@ -181,7 +239,7 @@ function calculateScores(items) {
     const editorialScore = parseFloat(item.editorialScore) || 0;
     const popularityScore = parseFloat(item.popularityScore) || 0;
     const relevanceScore = parseFloat(item.relevanceScore) || 0;
-    const genreScore = GENRE_SCORE_MAP[genre] || GENRE_SCORE_MAP.Other;
+    const genreScore = GENRE_SCORE_MAP[genreOrSubtype] || GENRE_SCORE_MAP.Other;
 
     const weightedScore =
       editorialScore * WEIGHTS.editorial +
@@ -192,7 +250,7 @@ function calculateScores(items) {
     const decayFactor = getDecayFactor(ageMs, halfLifeMs);
     const finalScore = weightedScore * decayFactor;
 
-    item.genre = genre;
+    item.genre = genreOrSubtype;
     item.updateTimestamp = updateTimestamp;
     item.decayFactor = decayFactor;
 
@@ -200,9 +258,11 @@ function calculateScores(items) {
     const itemType = itemTypeMap[item?.type ?? ''] ?? item?.type;
     const itemTypeId = `${itemType}${item?.id ?? ''}`;
     const ftid = item?.ftid ?? '';
-    const annotationsMain = item?.annotationsMain ?? '';
-    const isUpdatingContent = /FT Live news/gi.test(annotationsMain);
-    const read = !isUpdatingContent && (readIds.has(ftid) || readIds.has(itemTypeId));
+    // const annotationsMain = item?.annotationsMain ?? '';
+    // const isUpdatingContent = /FT Live news/gi.test(annotationsMain);
+    // const read = !isUpdatingContent && (readIds.has(ftid) || readIds.has(itemTypeId));
+    const read = readIds.has(ftid) || readIds.has(itemTypeId);
+
     const readMinusScore = read ? (recommendationWeights.readPenalty ? 1 : 0) : 0;
     item.readMinusScore = readMinusScore;
 
@@ -439,8 +499,9 @@ function calculateRelevanceScores(items) {
 }
 
 // === Score Utilities ===
-function detectGenre(annotationsMain = '') {
+function detectGenre(annotationsMain = '', subtype = '') {
   const tags = annotationsMain.split(',').map(t => t.trim());
+  if (subtype === 'LiveBlogPackage') {return subtype;}
   if (tags.includes('News')) {return 'News';}
   if (tags.includes('Feature') || tags.includes('Opinion')) {return 'Feature';}
   return 'Other';
