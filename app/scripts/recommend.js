@@ -30,6 +30,7 @@ const recommendationWeights = {
   popularity: 10,
   relevance: 30,
   readPenalty: true,
+  tierPenalty: false,
   freshnessBonus: true
 };
 
@@ -46,7 +47,6 @@ function runRecommendationForDoms() {
 
   updateFollows();
   updateWeights();
-
 
   for (const [listIndex, list] of lists.entries()) {
     let items = [];
@@ -65,24 +65,30 @@ function runRecommendationForDoms() {
         itemData[key] = ['editorialScore', 'popularityScore'].includes(key) ? parseFloat(val) : val;
       }
 
+      if (item?.querySelector('.vip.locked')) {
+        itemData.tier = 'premium';
+      } else if (item?.querySelector('.locked')) {
+        itemData.tier = 'standard';
+      }
+
+      // console.log(`itemData.tier`, itemData.tier);
+
       items.push(itemData);
     }
 
     items = calculateScores(items);
     reorderListWithScores(list, items);
-    // TODO: show a description just about the list container, saying things like "The items are reordered based on your interests, editorial recommendation and other factors, click here to customise" in Chinese. 
     showCustomisation(list);
   }
 }
 
 function displayRecommendationInContentPageLazy() {
+
   const containers = document.querySelectorAll('.list-recommendation');
   if (containers.length === 0) {return;}
-  console.log(`Load recommendation lazy! `);
   const observer = new IntersectionObserver(async (entries) => {
     for (const entry of entries) {
       if (!entry.isIntersecting) {continue;}
-      
       try {
         const response = await fetch('/recommend', {
           method: 'POST',
@@ -91,11 +97,9 @@ function displayRecommendationInContentPageLazy() {
           },
           body: JSON.stringify({ source: 'ftchinese' })
         });
-        
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        
         let items = await response.json();
         items = calculateScores(items).sort((a, b) => b.finalScore - a.finalScore).slice(0, 6);
         // console.log(`recommended items sorted: `, JSON.stringify(items, null, 2));
@@ -105,11 +109,17 @@ function displayRecommendationInContentPageLazy() {
           const id = item?.id ?? '';
           const cheadline = item?.cheadline ?? '';
           const clongleadbody = item?.clongleadbody ?? '';
+          let lockClass = '';
+          if (item.tier === 'premium') {
+            lockClass = ' vip locked';
+          } else if (item.tier === 'standard') {
+            lockClass = ' locked';
+          }
           return `<div class="item-container " data-update="${update}"><div class="item-inner">
           <a class="image" target="_blank" href="/${type}/${id}"><figure class="loading" data-url="${item.pictures?.main ?? ''}"></figure></a>
           <div class="item-headline-lead">
           <h2 class="item-headline">
-          <a target="_blank" href="/${type}/${id}" class="item-headline-link">${cheadline}</a>
+          <a target="_blank" href="/${type}/${id}" class="item-headline-link${lockClass}">${cheadline}</a>
           </h2>
           <div class="item-lead">${clongleadbody}</div>
           </div>
@@ -127,6 +137,7 @@ function displayRecommendationInContentPageLazy() {
   for (const container of containers) {
     observer.observe(container);
   }
+
 }
 
 
@@ -262,19 +273,28 @@ function calculateScores(items) {
     // const isUpdatingContent = /FT Live news/gi.test(annotationsMain);
     // const read = !isUpdatingContent && (readIds.has(ftid) || readIds.has(itemTypeId));
     const read = readIds.has(ftid) || readIds.has(itemTypeId);
-
     const readMinusScore = read ? (recommendationWeights.readPenalty ? 1 : 0) : 0;
     item.readMinusScore = readMinusScore;
 
+    let tierPenalty = 0;
+    const contentTier = item.tier;
+    if (contentTier) {
+      const userTier = GetCookie('subscription_type');
+      if (userTier === 'standard') {
+        tierPenalty = contentTier === 'premium' ? 1 : 0;
+      } else if (userTier !== 'premium') {
+        tierPenalty = 1;
+      }
+      // console.log(`content tier: `, contentTier, ', user tier: ', userTier, ', tier penalty: ', tierPenalty);
+    }
 
     // For unseen items, which are updated after the score is last calculated, we want to raise it up
     const lastVisitTs = parseInt(localStorage.getItem('ftc-last-recommendation-ts'), 10) || 0;
     const unSeenItemBonus = updateTimestamp > lastVisitTs ? (recommendationWeights.freshnessBonus ? 1 : 0) : 0;
-
     item.unSeenItemBonus = unSeenItemBonus;
 
 
-    item.finalScore = parseFloat(finalScore.toFixed(4)) - readMinusScore + unSeenItemBonus;
+    item.finalScore = parseFloat(finalScore.toFixed(4)) - readMinusScore - tierPenalty + unSeenItemBonus;
 
 
     localStorage.setItem('ftc-last-recommendation-ts', Date.now().toString());
@@ -603,6 +623,7 @@ delegate.on('click', '.reorder-description a', function () {
       popularity: '热门程度权重',
       relevance: '兴趣匹配权重',
       readPenalty: '已读内容靠后',
+      tierPenalty: '没有权限的内容靠后',
       freshnessBonus: '新内容提升优先级',
       save: '保存设置'
     },
@@ -612,6 +633,7 @@ delegate.on('click', '.reorder-description a', function () {
       popularity: '熱門程度權重',
       relevance: '興趣匹配權重',
       readPenalty: '已讀內容排後',
+      tierPenalty: '無閱讀權限內容排後',
       freshnessBonus: '新內容提升優先級',
       save: '儲存設定'
     },
@@ -621,10 +643,12 @@ delegate.on('click', '.reorder-description a', function () {
       popularity: '熱門程度權重',
       relevance: '興趣匹配權重',
       readPenalty: '已讀內容往後排',
+      tierPenalty: '無閱讀權限的內容往後排',
       freshnessBonus: '新內容優先顯示',
       save: '儲存設定'
     }
   };
+
 
   const t = labels[langKey] || labels.zh;
 
@@ -633,6 +657,7 @@ delegate.on('click', '.reorder-description a', function () {
     { key: 'popularity', label: t.popularity, type: 'range', min: 0, max: 100, step: 0.1 },
     { key: 'relevance', label: t.relevance, type: 'range', min: 0, max: 100, step: 0.1 },
     { key: 'readPenalty', label: t.readPenalty, type: 'checkbox' },
+    { key: 'tierPenalty', label: t.tierPenalty, type: 'checkbox' },
     { key: 'freshnessBonus', label: t.freshnessBonus, type: 'checkbox' }
   ];
 
