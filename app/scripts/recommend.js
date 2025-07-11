@@ -101,6 +101,7 @@ function displayRecommendationInContentPageLazy() {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         let items = await response.json();
+        items = (items ?? []).filter(item => item.type !== window.type || item.id !== window.id);
         items = calculateScores(items).sort((a, b) => b.finalScore - a.finalScore).slice(0, 6);
         // console.log(`recommended items sorted: `, JSON.stringify(items, null, 2));
         entry.target.innerHTML = items.map(item => {
@@ -116,10 +117,10 @@ function displayRecommendationInContentPageLazy() {
             lockClass = ' locked';
           }
           return `<div class="item-container " data-update="${update}"><div class="item-inner">
-          <a class="image" target="_blank" href="/${type}/${id}"><figure class="loading" data-url="${item.pictures?.main ?? ''}"></figure></a>
+          <a class="image" href="/${type}/${id}"><figure class="loading" data-url="${item.pictures?.main ?? ''}"></figure></a>
           <div class="item-headline-lead">
           <h2 class="item-headline">
-          <a target="_blank" href="/${type}/${id}" class="item-headline-link${lockClass}">${cheadline}</a>
+          <a href="/${type}/${id}" class="item-headline-link${lockClass}">${cheadline}</a>
           </h2>
           <div class="item-lead">${clongleadbody}</div>
           </div>
