@@ -30,6 +30,19 @@
 		}
 	}
 }
+
+html[data-preferred-language='zh-TW'],
+html[data-preferred-language='zh-HK'] {
+  .item-headline-link.locked.vip,
+  .item-headline .locked.vip,
+  .item-headline-link.unlocked.vip,
+  .item-headline .unlocked.vip {
+    &:after {
+      content: '高端專享'; // Traditional Chinese version
+    }
+  }
+}
+
 .free-to-read, .free-to-read-vip {
 	&:after {
 		width: auto;

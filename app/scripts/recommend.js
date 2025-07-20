@@ -104,28 +104,39 @@ function displayRecommendationInContentPageLazy() {
         items = (items ?? []).filter(item => item.type !== window.type || item.id !== window.id);
         items = calculateScores(items).sort((a, b) => b.finalScore - a.finalScore).slice(0, 6);
         // console.log(`recommended items sorted: `, JSON.stringify(items, null, 2));
-        entry.target.innerHTML = items.map(item => {
+        const preferredLanguage = window.preferredLanguage ?? 'zh-CN';
+
+        let html = '';
+        for (const item of items) {
           const update = Math.round((item?.updateTimestamp ?? 0)/1000);
           const type = item?.type ?? 'interactive';
           const id = item?.id ?? '';
-          const cheadline = item?.cheadline ?? '';
-          const clongleadbody = item?.clongleadbody ?? '';
+          const cheadline = await convertChinese(item?.cheadline ?? '', preferredLanguage);
+          const clongleadbody = await convertChinese(item?.clongleadbody ?? '', preferredLanguage);
           let lockClass = '';
           if (item.tier === 'premium') {
             lockClass = ' vip locked';
           } else if (item.tier === 'standard') {
             lockClass = ' locked';
           }
-          return `<div class="item-container " data-update="${update}"><div class="item-inner">
-          <a class="image" href="/${type}/${id}"><figure class="loading" data-url="${item.pictures?.main ?? ''}"></figure></a>
-          <div class="item-headline-lead">
-          <h2 class="item-headline">
-          <a href="/${type}/${id}" class="item-headline-link${lockClass}">${cheadline}</a>
-          </h2>
-          <div class="item-lead">${clongleadbody}</div>
-          </div>
-          </div></div>`;
-        }).join('');
+
+          html += `<div class="item-container " data-update="${update}">
+            <div class="item-inner">
+              <a class="image" href="/${type}/${id}">
+                <figure class="loading" data-url="${item.pictures?.main ?? ''}"></figure>
+              </a>
+              <div class="item-headline-lead">
+                <h2 class="item-headline">
+                  <a href="/${type}/${id}" class="item-headline-link${lockClass}">${cheadline}</a>
+                </h2>
+                <div class="item-lead">${clongleadbody}</div>
+              </div>
+            </div>
+          </div>`;
+        }
+
+        entry.target.innerHTML = html;
+
         // Stop observing after loading
         observer.unobserve(entry.target);
       } catch (error) {
@@ -297,9 +308,15 @@ function calculateScores(items) {
 
     item.finalScore = parseFloat(finalScore.toFixed(4)) - readMinusScore - tierPenalty + unSeenItemBonus;
 
+    // ✅ Instead of saving Date.now(), use the max updateTimestamp from current items
+    // item.updateTimestamp is already in milliseconds
+    const mostRecentUpdateTs = items.reduce((max, item) => {
+      const ts = item.updateTimestamp || 0;
+      return ts > max ? ts : max;
+    }, 0);
 
-    localStorage.setItem('ftc-last-recommendation-ts', Date.now().toString());
-
+    // ✅ Save in milliseconds to be consistent with Date.now() and updateTimestamp
+    localStorage.setItem('ftc-last-recommendation-ts', mostRecentUpdateTs.toString());
 
   }
 
