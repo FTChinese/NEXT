@@ -90,20 +90,25 @@ function displayRecommendationInContentPageLazy() {
     for (const entry of entries) {
       if (!entry.isIntersecting) {continue;}
       try {
+        const articleTranslationPreference = getMyPreference()?.['Article Translation Preference'];
+        const source = articleTranslationPreference === 'both' ? 'all' : 'ftchinese';
+        // console.log(source);
         const response = await fetch('/recommend', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ source: 'ftchinese' })
+          body: JSON.stringify({ source })
         });
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         let items = await response.json();
         items = (items ?? []).filter(item => item.type !== window.type || item.id !== window.id);
+        // console.log(`items: \n`, JSON.stringify(items));
         items = calculateScores(items).sort((a, b) => b.finalScore - a.finalScore).slice(0, 6);
         // console.log(`recommended items sorted: `, JSON.stringify(items, null, 2));
+
         const preferredLanguage = window.preferredLanguage ?? 'zh-CN';
 
         let html = '';
@@ -221,6 +226,8 @@ function calculateScores(items) {
         console.error(`read ft ids error: `, err);
     }
   }
+
+  // console.log(`read ids: `, readIds);
 
   const GENRE_WEIGHT_FRACTION = 0.01;
   const genreRawWeight = (
