@@ -264,7 +264,8 @@ async function getFTAPISearchResult(keyword, language) {
         // if (!token || token === '') {
         //     return {status: 'failed', message: 'You need to sign in first! '};
         // }
-        const contentParameter = `?language=${language || 'English'}&keyword=${keyword}&field=`;
+        // console.log(`key word: `, keyword);
+        const contentParameter = `?language=${language || 'English'}&keyword=${encodeURIComponent(keyword)}&field=`;
         let url = (isPowerTranslate) ? '/openai/searchftapi' : '/FTAPI/content.php';
         url += contentParameter;
         let options = {
@@ -283,6 +284,7 @@ async function getFTAPISearchResult(keyword, language) {
                 }
             };
         }
+        // console.log(`url: `, url);
         const response = await fetch(url, options);
         let results = await response.json();
         // console.log(`response status: ${response.status}, results: `);
