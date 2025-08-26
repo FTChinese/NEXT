@@ -305,15 +305,15 @@ async function checkQuiz(id, language) {
             },
             body: JSON.stringify(queryData)
         };
-        if (isFrontendTest && !isPowerTranslate) {
-            url = `/api/page/quizzes.json`;
+        if (typeof isFrontendTest !== 'undefined' && isFrontendTest &&
+            typeof isPowerTranslate !== 'undefined' && !isPowerTranslate) {
+            url = '/api/page/quizzes.json';
             options = {
                 method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
             };
         }
+
         // MARK: - If there's valid result, return immediately
         let response;
         try {

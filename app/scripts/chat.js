@@ -1389,11 +1389,11 @@ async function newsQuiz(content, language, reply, id) {
     // console.log(quizInfo);
     if (quizInfo.status === 'success' && quizInfo.results) {
       let html = '';
-      const startDate = new Date('2025-06-12T00:00:00+08:00').getTime();
-      const endDate = new Date('2025-06-25T23:59:59+08:00').getTime();
+      const startDate = new Date('2025-08-18T00:00:00+08:00').getTime();
+      const endDate = new Date('2025-08-31T23:59:59+08:00').getTime();
       const now = new Date().getTime();
       const showPromotion = now >= startDate && now <= endDate;
-      const promoInfo = showPromotion ? `<a class="quiz-promotion-text-link" href="/m/corp/preview.html?pageid=2025Junsub&to=all&ccode=2C2025Junchatftclp" target="_blank">现在订阅，限时75折</a>`: '<a class="quiz-promotion-text-link" href="/subscription?ccode=2C2024chatftcquiz" target="_blank">立即订阅，每天仅需1元</a>';
+      const promoInfo = showPromotion ? `<a class="quiz-promotion-text-link" href="/m/corp/preview.html?pageid=2025Augsub&to=all&ccode=2C2025Augchatftclp" target="_blank">现在订阅，限时5折</a>`: '<a class="quiz-promotion-text-link" href="/subscription?ccode=2C2024chatftcquiz" target="_blank">立即订阅，每天仅需1元</a>';
       for (const [index, quiz] of quizInfo.results.entries()) {
           const answer = quiz.answer || '';
           const explanation = quiz.explanation || '';
@@ -1862,11 +1862,11 @@ async function showFTPage(content, language, reply) {
 
 
         if (index > 0) {continue;}
-        const startDate = new Date('2025-06-12T00:00:00+08:00').getTime();
-        const endDate = new Date('2025-06-25T23:59:59+08:00').getTime();
+        const startDate = new Date('2025-08-18T00:00:00+08:00').getTime();
+        const endDate = new Date('2025-08-31T23:59:59+08:00').getTime();
         const now = new Date().getTime();
         const showPromotion = now >= startDate && now <= endDate;
-        const promotion = showPromotion ? `<a href="/m/corp/preview.html?pageid=2025Junsub&to=all&ccode=2C2025Junchatftclp" target="_blank"><img class="promotion" src="https://d33mkcasurz97s.cloudfront.net/ads/gam/op3zjo.jpg" width="300" height="250"></a>` : '';
+        const promotion = showPromotion ? `<a href="/m/corp/preview.html?pageid=2025Augsub&to=all&ccode=2C2025Augchatftclp" target="_blank"><img class="promotion" src="https://d1sh1cgb4xvhl.cloudfront.net/unsafe/picture/4/000297814_piclink.jpg" width="300" height="250"></a>` : '';
         html += promotion;
         
           
@@ -2012,11 +2012,11 @@ function getActionOptions() {
     `;
   } else if (intention === undefined || intention === '') {
 
-    const startDate = new Date('2025-06-12T00:00:00+08:00').getTime();
-    const endDate = new Date('2025-06-25T23:59:59+08:00').getTime();
+    const startDate = new Date('2025-08-18T00:00:00+08:00').getTime();
+    const endDate = new Date('2025-08-31T23:59:59+08:00').getTime();
     const now = new Date().getTime();
     const showPromotion = now >= startDate && now <= endDate;
-    const promotion = showPromotion ? `<a target="_blank" href="/m/corp/preview.html?pageid=2025Junsub&to=all&ccode=2C2025Junchatftclp">${localize('PromotionActionButton')}</a>` : '';
+    const promotion = showPromotion ? `<a target="_blank" href="/m/corp/preview.html?pageid=2025Augsub&to=all&ccode=2C2025Augchatftclp">${localize('PromotionActionButton')}</a>` : '';
     result = `
       <div class="chat-item-actions">
         <a data-purpose="show-ft-page" data-lang="${language}" data-content='home' data-reply="${localize('FindingMyFT')}" data-reply-action="set-preference">${localize('Top News For Me')}</a>

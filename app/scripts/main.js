@@ -1564,7 +1564,7 @@ updateStickyRightRail();
   }
 
   function checkFTCApp() {
-    if (window.location.href.indexOf('webview=ftcapp')<0) {return;}
+    if (!window.location.href.includes('webview=ftcapp') && !window.location.href.includes('to=iosapp')) {return;}
     document.documentElement.classList.add('is-ftc-app');
   }
 
