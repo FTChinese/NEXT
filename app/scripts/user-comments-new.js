@@ -1,59 +1,97 @@
-/* exported loadcomment, clickToSubmitComment */
+/* exported loadcomment, clickToSubmitComment, handleConfirmResponse */
 // MARK: User Comments on New site
 const commentFolder = '/user_comments';
 const elementId = 'allcomments';
 
-if (typeof delegate !== 'object') {
-    window.delegate = new Delegate(document.body);
-}
+// if (typeof delegate !== 'object') {
+//     window.delegate = new Delegate(document.body);
+// }
+
+// Ensure delegate works when script loads in <head>
+(function initDelegateEarly() {
+  // Create delegate bound to 'document' so addEventListener is available right away
+  if (typeof window.delegate !== 'object') {
+    window.delegate = new Delegate(document);
+  }
+
+  // Re-root to <body> when it exists, so event path/containment is as intended
+  function mountToBody() {
+    if (document.body) {
+      window.delegate.root(document.body);
+    }
+  }
+
+  if (document.body) {
+    mountToBody();
+  } else if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', mountToBody, { once: true });
+  } else {
+    // In case the script runs after parsing but before body is set
+    setTimeout(mountToBody, 0);
+  }
+})();
+
 
 async function loadcomment(id, type, options = {}) {
+  const display_all = options?.display === 'all' ? 'yes' : 'no';
+  const sort = options?.sort ?? 1;
+  const url = `${commentFolder}/${type}/${id}?display_all=${display_all}&sort=${sort}`;
 
-    const display_all = options?.display === 'all' ? 'yes' : 'no';
-    const sort = options?.sort ?? 1;
-    let url = `${commentFolder}/${type}/${id}?display_all=${display_all}&sort=${sort}`;
+  try {
+    document.getElementById('cstoryid').value = id;
+    window.readingid = id;
+  } catch (_) { /* ignore */ }
 
+  const userCommentsEle = document.getElementById(elementId);
+  if (userCommentsEle && display_all !== 'yes') {
+    userCommentsEle.innerHTML = await convertChinese('正在获取本文读者评论的数据...', preferredLanguage);
+  }
+
+  // AbortController may not exist in older WebViews — feature-detect
+  let controller = null;
+  let timeoutId = null;
+  if (typeof window !== 'undefined' && typeof window.AbortController === 'function') {
+    controller = new window.AbortController();
+    timeoutId = setTimeout(() => controller.abort(), 15000); // 15s timeout
+  }
+
+  try {
+    const resp = await fetch(url, {
+      method: 'GET',
+      headers: { 'Accept': 'application/json' },
+      credentials: 'include',
+      signal: controller ? controller.signal : undefined
+    });
+
+    if (!resp.ok) { // ← wrap throw in braces to satisfy linter
+      throw new Error(`HTTP ${resp.status}`);
+    }
+
+    const data = await resp.json();
     try {
-        document.getElementById('cstoryid').value = id;
-        window.readingid = id;
-    } catch (ignore) {
-
+      await showComment(id, type, data, options);
+    } catch (err) {
+      console.error('Error showing comments:', err);
     }
-
-    var userCommentsEle = document.getElementById(elementId);
-    if (userCommentsEle && display_all !== 'yes') {
-        userCommentsEle.innerHTML = await convertChinese('正在获取本文读者评论的数据...', preferredLanguage);
+  } catch (err) {
+    console.error('loadcomment fetch error:', err);
+    if (userCommentsEle) {
+      userCommentsEle.innerHTML =
+        `<span class='error'>${await convertChinese('很抱歉。由于您与FT服务器之间的连接发生故障，加载评论内容失败。请稍后再尝试。', preferredLanguage)}</span>`;
     }
-
-    // MARK: Construct JSON request
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = async function() {
-        if (this.readyState === 4) {
-            if (this.status === 200) {
-                var data = JSON.parse(this.responseText);
-                if (typeof webkit === 'object') {
-                    // MARK: - For iOS native app, send the comments data to native to convert
-                    userCommentsEle.innerHTML = await convertChinese('正在处理本文读者评论的数据...', preferredLanguage);
-                    webkit.messageHandlers.commentsData.postMessage({storyid: id, theid: elementId, type: type, data: data});
-                } else {
-                    try {
-                        await showComment(id, type, data, options);
-                    } catch (error) {
-                        console.error('Error showing comments:', error);
-                    }
-                }
-            } else {
-                userCommentsEle.innerHTML = '<span class=\'error\'>' + await convertChinese('很抱歉。由于您与FT服务器之间的连接发生故障，加载评论内容失败。请稍后再尝试。', preferredLanguage) + '</span>';
-            }
-        }
-    };
-
-    xmlhttp.open('GET', url, true);
-    xmlhttp.send();
+  } finally {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+  }
 }
+
+
 
 
 async function showComment(id, type, data, options) {
+
+    console.log(`Show comment data: `, JSON.stringify(data, null, 2));
 
     var commentsBody = '';
     var userCommentsEle = document.getElementById(elementId);
@@ -289,6 +327,63 @@ function presentAlert(title, message) {
         alert(`${title}\n${message}`);
     }
 }
+
+
+// Promise-based confirm that works on web + iOS native (WKWebView)
+const __pendingConfirms = new Map();
+
+/**
+ * @param {string} title
+ * @param {string} [message]
+ * @param {{ okText?: string, cancelText?: string, timeoutMs?: number }} [opts]
+ * @returns {Promise<boolean>} resolves true if confirmed, false otherwise
+ */
+function presentConfirm(title, message = '', opts = {}) {
+  const { okText = '确定', cancelText = '取消', timeoutMs = 30000 } = opts;
+
+  // Fallback: plain web — use synchronous window.confirm
+  const wk = window?.webkit?.messageHandlers?.confirm;
+  if (!wk || typeof wk.postMessage !== 'function') {
+    return Promise.resolve(!!window.confirm(`${title}\n${message}`));
+  }
+
+  // Native path: async roundtrip
+  return new Promise((resolve) => {
+    const id = `c_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+    __pendingConfirms.set(id, resolve);
+
+    // Safety timeout — default to "Cancel"
+    const tid = setTimeout(() => {
+      if (__pendingConfirms.has(id)) {
+        __pendingConfirms.delete(id);
+        resolve(false);
+      }
+    }, timeoutMs);
+
+    try {
+      wk.postMessage({ id, title, message, okText, cancelText });
+    } catch (err) {
+      clearTimeout(tid);
+      __pendingConfirms.delete(id);
+      // Fallback if bridge throws
+      resolve(!!window.confirm(`${title}\n${message}`));
+      return;
+    }
+
+    // Stash timeout id so we can clear it in the response handler
+    __pendingConfirms.get(id)._tid = tid;
+  });
+}
+
+// Called by native code to complete a pending confirm
+function handleConfirmResponse(id, accepted) {
+  const entry = __pendingConfirms.get(id);
+  if (!entry) {return;}
+  if (entry._tid) {clearTimeout(entry._tid);}
+  __pendingConfirms.delete(id);
+  entry(!!accepted);
+}
+
 
 
 delegate.on('change', '#commentsortby', async function(){
@@ -626,7 +721,11 @@ delegate.on('click', '.delete_button', async function() {
         return;
     }
 
-    if (!confirm(await convertChinese('确认删除这条评论？', preferredLanguage))) {return;}
+    // if (!confirm(await convertChinese('确认删除这条评论？', preferredLanguage))) {return;}
+
+    const ok = await presentConfirm(await convertChinese('确认删除这条评论？', preferredLanguage));
+    if (!ok) {return;}
+
 
     // Construct the payload
     const payload = {

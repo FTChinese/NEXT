@@ -561,7 +561,7 @@ function stickyBottomPrepare() {
         //calculate heights only when the sticky classes are not present
         containerTop[i] = findTop(sectionsWithSide[i]);
         mainHeight[i] = sectionsWithSide[i].querySelector('.content-inner').offsetHeight;
-        sideHeight[i] = sectionsWithSide[i].querySelector('.side-inner').offsetHeight + defaultPadding;
+        sideHeight[i] = sectionsWithSide[i].querySelector('.side-inner')?.offsetHeight ?? 0 + defaultPadding;
         minHeight[i] = Math.min(mainHeight[i], sideHeight[i]);
         maxHeight[i] = Math.max(mainHeight[i], sideHeight[i]);
       }

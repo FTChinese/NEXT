@@ -8,7 +8,7 @@ function localize(status, fallback, dict = {}) {
   // Assume preferredLanguage is correctly set through application logic
   let language = preferredLanguage || 'en';
 
-  if (language === 'Chinese') {
+  if (['Chinese', 'zh-CN'].includes(language)) {
     language = 'zh';
   }
 

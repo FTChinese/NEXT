@@ -295,7 +295,10 @@ async function checkQuiz(id, language) {
         // if (!token || token === '') {
         //     return {status: 'failed', message: 'You need to sign in first! '};
         // }
-        const queryData = {id: id, language: language};
+
+        const languageForEndpoint = language === 'en' ? language : 'zh-CN';
+        const queryData = {id: id, language: languageForEndpoint};
+        console.log(`query data:`, queryData);
         let url = '/ai/check_quiz';
         let options = {
             method: 'POST',
