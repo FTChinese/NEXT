@@ -68,6 +68,7 @@ function handleLinks() {
             if (href.indexOf(fullHost) === 0) {return;}
             href = href.replace(/^http[s]*:\/\/www\.ftchinese\.com\//g, '/');
             // console.log(href);
+            href = href.replace(/^http[s]*:\/\/www\.ft\.com\/content/g, '/content');
             link.setAttribute('href', href);
         }
     } catch(ignore){}

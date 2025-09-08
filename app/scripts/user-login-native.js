@@ -1,102 +1,128 @@
-function passLoginToNative() {
-    // MARK: Use info from cookie for speed
-    var message = {};
-    var uniqueId = GetCookie('uniqueVisitorId') || guid();
-    // MARK: - Set Cookie to expire in 100 days
-    SetCookie('uniqueVisitorId',uniqueId,86400*100,'/');
-    var userNameForLogin = GetCookie('USER_NAME') || GetCookie('USER_NAME_FT') || '';
-    var userIdForLoginUser = GetCookie('USER_ID') || '';
-    var paywallSource = GetCookie('paywall_source') || '';
-    var addon = GetCookie('addon') || '0';
-    var addon_days = GetCookie('addon_days') || '0';
-    var addon_type = GetCookie('addon_type') || '';
-    var ccode = GetCookie('ccode') || '';
-    var wxUnionId = GetCookie('WX_UNION_ID') || '';
+async function passLoginToNative() {
+  // helpers
+  const S = v => (v === undefined || v === null) ? '' : String(v);
+  const SET = (k, v) => SetCookie(k, S(v), 86400 * 100, '/'); // 100 days
+
+  // 1) Fast path: build message purely from cookies and post to native
+  const uniqueId = GetCookie('uniqueVisitorId') || guid();
+  SET('uniqueVisitorId', uniqueId);
+
+  const hostname = location.hostname;
+
+  const message = {
+    // basics
+    username:        S(GetCookie('USER_NAME') || GetCookie('USER_NAME_FT') || ''),
+    userId:          S(GetCookie('USER_ID') || ''),
+    uniqueVisitorId: S(uniqueId),
+    ccode:           S(GetCookie('ccode') || ''),
+    source:          S(GetCookie('paywall_source') || ''),
+    infoSource:      'cookie',
+    addon:           S(GetCookie('addon') || '0'),
+    addon_days:      S(GetCookie('addon_days') || '0'),
+    addon_type:      S(GetCookie('addon_type') || ''),
+    wxUnionId:       S(GetCookie('WX_UNION_ID') || ''),
+    version:         '5',
+
+    // paywall snapshot
+    paywall:        S(GetCookie('paywall') || ''),
+    paywallExpire:  S(GetCookie('paywall_expire') || ''),
+
+    // signed fields snapshot
+    uid:   S(GetCookie('uid')   || ''),
+    iat:   S(GetCookie('iat')   || ''),
+    aud:   S(GetCookie('aud')   || ''),
+    nonce: S(GetCookie('nonce') || ''),
+    sig:   S(GetCookie('sig')   || ''),
+    alg:   S(GetCookie('alg')   || ''),
+    kid:   S(GetCookie('kid')   || ''),
+
+    hostname
+  };
+
+  try { webkit.messageHandlers.user.postMessage(message); } catch (_) {}
+
+  // If not logged in, stop here
+  if (message.userId === '') {return;}
+
+  // 2) Validate with API → update UI → post again → persist cookies
+  try {
+    const res = await fetch('/index.php/jsapi/paywall', {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' }
+    });
+    if (!res.ok) {return;}
+
+    const userInfo = await res.json();
+
+    // Update DOM classes (keep your existing logic)
+    let htmlClass = document.documentElement.className
+      .replace(/\ is\-subscriber/g, '')
+      .replace(/\ is\-premium/g, '')
+      .replace(/\ is\-standard/g, '');
+
+    if (userInfo.paywall === 0) {
+      if (userInfo.premium === 1) {
+        message.paywall = 'premium';
+        htmlClass += ' is-subscriber is-premium';
+      } else {
+        message.paywall = 'standard';
+        htmlClass += ' is-subscriber is-standard';
+      }
+      document.documentElement.className = htmlClass;
+    } else {
+      message.paywall = '';
+    }
+
+    // expire → string
+    if (userInfo.expire && userInfo.expire > 0) {
+      message.paywallExpire = S(userInfo.expire);
+    } else if (typeof userInfo.expire === 'string' && userInfo.expire !== '') {
+      message.paywallExpire = S(userInfo.expire);
+    }
+
+    // extras (strings)
+    message.ccode      = S(userInfo.campaign_code || '');
+    message.duration   = S(userInfo.latest_duration || '');
+    message.source     = S(userInfo.source || '');
+    message.addon      = S(userInfo.addon || 0);
+    message.addon_days = S(userInfo.addon_days || '0');
+    message.addon_type = S(userInfo.addon_type || '');
+    message.infoSource = 'jsapi/paywall';
+
+    // signed fields (strings)
+    message.uid   = S(userInfo.uid);
+    message.iat   = S(userInfo.iat);
+    message.aud   = S(userInfo.aud);
+    message.nonce = S(userInfo.nonce);
+    message.sig   = S(userInfo.sig);
+    message.alg   = S(userInfo.alg || 'Ed25519');
+    message.kid   = S(userInfo.kid || 'k1');
     
-    message = {
-        username: userNameForLogin,
-        userId: userIdForLoginUser,
-        uniqueVisitorId: uniqueId,
-        ccode: ccode,
-        source: paywallSource,
-        infoSource: 'cookie',
-        addon: addon,
-        addon_days: addon_days,
-        addon_type: addon_type,
-        wxUnionId: wxUnionId,
-        version: '4'// When debugging on Xcode later, this is used to make sure that the building pipeline actually works
-    };
-    // MARK: Get subscription: standard/premium
-    var paywall = GetCookie('paywall') || '';
-    var paywallExpire = GetCookie('paywall_expire') || '';
-    if (paywall !== '') {
-        message.paywall = paywall;
-    }
-    if (paywallExpire !== '') {
-        message.paywallExpire = paywallExpire;
-    }
-    try {
-       webkit.messageHandlers.user.postMessage(message);
-    } catch (ignore) {
-    }
-    // MARK: If the user is not logged in, no need to go on checking API
-    if (userIdForLoginUser === '') {
-        return;
-    }
-    // MARK: Validate the info with a network request
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/index.php/jsapi/paywall');
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            var userInfo = JSON.parse(xhr.responseText);
-            window.htmlClass = document.documentElement.className;
-            window.htmlClass = window.htmlClass.replace(/\ is\-subscriber/g, '').replace(/\ is\-premium/g, '').replace(/\ is\-standard/g, '');
-            if (userInfo.paywall === 0) {
-                if (userInfo.premium === 1) {
-                    message.paywall = 'premium';
-                    window.htmlClass += ' is-subscriber is-premium';
-                } else {
-                    message.paywall = 'standard';
-                    window.htmlClass += ' is-subscriber is-standard';
-                }
-                document.documentElement.className = window.htmlClass;
-            } else {
-                message.paywall = '';
-            }
-            if (userInfo.expire && userInfo.expire > 0) {
-                message.paywallExpire = userInfo.expire.toString();
-            } else if (typeof userInfo.expire === 'string' && userInfo.expire !== '') {
-                message.paywallExpire = userInfo.expire;
-            }
-            message.ccode = userInfo.campaign_code || '';
-            message.duration = userInfo.latest_duration || '';
-            message.source = userInfo.source || '';
-            message.addon = (userInfo.addon || 0).toString();
-            message.addon_days = userInfo.addon_days || '0';
-            message.addon_type = userInfo.addon_type || '';
-            message.infoSource = 'jsapi/paywall';
-            try {
-               webkit.messageHandlers.user.postMessage(message);
-            } catch (ignore) {
-                
-            }
-            //var mainDomain = document.domain.replace(/^[^.]+/g, '');
-            // console.log ('save User expire: ' + userInfo.expire); 
-            SetCookie('paywall_expire',userInfo.expire,86400*100,'/');
-            SetCookie('paywall',message.paywall,86400*100,'/');
-            SetCookie('paywall_source',message.source,86400*100,'/');
-            SetCookie('addon',message.addon,86400*100,'/');
-            SetCookie('addon_type',message.addon_type,86400*100,'/');
-            SetCookie('addon_days',message.addon_days,86400*100,'/');
-        }
-    };
-    xhr.send();
+
+    // Post updated bundle to native
+    try { webkit.messageHandlers.user.postMessage(message); } catch (_) {}
+
+    // Persist cookies (all strings)
+    SET('paywall_expire', S(message.paywallExpire || ''));
+    SET('paywall',        S(message.paywall || ''));
+    SET('paywall_source', S(message.source || ''));
+    SET('addon',          S(message.addon || '0'));
+    SET('addon_type',     S(message.addon_type || ''));
+    SET('addon_days',     S(message.addon_days || '0'));
+
+    // signed fields
+    SET('uid',   S(message.uid));
+    SET('iat',   S(message.iat));
+    SET('aud',   S(message.aud));
+    SET('nonce', S(message.nonce));
+    SET('sig',   S(message.sig));
+    SET('alg',   S(message.alg));
+    SET('kid',   S(message.kid));
+
+  } catch (_) {
+    // swallow: native already has cookie snapshot; verification happens there
+  }
 }
 
-// MARK: This will throw error if not in iOS WKWebview
-try {
-    passLoginToNative();
-} catch(ignore) {
-
-}
+// Safe to call even outside WKWebView
+try { passLoginToNative(); } catch (_) {}
