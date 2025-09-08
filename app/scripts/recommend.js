@@ -31,6 +31,7 @@ const recommendationWeights = {
   relevance: 30,
   readPenalty: true,
   tierPenalty: false,
+  showAITranslation: false,
   freshnessBonus: true
 };
 
@@ -86,12 +87,16 @@ function displayRecommendationInContentPageLazy() {
 
   const containers = document.querySelectorAll('.list-recommendation');
   if (containers.length === 0) {return;}
+  updateFollows();
+  updateWeights();
   const observer = new IntersectionObserver(async (entries) => {
     for (const entry of entries) {
       if (!entry.isIntersecting) {continue;}
       try {
-        const articleTranslationPreference = getMyPreference()?.['Article Translation Preference'];
-        const source = articleTranslationPreference === 'both' ? 'all' : 'ftchinese';
+        // const articleTranslationPreference = getMyPreference()?.['Article Translation Preference'];
+        const showAITranslation = getMyPreference()?.recommendationWeights?.showAITranslation ?? false;
+        //articleTranslationPreference === 'both' || 
+        const source = showAITranslation ? 'all' : 'ftchinese';
         // console.log(source);
         const response = await fetch('/recommend', {
           method: 'POST',
@@ -106,11 +111,19 @@ function displayRecommendationInContentPageLazy() {
         let items = await response.json();
         items = (items ?? []).filter(item => item.type !== window.type || item.id !== window.id);
         // console.log(`items: \n`, JSON.stringify(items));
+        // items = calculateScores(items).sort((a, b) => b.finalScore - a.finalScore).slice(0, 6);
+        // // console.log(`recommended items sorted: `, JSON.stringify(items, null, 2));
+
+        // const preferredLanguage = window.preferredLanguage ?? 'zh-CN';
+
+        // let html = '';
         items = calculateScores(items).sort((a, b) => b.finalScore - a.finalScore).slice(0, 6);
-        // console.log(`recommended items sorted: `, JSON.stringify(items, null, 2));
 
+        // ① Cache computed items on the container so we can re-score without refetching
+        entry.target.dataset.recommendationItems = JSON.stringify(items);
+
+        // ② Render as before
         const preferredLanguage = window.preferredLanguage ?? 'zh-CN';
-
         let html = '';
         for (const item of items) {
           const update = Math.round((item?.updateTimestamp ?? 0)/1000);
@@ -141,6 +154,8 @@ function displayRecommendationInContentPageLazy() {
         }
 
         entry.target.innerHTML = html;
+
+        showCustomisation(entry.target);
 
         // Stop observing after loading
         observer.unobserve(entry.target);
@@ -632,7 +647,12 @@ function reorderListWithScores(list, items) {
 }
 
 
-delegate.on('click', '.reorder-description a', function () {
+delegate.on('click', '.reorder-description a', function (event) {
+  event.preventDefault();
+
+  updateFollows();
+  updateWeights();
+
   const preferredLanguage = (window.preferredLanguage || 'zh-CN').toLowerCase();
   let langKey = 'zh';
   if (preferredLanguage.startsWith('zh-tw')) {
@@ -649,6 +669,7 @@ delegate.on('click', '.reorder-description a', function () {
       relevance: '兴趣匹配权重',
       readPenalty: '已读内容靠后',
       tierPenalty: '没有权限的内容靠后',
+      showAITranslation: '显示AI翻译的内容',
       freshnessBonus: '新内容提升优先级',
       save: '保存设置'
     },
@@ -659,6 +680,7 @@ delegate.on('click', '.reorder-description a', function () {
       relevance: '興趣匹配權重',
       readPenalty: '已讀內容排後',
       tierPenalty: '無閱讀權限內容排後',
+      showAITranslation: '顯示AI翻譯的內容',
       freshnessBonus: '新內容提升優先級',
       save: '儲存設定'
     },
@@ -669,6 +691,7 @@ delegate.on('click', '.reorder-description a', function () {
       relevance: '興趣匹配權重',
       readPenalty: '已讀內容往後排',
       tierPenalty: '無閱讀權限的內容往後排',
+      showAITranslation: '顯示AI翻譯的內容',
       freshnessBonus: '新內容優先顯示',
       save: '儲存設定'
     }
@@ -683,6 +706,7 @@ delegate.on('click', '.reorder-description a', function () {
     { key: 'relevance', label: t.relevance, type: 'range', min: 0, max: 100, step: 0.1 },
     { key: 'readPenalty', label: t.readPenalty, type: 'checkbox' },
     { key: 'tierPenalty', label: t.tierPenalty, type: 'checkbox' },
+    { key: 'showAITranslation', label: t.showAITranslation, type: 'checkbox' },
     { key: 'freshnessBonus', label: t.freshnessBonus, type: 'checkbox' }
   ];
 
@@ -761,10 +785,16 @@ delegate.on('click', '.reorder-description a', function () {
   container.appendChild(inner);
   wrapper.appendChild(container);
 
-  const desc = document.querySelector('.reorder-description');
+  // const desc = document.querySelector('.reorder-description');
+  // if (desc) {
+  //   desc.parentNode.insertBefore(wrapper, desc.nextSibling);
+  // }
+
+  const desc = this.closest('.reorder-description'); // scope to clicked banner
   if (desc) {
     desc.parentNode.insertBefore(wrapper, desc.nextSibling);
   }
+
 });
 
 
@@ -808,8 +838,56 @@ delegate.on('click', '[data-action="reorderItems"]', function () {
     console.error('Failed to save updated weights to localStorage', err);
   }
 
-  // 4. Recalculate + reorder
+  // 4a. Recalculate + reorder
   runRecommendationForDoms();
+
+  // 4b. ALSO refresh any lazy recommendation containers that already rendered
+  (async () => {
+    const preferredLanguage = window.preferredLanguage ?? 'zh-CN';
+    const containers = document.querySelectorAll('.list-recommendation');
+    for (const container of containers) {
+      const json = container.dataset.recommendationItems;
+      if (!json) {continue;} // not loaded yet
+
+      let items;
+      try { items = JSON.parse(json); } catch { continue; }
+      if (!Array.isArray(items) || items.length === 0) {continue;}
+
+      // Re-score with new weights and re-render
+      let recalced = calculateScores(items).sort((a, b) => b.finalScore - a.finalScore).slice(0, 6);
+
+      // Rebuild HTML (same template you already use)
+      let html = '';
+      for (const item of recalced) {
+        const update = Math.round((item?.updateTimestamp ?? 0)/1000);
+        const type = item?.type ?? 'interactive';
+        const id = item?.id ?? '';
+        const cheadline = await convertChinese(item?.cheadline ?? '', preferredLanguage);
+        const clongleadbody = await convertChinese(item?.clongleadbody ?? '', preferredLanguage);
+        let lockClass = '';
+        if (item.tier === 'premium')      {lockClass = ' vip locked';}
+        else if (item.tier === 'standard') {lockClass = ' locked';}
+
+        html += `
+          <div class="item-container " data-update="${update}">
+            <div class="item-inner">
+              <a class="image" href="/${type}/${id}">
+                <figure class="loading" data-url="${item.pictures?.main ?? ''}"></figure>
+              </a>
+              <div class="item-headline-lead">
+                <h2 class="item-headline">
+                  <a href="/${type}/${id}" class="item-headline-link${lockClass}">${cheadline}</a>
+                </h2>
+                <div class="item-lead">${clongleadbody}</div>
+              </div>
+            </div>
+          </div>`;
+      }
+      container.innerHTML = html;
+
+      // Keep the cached items (optional): container.dataset.recommendationItems stays valid
+    }
+  })();
 
   // 5. Clean up UI
   document.querySelectorAll('.reorder-controls').forEach(e => e.remove());
