@@ -1,0 +1,201 @@
+@use "sass:math";
+@import "main-story.scss";
+@import "main-table.scss";
+@import "main-user-comments.scss";
+@import "main-scrolly-telling.scss";
+@import "quote-number.scss";
+@import "main-chat-quiz.scss";
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    &.font-smallest {
+        font-size: 12px;
+    }
+    &.font-smaller {
+        font-size: 14px;
+    }
+    &.font-larger {
+        font-size: 20px;
+    }
+    &.font-largest {
+        font-size: 24px;
+    }
+}
+
+
+// Header
+.app-header-container {
+    height: $navHeight + $navHeight;
+    width: 100%;
+    overflow: hidden;
+    position: fixed;
+    z-index: 1;
+    background-color: $defaultPink;
+}
+
+.app-header-inner {
+    height: $navHeight;
+    max-width: $maxWidth;
+    margin: auto;
+    position: relative;
+    // background-color: yellow;
+}
+
+.app-header-masthead {
+    display: block;
+    text-align: center;
+    margin: auto;
+    height: 100%;
+    font-size: 20px;
+    line-height: $mastheadHeightApp;
+    max-width: 280px;
+    background-size: auto $mastheadHeightApp;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url(https://d1sh1cgb4xvhl.cloudfront.net/unsafe/picture/9/000132359_piclink.png);
+}
+
+.app-header-side {
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    // background-color: grey;
+    width: $navHeight;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    background-size: auto $iconWidth;
+}
+.header-left {
+    left: 0;
+}
+.header-right {
+    right: 0;
+}
+.header-icon-ai {
+    background-image: url(https://d1sh1cgb4xvhl.cloudfront.net/unsafe/picture/9/000229089_piclink.png);
+}
+.header-icon-search {
+    background-image: url(https://d2785ji6wtdqx8.cloudfront.net/ftc-icons/svg/search.svg);
+}
+
+// navigation
+.app-nav {
+    height: $navHeight;
+    max-width: $maxWidth;
+    margin: auto;
+    background-color: white;
+    display: flex;              /* Arrange children horizontally */
+    overflow-x: auto;           /* Allow horizontal scrolling if needed */
+    white-space: nowrap;        /* Prevent items from wrapping to next line */
+    scrollbar-width: thin;      /* (Optional) nicer scrollbar in Firefox */
+    -webkit-overflow-scrolling: touch; /* Smooth scroll on iOS */
+    > div {
+        font-size: 16px;
+        flex: 0 0 auto;             /* Prevent items from shrinking */
+        padding: $defaultPadding * 0.333 $defaultPadding * 0.4;         /* Add some spacing */
+        text-align: center;         /* Align text nicely */
+        position: relative;
+        color: $darkGrey;
+        cursor: pointer;
+        &.on {
+            color: $red;
+            font-weight: bold;
+            &:after {
+                content: '';
+                position: absolute;
+                left: $defaultPadding * 0.4;
+                right: $defaultPadding * 0.4;
+                bottom: 0;              // stick it to the bottom of the item
+                height: 4px;            // thickness of the underline
+                background-color: $red; // red underline
+                margin:auto;
+            }
+        }
+    }
+}
+
+
+.app-main-content {
+    padding-top: $navHeight + $navHeight + $defaultPadding * 0.5;
+}
+
+
+
+.app-bottom {
+    padding: 0 8px;
+    height: calc($navHeight + (env(safe-area-inset-bottom) / 2));
+    padding-bottom: calc(env(safe-area-inset-bottom) / 2); // iOS notch
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: $appBottomAppTint;
+    display: flex;
+    justify-content: space-around; // even spacing for 5 items
+    align-items: center;
+    gap: 0; // can add gap if you like
+    z-index: 2; // above page content
+    box-sizing: border-box;
+    // Optional subtle border to separate from content
+    border-top: 1px solid rgba(0,0,0,0.08);
+
+    > div {
+        width: $navHeight;
+        height: $navHeight;
+        flex: 0 0 auto; // don't grow/shrink
+        cursor: pointer;
+
+        // Make the container a flexbox column
+        display: flex;
+        flex-direction: column;
+        justify-content: center;  // center vertically within the square
+        align-items: center;      // center horizontally
+
+        .app-icon {
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            width: $navHeight * 0.5;
+            height: $navHeight * 0.5;
+            margin-bottom: 2px; // small gap between icon and label (optional)
+        }
+
+        .icon-title {
+            font-size: 10px;
+            white-space: nowrap;
+            text-align: center;
+            line-height: 1.2; // keeps spacing tight
+        }
+
+        // Dim state fallback using filter (in case no alt image)
+        &.dim {
+            filter: grayscale(100%) opacity(0.7);
+        }
+    }
+
+}
+
+
+.app-icon-academy {
+  background-image: url('https://d1sh1cgb4xvhl.cloudfront.net/unsafe/picture/1/000302521_piclink.png');
+}
+
+.app-icon-english {
+  background-image: url('https://d1sh1cgb4xvhl.cloudfront.net/unsafe/picture/3/000302523_piclink.png');
+}
+
+.app-icon-myft {
+  background-image: url('https://d1sh1cgb4xvhl.cloudfront.net/unsafe/picture/5/000302525_piclink.png');
+}
+
+.app-icon-news {
+  background-image: url('https://d1sh1cgb4xvhl.cloudfront.net/unsafe/picture/7/000302527_piclink.png');
+}
+
+.app-icon-video {
+  background-image: url('https://d1sh1cgb4xvhl.cloudfront.net/unsafe/picture/9/000302529_piclink.png');
+}

@@ -14,19 +14,17 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#FFF1E0" />
 <link rel="apple-touch-icon" sizes="180x180" href="https://d2785ji6wtdqx8.cloudfront.net/img/friend-share-icon.jpg">
-<link rel="manifest" href="./chat-metatags.json" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<title>ChatFTC</title>
+<title>FT中文网</title>
 <meta http-equiv="Content-Language" content="en"/>
 <meta content="Chat with the FT" name="description"/>
-<!-- build:css styles/main-chat.css -->
-<link rel="stylesheet" href="styles/main-chat.css">
+
+
+<!-- build:css styles/main-app.css -->
+<link rel="stylesheet" href="styles/main-app.css">
 <!-- endbuild -->
 
-
-<!-- build:css styles/main-chat-quiz.css -->
 <link rel="stylesheet" href="styles/main-chat-quiz.css">
-<!-- endbuild -->
 
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -108,58 +106,30 @@ gtag('event', 'page_view', {
 
 <body>
 
-<div class="container">
-    <aside class="sidebar">
-        <div class="sidebar-inner">
-            <div class="main-chat-role" id="main-chat-role">Top Content</div>
-            <div class="current-chat-roles" id="current-chat-roles"></div>
-            
-            <div class="side-bottom">
-                <span class="visitor-box sign-in-container">
-                    <a href="/login" data-key="Sign In">Sign In</a>
-                    <a class="more last" href="/register" data-key="Sign Up">Sign Up</a>
-                </span>
-                <span class="member-box logged-in-container">
-                    <span id="side-user-settings"></span>
-                    <a id="ft-login-logout"  onclick="logout()" data-key="Sign Out">Sign Out</a>
-                </span>
-            </div>
-
-        </div>
-        <div class="sidebar-bg"></div>
-        <button class="sidebar-close-button"></button>
-    </aside>
-    <header class="header-container">
-        <div class="header-inner">
-        <a href="/" class="masthead"></a>
-        <div class="header-side header-left header-side-toggle" id="header-side-toggle">
-        </div>
-        <div class="header-side header-right">
-
-        </div>
-        </div>
-    </header>
-    <div class="main-content">
-        <div class="chat-content" id="chat-content"></div>
-        <div class="chat-input-container">
-            <div class="chat-input-inner">
-                <div class="chat-input-first-line">
-                    <button class="chat-start-over" id="clean-slate" data-purpose="start-over" data-content="start-over"></button>
-                    <div class="chat-input">
-                        <div class="chat-topic-intention"></div>
-                        <textarea id="user-input" rows="1"></textarea>
-                        <button class="chat-submit" id="chat-submit"></button>
-                    </div>
-                </div>
-                <div class="chat-disclaimer" id="chat-disclaimer">Chat bots can make mistakes. Consider checking important information.</div>
-            </div>
-        </div>
+<div class="app-root-view">
+  <header class="app-header-container">
+    <div class="app-header-inner">
+      <div class="app-header-masthead"></div>
+      <a class="app-header-side header-left header-icon-ai" href="/powertranslate/chat.html"></a>
+      <a class="app-header-side header-right header-icon-search" data-action="search"></a>
     </div>
+    <div class="app-nav" id="app-nav"></div>
+  </header>
+  <div class="app-main-content" id="app-main-content">
+
+  </div>
+  <div class="app-bottom" id="app-bottom"></div>
 </div>
+<div class="app-detail-view"></div>
+
 
 </body>
 
-<!-- build:js scripts/main-chat.js -->
+
+<script>
+    window.isFrontEndTest = true;
+</script>
+<!-- build:js scripts/main-app.js -->
 <script type="text/javascript" src="scripts/dom-delegate.js"></script>
 <script type="text/javascript" src="scripts/indexed-db.js"></script>
 <script type="text/javascript" src="scripts/key.js"></script>
@@ -168,14 +138,9 @@ gtag('event', 'page_view', {
 <script type="text/javascript" src="scripts/convert-chinese.js"></script>
 <script type="text/javascript" src="scripts/chat-my-ft.js"></script>
 <script type="text/javascript" src="scripts/chat-dict.js"></script>
-<script type="text/javascript" src="scripts/chat.js"></script>
-<script type="text/javascript" src="scripts/chat-audio.js"></script>
-<script type="text/javascript" src="scripts/chat-survey.js"></script>
-<script type="text/javascript" src="scripts/chat-article.js"></script>
-<script type="text/javascript" src="scripts/chat-quiz.js"></script>
 <script type="text/javascript" src="scripts/track-click.js"></script>
+<script type="text/javascript" src="scripts/app-nav.js"></script>
 <!-- endbuild -->
-
 
 
 </html>

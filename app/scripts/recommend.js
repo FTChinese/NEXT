@@ -22,7 +22,7 @@ const GENRE_SCORE_MAP = {
 
 const attrToKeyMap = Object.fromEntries(attributeMap);
 
-let follows = new Set();
+let followsSet = new Set();
 
 // === Recommendation Weights ===
 const recommendationWeights = {
@@ -97,7 +97,7 @@ function displayRecommendationInContentPageLazy() {
         const showAITranslation = getMyPreference()?.recommendationWeights?.showAITranslation ?? false;
         //articleTranslationPreference === 'both' || 
         const source = showAITranslation ? 'all' : 'ftchinese';
-        // console.log(source);
+        console.log(source);
         const response = await fetch('/recommend', {
           method: 'POST',
           headers: {
@@ -112,7 +112,7 @@ function displayRecommendationInContentPageLazy() {
         items = (items ?? []).filter(item => item.type !== window.type || item.id !== window.id);
         // console.log(`items: \n`, JSON.stringify(items));
         // items = calculateScores(items).sort((a, b) => b.finalScore - a.finalScore).slice(0, 6);
-        // // console.log(`recommended items sorted: `, JSON.stringify(items, null, 2));
+        console.log(`recommended items sorted: `, JSON.stringify(items, null, 2));
 
         // const preferredLanguage = window.preferredLanguage ?? 'zh-CN';
 
@@ -132,20 +132,28 @@ function displayRecommendationInContentPageLazy() {
           const cheadline = await convertChinese(item?.cheadline ?? '', preferredLanguage);
           const clongleadbody = await convertChinese(item?.clongleadbody ?? '', preferredLanguage);
           let lockClass = '';
-          if (item.tier === 'premium') {
+          const tier = item?.tier ?? 'free';
+          if (tier === 'premium') {
             lockClass = ' vip locked';
-          } else if (item.tier === 'standard') {
+          } else if (tier === 'standard') {
             lockClass = ' locked';
           }
 
-          html += `<div class="item-container " data-update="${update}">
+          // Not sure if story page in native app supports data-id yet. Let's put in a string that will never be contained so that it always falls back to the link
+          const subtype = item?.subtype ?? '';
+          const subTypeMap = {FTArticle: 'bilingual'};
+          const tierParameter = `?tier=${tier}`;
+          const subtypeParameter = subtype !== '' && type === 'interactive' ? `&subtype=${subTypeMap[subtype] ?? subtype}` : '';
+          const parameter = tierParameter + subtypeParameter;
+          const linkHTML = ` href="/${type}/${id}${parameter}"`;
+          html += `<div class="item-container" data-update="${update}">
             <div class="item-inner">
-              <a class="image" href="/${type}/${id}">
+              <a class="image" ${linkHTML}>
                 <figure class="loading" data-url="${item.pictures?.main ?? ''}"></figure>
               </a>
               <div class="item-headline-lead">
                 <h2 class="item-headline">
-                  <a href="/${type}/${id}" class="item-headline-link${lockClass}">${cheadline}</a>
+                  <a ${linkHTML} class="item-headline-link${lockClass}">${cheadline}</a>
                 </h2>
                 <div class="item-lead">${clongleadbody}</div>
               </div>
@@ -171,6 +179,7 @@ function displayRecommendationInContentPageLazy() {
   }
 
 }
+
 
 
 function showCustomisation(list) {
@@ -358,7 +367,7 @@ function updateFollows() {
         const list = parsedFollow[category];
         if (Array.isArray(list)) {
           for (const value of list) {
-            if (value) {follows.add(value);}
+            if (value) {followsSet.add(value);}
           }
         }
       }
@@ -376,7 +385,7 @@ function updateFollows() {
       ];
       for (const interest of interestSources) {
         if (interest?.key) {
-          follows.add(interest.key);
+          followsSet.add(interest.key);
         }
       }
     }
@@ -442,21 +451,21 @@ function calculateRelevanceScores(items) {
     const keywords = item.keywords?.split(',').map(t => t.trim()).filter(Boolean) || [];
 
     for (const tag of mainTags) {
-      if (follows.has(tag)) {
+      if (followsSet.has(tag)) {
         score += WEIGHTS.main;
         hasMainMatch = true;
       }
     }
 
     for (const tag of secondaryTags) {
-      if (follows.has(tag)) {
+      if (followsSet.has(tag)) {
         score += WEIGHTS.secondary;
         hasSecondaryMatch = true;
       }
     }
 
     for (const [i, tag] of keywords.entries()) {
-      if (follows.has(tag)) {
+      if (followsSet.has(tag)) {
         score += i === 0 ? WEIGHTS.keywordPrimary : WEIGHTS.keywordOther;
       }
     }
