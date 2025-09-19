@@ -509,7 +509,7 @@ async function renderChannel(channel) {
         if (listapi && window.isFrontEndTest) {
             listapi = `/api/page/app_home.html`;
         }
-        targetDom.innerHTML = await convertChinese(`加载${title}...`);
+        targetDom.innerHTML = `<div class="app-loading"></div>`;
         if (listapi) {
             // console.log(`render the list api: ${listapi}`);
             // First request (or re-request if you call it again)
@@ -520,6 +520,7 @@ async function renderChannel(channel) {
             // Get the raw text of the response
             const text = await response.text();
             targetDom.innerHTML = text;
+            handleChannelUpdates();
         } else {
             console.log(`not a list api, need to deal with it. `);
         }
@@ -528,6 +529,24 @@ async function renderChannel(channel) {
     }
 }
 
+// After the channel dom is updated, we need to execute some tasks including loading images, refresh ads etc...
+async function handleChannelUpdates() {
+    try {
+        runLoadImages();
+        refreshAllAds();
+        // TODO: other things such as sending a page view count, render calendar for the home page, render the promo box etc...
+    } catch(err) {
+        console.error(`handleChannelUpdates error:`, err);
+    }
+}
+
+async function refreshAllAds() {
+    try {
+        document.querySelectorAll('.o-ads').forEach(el => el.remove());
+    } catch(err) {
+        console.error(`refreshAllAds error:`, err);
+    }
+}
 
 delegate.on('click', '.app-icon-container', async function () {
     if (!this.classList?.contains('dim')) {return;}
@@ -542,5 +561,16 @@ delegate.on('click', '.app-channel', async function () {
     const channel = appMap?.[section]?.Channels?.[index];
     await renderChannel(channel);
 });
+
+
+delegate.on('click', '.item-container-app', async function () {
+    const id = this.getAttribute('data-id');
+    const type = this.getAttribute('data-type');
+    const subtype = this.getAttribute('data-sub-type');
+    if (!id || !type) {return;}
+    console.log(`Now we need to handle ${type} / ${id}`);
+});
+
+
 
 renderSection('News');

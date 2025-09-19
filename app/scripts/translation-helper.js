@@ -848,7 +848,7 @@ async function checkAITranslation() {
         ftid = 'anyidforfrontendtest';
     }
     if (ftid === '') {return;}
-    let url = (isFrontendTest) ? '/api/page/ai_translation.json' : `/FTAPI/grab_ai_translation.php?id=${ftid}`;
+    let url = isFrontendTest && !isPowerTranslate ? '/api/page/ai_translation.json' : `/FTAPI/grab_ai_translation.php?id=${ftid}`;
     const response = await fetch(url);
     const json = await response.json();
     // console.log(JSON.stringify(json, null, 2));
@@ -985,7 +985,8 @@ function start() {
     var translationInfoString = translationInfoEle.value;
     var storyBodyEle = document.getElementById('story-body-container');
     if (translationInfoString !== '') {
-        var translationInfo = JSON.parse(translationInfoString);
+        // Use the window object if available
+        var translationInfo = window.results ?? JSON.parse(translationInfoString);
         var englishEle = document.createElement('DIV');
         englishEle.innerHTML = englishText.value;
         var k = '';
@@ -2648,40 +2649,71 @@ function addNewTranslation() {
 }
 
 function inspectTranslation(id) {
-    function inspectOne() {
-        var xhr = new XMLHttpRequest();
-        var method = 'POST';
-        var url = '/pt/inspect';
-        if (isFrontendTest && !isPowerTranslate) {
+    let timer;
+
+    async function inspectOne() {
+        let method = 'POST';
+        let url = '/pt/inspect';
+        if (typeof isFrontendTest !== 'undefined' && isFrontendTest &&
+            typeof isPowerTranslate !== 'undefined' && !isPowerTranslate) {
             method = 'GET';
             url = '/api/powertranslate/inspect.json';
         }
-        xhr.open(method, url);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.onload = function() {
-            if (xhr.status !== 200) {return;}
-            try {
-                var results = JSON.parse(xhr.responseText);
-                if (results.length > 0 && results[0].status === 'translated') {
-                    launchTranslationReview(results[0]);
-                    clearInterval(timer);
-                    return;
-                }
-            } catch(err){
-                alert('There is an error when adding new translation task! ');
-                console.log(err);
+
+        try {
+            const controller = new AbortController();
+            const t = setTimeout(() => controller.abort(), 10000);
+
+            const res = await fetch(url, {
+                method,
+                headers: {
+                    Accept: 'application/json',
+                    ...(method === 'POST' ? { 'Content-Type': 'application/json' } : {})
+                },
+                body: method === 'POST' ? JSON.stringify({ id }) : undefined,
+                signal: controller.signal
+            });
+
+            clearTimeout(t);
+            if (!res.ok) {
+                clearInterval(timer);
+                console.warn('inspectOne non-OK:', res.status, res.statusText);
+                return;
             }
-        };
-        var postData = {id: id};
-        xhr.send(JSON.stringify(postData));
+
+            let results;
+            try {
+                results = await res.clone().json();
+            } catch (_) {
+                clearInterval(timer);
+                console.warn('inspectOne JSON parse error');
+                return;
+            }
+
+            if (!results) {return;}
+            if (!Array.isArray(results)) {
+                results = results.results || results.data || [results];
+            }
+
+            if (results.length > 0 && results[0].status === 'translated') {
+                launchTranslationReview(results[0]);
+                clearInterval(timer);
+            }
+        } catch (err) {
+            clearInterval(timer);
+            console.warn('inspectOne error:', err);
+        }
     }
-    document.getElementById('status-message').innerHTML = 'Please wait for about 15 minutes for your text to be processed. Don\'t close this page. You can go have a cup of tea or do something else...';
+
+    document.getElementById('status-message').innerHTML =
+        'Please wait for about 15 minutes for your text to be processed. Don\'t close this page. You can go have a cup of tea or do something else...';
     document.getElementById('start-button').disabled = true;
+
     inspectOne();
-    var timer = setInterval(function(){
-        inspectOne();
-    }, 20000);
+    timer = setInterval(inspectOne, 20000);
 }
+
+
 
 function finishPowerTranslate(buttonEle, cleanChineseText) {
     document.body.classList.toggle('preview');
@@ -2762,6 +2794,9 @@ function launchTranslationReview(result) {
     // console.log('Now you can review the translations');
     // console.log(result);
     alert('Your text is translated by machine, now you need to do a final review! ');
+
+    // console.log(`result.translation.cbody:`, result.translation.cbody);
+    window.results = result.translation.results;
     document.getElementById('translation-info').value = result.translation.cbody;
     document.getElementById('english-text').value = result.translation.ebody;
     source = result.from;

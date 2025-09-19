@@ -23,7 +23,6 @@ var defaultPadding = 30;
 var hasSideWidth = 690;
 var sectionsWithSide = document.querySelectorAll('.block-container.has-side');
 var sections = document.querySelectorAll('.block-container, .footer-container, .bn-ph, .mpu-container, #story_main_mpu, .in-story-recommend');
-var delegate;
 var htmlClass = document.documentElement.className;
 var sectionsWithSideLength = sectionsWithSide.length;
 var sectionClassName = [];
@@ -1000,11 +999,20 @@ function renderVideoPackagePlay(ele) {
   }
 }
 
-try {
-  delegate = new Delegate(document.body);
-} catch (ignore) {
 
+if (typeof Delegate === 'function') {
+  if (!(window.delegate instanceof Delegate)) {
+    try {
+      window.delegate = new Delegate(document.body);
+    } catch (err) {
+      console.error('Delegate init failed — is body available?', err);
+    }
+  }
+} else {
+  console.error('Delegate is not defined — did you forget to include it?');
 }
+
+
 
 try {
   validHTMLCode();
