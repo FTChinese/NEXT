@@ -6,6 +6,8 @@
 ----------------------------- */
 const reading_preference_key = 'reading_preference';
 
+// Per-view state registry (keyed by a view's root element)
+const detailViewState = new WeakMap();
 
 const esc = (s) => {
   const v = (s === null || s === undefined) ? '' : s;
@@ -93,8 +95,8 @@ function buildHeroFromStoryPic(story_pic, withContainer = true) {
 
 // Decide language class and pick fields (rough parity with your Swift rules)
 function selectLanguage(info) {
-  const myPreference = getMyPreference(); 
-  const readingPreference = myPreference?.[reading_preference_key] ?? 'cn'; 
+  const myPreference = getMyPreference();
+  const readingPreference = myPreference?.[reading_preference_key] ?? 'cn';
   // 'cn' = Chinese, 'en' = English, 'ce' = bilingual
 
   const hasEN = !!(info.ebody && info.ebody.trim());
@@ -197,6 +199,9 @@ function setupCommentsLazyLoad(contentId, contentType) {
             window.clickToSubmitComment();
           }
           obs.unobserve(e.target);
+          // disconnect after first trigger for tidiness
+          obs.disconnect();
+          target.__io = null;
         }
       }
     },
@@ -204,12 +209,13 @@ function setupCommentsLazyLoad(contentId, contentType) {
   );
   io.observe(target);
   target.__observed = true;
+  target.__io = io;
 }
 
-// Optional: wire follow buttons to your existing web handlers
+// Optional: wire follow buttons to your existing web handlers (guarded to add once)
 function setupFollowButtons() {
   const root = document.body;
-  if (!root) {
+  if (!root || root.__followWired) {
     return;
   }
   root.addEventListener('click', (e) => {
@@ -242,22 +248,48 @@ function setupFollowButtons() {
       }
     }
   });
+  root.__followWired = true;
 }
 
 /* -----------------------------
-   MAIN RENDERER
+   MAIN RENDERER (refactored)
 ----------------------------- */
 
 async function renderContentPage(info, appDetailEle) {
-  // -------- 1) Language selection & core fields --------
+  // Mark this node as a view root using an attribute (string → no GC risk)
+  if (appDetailEle && !appDetailEle.hasAttribute('data-detail-root')) {
+    appDetailEle.setAttribute('data-detail-root', '1');
+  }
+
+  // Remember state for this view so we can re-render body only
+  detailViewState.set(appDetailEle, { info });
+
+  // Select language (reads saved preference)
   const langSel = selectLanguage(info);
+
+  // Render language-dependent body (topper, article, comments, etc.)
+  await renderContentPageBody(info, appDetailEle, langSel);
+
+  // Render or update the language switch without re-creating it
+  await renderLanguageSwitch(appDetailEle, langSel);
+}
+
+// Body-only renderer: language-dependent UI (called on initial load and on switch)
+async function renderContentPageBody(info, appDetailEle, langSel) {
+  // -------- 0) Clean up previous observers before replacing the body --------
+  const oldTarget = appDetailEle.querySelector('.user_comments_container');
+  if (oldTarget && oldTarget.__io) {
+    try { oldTarget.__io.disconnect(); } catch (ignore) {}
+    oldTarget.__io = null;
+    oldTarget.__observed = false;
+  }
+
+  // -------- 1) Language selection & core fields --------
   const isEN = langSel.useEN;
   const isCE = langSel.bilingual;
 
   const headline = isEN ? (info.eheadline || info.cheadline || '') : (info.cheadline || info.eheadline || '');
-
   const longLead = isEN ? (info.elongleadbody || info.eshortleadbody || '') : (info.clongleadbody || info.cshortleadbody || '');
-
   const byline = isEN ? (info.englishByline || info.eauthor || '') : ((info.cbyline && info.cbyline.replace(/\s+/g, '') !== '') ? info.cbyline : (info.eauthor || ''));
 
   const timeStamp = secToDateISO(
@@ -279,36 +311,34 @@ async function renderContentPage(info, appDetailEle) {
   let finalBody = '';
   if (hasPrivilege) {
     finalBody = (bodyHtml || '')
-        .replace(/<p>\s*<\/p>/g, '') // remove empty paragraphs
-        .replace(/([*-]){10,}/g, '<hr>'); // long runs → hr
+      .replace(/<p>\s*<\/p>/g, '') // remove empty paragraphs
+      .replace(/([*-]){10,}/g, '<hr>'); // long runs → hr
 
     if (!shouldHideAd && !isCE) {
-        finalBody = insertMPUs(finalBody, [
+      finalBody = insertMPUs(finalBody, [
         '<div class="o-ads mpu mpu-1" data-o-ads-name="mpu1"></div>',
         '<div class="o-ads mpu mpu-2" data-o-ads-name="mpu2"></div>'
-        ]);
+      ]);
     }
   } else {
-
     let userTier = 0;
     const rootClassList = document.documentElement.classList;
     if (rootClassList.contains('is-premium')) {
-        userTier = 2;
+      userTier = 2;
     } else if (rootClassList.contains('is-subscriber')) {
-        userTier = 1;
+      userTier = 1;
     }
     const hasLogin = rootClassList.contains('is-member');
     const logoutMessage = '请先<a href="/logout" class="o-client-id-link">请点击这里登出</a>，再重新<a href="/login" class="o-client-id-link">登入</a>';
     const loginLink = '<a href="/login" class="o-client-id-link">请点击这里登录</a>';
     const loginMessage = hasLogin ? logoutMessage : loginLink;
-    // Set default upgrade message and lock message
+
     const messages = {
       lock_message: '成为付费会员，阅读FT独家内容',
       upgrade_message: '成为会员',
       login_message: `如您已经是会员，${loginMessage}`,
     };
 
-    // Customize messages based on user tier and content tier
     if (info?.access_tier === 2) {
       if (userTier === 1) {
         messages.lock_message = '本内容是高端会员专享，您目前为标准会员';
@@ -320,21 +350,11 @@ async function renderContentPage(info, appDetailEle) {
       messages.login_message = `如您已经是高端会员，${loginMessage}`;
     }
 
-    // TODO: - track the paywall display
-    // if (contentTier === 2) {
-    //   content.privilege = 'PremiumMBA';
-    // } else if (/英语电台|每日一词/.test(content?.tag ?? '')) {
-    //   content.privilege = 'Radio';
-    //   content.audio_html = '';
-    // } else if ((content?.tag ?? '').includes('速读')) {
-    //   content.privilege = 'SpeedReading';
-    // } else {
-    //   content.privilege = 'ExclusiveContent';
-    // }
+    // TODO: track the paywall display (privilege classification)
     finalBody = `<div class="subscribe-lock-container"><div class="lock-block">
         <div class="lock-content">${messages.lock_message}</div>
-            <div class="lock-content">${messages.login_message}</div>
-            <div class="subscribe-btn"><a href="/subscription">${messages.upgrade_message}►</a></div>
+        <div class="lock-content">${messages.login_message}</div>
+        <div class="subscribe-btn"><a href="/subscription">${messages.upgrade_message}►</a></div>
     </div></div>`;
   }
 
@@ -620,58 +640,87 @@ async function renderContentPage(info, appDetailEle) {
     }
   }
   runLoadImages();
-  await renderLanguageSwitch(appDetailEle, langSel);
 }
 
-
-
-
-// JS — renderLanguageSwitch (using "on" instead of "is-active")
+// JS — renderLanguageSwitch (stable widget; no full re-render on toggle)
 async function renderLanguageSwitch(appDetailEle, langSel) {
-//   console.log(`lan sel: `, langSel);
-  if (!langSel?.hasEN) {return;}
+  if (!langSel?.hasEN) { return; }
   const slot = appDetailEle.querySelector('.app-detail-language-switch');
-  if (!slot) {return;}
+  if (!slot) { return; }
+
   // Mode: cn = Chinese, en = English, ce = 对照（bilingual）
   const mode = langSel.bilingual ? 'ce' : (langSel.useEN ? 'en' : 'cn');
 
-  // Convert Chinese labels
-  const labelCN = await convertChinese('中文');
-  const labelCE = await convertChinese('对照');
+  if (!slot.__rendered) {
+    // Convert Chinese labels once
+    const labelCN = await convertChinese('中文');
+    const labelCE = await convertChinese('对照');
 
-  const cnActive = mode === 'cn' ? ' on' : '';
-  const enActive = mode === 'en' ? ' on' : '';
-  const ceActive = mode === 'ce' ? ' on' : '';
+    slot.innerHTML = `
+      <div class="lang-switch" role="tablist">
+        <button class="lang-btn" role="tab" aria-selected="false" tabindex="-1" data-mode="cn">${esc(labelCN)}</button>
+        <button class="lang-btn" role="tab" aria-selected="false" tabindex="-1" data-mode="en">English</button>
+        <button class="lang-btn" role="tab" aria-selected="false" tabindex="-1" data-mode="ce">${esc(labelCE)}</button>
+      </div>
+    `;
+    slot.__rendered = true;
+  }
 
-  slot.innerHTML = `
-    <div class="lang-switch" role="tablist">
-      <button class="lang-btn${cnActive}" role="tab" aria-selected="${mode === 'cn'}" tabindex="${mode === 'cn' ? '0' : '-1'}" data-mode="cn">${esc(labelCN)}</button>
-      <button class="lang-btn${enActive}" role="tab" aria-selected="${mode === 'en'}" tabindex="${mode === 'en' ? '0' : '-1'}" data-mode="en">English</button>
-      <button class="lang-btn${ceActive}" role="tab" aria-selected="${mode === 'ce'}" tabindex="${mode === 'ce' ? '0' : '-1'}" data-mode="ce">${esc(labelCE)}</button>
-    </div>
-  `;
+  // Update button states without re-rendering the switch
+  const btns = slot.querySelectorAll('.lang-btn');
+  for (let i = 0; i < btns.length; i += 1) {
+    const b = btns[i];
+    const active = b.getAttribute('data-mode') === mode;
+    if (active) {
+      if (!b.classList.contains('on')) { b.classList.add('on'); }
+      b.setAttribute('aria-selected', 'true');
+      b.setAttribute('tabindex', '0');
+    } else {
+      b.classList.remove('on');
+      b.setAttribute('aria-selected', 'false');
+      b.setAttribute('tabindex', '-1');
+    }
+  }
 }
 
 
+/* -----------------------------
+   Language switch handler
+----------------------------- */
+
 delegate.on('click', '.lang-btn', async function () {
-    try {
-        if (this.classList.contains('on')) { return; }
+  try {
+    if (this.classList.contains('on')) { return; }
 
-        // ✅ Add "on" class for this button, remove from siblings
-        const siblings = this.parentNode.querySelectorAll('.lang-btn');
-        for (let i = 0; i < siblings.length; i++) {
-            siblings[i].classList.remove('on');
-        }
-        this.classList.add('on');
-
-        // ✅ Save the key/value preference (example: "lang" = this.dataset.lang)
-        const langValue = this.getAttribute('data-mode');
-        if (langValue) {
-            saveMyPreferenceByKey(reading_preference_key, langValue);
-        }
-
-    } catch (err) {
-        console.error('lang switch btn error:', err);
+    // Toggle "on" among siblings + ARIA
+    const siblings = this.parentNode.querySelectorAll('.lang-btn');
+    for (let i = 0; i < siblings.length; i += 1) {
+      siblings[i].classList.remove('on');
+      siblings[i].setAttribute('aria-selected', 'false');
+      siblings[i].setAttribute('tabindex', '-1');
     }
-});
+    this.classList.add('on');
+    this.setAttribute('aria-selected', 'true');
+    this.setAttribute('tabindex', '0');
 
+    // Save preference
+    const langValue = this.getAttribute('data-mode');
+    if (langValue) {
+      saveMyPreferenceByKey(reading_preference_key, langValue);
+    }
+
+    // Find the view root by attribute (string attribute → no GC issues)
+    const rootView = this.closest('[data-detail-root]');
+    if (!rootView) { return; }
+
+    // Retrieve stored state and re-render BODY ONLY with new language
+    const st = detailViewState.get(rootView);
+    if (!st || !st.info) { return; }
+
+    const newLangSel = selectLanguage(st.info); // picks up saved preference
+    await renderContentPageBody(st.info, rootView, newLangSel);
+
+  } catch (err) {
+    console.error('lang switch btn error:', err);
+  }
+});
