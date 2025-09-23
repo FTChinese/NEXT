@@ -808,32 +808,5 @@ delegate.on('click', '.item-container-app', async function () {
     }
 });
 
-delegate.on('click', '.app-detail-back', async function () {
-    try {
-        const view = this.closest('.app-detail-view');
-
-        // Remove the "on" class → triggers your CSS transition/animation
-        view.classList.remove('on');
-
-        // Define a one-time listener for when the transition ends
-        const handleTransitionEnd = (e) => {
-            // Make sure it only reacts to the intended property if needed
-            if (e.target === view) {
-                view.removeEventListener('transitionend', handleTransitionEnd);
-                view.remove(); // Remove the DOM element
-            }
-        };
-
-        view.addEventListener('transitionend', handleTransitionEnd);
-
-        // For animations instead of transitions, use 'animationend'
-        // view.addEventListener('animationend', handleTransitionEnd);
-    } catch (err) {
-        console.error('render story error:', err);
-    }
-});
-
-
-
 
 renderSection('News');

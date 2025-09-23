@@ -530,7 +530,7 @@ async function renderContentPageBody(info, appDetailEle, langSel) {
                 <div class="user_comments_container">
                   <h2 class="box-title">
                     <div class="comments-sort-container">
-                      <label>${isEN ? 'Sort by' : '排序方式'}</label>
+                      <label for="commentsortby">${isEN ? 'Sort by' : '排序方式'}</label>
                       <select class="commentsortby" id="commentsortby" data-id="${esc(info.id || '')}" data-type="${esc(contentType)}">
                         <option value="1" selected>${isEN ? 'Newest first' : '最新的在上方'}</option>
                         <option value="2">${isEN ? 'Oldest first' : '最早的在上方'}</option>
@@ -555,7 +555,6 @@ async function renderContentPageBody(info, appDetailEle, langSel) {
                         <textarea name="Talk" id="Talk" class="commentTextArea" width="100%" rows="3"></textarea>
                         <span style="display:none">
                           <input name="use_nickname" type="hidden" id="name">
-                          <label for="name" style="display:none">匿名</label>
                           <input name="use_nickname" type="radio" id="userid" value="0" checked>
                           <input type="text" autocorrect="off" class="user_id textinput nick_name" name="NickName" id="nick_name" value="">
                         </span>
@@ -709,18 +708,94 @@ delegate.on('click', '.lang-btn', async function () {
       saveMyPreferenceByKey(reading_preference_key, langValue);
     }
 
-    // Find the view root by attribute (string attribute → no GC issues)
+    // Find the view root
     const rootView = this.closest('[data-detail-root]');
     if (!rootView) { return; }
 
-    // Retrieve stored state and re-render BODY ONLY with new language
+    // 🔹 simple reset: clear content + scroll to top
+    const container = rootView.querySelector('.app-detail-content');
+    if (container) {
+      container.innerHTML = '';
+    }
+    // Scroll page to the view top (keeps it simple)
+    try {
+      rootView.scrollIntoView({ block: 'start' });
+    } catch (e) {
+      // fallback
+      window.scrollTo(0, 0);
+    }
+
+    // Re-render BODY ONLY with the new language
     const st = detailViewState.get(rootView);
     if (!st || !st.info) { return; }
-
-    const newLangSel = selectLanguage(st.info); // picks up saved preference
+    const newLangSel = selectLanguage(st.info);
     await renderContentPageBody(st.info, rootView, newLangSel);
 
   } catch (err) {
     console.error('lang switch btn error:', err);
   }
 });
+
+
+delegate.on('click', '.app-detail-back', async function () {
+    try {
+        const view = this.closest('.app-detail-view');
+
+        // Remove the "on" class → triggers your CSS transition/animation
+        view.classList.remove('on');
+
+        // Define a one-time listener for when the transition ends
+        const handleTransitionEnd = (e) => {
+            // Make sure it only reacts to the intended property if needed
+            if (e.target === view) {
+                view.removeEventListener('transitionend', handleTransitionEnd);
+                view.remove(); // Remove the DOM element
+            }
+        };
+
+        view.addEventListener('transitionend', handleTransitionEnd);
+
+        // For animations instead of transitions, use 'animationend'
+        // view.addEventListener('animationend', handleTransitionEnd);
+    } catch (err) {
+        console.error('render story error:', err);
+    }
+});
+
+
+
+// // TODO: - Use translateY to implement the touch screen gesture of swipe from left to right to dismiss the app-detail-view by moving it visually to the right and remove it after the animation is done. 
+
+// // Gobal variables to keep track of necessary information regarding gesture
+
+// delegate.on('touchstart', '.app-detail-view', async function (event) {
+//     try {
+//         console.log(this.classList);
+//         console.log(event);
+
+//     } catch (err) {
+//         console.error('touchstart error:', err);
+//     }
+// });
+
+
+// delegate.on('touchmove', '.app-detail-view', async function (event) {
+//     try {
+//         console.log(this.classList);
+//         console.log(event);
+
+//     } catch (err) {
+//         console.error('touchmove error:', err);
+//     }
+// });
+
+// delegate.on('touchend', '.app-detail-view', async function (event) {
+//     try {
+//         console.log(this.classList);
+//         console.log(event);
+
+
+//     } catch (err) {
+//         console.error('touchend:', err);
+//     }
+// });
