@@ -167,6 +167,7 @@ function displayRecommendationInContentPageLazy() {
 
         // Stop observing after loading
         observer.unobserve(entry.target);
+        runLoadImages();
       } catch (error) {
         console.error('Error fetching recommendations:', error);
       }

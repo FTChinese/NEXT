@@ -60,7 +60,7 @@ function animateOffAndRemove(el, fromX) {
   el.style.opacity = '0';
   // Force layout so transition applies (rarely needed, but safe):
   // eslint-disable-next-line no-unused-expressions
-  el.offsetHeight; 
+  void el.offsetHeight; 
   setTranslateX(el, Math.max(fromX, width + 16));
   const onEnd = () => {
     el.removeEventListener('transitionend', onEnd);
@@ -75,7 +75,7 @@ function animateOffAndRemove(el, fromX) {
  * - Only if the drag was to the right (positive deltaX)
  */
 function shouldDismiss(state, elWidth) {
-  if (!state) return false;
+  if (!state) {return false;}
   const dx = state.lastX - state.startX;
   const dt = Math.max(1, state.lastT - state.startT); // ms
   const velocity = dx / dt; // px/ms
@@ -86,15 +86,15 @@ function shouldDismiss(state, elWidth) {
 
 // Locking logic: once movement clearly horizontal, prevent vertical scrolling
 function maybeLockScroll(evt, state) {
-  if (state.locked !== undefined) return; // already decided
+  if (state.locked !== undefined) {return; }// already decided
   const dx = Math.abs(state.lastX - state.startX);
   const dy = Math.abs(state.lastY - state.startY);
-  if (dx < 3 && dy < 3) return; // not enough info yet
+  if (dx < 3 && dy < 3) {return; }// not enough info yet
   const angleDeg = Math.atan2(dy, dx) * (180 / Math.PI);
   if (angleDeg <= HORIZONTAL_LOCK_ANGLE) {
     state.locked = true;
     // prevent the page from scrolling when we’ve decided it’s a horizontal swipe
-    if (evt.cancelable) evt.preventDefault();
+    if (evt.cancelable) {evt.preventDefault();}
   } else {
     state.locked = false;
   }
@@ -131,14 +131,14 @@ delegate.on('touchmove', '.app-detail-view', function (event) {
   try {
     const el = this;
     const st = gesture.get(el);
-    if (!st || !st.dragging) return;
+    if (!st || !st.dragging) {return;}
 
     st.lastX = getTouchX(event);
     st.lastY = getTouchY(event);
     st.lastT = now();
 
     maybeLockScroll(event, st); // will preventDefault if locked horizontally
-    if (st.locked === false) return; // let vertical scroll continue
+    if (st.locked === false) {return;} // let vertical scroll continue
 
     const dx = Math.max(0, st.lastX - st.startX); // only allow right-swipe to move
     setTranslateX(el, dx);
@@ -151,11 +151,11 @@ delegate.on('touchmove', '.app-detail-view', function (event) {
   }
 });
 
-delegate.on('touchend', '.app-detail-view', function (event) {
+delegate.on('touchend', '.app-detail-view', function () {
   try {
     const el = this;
     const st = gesture.get(el);
-    if (!st) return;
+    if (!st) {return;}
 
     st.dragging = false;
     const width = el.getBoundingClientRect().width || window.innerWidth;
