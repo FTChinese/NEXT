@@ -2615,6 +2615,10 @@ function addNewTranslation() {
                 inspectTranslation(id);
                 const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?inspect=' + id;
                 history.pushState({}, '', newUrl);
+            } else if (result.prompt_login) {
+                if (confirm('You need to login for this operation. Login in now? ')) {
+                    window.location.href = '/login';
+                }
             } else if (result.error) {
                 alert(result.error);
             } else {

@@ -5,6 +5,8 @@
 @import "main-scrolly-telling.scss";
 @import "quote-number.scss";
 @import "main-chat-quiz.scss";
+@import "main-header-hero.scss";
+@import "main-header-topper.scss";
 
 html {
     scroll-behavior: smooth;
@@ -146,6 +148,168 @@ body {
 
 
 
+
+
+
+
+// ===== App detail view (stackable overlay) =====
+$app-detail-nav-height: 52px !default;
+$app-detail-surface: $defaultPink !default;
+$app-detail-border: rgba(0, 0, 0, 0.08) !default;
+
+.app-detail-view {
+  background-color: $defaultPink;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2; // JS can override per stack depth
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  display: flex;
+  flex-direction: column;
+  contain: layout size paint;
+
+  &.on {
+    transform: translateX(0);
+  }
+
+  // Top navigation bar
+  .app-detail-navigation {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    height: calc(#{$app-detail-nav-height} + env(safe-area-inset-top));
+    padding-top: env(safe-area-inset-top);
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 8px;
+    background: $app-detail-surface;
+    border-bottom: 1px solid $app-detail-border;
+    backdrop-filter: saturate(180%) blur(8px);
+  }
+
+  // Nav buttons/slots
+  .app-detail-back,
+  .app-detail-language-switch,
+  .app-detail-audio {
+    min-width: 44px;
+    height: $app-detail-nav-height;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  // Back chevron
+  .app-detail-back::before {
+    content: "";
+    inline-size: 10px;
+    block-size: 10px;
+    border-inline-start: 2px solid currentColor;
+    border-block-start: 2px solid currentColor;
+    transform: rotate(-45deg);
+    margin-inline-start: 2px;
+  }
+
+  // Align nav items
+  .app-detail-language-switch {
+    justify-self: center;
+  }
+  .app-detail-audio {
+    justify-self: end;
+  }
+
+  // Scrollable content region
+  .app-detail-content {
+    flex: 1 1 auto;
+  }
+
+  // Bottom area (for gradients / safe area)
+  .app-detail-bottom {
+    position: sticky;
+    bottom: 0;
+    min-height: $navHeight;
+    padding-bottom: env(safe-area-inset-bottom);
+    background-color: $appBottomTint;
+  }
+}
+
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px;
+  border-radius: $defaultPadding * 0.2;
+  background: rgba(0, 0, 0, 0.06);
+  max-height: $app-detail-nav-height;
+
+  .lang-btn {
+    background: transparent;
+    color: $darkGreen;
+    font: inherit;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 1;
+    height: 32px;
+    padding: 0 12px;
+    border-radius: $defaultPadding * 0.2;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    white-space: nowrap;
+    position: relative; // anchor for separators
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba($darkGreen, 0.25);
+    }
+
+    &.on {
+      background: $darkGreen;
+      color: #fff;
+    }
+
+    // Add "|" separator to the right edge, but not on the last button
+    // &:not(:last-child)::after {
+    //   content: '|';
+    //   position: absolute;
+    //   right: 0;
+    //   top: 50%;
+    //   transform: translateY(-50%);
+    //   color: $darkGreen;
+    //   opacity: 0.5;
+    //   pointer-events: none;
+    // }
+  }
+}
+
+
+
+// Fallback for browsers without env() support
+// @supports (padding: max(0px)) {
+//   .app-detail-view {
+//     .app-detail-navigation {
+//       padding-top: max(env(safe-area-inset-top), 0px);
+//     }
+//     .app-detail-bottom {
+//       padding-bottom: max(env(safe-area-inset-bottom), 0px);
+//     }
+//   }
+// }
+
+
+
+
+
+
+
 .app-bottom {
     padding: 0 8px;
     height: calc($navHeight + (env(safe-area-inset-bottom) / 2));
@@ -154,7 +318,7 @@ body {
     bottom: 0;
     left: 0;
     width: 100%;
-    background-color: $appBottomAppTint;
+    background-color: $appBottomTint;
     display: flex;
     justify-content: space-around; // even spacing for 5 items
     align-items: center;

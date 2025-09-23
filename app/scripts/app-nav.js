@@ -496,7 +496,7 @@ function getRelativeLink(input) {
 async function renderChannel(channel) {
     try {
         const index = channel?.index;
-        const title = channel?.title ?? '';
+        // const title = channel?.title ?? '';
         // console.log(`render ${index}: ${title}`);
         const navDoms = document.querySelectorAll('.app-nav div');
         for (let navDom of navDoms) {
@@ -548,6 +548,200 @@ async function refreshAllAds() {
     }
 }
 
+// function renderContentPage(info) {
+//     console.log(info);
+//     let appDetailEle = document.getElementById('app-detail-view');
+//     appDetailEle.innerHTML = `
+// <div class="story-hero-container <!--{Story-Header-Background}-->">
+//     <div class="story-hero-inner">
+//     <div class="story-hero-intro">
+//     <div class="story-hero-intro-container">
+//     <div class="story-hero-tag">{story-theme}</div>
+//     <div class="story-hero-title">{story-headline}</div>
+//     <div class="story-hero-content"><p>{story-lead}</p></div>
+//     </div>
+//     </div>
+//     </div>
+//     <div class="story-hero-image"><!--{story-image-no-container}--></div>
+// </div>
+
+
+// <div class="story-topper-container has-side"><div class="block-inner">
+//     <div class="content-container"><div class="content-inner"><div class="story-container">
+//     {story-theme}
+//     <h1 class="story-headline">{story-headline}</h1>
+//     <div class="story-lead">{story-lead}</div>
+//     <div class="story-author">
+//     {story-byline}
+//     </div>
+//     <div class="author-headshot"><!--{story-author-headcut}--></div>
+//     </div></div></div>
+//     <div class="clearfloat block-bottom"></div>
+// </div></div>
+
+// <div class="block-container has-side story-page">
+//     <div class="block-inner">
+//         <div class="content-container">
+//             <div class="content-inner">
+//                 <div class="story-container"{story-container-style}>
+//                     <!--disclaimer-->
+//                     <div class="story-topper">
+//                         {story-theme}
+//                         <h1 class="story-headline<!--{story-headline-class}-->" id="story-headline-ios">{story-headline}</h1>
+//                         <div class="story-lead">{story-lead}</div>
+//                         {story-image}
+//                     </div>
+//                     <div class="story-byline">
+//                         <span class="story-time">{story-time}</span>
+//                         <span class="story-author">{story-byline}</span>
+//                     </div>
+//                     <div class="story-body">
+//                         <div id="ios-story-body">{story-body}</div>
+//                         <div class="clearfloat"></div>
+//                     </div>
+//                     <div class="chat-talk"><div class="chat-talk-inner"><div id="story-quiz-container"></div></div></div>
+//                     <div class="clearfloat block-bottom"></div>
+
+//                     <!--DiscussContentWithAI-->
+//                     {Bottom-Banner}
+
+//                     <div class="{story-comments-container-class}">
+
+//                         <div class="user_comments_container">
+//                             <h2 class="box-title">
+//                             <div class="comments-sort-container">
+//                             <label>排序方式</label>
+//                             <select class="commentsortby" id="commentsortby" data-id="{{id}}" data-type="{{type}}">
+//                             <option value="1" selected>最新的在上方</option>
+//                             <option value="2">最早的在上方</option>
+//                             <option value="3">按热门程度</option>
+//                             </select>
+//                             </div>
+//                             <a class="list-link" href="#">读者评论</a>
+//                             </h2>
+//                             <div id="allcomments" class="allcomments container"></div>
+//                         </div>
+
+//                         <div id="logincomment" class="logincomment">
+//                             <form id="storyForm">
+//                             <div class="comment-input-container">
+//                             <div class=container>
+//                             <div style="margin:5px 0;display:none;">
+//                                 用户名：<span id="comment-user-name"></span>
+//                                 <input type="checkbox" id="anonymous-checkbox" name="anonimous-checkbox" checked=true><label for="anonymous-checkbox">匿名发表</label>
+//                             </div>
+//                             <div style="margin:5px 0;">FT中文网欢迎读者发表评论，部分评论会被选进《读者有话说》栏目。我们保留编辑与出版的权利。</div>
+//                             <textarea name="Talk" id="Talk" class="commentTextArea" width="100%" rows="3"></textarea>
+//                             <span style="display:none">
+//                             <input name="use_nickname" type="hidden" id="name" onclick="unuseit(this);"/>
+//                             <label for="name" style="display:none">匿名</label>
+//                             <input name="use_nickname" type="radio" id="userid" value="0" onclick="useit(this);" checked/>
+//                             <input type="text"  autocorrect="off" class="user_id textinput nick_name" name="NickName" id="nick_name" value=""/>
+//                             </span>
+//                             <input type="button" value="提交评论" class="comment_btn submitbutton button ui-light-btn" id="addnewcomment"/>
+//                             <input type="hidden" id="content_id" value="{{id}}"/>
+//                             <input type="hidden" id="content_type" value="{{type}}"/>
+//                             </div>
+//                             </div>
+//                             </form>
+//                         </div>
+//                         <div id="nologincomment" class="nologincomment">
+//                             <div class="container">
+//                                 <div class="username-label">用户名</div>
+//                                 <input type="text"  autocorrect="off" name="username" id="username1" class="user_id textinput user-name"/>
+//                                 <div class="password-label">密码</div>
+//                                 <input type="password" name="password"  class="user_id textinput password" id="password1"/>
+//                                 <input type="submit" value="登录后发表评论" class="comment_btn submitbutton button ui-light-btn" onclick="login(1)"/>
+//                                 <div class="topmargin statusmsg"></div>
+//                                 <a class="social-login-wechat" href="ftcregister://www.ftchinese.com/"><div class="centerButton"><button class="ui-light-btn stress">免费注册</button></div></a>
+//                                 <a class="social-login-wechat" href="weixinlogin://www.ftchinese.com/"><div class="centerButton"><button class="ui-light-btn wechat-login">微信登录</button></div></a>
+//                             </div>
+//                         </div>
+
+//                         <script>
+//                         (function() {
+//                             // Set up Intersection Observer with adjusted rootMargin
+//                             var observer = new IntersectionObserver(function(entries, observer) {
+//                             entries.forEach(function(entry) {
+//                             if (entry.isIntersecting) {
+//                                 console.log('should load comment! ');
+//                             // Load comments when the div is 500px away from entering the viewport
+//                             loadcomment('{{id}}', '{{type}}');
+//                             clickToSubmitComment();
+//                             // Stop observing after loading comments
+//                             observer.unobserve(entry.target);
+//                             }
+//                             });
+//                             }, {
+//                             root: null,
+//                             rootMargin: '0px 0px 500px 0px', // Expand the bottom margin by 500px
+//                             threshold: 0 // Trigger as soon as any part of the target intersects
+//                             });
+//                             var target = document.querySelector('.user_comments_container');
+//                             if (target) {
+//                             observer.observe(target);
+//                             } else {
+//                             console.error('Could not find user_comments_container element.');
+//                             }
+//                         })();
+//                         </script>
+//                     </div>
+
+//                 </div>
+
+
+
+                
+
+//                 <div class="items">
+//                     <div
+//                     data-o-ads-name="infoflow3"
+//                     class="o-ads infoflow"
+//                     data-o-ads-formats-default="false"
+//                     data-o-ads-formats-small="FtcInfoFlow"
+//                     data-o-ads-formats-medium="false"
+//                     data-o-ads-formats-large="false"
+//                     data-o-ads-formats-extra="false"
+//                     data-o-ads-targeting="cnpos=info3;"
+//                     >
+//                     </div>
+//                 </div>
+//             </div>
+//         </div>
+//         <div class="side-container">
+//             <div class="side-inner">
+//                 <!--{column-html}-->
+//                 {Right-1}
+//                 {related-stories}
+//                 <div class="story-box last-child"{story-container-style}>
+//                 <h2 class="box-title"><a><!--{related-topics-title}--></a></h2>
+//                 <div class="item-lead item-description"><!--{related-topics-description}--></div>
+//                 <ul class="top10">
+//                 {related-topics}
+//                 </ul>
+//                 </div>
+//             </div>
+//         </div>
+//         <div class="clearfloat"></div>
+//     </div>
+// </div>
+
+
+
+// <div class="block-container no-side story-recommend-container"><div class="block-inner">
+
+//     <div class="content-container"><div class="content-inner" id="onward-journey"><div class="list-container"><div class="list-inner">
+// 			<h2 class="list-title"><a class="list-link" href="/channel/mba.html">推荐阅读</a></h2>
+// 			<div class="card-grid list-recommendation"></div>
+// 	</div></div></div></div>
+
+// 	<div class="clearfloat"></div>
+
+// </div></div>`;
+//     appDetailEle.classList.add('on');
+
+// }
+
 delegate.on('click', '.app-icon-container', async function () {
     if (!this.classList?.contains('dim')) {return;}
     const section = this.getAttribute('data-section');
@@ -564,12 +758,81 @@ delegate.on('click', '.app-channel', async function () {
 
 
 delegate.on('click', '.item-container-app', async function () {
-    const id = this.getAttribute('data-id');
-    const type = this.getAttribute('data-type');
-    const subtype = this.getAttribute('data-sub-type');
-    if (!id || !type) {return;}
-    console.log(`Now we need to handle ${type} / ${id}`);
+    try {
+        const id = this.getAttribute('data-id');
+        const type = this.getAttribute('data-type');
+        // const subtype = this.getAttribute('data-sub-type');
+        if (!id || !type) {return;}
+
+        // Create a fresh detail-view layer and append to body (stackable)
+        const appDetailEle = document.createElement('div');
+        appDetailEle.className = 'app-detail-view';
+        appDetailEle.innerHTML = `
+            <div class="app-detail-navigation">
+                <div class="app-detail-back"></div>
+                <div class="app-detail-language-switch"></div>
+                <div class="app-detail-audio"></div>
+            </div>
+            <div class="app-detail-content"></div>
+            <div class="app-detail-bottom"></div>
+        `;
+
+        // Optional: bump z-index per stack depth so newer views sit on top
+        const stackDepth = document.querySelectorAll('.app-detail-view').length;
+        appDetailEle.style.zIndex = String(2 + stackDepth);
+
+        document.body.appendChild(appDetailEle);
+
+        // -------- 11) Transition & initializers --------
+        // reflow to ensure transition
+        // eslint-disable-next-line no-unused-expressions
+        void appDetailEle.offsetHeight;
+        appDetailEle.classList.add('on');
+
+        // console.log(`Now we need to handle ${type} / ${id}`);
+
+        const typeMap = {premium: 'story'};
+        const contentType = typeMap[type] ?? type;
+        let url = `/api/${contentType}/${id}`;
+        if (window.isFrontEndTest) {
+            url = '/api/page/app_content.json';
+        }
+        const response = await fetch(url);
+        if (!response.ok) {return;}
+        // Get the raw text of the response
+        const info = await response.json();
+
+        await renderContentPage(info, appDetailEle);
+    } catch(err) {
+        console.error(`render story error:`, err);
+    }
 });
+
+delegate.on('click', '.app-detail-back', async function () {
+    try {
+        const view = this.closest('.app-detail-view');
+
+        // Remove the "on" class → triggers your CSS transition/animation
+        view.classList.remove('on');
+
+        // Define a one-time listener for when the transition ends
+        const handleTransitionEnd = (e) => {
+            // Make sure it only reacts to the intended property if needed
+            if (e.target === view) {
+                view.removeEventListener('transitionend', handleTransitionEnd);
+                view.remove(); // Remove the DOM element
+            }
+        };
+
+        view.addEventListener('transitionend', handleTransitionEnd);
+
+        // For animations instead of transitions, use 'animationend'
+        // view.addEventListener('animationend', handleTransitionEnd);
+    } catch (err) {
+        console.error('render story error:', err);
+    }
+});
+
 
 
 

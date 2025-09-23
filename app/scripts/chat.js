@@ -2066,20 +2066,6 @@ function showError(message) {
 }
 
 
-
-
-function getMyPreference() {
-  let myPreference = {};
-  const myPreferenceString = localStorage.getItem('preference');
-  if (myPreferenceString && myPreferenceString !== '') {
-    try {
-      myPreference = JSON.parse(myPreferenceString);
-      myPreference = deepSanitizeFrontend(myPreference);
-    } catch(ignore) {}
-  }
-  return myPreference;
-}
-
 function setPreferredLanguage() {
   // MARK: Set the preferred language
   // TODO: Should let users customize their preferred language
