@@ -202,6 +202,8 @@ $app-detail-border: rgba(0, 0, 0, 0.08) !default;
   // Nav buttons/slots
   .app-detail-back,
   .app-detail-language-switch,
+  .app-detail-title,
+  .app-detail-share,
   .app-detail-audio {
     min-width: 44px;
     height: $app-detail-nav-height;
@@ -225,6 +227,16 @@ $app-detail-border: rgba(0, 0, 0, 0.08) !default;
   }
 
   // Align nav items
+  .app-detail-title {
+    flex: 1 1 auto;                 /* fill remaining space */
+    min-width: 0;                    /* <– crucial for ellipsis in flex */
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    // max-width: 200px;
+    /* remove justify-self; it does nothing in flex */
+  }
   .app-detail-language-switch {
     justify-self: center;
   }

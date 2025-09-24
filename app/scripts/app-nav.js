@@ -534,7 +534,6 @@ async function handleChannelUpdates() {
     try {
         runLoadImages();
         refreshAllAds();
-        handleLinks();
         // TODO: other things such as sending a page view count, render calendar for the home page, render the promo box etc...
     } catch(err) {
         console.error(`handleChannelUpdates error:`, err);
@@ -549,34 +548,96 @@ async function refreshAllAds() {
     }
 }
 
-function handleLinks() {
-    for (let a of document.querySelectorAll('a[href]')) {
-        const link = a.href;
-        console.log(`link:`, link);
+
+function getPathWithWebviewParams(link, extraParams) {
+  try {
+    const u = new URL(link, window.location.href); // handles absolute/relative/protocol-relative
+
+    // required params
+    u.searchParams.set('webview', 'ftcapp');
+    u.searchParams.set('bodyonly', 'yes');
+
+    // optional extras (overwrites existing keys)
+    if (extraParams && typeof extraParams === 'object') {
+      for (const [k, v] of Object.entries(extraParams)) {
+        u.searchParams.set(k, String(v));
+      }
+    }
+
+    // return only path + query (no origin, no hash)
+    return u.pathname + (u.search || '');
+  } catch (e) {
+    return '';
+  }
+}
+
+
+function handleLink(ele) {
+
+    const link = getPathWithWebviewParams(ele.href);
+    const title = ele?.innerText ?? '';
+    // Return true if this link was handled here, false if browser should handle
+    if (/^\/(tag|m\/corp|m\/marketing|channel|archive|archiver)\//gi.test(link)) {
+        handlePageData({link, title});
+        return true;
+    } else if (/\/(story|premium|interactive|content|video)/gi.test(link)) {
+        const u = new URL(link, window.location.href);
+        const segments = u.pathname.split('/').filter(Boolean);
+        const allowed = new Set(['story', 'premium', 'interactive', 'content', 'video']);
+        const idx = segments.findIndex(s => allowed.has(s.toLowerCase()));
+        const type = idx !== -1 ? segments[idx].toLowerCase() : '';
+        const id = idx !== -1 ? (segments[idx + 1] || '') : '';
+        const subtype = u.searchParams.get('subtype') || '';
+        const data = {
+            id,
+            type,
+            ...subtype && {subtype}
+        };
+        handleContentData(data);
+        return true;
+    }
+    // return true when testing so that when I click, the browser won't go to the link
+    return false;
+}
+
+
+async function handlePageData(data) {
+    try {
+        const {link, title} = data;
+        const appDetailEle = document.createElement('div');
+        appDetailEle.className = 'app-detail-view';
+        appDetailEle.innerHTML = `
+            <div class="app-detail-navigation">
+                <div class="app-detail-back"></div>
+                <div class="app-detail-title">${title}</div>
+                <div class="app-detail-share"></div>
+            </div>
+            <div class="app-detail-content"></div>
+        `;
+        const stackDepth = document.querySelectorAll('.app-detail-view').length;
+        appDetailEle.style.zIndex = String(2 + stackDepth);
+        document.body.appendChild(appDetailEle);
+        void appDetailEle.offsetHeight;
+        appDetailEle.classList.add('on');
+        let url = `${link}?webview=ftcapp&bodyonly=yes`;
+        if (window.isFrontEndTest) {
+            url = '/api/page/app_home.html';
+        }
+        const contentEl = appDetailEle.querySelector('.app-detail-content');
+        const response = await fetch(url);
+        if (!response.ok) { return; }
+        const html = await response.text();
+        contentEl.innerHTML = html;
+        runLoadImages();
+    } catch (err) {
+        console.error('handle content data error:', err)
     }
 }
 
 
-delegate.on('click', '.app-icon-container', async function () {
-    if (!this.classList?.contains('dim')) {return;}
-    const section = this.getAttribute('data-section');
-    await renderSection(section);
-});
-
-delegate.on('click', '.app-channel', async function () {
-    if (this.classList?.contains('on')) {return;}
-    const section = this.getAttribute('data-section');
-    const index = parseInt(this.getAttribute('data-index'), 10);
-    const channel = appMap?.[section]?.Channels?.[index];
-    await renderChannel(channel);
-});
-
-
-delegate.on('click', '.item-container-app', async function () {
+async function handleContentData(data) {
     try {
-        const id = this.getAttribute('data-id');
-        const type = this.getAttribute('data-type');
-        // const subtype = this.getAttribute('data-sub-type');
+        const {id, type} = data;
         if (!id || !type) {return;}
 
         // Create a fresh detail-view layer and append to body (stackable)
@@ -618,10 +679,49 @@ delegate.on('click', '.item-container-app', async function () {
         const info = await response.json();
 
         await renderContentPage(info, appDetailEle);
+    } catch (err) {
+        console.error('handle content data error:', err)
+    }
+}
+
+delegate.on('click', '.app-icon-container', async function () {
+    if (!this.classList?.contains('dim')) {return;}
+    const section = this.getAttribute('data-section');
+    await renderSection(section);
+});
+
+delegate.on('click', '.app-channel', async function () {
+    if (this.classList?.contains('on')) {return;}
+    const section = this.getAttribute('data-section');
+    const index = parseInt(this.getAttribute('data-index'), 10);
+    const channel = appMap?.[section]?.Channels?.[index];
+    await renderChannel(channel);
+});
+
+
+delegate.on('click', '.item-container-app', async function (event) {
+    try {
+        if (event?.defaultPrevented || event?.target?.closest('a[href]')) {return;}
+        const id = this.getAttribute('data-id');
+        const type = this.getAttribute('data-type');
+        // const subtype = this.getAttribute('data-sub-type');
+        await handleContentData({id, type});
     } catch(err) {
         console.error(`render story error:`, err);
     }
 });
+
+
+delegate.on('click', 'a[href]', function (event) {
+    const linkHandled = handleLink(this);
+    if (!linkHandled) {
+        return; // early exit = browser takes over
+    }
+    event.preventDefault();         // stop browser navigation
+    event.stopImmediatePropagation();
+});
+
+
 
 
 renderSection('News');

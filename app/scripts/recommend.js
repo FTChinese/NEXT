@@ -167,7 +167,8 @@ function displayRecommendationInContentPageLazy() {
 
         // Stop observing after loading
         observer.unobserve(entry.target);
-        // runLoadImages();
+        // this function is in the main.js, it should have been available
+        runLoadImages();
       } catch (error) {
         console.error('Error fetching recommendations:', error);
       }
