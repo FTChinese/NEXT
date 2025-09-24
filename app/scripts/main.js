@@ -1,5 +1,7 @@
 /* jshint devel:true */
-/*exported gThereIsUluAd, ftItemId, checkInView*/
+/* exported gThereIsUluAd, ftItemId, checkInView, isRetinaDevice, figures, figuresLazy, figuresLoadStatus, videos, videosLazy, videosLoadStatus, runLoadImages, loadImages, loadImagesLazy, loadVideosLazy */
+/* global SetCookie, GetCookie, guid, oAds, inreadAd, showInreadAd, recommendInner, isTouchDevice, gaMeasurementId, gtag, Delegate, showOverlay, convertChinese, preferredLanguage, Android, webkit, closeOverlay */
+
 var containerTop = [];
 var mainHeight = [];
 var sideHeight = [];
@@ -44,6 +46,9 @@ var videosLazy = [];
 var videosLoadStatus = 0;
 var viewables = [];//存储要记录track In View的元素
 
+// Make width global and explicit
+window.w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+
 function findTop(obj) {
   var curtop = 0;
   if (obj && obj.offsetParent) {
@@ -75,78 +80,9 @@ function stickyAdsPrepare() {
   }
 }
 
-// Lazy-load images
-function loadImagesLazy () {
-  if (figuresLoadStatus ===1 ) {
-    return;
-  }
+// (Deprecated) Lazy-load images/videos via scroll math — removed.
+// Replaced with IntersectionObserver-based logic further below.
 
-
-  // console.log('fguresLazy: ');
-  // console.log(JSON.stringify(figuresLazy));
-
-
-  var figuresToLoad = 0;
-  for (var i=0; i<figuresLazy.length; i++) {
-    if (figuresLazy[i] === '') {continue;}
-    // console.log (i);
-    // console.log (scrollTop);
-    // console.log (bodyHeight);
-    // console.log (figuresLazy[i].imageTop);
-    // console.log(figuresLazy[i]);
-    if (scrollTop === undefined) {
-      scrollTop = window.scrollY || document.documentElement.scrollTop;
-    }
-    if (scrollTop + bodyHeight*2 > figuresLazy[i].imageTop) {
-      // MARK: - story hero image is for now the only class that requires to update backgroud image rather than images, because it resizes into diffent aspect ratio
-      if (figures[i].parentElement.classList.contains('story-hero-image')) {
-        figures[i].style.backgroundImage = 'url(' + figuresLazy[i].imageUrl + ')';
-        figures[i].classList.remove('loading');
-      } else {
-        var figureImage = document.createElement('IMG');
-        figureImage.src = figuresLazy[i].imageUrl;
-        figureImage.setAttribute('data-backupimage', figuresLazy[i].imageUrlBack);
-        figures[i].appendChild(figureImage);
-        figures[i].className = figuresLazy[i].loadedClass;
-        figuresLazy[i] = '';
-        setTimeout(function(){
-          var isFigureImageLoaded = figureImage.complete;
-          var backupImageSrc = figureImage.getAttribute('data-backupimage');
-          var reloaded = figureImage.getAttribute('data-reloaded') || '';
-          if (isFigureImageLoaded === false && backupImageSrc && reloaded !== 'yes') {
-            figureImage.src = backupImageSrc;
-            figureImage.setAttribute('data-reloaded', 'yes');
-          }
-        }, 5000);
-      }
-    }
-    figuresToLoad ++;
-  }
-  if (figuresToLoad === 0) {
-    figuresLoadStatus = 1;
-  }
-}
-
-// Lazy-load videos
-function loadVideosLazy () {
-  if (videosLoadStatus === 1 ) {
-    return;
-  }
-  var videosToLoad = 0;
-  for (var i=0; i<videosLazy.length; i++) {
-    if (videosLazy[i] !== '') {
-      if (scrollTop + bodyHeight*2 > videosLazy[i].videoTop) {
-        videos[i].innerHTML = videosLazy[i].ih;
-        videos[i].className = '';
-        videosLazy[i] = '';
-      }
-      videosToLoad ++;
-    }
-  }
-  if (videosToLoad === 0) {
-    videosLoadStatus = 1;
-  }
-}
 /*
 function checkInView(obj) {
   if (scrollTop + bodyHeight > obj.top + obj.height * obj.minimum && scrollTop < obj.top + obj.height && obj.height>0 && !document.hidden) {
@@ -161,206 +97,237 @@ function trackViewables() {
   trackQualityRead();
 }
 
+// ==============================
+// IntersectionObserver Lazy Media
+// ==============================
 
+// Preload ~two viewports ahead (matches old `bodyHeight * 2` heuristic)
+const IO_ROOT_MARGIN = '200% 0px';
+const IO_THRESHOLD = 0;
 
-// Init responsive images loading
-function runLoadImages() {
-
-  var i;
-  var queryString = window.location.search;
-  var isFrenquentDevice = false;
-  var MULTIPLE = 100;
-
-  figures = document.querySelectorAll(figureImageSelector);
-  figuresLazy = [];
-  figuresLoadStatus = 0;
-
-  // console.log(figures);
-
+// Respect existing data saver rule
+function isDataSaverOn() {
   try {
-    // this is ironically the only sure way to write this logic
-    // ([1,3,12].indexOf(w) > -1) only works for IE 9 and above
-    if (w === 360 || w === 375 || w === 320 || w === 414 || w === 768 || w === 1024 || w>1220) {
-      isFrenquentDevice = true;
-    }
-  } catch (ignore) {
-
+    return window.gNoImageWithData === 'On' && window.gConnectionType === 'data';
+  } catch (e) {
+    return false;
   }
-  for (i=0; i<figures.length; i++) {
-    var thisFigure = figures[i];
-    var imageWidth = thisFigure.offsetWidth;
-    var imageHeight = thisFigure.offsetHeight;
-    var imageTop = findTop(thisFigure);
-    var imageUrl = thisFigure.getAttribute('data-url') || '';
-    var imageUrlPart;
-    var imageUrlBack;
-    var figureClass = thisFigure.className || '';
-    var fitType = 'cover';
-    var figureParentClass = thisFigure.parentNode.className || '';
-    var shouldLoadImage = false;
-    var loadedClass = '';
-    var imageServiceHost = 'https://www.ft.com/__origami/service/image/v2/images/raw/';
-    var imageServiceHostFTC = 'https://d1sh1cgb4xvhl.cloudfront.net/unsafe/';
-    var ftcStaticServer = 'https://d1sh1cgb4xvhl.cloudfront.net/unsafe/';
-    var imageExists = true;
+}
 
-    // console.log(`imageUrl: ${imageUrl}, imageWidth: ${imageWidth}, imageHeight: ${imageHeight}`);
-    
-    if (imageUrl === '') {
-      //console.log ('an empty image is here! Break Now! ')
-      imageExists = false;
-    }
-    if (isRetinaDevice === true) {
-      imageWidth = imageWidth * 2;
-      imageHeight = imageHeight * 2;
+// Build image service URLs (preserves your previous logic)
+function buildImageRequest(figureEl) {
+  const isRetina = (window.devicePixelRatio || 1) > 1;
+  const qs = window.location.search || '';
+  let imageWidth = figureEl.offsetWidth || figureEl.getBoundingClientRect().width || 0;
+  let imageHeight = figureEl.offsetHeight || figureEl.getBoundingClientRect().height || 0;
+  let imageUrl = figureEl.getAttribute('data-url') || '';
+  let loadedClass = '';
+  const figureClass = figureEl.className || '';
+  const figureParentClass = figureEl.parentNode && figureEl.parentNode.className || '';
+  let fitType = /brand/.test(figureParentClass) ? 'contain' : 'cover';
+
+  const imageServiceHost = 'https://www.ft.com/__origami/service/image/v2/images/raw/';
+  const imageServiceHostFTC = 'https://d1sh1cgb4xvhl.cloudfront.net/unsafe/';
+  const ftcStaticServer = 'https://d1sh1cgb4xvhl.cloudfront.net/unsafe/';
+
+  if (!imageUrl) { return null; }
+
+  if (isRetina) {
+    imageWidth *= 2;
+    imageHeight *= 2;
+    loadedClass = 'is-retina';
+  }
+
+  // Snap width to 100px multiples when ad param isn't present
+  if ((!qs || qs.indexOf('?ad=no') === -1)) {
+    const MULTIPLE = 100;
+    const mod = imageWidth % MULTIPLE;
+    if (mod !== 0 && imageWidth > 0 && imageHeight > 0) {
+      const ratio = imageHeight / imageWidth;
+      const q = parseInt(imageWidth / MULTIPLE, 10);
+      imageWidth = (q + 1) * MULTIPLE;
+      imageHeight = parseInt(imageWidth * ratio, 10);
       loadedClass = 'is-retina';
     }
-    if ((!queryString || queryString.indexOf('?ad=no') === -1 ) && isFrenquentDevice === false) {
-      var mod = imageWidth % MULTIPLE;
-      if (mod !== 0) {
-        var ratio = imageHeight / imageWidth;
-        var quotient = parseInt(imageWidth / MULTIPLE, 10);
-        imageWidth = (quotient + 1) * MULTIPLE;
-        imageHeight = parseInt(imageWidth * ratio, 10);
-        loadedClass = 'is-retina';
-      }
-    }
-
-
-    if (imageUrl.indexOf(imageServiceHost) >= 0) {
-      // MARK: If the url is already an FT Image Service url
-      imageUrl = imageUrl.replace(imageServiceHost, '').replace(/\?.*$/g, '');
-      imageUrl = decodeURIComponent(imageUrl);
-    } else if (imageUrl.indexOf(imageServiceHostFTC) >= 0) {
-      // MARK: If the url is already an FTC Image Service url
-      imageUrl = imageUrl.replace(imageServiceHostFTC, '')
-        .replace(/^[0-9x]+\//g, '')
-        .replace(/^(picture)/g, ftcStaticServer + '$1');
-    }
-    if (/brand/.test(figureParentClass)) {
-      fitType = 'contain';
-    }
-    imageUrlBack = imageUrl;
-    if (/^\/picture\//.test(imageUrlBack)) {
-      imageUrlBack = `https://dq4atoxl7csa1.cloudfront.net/unsafe${imageUrlBack}`;
-    }
-    imageUrlBack = encodeURIComponent(imageUrlBack);
-    imageUrlPart = imageUrl.replace(/^(https:\/\/.+\/unsafe\/)/g, '');
-    // console.log(`imageUrl: ${imageUrl}, fitType: ${fitType}, loadedClass: ${loadedClass}, imageWidth: ${imageWidth}, imageHeight: ${imageHeight}`);
-    if (imageUrl.indexOf('bokecc.com')>=0) {
-      // Nothing needs to be done since it is an image hosted on CC Video
-      imageUrlBack = imageServiceHost + imageUrlBack + '?source=ftchinese&width=' + imageWidth + '&height=' + imageHeight + '&fit=' + fitType + '&from=next001';
-      shouldLoadImage = true;
-    } else if (/sponsor|logo/.test(figureClass)) {
-      imageUrl = imageServiceHostFTC + '0x' + imageHeight + '/' + imageUrlPart;
-      imageUrlBack = imageServiceHost + imageUrlBack + '?source=ftchinese&height=' + imageHeight + '&fit=' + fitType + '&from=next001';
-      shouldLoadImage = true;
-    } else if (imageWidth > 0 && imageHeight > 0) {
-      imageUrl = imageServiceHostFTC + imageWidth + 'x' + imageHeight + '/' + imageUrlPart.replace(/^\//g, '');
-      imageUrlBack = imageServiceHost + imageUrlBack + '?source=ftchinese&width=' + imageWidth + '&height=' + imageHeight + '&fit=' + fitType + '&from=next001';
-      shouldLoadImage = true;
-    }
-    if (window.gNoImageWithData === 'On' && window.gConnectionType === 'data') {
-      shouldLoadImage = false;
-    }
-    // MARK: If the image doesn't even exist, it should not be loaded
-    if (imageExists === false) {
-      //console.log ('the image does not exist! ')
-      shouldLoadImage = false;
-    }
-
-    // console.log(`shouldLoadImage: ${shouldLoadImage}`);
-    // console.log (imageUrl);
-
-    if (shouldLoadImage === true) {
-      // imageUrlBack = imageUrl;
-      figuresLazy[i] = {
-        imageTop: imageTop,
-        imageUrl: imageUrl,
-        imageUrlBack: imageUrlBack,
-        loadedClass: loadedClass
-      };
-
-      // console.log (imageUrl);
-
-      //thisFigure.innerHTML = '<img src="' + imageUrl + '" data-backupimage="' + imageUrlBack + '">';
-      //thisFigure.className = loadedClass;
-    } else {
-      figuresLazy[i] = '';
-    }
-  }
-  // load responsive videos
-  // videos = document.querySelectorAll('figure.loading-video');
-  videos = document.querySelectorAll(videoFramePlaySelector);
-  videosLazy = [];
-  videosLoadStatus = 0;
-
-  hostForVideo = '';
-  // if (window.location.hostname === 'localhost' || window.location.hostname.indexOf('192.168') === 0 || window.location.hostname.indexOf('10.113') === 0 || window.location.hostname.indexOf('127.0') === 0) {
-  //   hostForVideo = 'https://www.ftchinese.com';
-  // }
-
-
-  for (i=0; i<videos.length; i++) {
-    var thisVideo = videos[i];
-    var videoTop = findTop(thisVideo);
-    var videoWidth = thisVideo.offsetWidth;
-    var videoHeight = thisVideo.offsetHeight;
-    var videoId = thisVideo.getAttribute('data-vid');
-    var itemType = thisVideo.getAttribute('data-type') || thisVideo.getAttribute('data-item-type') || 'video';
-    var autoStart = thisVideo.getAttribute('data-autoplay') || '';
-    var thirdPartyFrameUrl = thisVideo.getAttribute('data-third-party-frame-url');
-    const ccVid = thisVideo?.getAttribute('data-cc-vid') ?? '';
-    var videoWall = '';
-    if (autoStart === 'yes') {
-      autoStart = 'true';
-      videoWall = '&videowall=yes';
-    } else {
-      autoStart = 'false';
-    }
-
-    if (videoWidth > 0 && videoHeight > 0 && queryString.indexOf('?ad=no') === -1 && hostForVideo !== 'https://www.ftchinese.com') {
-
-
-      let ih;
-      if (thirdPartyFrameUrl) {
-        const iFrameUrl = thirdPartyFrameUrl;
-        ih = '<iframe name="video-frame" id="video-frame" style="width:100%;height:100%;position:absolute;" src="' + iFrameUrl + '" scrolling="no" frameborder="0" allowfullscreen=true></iframe>';
-      } else if (ccVid !== '') {
-        ih = `<iframe id="cciframe_${ccVid}" src="https://p.bokecc.com/playhtml.bo?vid=${ccVid}&siteid=922662811F1A49E9&autoStart=false" frameborder="0" width="${videoWidth}" height="${videoHeight}" style="position: absolute;"></iframe>`;
-      } else {
-        const iFrameUrl = hostForVideo + '/' + itemType + '/'+ videoId +'?i=2&w='+videoWidth+'&h='+videoHeight+'&autostart=' + autoStart + videoWall;
-        ih = '<iframe name="video-frame" id="video-frame" style="width:100%;height:100%;position:absolute;" src="' + iFrameUrl + '" scrolling="no" frameborder="0" allowfullscreen=true></iframe>';
-      }
-
-      videosLazy[i] = {
-
-        // 
-
-        ih,
-        // ih: `<iframe name="video-frame" id="cciframe_${videoHeight}" style="width:${videoWidth}px;height:${videoHeight}px;position:absolute;" src="https://p.bokecc.com/playhtml.bo?vid=${videoId}&siteid=922662811F1A49E9&autoStart=true" frameborder="0"></iframe>`,
-        videoTop
-      };
-    } else {
-      videosLazy[i] = '';
-    }
   }
 
-  loadImagesLazy ();
-  loadVideosLazy ();
-  trackViewables();
-}
+  // Normalize incoming URL (already service vs raw)
+  if (imageUrl.indexOf(imageServiceHost) >= 0) {
+    imageUrl = decodeURIComponent(imageUrl.replace(imageServiceHost, '').replace(/\?.*$/g, ''));
+  } else if (imageUrl.indexOf(imageServiceHostFTC) >= 0) {
+    imageUrl = imageUrl
+      .replace(imageServiceHostFTC, '')
+      .replace(/^[0-9x]+\//g, '')
+      .replace(/^(picture)/g, ftcStaticServer + '$1');
+  }
 
-function loadImages() {
-  if (typeof Android === 'undefined') {
-    runLoadImages();
+  // Backup URL via Origami
+  let imageUrlBack = imageUrl;
+  if (/^\/picture\//.test(imageUrlBack)) {
+    imageUrlBack = 'https://dq4atoxl7csa1.cloudfront.net/unsafe' + imageUrlBack;
+  }
+  imageUrlBack = encodeURIComponent(imageUrlBack);
+
+  const imageUrlPart = imageUrl.replace(/^(https:\/\/.+\/unsafe\/)/g, '').replace(/^\//, '');
+
+  let finalUrl = '';
+  let finalBackup = '';
+
+  if (imageUrl.indexOf('bokecc.com') >= 0) {
+    finalBackup = 'https://www.ft.com/__origami/service/image/v2/images/raw/' + imageUrlBack + '?source=ftchinese&width=' + imageWidth + '&height=' + imageHeight + '&fit=' + fitType + '&from=next001';
+    finalUrl = finalBackup;
+  } else if (/sponsor|logo/.test(figureClass)) {
+    finalUrl = imageServiceHostFTC + '0x' + imageHeight + '/' + imageUrlPart;
+    finalBackup = 'https://www.ft.com/__origami/service/image/v2/images/raw/' + imageUrlBack + '?source=ftchinese&height=' + imageHeight + '&fit=' + fitType + '&from=next001';
+  } else if (imageWidth > 0 && imageHeight > 0) {
+    finalUrl = imageServiceHostFTC + imageWidth + 'x' + imageHeight + '/' + imageUrlPart;
+    finalBackup = 'https://www.ft.com/__origami/service/image/v2/images/raw/' + imageUrlBack + '?source=ftchinese&width=' + imageWidth + '&height=' + imageHeight + '&fit=' + fitType + '&from=next001';
   } else {
-    setTimeout(function(){
-      runLoadImages();
-    }, 500);
+    return null; // cannot size → skip
+  }
+
+  return { finalUrl: finalUrl, finalBackup: finalBackup, loadedClass: loadedClass, fitType: fitType };
+}
+
+function loadFigureNow(figureEl) {
+  var req = buildImageRequest(figureEl);
+  if (!req) { return; }
+
+  // Special case: story hero uses background-image
+  if (figureEl.parentElement && figureEl.parentElement.classList && figureEl.parentElement.classList.contains('story-hero-image')) {
+    figureEl.style.backgroundImage = 'url(' + req.finalUrl + ')';
+    figureEl.classList.remove('loading');
+    return;
+  }
+
+  var img = document.createElement('img');
+  img.src = req.finalUrl;
+  img.setAttribute('data-backupimage', req.finalBackup);
+  figureEl.appendChild(img);
+
+  if (req.loadedClass) {
+    figureEl.classList.add(req.loadedClass);
+  } else {
+    figureEl.className = figureEl.className.replace(/\bloading\b/, '').trim();
+  }
+
+  // 5s backup swap (keeps your resilience)
+  setTimeout(function(){
+    var isLoaded = img.complete;
+    var backup = img.getAttribute('data-backupimage') || '';
+    var reloaded = img.getAttribute('data-reloaded') || '';
+    if (!isLoaded && backup && reloaded !== 'yes') {
+      img.src = backup;
+      img.setAttribute('data-reloaded', 'yes');
+    }
+  }, 5000);
+}
+
+function loadVideoNow(videoFigure) {
+  var qs = window.location.search || '';
+  if (qs.indexOf('?ad=no') !== -1) { return; }
+
+  var videoWidth = videoFigure.offsetWidth || videoFigure.getBoundingClientRect().width || 0;
+  var videoHeight = videoFigure.offsetHeight || videoFigure.getBoundingClientRect().height || 0;
+  var videoId = videoFigure.getAttribute('data-vid');
+  var itemType = videoFigure.getAttribute('data-type') || videoFigure.getAttribute('data-item-type') || 'video';
+  var thirdPartyFrameUrl = videoFigure.getAttribute('data-third-party-frame-url');
+  var ccVid = videoFigure.getAttribute('data-cc-vid') || '';
+  var autoStart = videoFigure.getAttribute('data-autoplay') || '';
+  var videoWall = '';
+
+  if (autoStart === 'yes') {
+    autoStart = 'true';
+    videoWall = '&videowall=yes';
+  } else {
+    autoStart = 'false';
+  }
+
+  var hostForVideo = '';
+
+  var ih = '';
+  if (thirdPartyFrameUrl) {
+    ih = '<iframe name="video-frame" id="video-frame" style="width:100%;height:100%;position:absolute;" src="' + thirdPartyFrameUrl + '" scrolling="no" frameborder="0" allowfullscreen></iframe>';
+  } else if (ccVid !== '') {
+    ih = '<iframe id="cciframe_' + ccVid + '" src="https://p.bokecc.com/playhtml.bo?vid=' + ccVid + '&siteid=922662811F1A49E9&autoStart=false" frameborder="0" width="' + videoWidth + '" height="' + videoHeight + '" style="position: absolute;"></iframe>';
+  } else if (videoId && videoWidth > 0 && videoHeight > 0) {
+    var iFrameUrl = hostForVideo + '/' + itemType + '/' + videoId + '?i=2&w=' + videoWidth + '&h=' + videoHeight + '&autostart=' + autoStart + videoWall;
+    ih = '<iframe name="video-frame" id="video-frame" style="width:100%;height:100%;position:absolute;" src="' + iFrameUrl + '" scrolling="no" frameborder="0" allowfullscreen></iframe>';
+  } else {
+    return; // not enough info to render
+  }
+
+  videoFigure.innerHTML = ih;
+  videoFigure.className = videoFigure.className.replace(/\bloading-video\b/, '').trim();
+}
+
+function observeFiguresAndVideos() {
+  var figNodes = document.querySelectorAll(figureImageSelector);
+  var vidNodes = document.querySelectorAll(videoFramePlaySelector);
+
+  // Data saver: do nothing
+  if (isDataSaverOn()) { return; }
+
+  // Fallback: no IO → eager-load everything (images + videos)
+  if (!('IntersectionObserver' in window)) {
+    for (var i=0; i<figNodes.length; i++) { loadFigureNow(figNodes[i]); }
+    for (var j=0; j<vidNodes.length; j++) { loadVideoNow(vidNodes[j]); }
+    return;
+  }
+
+  // IO for images
+  var imgObserver = new IntersectionObserver(function(entries, obs){
+    for (var i=0; i<entries.length; i++) {
+      var entry = entries[i];
+      if (!entry.isIntersecting) { continue; }
+      loadFigureNow(entry.target);
+      obs.unobserve(entry.target);
+    }
+  }, { root: null, rootMargin: IO_ROOT_MARGIN, threshold: IO_THRESHOLD });
+
+  for (var f=0; f<figNodes.length; f++) { imgObserver.observe(figNodes[f]); }
+
+  // IO for videos
+  var videoObserver = new IntersectionObserver(function(entries, obs){
+    for (var i=0; i<entries.length; i++) {
+      var entry = entries[i];
+      if (!entry.isIntersecting) { continue; }
+      loadVideoNow(entry.target);
+      obs.unobserve(entry.target);
+    }
+  }, { root: null, rootMargin: IO_ROOT_MARGIN, threshold: IO_THRESHOLD });
+
+  for (var v=0; v<vidNodes.length; v++) { videoObserver.observe(vidNodes[v]); }
+}
+
+// Public init to call once (replaces previous loadImages() call)
+function initLazyMedia() {
+  try {
+    observeFiguresAndVideos();
+  } catch (e) {
+    // Last resort: don't break media
+    if (!isDataSaverOn()) {
+      var figNodes = document.querySelectorAll(figureImageSelector);
+      var vidNodes = document.querySelectorAll(videoFramePlaySelector);
+      for (var i=0; i<figNodes.length; i++) { loadFigureNow(figNodes[i]); }
+      for (var j=0; j<vidNodes.length; j++) { loadVideoNow(vidNodes[j]); }
+    }
   }
 }
 
+// ---- Back-compat shims for legacy callers ----
+function runLoadImages() {
+  // mirror old behavior: trigger (re)scan + keep any analytics pulse
+  initLazyMedia();
+  try { trackViewables(); } catch (e) {}
+}
+function loadImages() { initLazyMedia(); }
+function loadImagesLazy() { /* no-op; IO handles timing */ }
+function loadVideosLazy() { /* no-op; IO handles timing */ }
+
+// ==============================
+// End IO Lazy Media
+// ==============================
 
 function viewablesInit() {
   if (sections.length > 0 && typeof window.gPageId === 'string' && window.gPageId !== '') {
@@ -389,7 +356,6 @@ function viewablesInit() {
       } else {
         viewedStatus = false;
       }
-
 
       if (sections[j].className.indexOf('bn-ph') >= 0) {
         if (j===0 && typeof top !== 'number' && document.getElementById('topad') && sections[j].previousSibling.offsetTop > 0) {
@@ -448,21 +414,11 @@ function viewablesInit() {
      
       sections[j].setAttribute('data-id', sectionType + '-' + sectionTypes[sectionType]);
 
-      // MARK: When in-story-recommend is viewed, change the id to the A/B test version ---测试结束
-      /*
-       if(sectionType === 'in-story-recommend'){
-          if(window.recommendVersionInstory && viewables[j]){
-            viewables[j].id = window.recommendVersionInstory;
-          }
-        }
-        */
-      //sections[j].id = sectionType + '-' + sectionTypes[sectionType];
-
       // MARK:When in-story-recommend has changed to the Ad, change the id to 'instroyAd' 
-      
       if(sectionType === 'in-story-recommend') {
         if(window.gReplacedInstroyWithAd && viewables[j]) {
-          viewables[j].id = 'instoryAd'+textIndex;
+          // textIndex was undefined previously; use a stable id
+          viewables[j].id = 'instoryAd';
           if(gInstoryAdHasTrackInview === false) {
             viewables[j].viewed = false;
             gInstoryAdHasTrackInview = true;
@@ -498,7 +454,6 @@ function stickyBottomPrepare() {
     gStoryContentOffsetHeight = storyContainerEle.offsetHeight;
   }
 
-
   if (document.getElementById('audio-placeholder')) {
     gAudioOffsetY = findTop(document.getElementById('audio-placeholder'));
   }
@@ -533,11 +488,13 @@ function stickyBottomPrepare() {
     gLanguageSwitchOffsetY = findTop(languageSwitchEle);
   }
 
-  w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+  // Update global width safely
+  window.w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+
   if (sectionsWithSide && sectionsWithSide.length > 0) {
     for (var i=0; i<sectionsWithSide.length; i++) {
       sectionClassName[i] = sectionsWithSide[i].className;       
-      if (w < hasSideWidth) {
+      if (window.w < hasSideWidth) {
         sectionClassNameNew[i] = sectionClassName[i].replace(/ fixmain| fixside| bottommain| bottomside| sticktop/g,'');
         if (sectionClassNameNew[i] !== sectionClassName[i]) {
           // remove sticky side on mobile phone
@@ -601,8 +558,6 @@ function stickyBottomUpdate() {
   
 
   if (typeof gStoryContentOffsetY === 'number') {
-    // console.log ('scrollTop: ' + scrollTop + ', gShareOffsetHeight: ' + gShareOffsetHeight + ', gStoryContentOffsetY: ' + gStoryContentOffsetY + ', gStoryContentOffsetHeight: ' + gStoryContentOffsetHeight);
-    // console.log (gStoryContentOffsetHeight + gStoryContentOffsetY - gShareOffsetHeight - gShareFixTop - gBlockPadding - scrollTop);
     if (scrollTop >= gStoryContentOffsetHeight + gStoryContentOffsetY - gShareOffsetHeight - gShareFixTop - gBlockPadding) {
       htmlClassNew += ' tool-bottom';
     } else 
@@ -624,7 +579,7 @@ function stickyBottomUpdate() {
   }
 
   // sticky sides
-  if (sectionsWithSideLength > 0 && w > hasSideWidth) {
+  if (sectionsWithSideLength > 0 && window.w > hasSideWidth) {
     for (var i=0; i<sectionsWithSideLength; i++) {
       sectionClassNameNew[i] = sectionClassName[i].replace(/fixmain|fixside|bottommain|bottomside|sticktop/g,'');
       var maxScroll = 0;
@@ -687,7 +642,6 @@ function stickyBottomUpdate() {
         newClass = '';
       }
       newClass = 'banner-container' + newClass;
-      //console.log (newClass + '/' + stickyAds[i].currentClass + '/' + document.getElementById(stickyAds[i].BannerId).parentNode.parentNode.className);
 
       if (newClass !== stickyAds[j].currentClass) {
         stickyAds[j].currentClass = newClass;
@@ -696,24 +650,20 @@ function stickyBottomUpdate() {
     }
   }
 
-
   // blocks in view
   // story recommend
   if (gRecomendInViewNoted === false && window.recommendLoaded === true && typeof window.recommendInner === 'object' && gRecomendOffsetY > 0) {
     if (scrollTop + bodyHeight > gRecomendOffsetY) {
-      //send event to google for once
       if (window.ftItemId === undefined) {
         window.ftItemId = '';
       }
       gRecomendInViewNoted = true;
     }
   }
-  loadImagesLazy();
-  loadVideosLazy();
+
+  // IO handles media; no need to call lazy loaders here
   trackViewables();
 }
-
-
 
 function requestTick() {
   if(!ticking) {
@@ -730,7 +680,6 @@ function stickyBottom() {
     stickyBottomUpdate();
   }
 }
-
 
 function setResizeClass() {
   if (htmlClass.indexOf(' resized') < 0) {
@@ -858,7 +807,6 @@ function trackInternalPromos() {
   }, 3000);
 }
 
-
 function trackRead(ea, metricName) {
   if (ftItemId !== '' && window[ea] !== true) {
     // MARK: - Try to send this info to native app first
@@ -885,17 +833,14 @@ function trackRead(ea, metricName) {
 }
 
 function trackQualityRead() {
-  // console.log ('scroll: ' + scrollTop + ', body height: ' + bodyHeight + ', story body bottom: ' + gStoryBodyBottomOffsetY);
   if (gStoryBodyBottomOffsetY === undefined) {
     return;
   }
   var storyScrollDistance = gStoryBodyBottomOffsetY - bodyHeight;
   if (storyScrollDistance > 0) {
-    // MARK: - GA has a limit! stop tracking read to end! 
     if (scrollTop >= storyScrollDistance/2) {
       trackRead('Read To Half', 'read_to_half');
     }
-    //console.log('Scroll Top: ' + scrollTop + ', Story Scroll Distance: ' + storyScrollDistance);
     var scrollPercentage = parseInt(100 * scrollTop / storyScrollDistance, 10);
     setProgress(scrollPercentage, scrollTop, storyScrollDistance);
   }
@@ -904,11 +849,9 @@ function trackQualityRead() {
 function checkFullGridItem() {
   try {
     if (!document.querySelector('.full-grid-story')) {return;}
-    // MARK: - There might be other full grid items, add them when needed
     var fullGridItems = document.querySelectorAll('[data-layout-width="full-grid"], blockquote, .n-content-big-number, [data-table-layout-largescreen="full-grid"]');
     var bodyHeight = getBodyHeight();
     var isFullGridItemInView = false;
-    // console.log(fullGridItems);
     for (var i=0; i<fullGridItems.length; i++) {
       var itemHeight = fullGridItems[i].offsetHeight;
       var itemTop = findTop(fullGridItems[i]);
@@ -927,7 +870,6 @@ function checkFullGridItem() {
 function checkScrollyTelling() {
   try {
     if (!document.querySelector('.scrollable-block')) {return;}
-    // MARK: - Check all the scrollable blocks;
     var scrollableSlides = document.querySelectorAll('.scrollable-slide, .scrollable-slide-info');
     var bodyHeight = getBodyHeight();
     var firstScrollableSlidesInView;
@@ -938,7 +880,6 @@ function checkScrollyTelling() {
       if (isScrollableSlideInView) {
         firstScrollableSlidesInView = scrollableSlides[i];
         var slideId = firstScrollableSlidesInView.getAttribute('data-id');
-        // console.log(slideId);
         var currentBlock = firstScrollableSlidesInView.closest('.scrollable-block');
         var currentImages = currentBlock.querySelectorAll('.scrolly-telling-viewport figure, .scrolly-telling-viewport picture');
         for (var j=0; j<currentImages.length; j++) {
@@ -965,7 +906,6 @@ function checkInreadAd() {
   }
 }
 
-
 function renderVideoPackagePlay(ele) {
   var videoWidth = ele.offsetWidth;
   var videoHeight = ele.offsetHeight;
@@ -976,7 +916,7 @@ function renderVideoPackagePlay(ele) {
   var src = link  +'?i=2&k=1&w='+videoWidth+'&h='+videoHeight+'&autostart=true';
 
   if (ccVid) {
-    ele.innerHTML = `<iframe style="position:absolute" id="cciframe_${ccVid}" src="https://p.bokecc.com/playhtml.bo?vid=${ccVid}&siteid=922662811F1A49E9&autoStart=true" frameborder="0" width="${videoWidth}" height="${videoHeight}"></iframe>`;
+    ele.innerHTML = '<iframe style="position:absolute" id="cciframe_' + ccVid + '" src="https://p.bokecc.com/playhtml.bo?vid=' + ccVid + '&siteid=922662811F1A49E9&autoStart=true" frameborder="0" width="' + videoWidth + '" height="' + videoHeight + '"></iframe>';
   } else {
     ele.innerHTML = '<iframe name="video-frame" id="video-frame" style="width:100%;height:100%;position:absolute;" src="' + src + '" scrolling="no" frameborder="0" allowfullscreen="true"></iframe>';
   }
@@ -986,7 +926,6 @@ function renderVideoPackagePlay(ele) {
     videoContainer.classList.remove('is-video');
   }
 }
-
 
 if (typeof Delegate === 'function') {
   if (!(window.delegate instanceof Delegate)) {
@@ -999,8 +938,6 @@ if (typeof Delegate === 'function') {
 } else {
   console.error('Delegate is not defined — did you forget to include it?');
 }
-
-
 
 try {
   validHTMLCode();
@@ -1022,7 +959,7 @@ checkLanguageSwitch();
 addAudioStickyStyles();
 // MARK: - Use pure CSS sticky when possible
 var supportStickyPosition = (typeof CSS === 'object' || typeof CSS === 'function') && CSS.supports && CSS.supports('position', 'sticky');
-if (gNavOffsetY > 30 && w > 490 && supportStickyPosition === false) {
+if (gNavOffsetY > 30 && window.w > 490 && supportStickyPosition === false) {
   try {
     stickyBottomPrepare();
     stickyAdsPrepare();
@@ -1032,12 +969,14 @@ if (gNavOffsetY > 30 && w > 490 && supportStickyPosition === false) {
         checkFullGridItem();
         checkScrollyTelling();
         checkInreadAd();
+        // IO handles media; nothing needed here
     });
     addEvent(eventResize, function(){
         stickyBottomPrepare();
         stickyAdsPrepare();
         setResizeClass();
-        loadImages();
+        // Re-scan for any newly added lazy media on resize
+        initLazyMedia();
     });
     setInterval(function(){
         stickyBottomPrepare();
@@ -1052,13 +991,15 @@ if (gNavOffsetY > 30 && w > 490 && supportStickyPosition === false) {
   bodyHeight = getBodyHeight();
   addEvent(eventResize, function(){
       bodyHeight = getBodyHeight();
-      loadImages();
+      // Update global width on resize
+      window.w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+      // Re-scan for any newly added lazy media on resize
+      initLazyMedia();
       setResizeClass();
   });
   addEvent(eventScroll, function(){
       scrollTop = window.scrollY || document.documentElement.scrollTop;
-      loadImagesLazy();
-      loadVideosLazy();
+      // IO handles media; nothing needed here
       trackViewables();
       checkFullGridItem();
       checkScrollyTelling();
@@ -1072,17 +1013,16 @@ if (typeof SVGRect === 'undefined') {
   document.documentElement.className += ' no-svg';
 }
 
-// MARK: loadImages called with no events fired
-loadImages();
+// MARK: init lazy media (replaces loadImages)
+initLazyMedia();
 viewablesInit();
 
-// MARK: - Sometimes loadImages just doesn't fire as we expected. For example, when you have a image that's supposed to be displayed only to premium users. This hacking deals with blank image areas at the top of the page. Sorry! 
+// MARK: - Sometimes init just doesn't fire as we expected.
+// Keep a light rescan to deal with late DOM changes near top.
 var refreshTimes = [1000, 3000, 5000, 10000, 20000];
 for (var i=0; i<refreshTimes.length; i++) {
-    setTimeout(function(){loadImages();}, refreshTimes[i]);
+    setTimeout(function(){initLazyMedia();}, refreshTimes[i]);
 }
-
-
 
 // MARK: - A cool trick to handle images that fail to load
 try {
@@ -1101,7 +1041,6 @@ try {
       this.style.display = 'none';
       this.setAttribute('data-failed-2', src);
     }
-    //console.log ('load image error handled: ' + this.src); 
   });
 } catch (ignore) {
 
@@ -1146,16 +1085,13 @@ try {
     }
   });
 
-
   delegate.on('click', '#video-package-play', function(){
     renderVideoPackagePlay(this);
   });
 
-
 } catch (ignore) {
 
 }
-
 
 //click to close
 delegate.on('click', '.overlay-close, .overlay-bg', function(){
@@ -1296,7 +1232,6 @@ if(warnContent){
   }
 }
 
-
 // MARK: - Don't show full screen ads for paid users
 try {
   if (window.gUserType === 'VIP' || window.gUserType === 'Subscriber') {
@@ -1334,7 +1269,6 @@ if (window.privilegeEventLabel !== undefined && (window.gUserType === 'Subscribe
   window.privilegeEventCategory = window.privilegeEventCategory || 'Web Privileges';
   gtag('event', 'Read', {'event_label': window.privilegeEventLabel, 'event_category': window.privilegeEventCategory, 'non_interaction': true});
 }
-
 
 function setProgress(percent, scrollTop = 0, storyScrollDistance = 0) {
   if (window.circle === null || window.circle === undefined || percent === window.currentPercent) {return;}
@@ -1406,7 +1340,7 @@ initProgressCircle();
         continue;
       }
       var pubdate = parseInt(timeValue, 10);
-      if (pubdate.isNaN) {
+      if (isNaN(pubdate)) {
         ele.innerHTML = '';
         continue;
       }
@@ -1582,19 +1516,6 @@ updateStickyRightRail();
     checkFTCApp();
     // MARK: - iPhone App Use the same process as well
     if (!window.userId) {return;}
-    // MARK: - On Mac Safari
-    // "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.1 Safari/605.1.15"
-    // MARK: - Run FTC iOS App on Mac M1
-    // Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko)
-    // MARK: - On Mac Chrome Simulate Android
-    // Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Mobile Safari/537.36'
-    // MARK: - On Mac Chrome
-    // 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36'
-    // MARK: - On an real iPhone
-    // Mozilla/5.0 (iPhone; CPU iPhone OS 16_0_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148
-    // MARK: - On a real iPad
-    // Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/605.1.15 (KHTML, like Gecko)
-
     var ua = navigator.userAgent || navigator.vendor || '';
     var deviceType = 'web';
     var isiOSNative = /AppleWebKit/.test(ua) && /Safari|Chrome/.test(ua) === false;
@@ -1632,10 +1553,8 @@ updateStickyRightRail();
         var data = JSON.parse(xhr.responseText);
         var ec = 'AccountShare';
         var ea = data.online === 0 ? 'Kickout' : 'Allow';
-        // MARK: - Kickout everyone! You can remove the commented code after October 2022. 
         var currentDevice = '';
         if (data.online === 0/* && doKickout*/) {
-          //MARK: - Kick this user out
           ea = 'Kickout';
           if (data.current && typeof data.current === 'string') {
             currentDevice = ':' + data.current;
@@ -1646,10 +1565,9 @@ updateStickyRightRail();
         ea = ea + ' ' + deviceType;
         var el = window.userId + ':' + uniqueId + currentDevice;
         gtag('event', ea, {'event_label': el, 'event_category': ec, 'non_interaction': true});
-        // console.log('ea: ' + ea + ', el: ' + el);
         if (typeof webkit === 'object') {
-          var message = {title: ea, message: el + ', ua: ' + ua + ', data: ' + xhr.responseText};
-          webkit.messageHandlers.print.postMessage(message);
+          var message2 = {title: ea, message: el + ', ua: ' + ua + ', data: ' + xhr.responseText};
+          webkit.messageHandlers.print.postMessage(message2);
         }
     };
     xhr.send(JSON.stringify(message));

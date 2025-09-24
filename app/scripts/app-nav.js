@@ -602,37 +602,56 @@ function handleLink(ele) {
 
 
 async function handlePageData(data) {
-    try {
-        const {link, title} = data;
-        const appDetailEle = document.createElement('div');
-        appDetailEle.className = 'app-detail-view';
-        appDetailEle.innerHTML = `
-            <div class="app-detail-navigation">
-                <div class="app-detail-back"></div>
-                <div class="app-detail-title">${title}</div>
-                <div class="app-detail-share"></div>
-            </div>
-            <div class="app-detail-content"></div>
-        `;
-        const stackDepth = document.querySelectorAll('.app-detail-view').length;
-        appDetailEle.style.zIndex = String(2 + stackDepth);
-        document.body.appendChild(appDetailEle);
-        void appDetailEle.offsetHeight;
-        appDetailEle.classList.add('on');
-        let url = `${link}?webview=ftcapp&bodyonly=yes`;
-        if (window.isFrontEndTest) {
-            url = '/api/page/app_home.html';
-        }
-        const contentEl = appDetailEle.querySelector('.app-detail-content');
-        const response = await fetch(url);
-        if (!response.ok) { return; }
-        const html = await response.text();
-        contentEl.innerHTML = html;
-        runLoadImages();
-    } catch (err) {
-        console.error('handle content data error:', err)
+  try {
+    const { link, title } = data;
+    const appDetailEle = document.createElement('div');
+    appDetailEle.className = 'app-detail-view';
+    appDetailEle.innerHTML = `
+      <div class="app-detail-navigation">
+        <div class="app-detail-back"></div>
+        <div class="app-detail-title">${title}</div>
+        <div class="app-detail-share"></div>
+      </div>
+      <div class="app-detail-content api-detail-content-page"></div>
+    `;
+    const stackDepth = document.querySelectorAll('.app-detail-view').length;
+    appDetailEle.style.zIndex = String(2 + stackDepth);
+    document.body.appendChild(appDetailEle);
+    void appDetailEle.offsetHeight;
+    appDetailEle.classList.add('on');
+
+    // Build URL robustly (preserves existing params/fragments)
+    let urlString;
+    if (window.isFrontEndTest) {
+      urlString = '/api/page/app_home.html';
+    } else {
+      if (typeof URL === 'function') {
+        const u = new URL(link, window.location.href); // supports relative links
+        u.searchParams.set('webview', 'ftcapp');
+        u.searchParams.set('bodyonly', 'yes');
+        urlString = u.toString();
+      } else {
+        // Very old browsers fallback: append safely
+        var sep = (link.indexOf('?') === -1) ? '?' : '&';
+        urlString = link + sep + 'webview=ftcapp&bodyonly=yes';
+      }
     }
+
+    const contentEl = appDetailEle.querySelector('.app-detail-content');
+    const response = await fetch(urlString);
+    if (!response.ok) { return; }
+    const html = await response.text();
+    contentEl.innerHTML = html;
+
+    // Kick lazy media loader for newly injected content
+    if (typeof runLoadImages === 'function') {
+      runLoadImages();
+    }
+  } catch (err) {
+    console.error('handle content data error:', err);
+  }
 }
+
 
 
 async function handleContentData(data) {
@@ -680,7 +699,7 @@ async function handleContentData(data) {
 
         await renderContentPage(info, appDetailEle);
     } catch (err) {
-        console.error('handle content data error:', err)
+        console.error('handle content data error:', err);
     }
 }
 
