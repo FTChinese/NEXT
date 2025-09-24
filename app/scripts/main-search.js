@@ -4,7 +4,12 @@ let preferredLanguage = my.Language || navigator.language || 'zh-CN';
 const isPowerTranslate = location.href.indexOf('powertranslate') >= 0 || window.isUsingHandleBars === true;
 // const myInterestsKey = 'My Interests';
 const isFrontendTest = false;
-delegate.on('input', '#search-term', debounce((event) => {
+
+if (typeof window.delegate !== 'object') {
+    window.delegate = new Delegate(document);
+}
+
+window.delegate.on('input', '#search-term', debounce((event) => {
     const processInput = () => {
         if(window.intention && window.intention !== 'DiscussContent'){
             return;

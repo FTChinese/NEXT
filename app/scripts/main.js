@@ -44,15 +44,6 @@ var videosLazy = [];
 var videosLoadStatus = 0;
 var viewables = [];//存储要记录track In View的元素
 
-// function findTop(obj) {
-//   var curtop = 0;
-//   if (!obj) {return null;}
-//   do {
-//     curtop += obj.offsetTop;
-//   } while ((obj = obj.offsetParent || obj.parentElement));    
-//   return curtop;
-// }
-
 function findTop(obj) {
   var curtop = 0;
   if (obj && obj.offsetParent) {
@@ -174,20 +165,17 @@ function trackViewables() {
 
 // Init responsive images loading
 function runLoadImages() {
+
   var i;
   var queryString = window.location.search;
   var isFrenquentDevice = false;
   var MULTIPLE = 100;
 
-  // var resizingImages = document.querySelectorAll('.special-report-image figure');
-  // for (var f=0; f<resizingImages.length; f++) {
-  //   resizingImages[f].innerHTML = '';
-  //   resizingImages[f].classList.add('loading');
-  // }
-
   figures = document.querySelectorAll(figureImageSelector);
   figuresLazy = [];
   figuresLoadStatus = 0;
+
+  // console.log(figures);
 
   try {
     // this is ironically the only sure way to write this logic
