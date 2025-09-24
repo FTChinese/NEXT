@@ -257,7 +257,7 @@ function runLoadImages() {
       imageUrlBack = `https://dq4atoxl7csa1.cloudfront.net/unsafe${imageUrlBack}`;
     }
     imageUrlBack = encodeURIComponent(imageUrlBack);
-    imageUrlPart = imageUrl.replace(/^(https:\/\/thumbor\.ftacademy\.cn\/unsafe\/)|(http:\/\/i\.ftimg\.net\/)|(http:\/\/d1sh1cgb4xvhl\.cloudfront\.net\/unsafe\/)/g, '');
+    imageUrlPart = imageUrl.replace(/^(https:\/\/.+\/unsafe\/)/g, '');
     // console.log(`imageUrl: ${imageUrl}, fitType: ${fitType}, loadedClass: ${loadedClass}, imageWidth: ${imageWidth}, imageHeight: ${imageHeight}`);
     if (imageUrl.indexOf('bokecc.com')>=0) {
       // Nothing needs to be done since it is an image hosted on CC Video
