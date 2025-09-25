@@ -93,8 +93,12 @@ function maybeLockScroll(evt, state) {
   const angleDeg = Math.atan2(dy, dx) * (180 / Math.PI);
   if (angleDeg <= HORIZONTAL_LOCK_ANGLE) {
     state.locked = true;
+    console.log(`maybeLockScroll: check cancelable`);
     // prevent the page from scrolling when we’ve decided it’s a horizontal swipe
-    if (evt.cancelable) {evt.preventDefault();}
+    if (evt.cancelable) {
+      console.log(`maybeLockScroll: preventDefault`);
+      evt.preventDefault();
+    }
   } else {
     state.locked = false;
   }
