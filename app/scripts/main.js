@@ -194,24 +194,38 @@ function loadFigureNow(figureEl) {
   if (!req) { return; }
 
   // Special case: story hero uses background-image
-  if (figureEl.parentElement && figureEl.parentElement.classList && figureEl.parentElement.classList.contains('story-hero-image')) {
+  if (
+    figureEl.parentElement &&
+    figureEl.parentElement.classList &&
+    figureEl.parentElement.classList.contains('story-hero-image')
+  ) {
     figureEl.style.backgroundImage = 'url(' + req.finalUrl + ')';
-    figureEl.classList.remove('loading');
+    figureEl.classList.remove('loading');     // <-- always clear loading
+    figureEl.setAttribute('data-loaded', 'yes');
     return;
   }
 
-  var img = document.createElement('img');
-  img.src = req.finalUrl;
-  img.setAttribute('data-backupimage', req.finalBackup);
-  figureEl.appendChild(img);
+  // Reuse existing <img> if present; otherwise create one
+  var img = figureEl.querySelector('img') || document.createElement('img');
 
-  if (req.loadedClass) {
-    figureEl.classList.add(req.loadedClass);
-  } else {
-    figureEl.className = figureEl.className.replace(/\bloading\b/, '').trim();
+  img.setAttribute('data-backupimage', req.finalBackup);
+
+  // Only update src if different (avoids pointless reflows)
+  if (img.src !== req.finalUrl) {
+    img.src = req.finalUrl;
   }
 
-  // 5s backup swap (keeps your resilience)
+  if (!img.parentNode) {
+    figureEl.appendChild(img);
+  }
+
+  // Always drop the .loading flag so future scans don’t pick it up again
+  figureEl.classList.remove('loading');
+  if (req.loadedClass) {
+    figureEl.classList.add(req.loadedClass);
+  }
+
+  // 5s backup swap (unchanged)
   setTimeout(function(){
     var isLoaded = img.complete;
     var backup = img.getAttribute('data-backupimage') || '';
@@ -223,18 +237,20 @@ function loadFigureNow(figureEl) {
   }, 5000);
 }
 
+
+
 function loadVideoNow(videoFigure) {
   var qs = window.location.search || '';
-  if (qs.indexOf('?ad=no') !== -1) { return; }
+  if (qs.indexOf('ad=no') !== -1) { return; } // more robust match
 
-  var videoWidth = videoFigure.offsetWidth || videoFigure.getBoundingClientRect().width || 0;
+  var videoWidth  = videoFigure.offsetWidth || videoFigure.getBoundingClientRect().width  || 0;
   var videoHeight = videoFigure.offsetHeight || videoFigure.getBoundingClientRect().height || 0;
-  var videoId = videoFigure.getAttribute('data-vid');
-  var itemType = videoFigure.getAttribute('data-type') || videoFigure.getAttribute('data-item-type') || 'video';
-  var thirdPartyFrameUrl = videoFigure.getAttribute('data-third-party-frame-url');
-  var ccVid = videoFigure.getAttribute('data-cc-vid') || '';
-  var autoStart = videoFigure.getAttribute('data-autoplay') || '';
-  var videoWall = '';
+  var videoId     = videoFigure.getAttribute('data-vid');
+  var itemType    = videoFigure.getAttribute('data-type') || videoFigure.getAttribute('data-item-type') || 'video';
+  var thirdParty  = videoFigure.getAttribute('data-third-party-frame-url');
+  var ccVid       = videoFigure.getAttribute('data-cc-vid') || '';
+  var autoStart   = videoFigure.getAttribute('data-autoplay') || '';
+  var videoWall   = '';
 
   if (autoStart === 'yes') {
     autoStart = 'true';
@@ -243,23 +259,81 @@ function loadVideoNow(videoFigure) {
     autoStart = 'false';
   }
 
-  var hostForVideo = '';
+  // NOTE: use the global hostForVideo; don't shadow it here
+  // var hostForVideo = ''; // <-- remove this line if it exists in your code
 
-  var ih = '';
-  if (thirdPartyFrameUrl) {
-    ih = '<iframe name="video-frame" id="video-frame" style="width:100%;height:100%;position:absolute;" src="' + thirdPartyFrameUrl + '" scrolling="no" frameborder="0" allowfullscreen></iframe>';
+  // Build the desired src and a selector to find the existing iframe
+  var desiredSrc = '';
+  var findExisting;
+
+  if (thirdParty) {
+    desiredSrc = thirdParty;
+    findExisting = function() {
+      // any iframe whose src starts with the third-party url
+      var ifr = videoFigure.querySelector('iframe');
+      return (ifr && ifr.src && ifr.src.indexOf(thirdParty) === 0) ? ifr : null;
+    };
   } else if (ccVid !== '') {
-    ih = '<iframe id="cciframe_' + ccVid + '" src="https://p.bokecc.com/playhtml.bo?vid=' + ccVid + '&siteid=922662811F1A49E9&autoStart=false" frameborder="0" width="' + videoWidth + '" height="' + videoHeight + '" style="position: absolute;"></iframe>';
+    desiredSrc = 'https://p.bokecc.com/playhtml.bo?vid=' + ccVid + '&siteid=922662811F1A49E9&autoStart=false';
+    findExisting = function() {
+      return videoFigure.querySelector('#cciframe_' + ccVid) || null;
+    };
   } else if (videoId && videoWidth > 0 && videoHeight > 0) {
-    var iFrameUrl = hostForVideo + '/' + itemType + '/' + videoId + '?i=2&w=' + videoWidth + '&h=' + videoHeight + '&autostart=' + autoStart + videoWall;
-    ih = '<iframe name="video-frame" id="video-frame" style="width:100%;height:100%;position:absolute;" src="' + iFrameUrl + '" scrolling="no" frameborder="0" allowfullscreen></iframe>';
+    desiredSrc = (hostForVideo || '') + '/' + itemType + '/' + videoId +
+      '?i=2&w=' + videoWidth + '&h=' + videoHeight + '&autostart=' + autoStart + videoWall;
+    findExisting = function() {
+      // prefer the one we manage (name="video-frame")
+      return videoFigure.querySelector('iframe[name="video-frame"]') || null;
+    };
   } else {
-    return; // not enough info to render
+    return; // not enough info
   }
 
-  videoFigure.innerHTML = ih;
-  videoFigure.className = videoFigure.className.replace(/\bloading-video\b/, '').trim();
+  var iframe = findExisting();
+
+  if (!iframe) {
+    // Create once
+    if (ccVid !== '') {
+      iframe = document.createElement('iframe');
+      iframe.id = 'cciframe_' + ccVid;
+      iframe.frameBorder = '0';
+      iframe.style.position = 'absolute';
+    } else {
+      iframe = document.createElement('iframe');
+      iframe.name = 'video-frame';
+      iframe.id = 'video-frame'; // note: multiple identical IDs across the page aren’t ideal, but kept for back-compat
+      iframe.setAttribute('scrolling', 'no');
+      iframe.setAttribute('frameborder', '0');
+      iframe.setAttribute('allowfullscreen', '');
+      iframe.style.position = 'absolute';
+    }
+    iframe.style.width  = '100%';
+    iframe.style.height = '100%';
+    // width/height attributes used by some providers:
+    iframe.width  = String(videoWidth);
+    iframe.height = String(videoHeight);
+    iframe.src = desiredSrc;
+
+    // Append without clobbering other children
+    // (If you *know* the figure contains only the iframe, you could set innerHTML, but that causes reloads.)
+    videoFigure.appendChild(iframe);
+  } else {
+    // Update only if changed
+    if (iframe.src !== desiredSrc) {
+      iframe.src = desiredSrc;
+    }
+    // Keep size in sync without rebuilding
+    iframe.width  = String(videoWidth);
+    iframe.height = String(videoHeight);
+    iframe.style.width  = '100%';
+    iframe.style.height = '100%';
+  }
+
+  // Mark as processed to avoid repeated work
+  videoFigure.classList.remove('loading-video');
+  videoFigure.setAttribute('data-loaded', 'yes');
 }
+
 
 function observeFiguresAndVideos() {
   var figNodes = document.querySelectorAll(figureImageSelector);

@@ -247,11 +247,16 @@ $app-detail-border: rgba(0, 0, 0, 0.08) !default;
   // Scrollable content region
   .app-detail-content {
     flex: 1 1 auto;
+
+    // overflow-y: auto;
+    // -webkit-overflow-scrolling: touch;  /* momentum scrolling on iOS; JS toggles this off when locked */
+    // touch-action: pan-y;
+
+
     &.api-detail-content-page {
       padding-top: $defaultPadding * 0.5;
     }
   }
-
 
 
   // Bottom area (for gradients / safe area)
@@ -263,6 +268,11 @@ $app-detail-border: rgba(0, 0, 0, 0.08) !default;
     background-color: $appBottomTint;
   }
 }
+
+
+
+
+
 
 .lang-switch {
   display: inline-flex;
