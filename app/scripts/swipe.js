@@ -1,4 +1,4 @@
-/* jshint browser:true, devel:true, strict:true, esversion: 6 */
+/* jshint browser:true, devel:true, strict:true */
 /* global delegate */
 
 (function () {
@@ -13,7 +13,6 @@
   // Per-element gesture state
   var gesture = new WeakMap();
 
-  // --- Utils
   function now() {
     if (window.performance && typeof window.performance.now === 'function') {
       return window.performance.now();
@@ -41,6 +40,13 @@
     return t ? t.clientY : 0;
   }
 
+  // Optional: a hook to do app-level dismiss (e.g., history.back())
+  function dismissAppDetailView(el) {
+    // Replace this with your router/navigation if needed:
+    // history.back();
+    el.remove();
+  }
+
   function setTranslateX(el, x) {
     el.style.transform = 'translateX(' + x + 'px)';
   }
@@ -56,12 +62,8 @@
 
   function applyProgressEffects(el, x, width) {
     var progress = x / width;
-    if (progress < 0) {
-      progress = 0;
-    }
-    if (progress > 1) {
-      progress = 1;
-    }
+    if (progress < 0) { progress = 0; }
+    if (progress > 1) { progress = 1; }
     var opacity = 1 - progress * MAX_OPACITY_FADE_PCT;
     el.style.opacity = String(opacity);
   }
@@ -74,22 +76,21 @@
 
   // Force a reflow using a function call (avoids JSHint W030)
   function forceReflow(el) {
-    el.getBoundingClientRect(); // read to flush pending styles
-  }
-
-  // Optional: a hook to do app-level dismiss (e.g., history.back())
-  function dismissAppDetailView(el) {
-    // history.back();
-    el.remove();
+    // Read a layout-dependent property to flush pending styles.
+    el.getBoundingClientRect();
   }
 
   function animateOffAndRemove(el, fromX) {
     var width = el.getBoundingClientRect().width || window.innerWidth;
     el.style.transition = 'transform 260ms ease-out, opacity 180ms linear';
     el.style.opacity = '0';
+
+    // Ensure the transition we just set will apply.
     forceReflow(el);
+
     setTranslateX(el, Math.max(fromX, width + 16));
     var onEnd = function (e) {
+      // Only act on the transform transition ending
       if (e && e.target === el && e.propertyName === 'transform') {
         el.removeEventListener('transitionend', onEnd);
         dismissAppDetailView(el);
@@ -98,6 +99,11 @@
     el.addEventListener('transitionend', onEnd);
   }
 
+  /**
+   * Decide whether to dismiss:
+   * - If distance ratio ≥ threshold OR velocity ≥ min velocity
+   * - Only if the drag was to the right (positive deltaX)
+   */
   function shouldDismiss(state, elWidth) {
     if (!state) {
       return false;
@@ -113,67 +119,6 @@
     return dx > 0 && (distanceEnough || velocityEnough);
   }
 
-  // --- Scroll locking for inner content scroller
-  function getContentScroller(rootEl) {
-    return rootEl.querySelector('.app-detail-content');
-  }
-
-  function setScrollLock(rootEl, lock) {
-    var scroller = getContentScroller(rootEl);
-    if (!scroller) {
-      return;
-    }
-    if (lock) {
-      scroller._prevOverflowY = scroller.style.overflowY;
-      scroller._prevWebkitScroll = scroller.style.webkitOverflowScrolling;
-      scroller.style.overflowY = 'hidden';
-      scroller.style.webkitOverflowScrolling = 'auto';
-    } else {
-      scroller.style.overflowY = (typeof scroller._prevOverflowY === 'string') ? scroller._prevOverflowY : '';
-      scroller.style.webkitOverflowScrolling = (typeof scroller._prevWebkitScroll === 'string') ? scroller._prevWebkitScroll : '';
-      scroller._prevOverflowY = null;
-      scroller._prevWebkitScroll = null;
-    }
-  }
-
-  // --- Attach a non-passive touchmove for the duration of the gesture
-  function attachNonPassiveMoveDuringGesture(rootEl, state) {
-    function onMove(ev) {
-      state.lastX = getTouchX(ev);
-      state.lastY = getTouchY(ev);
-      state.lastT = now();
-
-      if (state.locked === undefined) {
-        var dx0 = Math.abs(state.lastX - state.startX);
-        var dy0 = Math.abs(state.lastY - state.startY);
-        if (dx0 >= 3 || dy0 >= 3) {
-          var ang = Math.atan2(dy0, dx0) * (180 / Math.PI);
-          if (ang <= HORIZONTAL_LOCK_ANGLE) {
-            state.locked = true;
-            setScrollLock(rootEl, true);
-          } else {
-            state.locked = false;
-          }
-        }
-      }
-
-      // Unconditionally prevent default once locked (per your request)
-      if (state.locked === true) {
-        ev.preventDefault();
-      }
-    }
-
-    function cleanup() {
-      rootEl.removeEventListener('touchmove', onMove, { passive: false });
-      rootEl.removeEventListener('touchend', cleanup);
-      rootEl.removeEventListener('touchcancel', cleanup);
-    }
-
-    rootEl.addEventListener('touchmove', onMove, { passive: false });
-    rootEl.addEventListener('touchend', cleanup);
-    rootEl.addEventListener('touchcancel', cleanup);
-  }
-
   // Locking logic: once movement clearly horizontal, prevent vertical scrolling
   function maybeLockScroll(ev, state) {
     if (state.locked !== undefined) {
@@ -181,6 +126,7 @@
     }
     var dx = Math.abs(state.lastX - state.startX);
     var dy = Math.abs(state.lastY - state.startY);
+
     if (dx < 3 && dy < 3) {
       return; // not enough info yet
     }
@@ -188,9 +134,8 @@
     var angleDeg = Math.atan2(dy, dx) * (180 / Math.PI);
     if (angleDeg <= HORIZONTAL_LOCK_ANGLE) {
       state.locked = true;
-      setScrollLock(state.rootEl, true);
-      // Unconditionally prevent default once locked
       ev.preventDefault();
+      ev.stopImmediatePropagation();
     } else {
       state.locked = false;
     }
@@ -205,7 +150,6 @@
       var t = now();
 
       var st = {
-        rootEl: el,
         startX: x,
         startY: y,
         lastX: x,
@@ -213,14 +157,11 @@
         startT: t,
         lastT: t,
         dragging: true,
-        locked: undefined
+        locked: undefined // unknown until we see direction
       };
       gesture.set(el, st);
       setDraggingStyles(el, true);
       setTranslateX(el, 0);
-
-      // Ensure we have a non-passive touchmove while this gesture is active.
-      attachNonPassiveMoveDuringGesture(el, st);
     } catch (err) {
       console.error('touchstart error:', err);
     }
@@ -238,13 +179,9 @@
       st.lastY = getTouchY(event);
       st.lastT = now();
 
-      // Decide whether to lock; if we lock, preventDefault here as well
       maybeLockScroll(event, st);
       if (st.locked === false) {
         return; // let vertical scroll continue
-      }
-      if (st.locked === true) {
-        event.preventDefault(); // unconditional, as requested
       }
 
       var dx = st.lastX - st.startX;
@@ -278,12 +215,13 @@
       }
 
       if (shouldDismiss(st, width)) {
+        // Fling/distance qualifies: animate off to the right and remove
         animateOffAndRemove(el, dx);
       } else {
+        // Not enough: snap back
         resetVisual(el);
       }
 
-      setScrollLock(el, false);
       gesture.delete(el);
       setDraggingStyles(el, false);
     } catch (err) {
@@ -295,7 +233,6 @@
     try {
       var el = this;
       resetVisual(el);
-      setScrollLock(el, false);
       gesture.delete(el);
       setDraggingStyles(el, false);
     } catch (err) {
