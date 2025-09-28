@@ -1,0 +1,197 @@
+/* app-audio.scss — FT-style mini + expanded audio player using SVG icons */
+/* Cleaner icon swap: single source of truth via `.is-playing` (no per-button overrides)
+   Mini view: dark “pill” with rounded corners; Expanded view: unchanged (light) */
+
+$app-audio-mini-height: 56px;
+$app-audio-radius: 16px;
+$app-audio-shadow: 0 -6px 20px rgba(0, 0, 0, 0.15);
+$app-gap: 12px;
+
+$app-color-elev: #ffffff;
+$app-color-text: #222;
+$app-color-subtle: #6b6b6b;
+$app-color-accent: #007a8c;
+$app-color-border: rgba(0,0,0,0.12);
+$app-color-track: rgba(0,0,0,0.12);
+
+$track-h: 4px;
+$thumb-d: 16px;
+
+/* ---------- Ancestor container ---------- */
+.app-audio {
+  position: fixed;
+  left: 0; right: 0;
+  bottom: $navHeight;
+  width: 100%;
+  z-index: 2147483000;
+
+  /* Icon swap — single source of truth */
+  .icon-pause { display: none; }           /* default paused → show play */
+  &.is-playing {
+    .icon-play { display: none; }
+    .icon-pause { display: block; }
+  }
+
+  &[data-state='hidden']   { .app-audio-mini, .app-audio-expanded { display: none; } }
+  &[data-state='mini']     { .app-audio-mini { display: grid; } .app-audio-expanded { display: none; } }
+  &[data-state='expanded'] { .app-audio-mini { display: none; } .app-audio-expanded { display: flex; } }
+
+  /* ---------- Mini bar (dark pill) ---------- */
+  .app-audio-mini {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: $app-gap;
+
+    /* Dark floating pill */
+    background: #222;
+    color: #fff;
+    border: 0;
+    border-radius: $app-audio-radius;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.22);
+    height: $app-audio-mini-height;
+
+    /* Make the pill visible within full-width fixed container */
+    width: auto;
+    max-width: calc(100% - 24px - env(safe-area-inset-left) - env(safe-area-inset-right));
+    margin-left: calc(12px + env(safe-area-inset-left));
+    margin-right: calc(12px + env(safe-area-inset-right));
+    margin-bottom: 8px;
+
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .app-audio-mini-btn {
+    width: 36px; height: 36px;
+    border-radius: 50%; border: 0; background: transparent;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #fff;
+    .icon { width: 14px; height: 14px; fill: currentColor; }
+  }
+
+  .app-audio-mini-main { min-width: 0; cursor: pointer; }
+  .app-audio-mini-title { font-weight: 600; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .app-audio-mini-remaining { font-size: 12px; color: #ccc; margin-top: 2px; }
+
+  .app-audio-close {
+    border: 0; background: transparent; font-size: 18px;
+    width: 32px; height: 32px; line-height: 32px;
+    border-radius: 50%;
+    color: #ccc; cursor: pointer;
+    &:hover { background: rgba(255,255,255,0.06); }
+  }
+
+  .app-audio-mini-progress {
+    position: absolute; left: 0; right: 0; bottom: 0; height: 2px; pointer-events: none;
+    .app-audio-mini-progress-bar {
+      transform-origin: 0 50%;
+      height: 2px; width: 100%; background: $app-color-accent; transform: scaleX(0);
+      &.indeterminate { animation: app-audio-progress-indet 1.6s linear infinite; }
+    }
+  }
+}
+
+@keyframes app-audio-progress-indet {
+  0% { transform: translateX(-50%) scaleX(0.25); }
+  50% { transform: translateX(25%) scaleX(0.35); }
+  100% { transform: translateX(100%) scaleX(0.25); }
+}
+
+/* ---------- Expanded sheet (light) ---------- */
+.app-audio {
+  .app-audio-expanded {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    display: none; flex-direction: column;
+    width: min(720px, calc(100% - 24px));
+    margin: 0 auto;
+    background: $app-color-elev;
+    border: 1px solid $app-color-border; border-bottom: 0;
+    border-top-left-radius: $app-audio-radius; border-top-right-radius: $app-audio-radius;
+    box-shadow: $app-audio-shadow;
+    overflow: hidden;
+    max-height: calc(64vh + env(safe-area-inset-bottom));
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .app-audio-expanded[aria-hidden='true'] { display: none; }
+
+  /* Header with collapse in top-right */
+  .app-audio-header {
+    position: relative;
+    padding: 14px 48px 14px 14px;
+    border-bottom: 1px solid $app-color-border;
+    .app-audio-title { font-weight: 700; color: $app-color-text; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .app-audio-collapse {
+      position: absolute; top: 12px; right: 12px; width: 32px; height: 32px;
+      border-radius: 50%; border: 0; background: transparent; color: $app-color-subtle; cursor: pointer;
+      &:hover { background: rgba(0,0,0,0.05); }
+    }
+  }
+
+  .app-audio-hero {
+    border-bottom: 1px solid $app-color-border;
+    img { display: block; width: 100%; height: auto; max-height: 34vh; object-fit: cover; }
+  }
+
+  .app-audio-timeline {
+    padding: 10px 14px 14px;
+    display: grid; grid-template-columns: 52px 1fr 52px; align-items: center; gap: 10px;
+    .app-audio-current, .app-audio-total { font-variant-numeric: tabular-nums; color: $app-color-subtle; }
+    .app-audio-range {
+      -webkit-appearance: none; appearance: none; width: 100%; height: $track-h; background: transparent; cursor: pointer;
+      &::-webkit-slider-runnable-track { height: $track-h; background: $app-color-track; border-radius: 999px; }
+      &::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: $thumb-d; height: $thumb-d; background: $app-color-accent; border-radius: 50%; border: 0; margin-top: calc(($track-h - $thumb-d) / 2); }
+      &::-moz-range-track { height: $track-h; background: $app-color-track; border-radius: 999px; }
+      &::-moz-range-thumb { width: $thumb-d; height: $thumb-d; background: $app-color-accent; border: 0; border-radius: 50%; }
+      &::-moz-range-progress { background: $app-color-accent; height: $track-h; border-radius: 999px; }
+    }
+  }
+
+  .app-audio-controls {
+    padding: 18px 14px 10px;
+    display: flex; justify-content: center; align-items: center; gap: 28px;
+
+    button {
+      border: 0; background: #f4f4f4; color: $app-color-text;
+      border-radius: 50%; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* Big Play/Pause — inline SVG, swaps via `.is-playing` */
+    .app-audio-big {
+      width: 64px; height: 64px;
+      background: $app-color-accent; color: #fff;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+      .icon { width: 24px; height: 24px; fill: currentColor; }
+    }
+
+    /* Back/Forward buttons with SVG + span (stacked) */
+    .app-audio-back30, .app-audio-fwd30 {
+      width: 48px; height: 48px;
+      background: #fff; border: 1px solid $app-color-border;
+      flex-direction: column;
+      font-size: 12px; font-weight: 600; color: $app-color-text;
+      .icon { width: 18px; height: 18px; fill: currentColor; }
+      span { font-size: 11px; line-height: 1; }
+    }
+  }
+
+  /* Speed toggle (centered) */
+  .app-audio-speed {
+    align-self: center;
+    margin: 10px 0 14px;
+    border: 0; background: transparent;
+    color: $app-color-accent; font-weight: 600;
+    cursor: pointer;
+  }
+
+  /* Disabled state — all except play buttons */
+  .is-disabled { opacity: 0.5; pointer-events: none; }
+  .app-audio-toggle.is-disabled { pointer-events: auto; opacity: 1; cursor: pointer; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .app-audio { * { transition: none !important; animation: none !important; } }
+}

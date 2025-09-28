@@ -639,6 +639,8 @@ async function renderContentPageBody(info, appDetailEle, langSel) {
     }
   }
   runLoadImages();
+
+  renderAudio(info, langSel);
 }
 
 // JS — renderLanguageSwitch (stable widget; no full re-render on toggle)
