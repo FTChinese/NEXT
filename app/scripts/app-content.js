@@ -101,14 +101,16 @@ function selectLanguage(info) {
 
   const hasEN = !!(info.ebody && info.ebody.trim());
 
+  const show_billigual_switch = info?.show_billigual_switch;
+
   if (hasEN && readingPreference === 'en') {
-    return { langClass: ' en', useEN: true, bilingual: false, hasEN };
+    return { langClass: ' en', useEN: true, bilingual: false, hasEN, show_billigual_switch };
   }
   if (hasEN && readingPreference === 'ce') {
     // For now render as Chinese to keep layout; CE split view can be added later if you want.
-    return { langClass: ' ce', useEN: false, bilingual: true, hasEN };
+    return { langClass: ' ce', useEN: false, bilingual: true, hasEN, show_billigual_switch };
   }
-  return { langClass: '', useEN: false, bilingual: false, hasEN };
+  return { langClass: '', useEN: false, bilingual: false, hasEN, show_billigual_switch };
 }
 
 
@@ -275,7 +277,7 @@ async function renderContentPage(info, appDetailEle) {
 }
 
 // Body-only renderer: language-dependent UI (called on initial load and on switch)
-async function renderContentPageBody(info, appDetailEle, langSel) {
+async function renderContentPageBody(info, appDetailEle, langSel, langValue) {
   // -------- 0) Clean up previous observers before replacing the body --------
   const oldTarget = appDetailEle.querySelector('.user_comments_container');
   if (oldTarget && oldTarget.__io) {
@@ -309,7 +311,9 @@ async function renderContentPageBody(info, appDetailEle, langSel) {
   const shouldHideAd = hasPrivilege || coerceBool(info.suppressad) || coerceBool(info.hideAd);
 
   let finalBody = '';
-  if (hasPrivilege) {
+  const { userTier, hasLogin } = getUserInfo();
+  const isEnOrCEForNoneSubscriber = userTier < 1 && ['en', 'ce'].includes(langValue ?? '');
+  if (hasPrivilege && !isEnOrCEForNoneSubscriber) {
     finalBody = (bodyHtml || '')
       .replace(/<p>\s*<\/p>/g, '') // remove empty paragraphs
       .replace(/([*-]){10,}/g, '<hr>'); // long runs → hr
@@ -321,20 +325,20 @@ async function renderContentPageBody(info, appDetailEle, langSel) {
       ]);
     }
   } else {
-    let userTier = 0;
-    const rootClassList = document.documentElement.classList;
-    if (rootClassList.contains('is-premium')) {
-      userTier = 2;
-    } else if (rootClassList.contains('is-subscriber')) {
-      userTier = 1;
-    }
-    const hasLogin = rootClassList.contains('is-member');
     const logoutMessage = '请先<a href="/logout" class="o-client-id-link">请点击这里登出</a>，再重新<a href="/login" class="o-client-id-link">登入</a>';
     const loginLink = '<a href="/login" class="o-client-id-link">请点击这里登录</a>';
     const loginMessage = hasLogin ? logoutMessage : loginLink;
 
+    let contentPaywallDescription = 'FT独家内容';
+    if (isEnOrCEForNoneSubscriber) {
+      if (langValue === 'en') {
+        contentPaywallDescription = '英文内容';
+      } else if (langValue === 'ce') {
+        contentPaywallDescription = '中英文对照内容';
+      }
+    }
     const messages = {
-      lock_message: '成为付费会员，阅读FT独家内容',
+      lock_message: `成为付费会员，阅读${contentPaywallDescription}`,
       upgrade_message: '成为会员',
       login_message: `如您已经是会员，${loginMessage}`,
     };
@@ -645,7 +649,7 @@ async function renderContentPageBody(info, appDetailEle, langSel) {
 
 // JS — renderLanguageSwitch (stable widget; no full re-render on toggle)
 async function renderLanguageSwitch(appDetailEle, langSel) {
-  if (!langSel?.hasEN) { return; }
+  if (!langSel?.show_billigual_switch) { return; }
   const slot = appDetailEle.querySelector('.app-detail-language-switch');
   if (!slot) { return; }
 
@@ -684,6 +688,19 @@ async function renderLanguageSwitch(appDetailEle, langSel) {
   }
 }
 
+// This is for frontend check for displaying correct information. We also made sure the actual data is verified on the backend
+function getUserInfo() {
+    const rootClassList = document.documentElement.classList;
+    const hasLogin = rootClassList.contains('is-member');
+    let userTier = 0;
+    if (rootClassList.contains('is-premium')) {
+      userTier = 2;
+    } else if (rootClassList.contains('is-subscriber')) {
+      userTier = 1;
+    }
+    return {userTier, hasLogin};
+}
+
 
 /* -----------------------------
    Language switch handler
@@ -692,6 +709,15 @@ async function renderLanguageSwitch(appDetailEle, langSel) {
 delegate.on('click', '.lang-btn', async function () {
   try {
     if (this.classList.contains('on')) { return; }
+
+
+    const langValue = this.getAttribute('data-mode');
+    // const {userTier} = getUserInfo();
+
+    // if (userTier < 1 && ['en', 'ce'].includes(langValue)) {
+    //   alert(`You need to subscribe to read English or Billingual content! `);
+    //   return;
+    // }
 
     // Toggle "on" among siblings + ARIA
     const siblings = this.parentNode.querySelectorAll('.lang-btn');
@@ -704,8 +730,6 @@ delegate.on('click', '.lang-btn', async function () {
     this.setAttribute('aria-selected', 'true');
     this.setAttribute('tabindex', '0');
 
-    // Save preference
-    const langValue = this.getAttribute('data-mode');
     if (langValue) {
       saveMyPreferenceByKey(reading_preference_key, langValue);
     }
@@ -731,7 +755,7 @@ delegate.on('click', '.lang-btn', async function () {
     const st = detailViewState.get(rootView);
     if (!st || !st.info) { return; }
     const newLangSel = selectLanguage(st.info);
-    await renderContentPageBody(st.info, rootView, newLangSel);
+    await renderContentPageBody(st.info, rootView, newLangSel, langValue);
 
   } catch (err) {
     console.error('lang switch btn error:', err);
