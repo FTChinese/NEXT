@@ -222,7 +222,7 @@ function setupFollowButtons() {
   }
   root.addEventListener('click', (e) => {
     const t = e.target;
-    if (!t || !t.className || t.className.indexOf('myft-follow') < 0) {
+    if (!t || !t.className || typeof t.className !== 'string' || t.className.indexOf('myft-follow') < 0) {
       return;
     }
     const type = t.getAttribute('data-type') || 'tag';
@@ -268,6 +268,8 @@ async function renderContentPage(info, appDetailEle) {
 
   // Select language (reads saved preference)
   const langSel = selectLanguage(info);
+
+  // console.log(`info: `, info);
 
   // Render language-dependent body (topper, article, comments, etc.)
   await renderContentPageBody(info, appDetailEle, langSel);
@@ -324,6 +326,12 @@ async function renderContentPageBody(info, appDetailEle, langSel, langValue) {
         '<div class="o-ads mpu mpu-2" data-o-ads-name="mpu2"></div>'
       ]);
     }
+
+    const audioId = info?.story_audio?.interactive_id;
+    if (audioId) {
+      appDetailEle.querySelector('.app-detail-audio').classList.add('on');
+    }
+
   } else {
     const logoutMessage = '请先<a href="/logout" class="o-client-id-link">请点击这里登出</a>，再重新<a href="/login" class="o-client-id-link">登入</a>';
     const loginLink = '<a href="/login" class="o-client-id-link">请点击这里登录</a>';
@@ -644,7 +652,7 @@ async function renderContentPageBody(info, appDetailEle, langSel, langValue) {
   }
   runLoadImages();
 
-  renderAudio(info, langSel);
+  renderAudio(info, appDetailEle, langSel);
 }
 
 // JS — renderLanguageSwitch (stable widget; no full re-render on toggle)
@@ -757,6 +765,23 @@ delegate.on('click', '.lang-btn', async function () {
     const newLangSel = selectLanguage(st.info);
     await renderContentPageBody(st.info, rootView, newLangSel, langValue);
 
+  } catch (err) {
+    console.error('lang switch btn error:', err);
+  }
+});
+
+
+
+
+delegate.on('click', '.app-detail-audio.on', async function () {
+  try {
+    const rootView = this.closest('[data-detail-root]');
+    if (!rootView) { return; }
+    const st = detailViewState.get(rootView);
+    const id = st?.info?.story_audio?.interactive_id;
+    if (!id) { return; }
+    const type = 'interactive';
+    await handleContentData({id, type});
   } catch (err) {
     console.error('lang switch btn error:', err);
   }

@@ -17,24 +17,39 @@
   var READY_CLASS = 'is-ready';
   var PLAYING_CLASS = 'is-playing';
   var DISABLED_CLASS = 'is-disabled';
+  let timeSeek = {};
 
   // Public entry
-  window.renderAudio = function renderAudio(info, langSel) {
+  window.renderAudio = function renderAudio(info, appDetailEle, langSel) {
     try {
-      var subtype = info && info.subtype;
-      var audioUrl = (info && info.story_audio && (info.story_audio.ai_audio_c || info.story_audio.ai_audio_e)) || '';
-      if (!audioUrl || !subtype || !['英语电台'].includes(subtype)) { return; }
+      // console.log(`info render audio: `, info);
+      let subtype = info && info.subtype;
+      if (!subtype || !['英语电台', '双语电台'].includes(subtype)) {return;}
+      let useEN = !!(langSel && langSel.useEN);
+      let audioUrl;
+      let bodyObject;
+      if (useEN) {
+        audioUrl = info?.body_object_english?.url ?? info?.story_audio?.ai_audio_e;
+        bodyObject = info?.body_object_english;
+      } else {
+        audioUrl = info?.body_object_chinese?.url ?? info?.story_audio?.ai_audio_c ?? info?.story_audio?.ai_audio_e;
+        bodyObject = info?.body_object_chinese;
+      }
 
-      var useEN = !!(langSel && langSel.useEN);
+
+      renderBodyObject(bodyObject, appDetailEle, audioUrl);
+
+      if (!audioUrl) { return; }
       var audioTitle = useEN ? (info && info.eheadline) : (info && info.cheadline);
       var image = (info && info.story_pic && (info.story_pic.cover || info.story_pic.other || info.story_pic.smallbutton || info.story_pic.bigbutton)) || '';
-
       ensureDOM();
-
-      if (audioUrl === currentSrc) { showMini(); return; }
-
+      if (audioUrl === currentSrc) {
+        showMini(); 
+        return; 
+      }
       loadTrack({ src: audioUrl, title: audioTitle || 'Audio', image: image });
-      showMini(); // no autoplay
+      showMini();
+      // renderAudioScript(info, appDetailEle, langSel);
     } catch (err) {
       console.log('[app-audio] renderAudio error:', err && err.message);
     }
@@ -94,7 +109,134 @@
       audioEl.currentTime = dur * val;
       isScrubbing = false;
     });
+
+    delegate.on('click', '.audio-sentence', function(){
+
+
+      let eles = document.querySelectorAll('.audio-sentence');
+      for(let ele of eles) {
+        ele.classList.remove('is-current');
+      }
+      this.classList.add('is-current');
+      const seekId = this.id;
+
+      const seekTo = Number(this.getAttribute('data-start'));
+      if (!isFinite(seekTo)) {return;}
+      
+      // Ensure player exists or re-render with the right language
+      let playerEle = document.querySelector('#app-audio');
+
+      const rootView = this.closest('[data-detail-root]');
+      if (!rootView) { return; }
+      const appDetailEle = this.closest('.app-detail-view') || document.body;
+
+      // Pull canonical info for this view
+      const st = detailViewState.get(rootView);
+      const info = st?.info;
+      if (!info) { return; }
+
+      // Decide language with your helper
+      const langSel = selectLanguage(info);
+
+      // Helper to compute the desired audio URL / title / image given info+langSel
+      function resolveDesiredTrack(info, langSel) {
+        const useEN = !!(langSel && langSel.useEN);
+        const src = useEN
+          ? (info?.body_object_english?.url ?? info?.story_audio?.ai_audio_e ?? '')
+          : (info?.body_object_chinese?.url ?? info?.story_audio?.ai_audio_c ?? info?.story_audio?.ai_audio_e ?? '');
+        const title = useEN ? (info?.eheadline || 'Audio') : (info?.cheadline || 'Audio');
+        const img = (info?.story_pic && (info.story_pic.cover || info.story_pic.other || info.story_pic.smallbutton || info.story_pic.bigbutton)) || '';
+        return { src: String(src || ''), title: String(title || 'Audio'), image: String(img || '') };
+      }
+
+      const desired = resolveDesiredTrack(info, langSel);
+      if (!desired.src) { return; }
+
+      // If player not created yet, render it now (body text is already on screen)
+      if (!playerEle) {
+        renderAudio(info, appDetailEle, langSel);
+        const currentsentence = appDetailEle?.querySelector(`#${seekId}`);
+        if (currentsentence) {
+          currentsentence.classList.add('is-current');
+        }
+        playerEle = document.querySelector('#app-audio');
+        if (!playerEle) { return; } // bail if render failed
+      } else {
+        // Player exists; make sure our internal refs are ready
+        ensureDOM();
+        // If a different src is needed, swap tracks without changing the user’s view
+        if (desired.src !== currentSrc) {
+          loadTrack(desired);
+        }
+      }
+
+
+
+
+      // Now seek to the tapped sentence and play
+      const seekToSafe = Math.max(0, Number(seekTo) || 0);
+      const doSeekAndPlay = function () {
+        try {
+          const dur = audioEl && isFinite(audioEl.duration) ? audioEl.duration : NaN;
+          if (isFinite(dur)) {
+            audioEl.currentTime = Math.min(seekToSafe, dur);
+          } else {
+            audioEl.currentTime = seekToSafe;
+          }
+        } catch (e) { /* no-op */ }
+
+        play();
+
+        // If the player was hidden (freshly initiated), default to mini; otherwise leave as-is
+        if (rootEl) {
+          const state = rootEl.getAttribute('data-state');
+          if (!state || state === 'hidden') { showMini(); }
+        }
+      };
+
+      // Seek immediately if metadata ready; otherwise wait once
+      if (audioEl && isFinite(audioEl.duration) && audioEl.duration > 0) {
+        doSeekAndPlay();
+      } else {
+        const once = function () {
+          audioEl.removeEventListener('loadedmetadata', once);
+          audioEl.removeEventListener('canplay', once);
+          doSeekAndPlay();
+        };
+        audioEl.addEventListener('loadedmetadata', once, { once: true });
+        audioEl.addEventListener('canplay', once, { once: true });
+        try { audioEl.load(); } catch (e) { /* safe */ }
+      }
+
+    });
   }
+
+
+  function renderBodyObject(bodyObject, appDetailEle, audioUrl) {
+    // console.log(bodyObject);
+    let paragraphs = bodyObject?.text ?? [];
+    
+    if (paragraphs.length === 0) {return;}
+    let ele = appDetailEle.querySelector('#ios-story-body');
+    if (!ele) {return;}
+    ele.setAttribute(`data-audio-url`, audioUrl);
+		var htmlForAudio = '';
+		for (var k=0; k<paragraphs.length; k++) {
+			htmlForAudio += '<p>';
+			for (var l=0; l<paragraphs[k].length; l++) {
+        const sentenceInfo = paragraphs[k][l];
+				const t = sentenceInfo?.text?.replace(/<strong>([^<]+)$/g, '<strong>$1</strong>').replace(/^<\/strong>/g, '') ?? '';
+        const s = sentenceInfo?.start;
+				htmlForAudio += `<span class="audio-sentence" data-start="${s}" id="span-${k}-${l}" data-section="${k}" data-row="${l}">${t}</span>`;
+			}
+			htmlForAudio += '</p>';
+		}
+		ele.innerHTML = htmlForAudio;
+  }
+
+
+
+
 
   // DOM
   function ensureDOM() {
@@ -259,6 +401,7 @@
 
   function destroy() {
     try {
+      timeSeek = {};
       if (rafId) { cancelAnimationFrame(rafId); rafId = 0; }
       if (audioEl) {
         try { audioEl.pause(); } catch (e1) {}
@@ -351,6 +494,56 @@
     while (j < playEls.length) { playEls[j].classList.remove(DISABLED_CLASS); playEls[j].disabled = false; j += 1; }
   }
 
+
+  function highlightCurrentAudioText(t, d, currentSrc) {
+
+    function removeCurrentClasses(audioHTMLBodyEle) {
+        let currentEles = audioHTMLBodyEle.querySelectorAll('.audio-sentence.is-current[data-start]');
+        for (let currentEle of currentEles) {
+          currentEle.classList.remove('is-current');
+        }
+    }
+
+
+    const current = timeSeek?.current;
+    const next = timeSeek?.next;
+    const src = timeSeek?.src;
+    if (src !== currentSrc) {
+      timeSeek = { src: currentSrc, current: -1, next: Infinity, el: null };
+    }
+    if (current >= 0 && t >= current && t < next) {
+      // At this point we can quickly return to save computation power
+      return;
+    }
+    let audioHTMLBodyEle = document.querySelector(`#ios-story-body[data-audio-url="${currentSrc}"]`);
+    if (!audioHTMLBodyEle) {return;}
+      if (t === d) {
+      removeCurrentClasses(audioHTMLBodyEle);
+    }
+    const sentencesEles = audioHTMLBodyEle.querySelectorAll('.audio-sentence[data-start]');
+    const l = sentencesEles.length;
+    for (let [index, sentenceEle] of sentencesEles.entries()) {
+      const startTime = Number(sentenceEle?.getAttribute('data-start'));
+      const nextSentenceEle = sentencesEles[index + 1];
+      let nextTime;
+      if (index + 1 < l) {
+        nextTime = Number(nextSentenceEle?.getAttribute('data-start'));
+      } else {
+        nextTime = d;
+      }
+      if (!Number.isFinite(startTime)) {continue;}
+      if (t >= startTime && t < nextTime) {
+        removeCurrentClasses(audioHTMLBodyEle);
+        sentenceEle.classList.add('is-current');
+        // TODO: scroll this into view
+        sentenceEle.scrollIntoView({block: 'nearest', inline: 'nearest', behavior: 'smooth'});
+        timeSeek.current = startTime;
+        timeSeek.next = nextTime;
+        break;
+      }
+    }
+  }
+
   // Events
   function bindAudioEvents(a) {
     function onReady() {
@@ -379,6 +572,7 @@
         var d = a.duration;
         var t = a.currentTime || 0;
         setCurrentTimeUI(t, d);
+        highlightCurrentAudioText(t, d, currentSrc);
         if (d && isFinite(d)) { setMiniProgressUI(t / d); } else { setMiniProgressUI(null); }
       });
     }, { passive: true });

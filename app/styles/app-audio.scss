@@ -191,6 +191,20 @@ $thumb-d: 16px;
   .app-audio-toggle.is-disabled { pointer-events: auto; opacity: 1; cursor: pointer; }
 }
 
+
+.app-detail-view {
+  /* make room for sticky top nav and the mini player at the bottom */
+  scroll-padding-block-start: $navHeight;
+  scroll-padding-block-end: $navHeight * 2 + $app-audio-mini-height;
+}
+
+
+.audio-sentence {
+  cursor: pointer;
+  scroll-margin-block: 4px; // or 0.25rem
+}
+
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .app-audio { * { transition: none !important; animation: none !important; } }
