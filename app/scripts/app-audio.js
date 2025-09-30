@@ -40,8 +40,9 @@
       renderBodyObject(bodyObject, appDetailEle, audioUrl);
 
       if (!audioUrl) { return; }
+      appDetailEle.setAttribute('data-audio-url', audioUrl);
       var audioTitle = useEN ? (info && info.eheadline) : (info && info.cheadline);
-      var image = (info && info.story_pic && (info.story_pic.cover || info.story_pic.other || info.story_pic.smallbutton || info.story_pic.bigbutton)) || '';
+      var image = info?.story_pic.cover ?? info?.story_pic?.other ?? info?.story_pic?.smallbutton ?? info?.story_pic?.bigbutton ?? '';
       ensureDOM();
       if (audioUrl === currentSrc) {
         showMini(); 
@@ -49,6 +50,7 @@
       }
       loadTrack({ src: audioUrl, title: audioTitle || 'Audio', image: image });
       showMini();
+      showPlay();
       // renderAudioScript(info, appDetailEle, langSel);
     } catch (err) {
       console.log('[app-audio] renderAudio error:', err && err.message);
@@ -141,9 +143,8 @@
       // Helper to compute the desired audio URL / title / image given info+langSel
       function resolveDesiredTrack(info, langSel) {
         const useEN = !!(langSel && langSel.useEN);
-        const src = useEN
-          ? (info?.body_object_english?.url ?? info?.story_audio?.ai_audio_e ?? '')
-          : (info?.body_object_chinese?.url ?? info?.story_audio?.ai_audio_c ?? info?.story_audio?.ai_audio_e ?? '');
+        const src = useEN ? (info?.body_object_english?.url ?? info?.story_audio?.ai_audio_e ?? '')
+ : (info?.body_object_chinese?.url ?? info?.story_audio?.ai_audio_c ?? info?.story_audio?.ai_audio_e ?? '');
         const title = useEN ? (info?.eheadline || 'Audio') : (info?.cheadline || 'Audio');
         const img = (info?.story_pic && (info.story_pic.cover || info.story_pic.other || info.story_pic.smallbutton || info.story_pic.bigbutton)) || '';
         return { src: String(src || ''), title: String(title || 'Audio'), image: String(img || '') };
@@ -222,16 +223,36 @@
     ele.setAttribute(`data-audio-url`, audioUrl);
 		var htmlForAudio = '';
 		for (var k=0; k<paragraphs.length; k++) {
-			htmlForAudio += '<p>';
+      let prefix = '<p>';
+      let suffix = '</p>';
+
+      if (paragraphs[k].length === 1 && /^<.+>$/gi.test(paragraphs[k]?.[0]?.text ?? '')) {
+        prefix = '';
+        suffix = '';
+      }
+      htmlForAudio += prefix;
 			for (var l=0; l<paragraphs[k].length; l++) {
         const sentenceInfo = paragraphs[k][l];
 				const t = sentenceInfo?.text?.replace(/<strong>([^<]+)$/g, '<strong>$1</strong>').replace(/^<\/strong>/g, '') ?? '';
         const s = sentenceInfo?.start;
-				htmlForAudio += `<span class="audio-sentence" data-start="${s}" id="span-${k}-${l}" data-section="${k}" data-row="${l}">${t}</span>`;
+				htmlForAudio += `<span class="audio-sentence" data-start="${s}" id="span-${k}-${l}">${t}</span>`;
 			}
-			htmlForAudio += '</p>';
+			htmlForAudio += suffix;
 		}
 		ele.innerHTML = htmlForAudio;
+    
+    const firstParagraph = paragraphs?.[0];
+    // console.log(`first paragraph: `, firstParagraph);
+    if (!firstParagraph) {return;}
+    const firstParagraphText = firstParagraph?.[0].text ?? '';
+    // console.log(`firstParagraphText: `, firstParagraphText);
+    if (firstParagraph.length === 1 && /<picture>/gi.test(firstParagraphText)) {
+      let imageEle = appDetailEle.querySelector('.story-image');
+      if (imageEle) {
+        imageEle.innerHTML = '';
+      }
+    }
+
   }
 
 
@@ -357,6 +378,11 @@
     if (audioEl.paused) { play(); } else { pause(); }
   }
 
+  function showPlay() {
+    if (!rootEl) { return; }
+    rootEl.classList.remove(PLAYING_CLASS);
+  }
+
   function seekRelative(delta) {
     if (!audioEl) { return; }
     var t = audioEl.currentTime || 0;
@@ -404,10 +430,19 @@
       timeSeek = {};
       if (rafId) { cancelAnimationFrame(rafId); rafId = 0; }
       if (audioEl) {
+        const audioUrl = audioEl.src;
         try { audioEl.pause(); } catch (e1) {}
         try { audioEl.removeAttribute('src'); audioEl.load(); } catch (e2) {}
+        if (audioUrl) {
+          console.log(`look for the detail view (${audioUrl}) and close it! `);
+          let view = document.querySelector(`.app-detail-view[data-audio-url="${audioUrl}"]`);
+          if (view) {
+            destroyDetailView(view);
+          }
+        }
       }
       if (rootEl && rootEl.parentNode) { rootEl.parentNode.removeChild(rootEl); }
+
     } catch (e) {
       console.log('[app-audio] destroy error:', e && e.message);
     } finally {

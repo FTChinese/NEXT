@@ -99,7 +99,7 @@ function selectLanguage(info) {
   const readingPreference = myPreference?.[reading_preference_key] ?? 'cn';
   // 'cn' = Chinese, 'en' = English, 'ce' = bilingual
 
-  const hasEN = !!(info.ebody && info.ebody.trim());
+  const hasEN = !!(info.ebody && info.ebody.trim()) || info.body_object_english;
 
   const show_billigual_switch = info?.show_billigual_switch;
 
@@ -268,6 +268,8 @@ async function renderContentPage(info, appDetailEle) {
 
   // Select language (reads saved preference)
   const langSel = selectLanguage(info);
+
+  // console.log(langSel);
 
   // console.log(`info: `, info);
 
@@ -679,6 +681,7 @@ async function renderLanguageSwitch(appDetailEle, langSel) {
     slot.__rendered = true;
   }
 
+
   // Update button states without re-rendering the switch
   const btns = slot.querySelectorAll('.lang-btn');
   for (let i = 0; i < btns.length; i += 1) {
@@ -696,6 +699,10 @@ async function renderLanguageSwitch(appDetailEle, langSel) {
   }
 }
 
+
+
+
+
 // This is for frontend check for displaying correct information. We also made sure the actual data is verified on the backend
 function getUserInfo() {
     const rootClassList = document.documentElement.classList;
@@ -709,6 +716,31 @@ function getUserInfo() {
     return {userTier, hasLogin};
 }
 
+
+
+function destroyDetailView(view) {
+      try {
+
+        // Remove the "on" class → triggers your CSS transition/animation
+        view.classList.remove('on');
+
+        // Define a one-time listener for when the transition ends
+        const handleTransitionEnd = (e) => {
+            // Make sure it only reacts to the intended property if needed
+            if (e.target === view) {
+                view.removeEventListener('transitionend', handleTransitionEnd);
+                view.remove(); // Remove the DOM element
+            }
+        };
+
+        view.addEventListener('transitionend', handleTransitionEnd);
+
+        // For animations instead of transitions, use 'animationend'
+        // view.addEventListener('animationend', handleTransitionEnd);
+    } catch (err) {
+        console.error('render story error:', err);
+    }
+}
 
 /* -----------------------------
    Language switch handler
@@ -789,29 +821,10 @@ delegate.on('click', '.app-detail-audio.on', async function () {
 
 
 delegate.on('click', '.app-detail-back', async function () {
-    try {
-        const view = this.closest('.app-detail-view');
-
-        // Remove the "on" class → triggers your CSS transition/animation
-        view.classList.remove('on');
-
-        // Define a one-time listener for when the transition ends
-        const handleTransitionEnd = (e) => {
-            // Make sure it only reacts to the intended property if needed
-            if (e.target === view) {
-                view.removeEventListener('transitionend', handleTransitionEnd);
-                view.remove(); // Remove the DOM element
-            }
-        };
-
-        view.addEventListener('transitionend', handleTransitionEnd);
-
-        // For animations instead of transitions, use 'animationend'
-        // view.addEventListener('animationend', handleTransitionEnd);
-    } catch (err) {
-        console.error('render story error:', err);
-    }
+  destroyDetailView(this.closest('.app-detail-view'));
 });
+
+
 
 
 
