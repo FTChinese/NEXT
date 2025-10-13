@@ -42,7 +42,7 @@
 		}
 		if (typeof explainImage === 'string') {
 			var storyWidth = ele.offsetWidth;
-			var imageUrl = 'https://www.ft.com/__origami/service/image/v2/images/raw/' + encodeURIComponent(window.explainImage) + '?source=ftchinese&width=' + storyWidth;
+			var imageUrl = 'https://images.ft.com/v3/images/raw/' + encodeURIComponent(window.explainImage) + '?source=ftchinese&width=' + storyWidth;
 			//alert (storyWidth);
 			//answerExplain += '<img src="'+ imageUrl +'">';
 			answerExplain += '<div class=" story-image image"><figure><img src="'+ imageUrl +'"></figure></div>';

@@ -269,12 +269,13 @@ async function renderContentPage(info, appDetailEle) {
   // Select language (reads saved preference)
   const langSel = selectLanguage(info);
 
-  // console.log(langSel);
-
-  // console.log(`info: `, info);
-
   // Render language-dependent body (topper, article, comments, etc.)
-  await renderContentPageBody(info, appDetailEle, langSel);
+  const tags = (info?.tag ?? '').split(',').map(x => x.trim());
+  if (tags.includes('教程')) {
+    await renderMBAGymPageBody(info, appDetailEle, langSel);
+  } else {
+    await renderContentPageBody(info, appDetailEle, langSel);
+  }
 
   // Render or update the language switch without re-creating it
   await renderLanguageSwitch(appDetailEle, langSel);

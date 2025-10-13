@@ -531,7 +531,7 @@ function imagesToHtml(embed) {
             isSmallImage = false;
         }
         const actualWidth = pixelWidth * 2;
-        let imageUrl = `https://www.ft.com/__origami/service/image/v2/images/raw/${encodeURIComponent(image.binaryUrl)}`;
+        let imageUrl = `https://images.ft.com/v3/images/raw/${encodeURIComponent(image.binaryUrl)}`;
         deskTopImage = `<img src="${imageUrl}?source=next&amp;width=${actualWidth}">`;
         if (image.format === 'desktop' || image.minDisplayWidth === '980px') {
             html += `<source media="screen and (min-width: 980px)" srcset="${imageUrl}?source=next&amp;width=${actualWidth}">`;
@@ -627,7 +627,7 @@ async function handleFTContent(contentData) {
         for (const image of images) {
             const src = image.src;
             if (!src || src === '') {continue;}
-            const imageUrl = `https://www.ft.com/__origami/service/image/v2/images/raw/${encodeURIComponent(src)}?source=next&amp;width=2400`;
+            const imageUrl = `https://images.ft.com/v3/images/raw/${encodeURIComponent(src)}?source=next&amp;width=2400`;
             image.src = imageUrl;
             const description = image.getAttribute('longdesc') || '';
             image.outerHTML = `<picture>${image.outerHTML}${description}</picture>`;

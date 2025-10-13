@@ -8,6 +8,9 @@
 @import "main-header-hero.scss";
 @import "main-header-topper.scss";
 @import "app-audio.scss";
+@import "app-mba-gym.scss";
+
+
 
 html {
     scroll-behavior: smooth;
@@ -127,25 +130,49 @@ body {
 }
 
 
+
+// The spinner
 .app-loading {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   
-  width: 40px;
-  height: 40px;
-  border: 4px solid #ccc;
-  border-top-color: #333;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #ccc;
+    border-top-color: #333;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    /* Key fix: set the rotation center explicitly */
+    transform-origin: center center;
+  }
+
+  .status {
+    margin-top: 12px;
+    font-size: 14px;
+    color: #555;
+    text-align: center;
+    max-width: 200px;
+    word-break: break-word;
+  }
 }
 
 @keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
   to {
-    transform: translate(-50%, -50%) rotate(360deg);
+    transform: rotate(360deg);
   }
 }
+
 
 
 
@@ -413,4 +440,8 @@ $app-detail-border: rgba(0, 0, 0, 0.08) !default;
 
 .app-icon-video {
   background-image: url('https://d1sh1cgb4xvhl.cloudfront.net/unsafe/picture/9/000302529_piclink.png');
+}
+
+.pagination-container {
+  padding-bottom: $navHeight;
 }

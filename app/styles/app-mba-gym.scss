@@ -1,0 +1,34 @@
+.app-detail-view .app-detail-content.app-detail-mba-gym-content {
+    padding: 0;
+}
+.app-detail-mba-gym-content {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  .mba-gym-content {
+    position: relative;
+    // background-color: red;
+    flex: 1 1 auto; // takes remaining space above progress bar
+
+    span {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      display: none;
+      overflow-y: auto; // scrollable area
+      &.on {
+        display: block;
+      }
+    }
+  }
+
+  .mba-gym-progress {
+    // background-color: green;
+    height: 100px;
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+}

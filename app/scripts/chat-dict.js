@@ -5568,18 +5568,18 @@ Genres: {
       "ru": "Вы можете использовать свое имя пользователя для входа" // Adjusted for username context
     },
     setSecurePassword: {
-        "zh": "设置安全密码：8个以上字符，包含大写、小写、数字和特殊字符",
-        "en": "Set a secure password: 8+ chars, uppercase, lowercase, number, and special character",
-        "es": "Establezca una contraseña segura: 8+ caracteres, mayúsculas, minúsculas, número y carácter especial",
-        "fr": "Définissez un mot de passe sécurisé : 8+ caractères, majuscules, minuscules, chiffre et caractère spécial",
-        "de": "Erstellen Sie ein sicheres Passwort: 8+ Zeichen, Großbuchstaben, Kleinbuchstaben, Zahl und Sonderzeichen",
-        "ja": "セキュリティの高いパスワードを設定してください：8文字以上、大文字、小文字、数字、特殊文字",
-        "ko": "보안 비밀번호 설정: 8자 이상, 대문자, 소문자, 숫자 및 특수 문자",
-        "pt": "Defina uma senha segura: 8+ caracteres, maiúsculas, minúsculas, número e caractere especial",
-        "it": "Imposta una password sicura: 8+ caratteri, maiuscole, minuscole, numero e carattere speciale",
-        "zh-TW": "設置安全密碼：8個以上字符，包含大寫、小寫、數字和特殊字符",
-        "zh-HK": "設置安全密碼：8個以上字符，包含大寫、小寫、數字和特殊字符",
-        "ru": "Установите надежный пароль: более 8 символов, заглавные и строчные буквы, цифра и специальный символ"
+      zh: "设置安全密码：8个以上字符，包含大写、小写、数字和特殊字符。请勿使用与其他服务相同的密码。",
+      en: "Set a secure password: 8+ chars, uppercase, lowercase, number, and special character. Never reuse a password from another service.",
+      es: "Establezca una contraseña segura: 8+ caracteres, mayúsculas, minúsculas, número y carácter especial. Nunca reutilice una contraseña de otro servicio.",
+      fr: "Définissez un mot de passe sécurisé : 8+ caractères, majuscules, minuscules, chiffre et caractère spécial. Ne réutilisez jamais un mot de passe provenant d’un autre service.",
+      de: "Erstellen Sie ein sicheres Passwort: 8+ Zeichen, Großbuchstaben, Kleinbuchstaben, Zahl und Sonderzeichen. Verwenden Sie niemals dasselbe Passwort für andere Dienste.",
+      ja: "セキュリティの高いパスワードを設定してください：8文字以上、大文字、小文字、数字、特殊文字。ほかのサービスで使用したパスワードは再利用しないでください。",
+      ko: "보안 비밀번호 설정: 8자 이상, 대문자, 소문자, 숫자 및 특수 문자. 다른 서비스에서 사용한 비밀번호를 재사용하지 마세요.",
+      pt: "Defina uma senha segura: 8+ caracteres, maiúsculas, minúsculas, número e caractere especial. Nunca reutilize uma senha de outro serviço.",
+      it: "Imposta una password sicura: 8+ caratteri, maiuscole, minuscole, numero e carattere speciale. Non riutilizzare mai la stessa password per altri servizi.",
+      "zh-TW": "設置安全密碼：8個以上字符，包含大寫、小寫、數字和特殊字符。請勿使用與其他服務相同的密碼。",
+      "zh-HK": "設置安全密碼：8個以上字符，包含大寫、小寫、數字和特殊字符。請勿使用與其他服務相同的密碼。",
+      ru: "Установите надежный пароль: более 8 символов, заглавные и строчные буквы, цифра и специальный символ. Никогда не используйте тот же пароль, что и для других сервисов."
     },
     passwordRuleLength: {
       "zh": "8个以上字符",
@@ -5638,18 +5638,18 @@ Genres: {
         "ru": "Включать цифру"
     },
     passwordMustContain: {
-      "zh": "密码必须包含",
-      "en": "Password must contain",
-      "es": "La contraseña debe contener",
-      "fr": "Le mot de passe doit contenir",
-      "de": "Passwort muss enthalten",
-      "ja": "パスワードには以下が含まれている必要があります",
-      "ko": "비밀번호에는 다음이 포함되어야 합니다",
-      "pt": "A senha deve conter",
-      "it": "La password deve contenere",
-      "zh-TW": "密碼必須包含",
-      "zh-HK": "密碼必須包含",
-      "ru": "Пароль должен содержать"
+      "zh": "密码必须包含大写字母、小写字母、数字和特殊字符，请勿使用曾在其他服务中使用过的密码",
+      "en": "Password must contain uppercase, lowercase, number, and special character, never reuse a password used for another service",
+      "es": "La contraseña debe contener mayúsculas, minúsculas, números y caracteres especiales, nunca reutilice una contraseña utilizada en otro servicio",
+      "fr": "Le mot de passe doit contenir des majuscules, des minuscules, des chiffres et des caractères spéciaux, ne réutilisez jamais un mot de passe utilisé pour un autre service",
+      "de": "Passwort muss Großbuchstaben, Kleinbuchstaben, Zahlen und Sonderzeichen enthalten, verwenden Sie niemals ein Passwort, das für einen anderen Dienst verwendet wurde",
+      "ja": "パスワードには大文字、小文字、数字、および特殊文字を含める必要があります。他のサービスで使用したパスワードは再利用しないでください",
+      "ko": "비밀번호에는 대문자, 소문자, 숫자 및 특수 문자가 포함되어야 합니다, 다른 서비스에서 사용한 비밀번호를 재사용하지 마세요",
+      "pt": "A senha deve conter letras maiúsculas, minúsculas, números e caracteres especiais, nunca reutilize uma senha usada em outro serviço",
+      "it": "La password deve contenere lettere maiuscole, minuscole, numeri e caratteri speciali, non riutilizzare mai una password usata per un altro servizio",
+      "zh-TW": "密碼必須包含大寫字母、小寫字母、數字和特殊字符，請勿使用曾在其他服務中使用過的密碼",
+      "zh-HK": "密碼必須包含大寫字母、小寫字母、數字和特殊字符，請勿使用曾在其他服務中使用過的密碼",
+      "ru": "Пароль должен содержать заглавные и строчные буквы, цифры и специальные символы, никогда не используйте пароль, который использовался для других сервисов"
     },
     passwordRuleSpecialCharacter: {
       "zh": "包含至少一个特殊字符，例如: !@#$%^&*",

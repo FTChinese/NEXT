@@ -493,6 +493,13 @@ function getRelativeLink(input) {
   }
 }
 
+function markUrlForPagination(targetDom, urlString) {
+    if (!urlString) {return;}
+    let paginationEle = targetDom?.querySelector('.pagination-inner');
+    if (!paginationEle) {return;}
+    paginationEle.setAttribute('data-page-url', urlString);
+}
+
 async function renderChannel(channel) {
     try {
         const index = channel?.index;
@@ -509,7 +516,7 @@ async function renderChannel(channel) {
         if (listapi && window.isFrontEndTest) {
             listapi = `/api/page/app_home.html`;
         }
-        targetDom.innerHTML = `<div class="app-loading"></div>`;
+        targetDom.innerHTML = `<div class="app-loading"><div class="spinner"></div></div>`;
         if (listapi) {
             // console.log(`render the list api: ${listapi}`);
             // First request (or re-request if you call it again)
@@ -520,6 +527,8 @@ async function renderChannel(channel) {
             // Get the raw text of the response
             const text = await response.text();
             targetDom.innerHTML = text;
+            targetDom.setAttribute('data-url', listapi);
+            markUrlForPagination(targetDom, listapi);
             handleChannelUpdates();
         } else {
             console.log(`not a list api, need to deal with it. `);
@@ -534,6 +543,8 @@ async function handleChannelUpdates() {
     try {
         runLoadImages();
         refreshAllAds();
+        renderPaginationHTML();
+
         // TODO: other things such as sending a page view count, render calendar for the home page, render the promo box etc...
     } catch(err) {
         console.error(`handleChannelUpdates error:`, err);
@@ -577,7 +588,11 @@ function handleLink(ele) {
     const link = getPathWithWebviewParams(ele.href);
     const title = ele?.innerText ?? '';
     // Return true if this link was handled here, false if browser should handle
-    if (/^\/(tag|m\/corp|m\/marketing|channel|archive|archiver)\//gi.test(link)) {
+    if (/p=[\d]/gi.test(link)) {
+        // handlePageData({link, title});
+        handlePaginationReload(ele, {link, title});
+        return true;
+    } else if (/^\/(tag|m\/corp|m\/marketing|channel|archive|archiver)\//gi.test(link)) {
         handlePageData({link, title});
         return true;
     } else if (/\/(story|premium|interactive|content|video)/gi.test(link)) {
@@ -643,6 +658,9 @@ async function handlePageData(data) {
     const html = await response.text();
     contentEl.innerHTML = html;
 
+
+    markUrlForPagination(contentEl, urlString);
+
     // Kick lazy media loader for newly injected content
     if (typeof runLoadImages === 'function') {
       runLoadImages();
@@ -652,7 +670,62 @@ async function handlePageData(data) {
   }
 }
 
+async function handlePaginationReload(ele, data) {
+  try {
+    const { link, title } = data;
 
+    const pageEle = ele?.closest('[data-url]');
+
+    if (!pageEle) {return;}
+
+
+
+    // Build URL robustly (preserves existing params/fragments)
+    let urlString;
+    let p = 1;
+    if (window.isFrontEndTest) {
+      urlString = '/api/page/app_home.html';
+    } else {
+      if (typeof URL === 'function') {
+        const u = new URL(link, window.location.href); // supports relative links
+        u.searchParams.set('webview', 'ftcapp');
+        u.searchParams.set('bodyonly', 'yes');
+        urlString = u.toString();
+        p = u.searchParams.get('p');
+      } else {
+        // Very old browsers fallback: append safely
+        var sep = (link.indexOf('?') === -1) ? '?' : '&';
+        urlString = link + sep + 'webview=ftcapp&bodyonly=yes';
+      }
+    }
+
+    const status = p === '1' ? '' : `<p>加载第${p}页...</p>`;
+    pageEle.innerHTML = `<div class="app-loading">
+        <div class="spinner"></div>
+        <div class="status">${status}</div>
+    </div>`;
+
+    const response = await fetch(urlString);
+    if (!response.ok) { return; }
+    const html = await response.text();
+    pageEle.innerHTML = html;
+
+    let titleEle = pageEle.querySelector('.app-detail-title');
+    if (titleEle) {
+        titleEle.innerHTML = title;
+    }
+    pageEle.setAttribute('data-url', urlString);
+    markUrlForPagination(pageEle, urlString);
+    handleChannelUpdates();
+
+    // Kick lazy media loader for newly injected content
+    if (typeof runLoadImages === 'function') {
+      runLoadImages();
+    }
+  } catch (err) {
+    console.error('handle content data error:', err);
+  }
+}
 
 async function handleContentData(data) {
     try {
@@ -703,6 +776,55 @@ async function handleContentData(data) {
     }
 }
 
+function renderPaginationHTML() {
+    let paginationEles = document.querySelectorAll('.pagination-inner[data-max-page-index]');
+    for (let paginationEle of paginationEles) {
+        const maxIndex = parseInt(paginationEle.getAttribute('data-max-page-index'), 10) ?? 0;
+        if (maxIndex === 0) {continue;}
+        var currentIndex = parseInt(paginationEle.getAttribute('data-page-index'), 10) ?? 1;
+        var indexLength = (w && w > 490) ? 10 : 5;
+        var startIndex = Math.max(1, currentIndex - Math.floor(indexLength / 2));
+        var endIndex = startIndex + indexLength - 1;
+        if (endIndex > maxIndex) {
+        endIndex = maxIndex;
+        startIndex = Math.max(1, endIndex - indexLength + 1);
+        }
+        var currentHTML = '';
+        const dataUrl = paginationEle?.closest('[data-url]')?.getAttribute('data-url');
+        console.log(`data url:`, dataUrl);
+        if (!dataUrl) {continue;}
+
+        var currentUrl = dataUrl.replace(/p=[0-9]+/g, '');
+        var connector = (currentUrl.indexOf('?') >= 0) ? '&' : '?';
+        currentUrl = currentUrl + connector;
+        currentUrl = currentUrl.replace(/\?&/g, '?').replace(/&+/g, '&');
+        for (var i = startIndex; i <= endIndex; i++) {
+            if (i === currentIndex) {
+                currentHTML += '<span class="current">' + i + '</span>';
+            } else {
+                currentHTML += '<a href="' + currentUrl + 'p=' + i + '">' + i + '</a>';
+            }
+        }
+        var nextIndex = currentIndex + 1;
+        if (nextIndex <= maxIndex) {
+        currentHTML += '<a href="' + currentUrl + 'p=' + nextIndex + '">&rsaquo;&rsaquo;下一页</a>';
+        }
+        if (endIndex < maxIndex) {
+        currentHTML += '<a href="' + currentUrl + 'p=' + maxIndex + '">&rsaquo;|</a>';
+        }
+        var prevIndex = currentIndex - 1;
+        if (prevIndex >= 1) {
+        currentHTML = '<a href="' + currentUrl + 'p=' + prevIndex + '">上一页&lsaquo;&lsaquo;</a>' + currentHTML;
+        }
+        if (startIndex > 1) {
+        currentHTML = '<a href="' + currentUrl + 'p=1">|&lsaquo;</a>' + currentHTML;
+        }
+        paginationEle.innerHTML = currentHTML;
+        paginationEle.removeAttribute('data-max-page-index');
+        paginationEle.removeAttribute('data-page-index');
+    }
+}
+
 delegate.on('click', '.app-icon-container', async function () {
     if (!this.classList?.contains('dim')) {return;}
     const section = this.getAttribute('data-section');
@@ -717,7 +839,6 @@ delegate.on('click', '.app-channel', async function () {
     await renderChannel(channel);
 });
 
-
 delegate.on('click', '.item-container-app', async function (event) {
     try {
         if (event?.defaultPrevented || event?.target?.closest('a[href]')) {return;}
@@ -730,7 +851,6 @@ delegate.on('click', '.item-container-app', async function (event) {
     }
 });
 
-
 delegate.on('click', 'a[href]', function (event) {
     const linkHandled = handleLink(this);
     if (!linkHandled) {
@@ -739,8 +859,5 @@ delegate.on('click', 'a[href]', function (event) {
     event.preventDefault();         // stop browser navigation
     event.stopImmediatePropagation();
 });
-
-
-
 
 renderSection('News');
