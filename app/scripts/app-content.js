@@ -272,7 +272,7 @@ async function renderContentPage(info, appDetailEle) {
   // Render language-dependent body (topper, article, comments, etc.)
   const tags = (info?.tag ?? '').split(',').map(x => x.trim());
   if (tags.includes('教程')) {
-    await renderMBAGymPageBody(info, appDetailEle, langSel);
+    await renderMBAGymPageBody(info, appDetailEle);
   } else {
     await renderContentPageBody(info, appDetailEle, langSel);
   }

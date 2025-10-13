@@ -1,4 +1,6 @@
-async function renderMBAGymPageBody(info, appDetailEle, langSel, langValue) {
+/* exported renderMBAGymPageBody */
+
+async function renderMBAGymPageBody(info, appDetailEle) {
   // -------- 0) Clean up previous observers before replacing the body --------
   const oldTarget = appDetailEle.querySelector('.user_comments_container');
   if (oldTarget && oldTarget.__io) {
