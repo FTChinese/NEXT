@@ -1,5 +1,23 @@
+$mbaGymBottomContainerHeight: 100px;
+$mbaGymProgressBarHeight: 4px;
+$mbaGymBigButtonHeight: 64px;
+$mbaGymBigButtonHeight: 64px;
+$mbaGymBeatScale: 1.06 !default;      // pulse size
+
+// slide animation vars
+$mbaGymSlideDur: 0.4s;
+$mbaGymSlideEase: cubic-bezier(0.22, 0.61, 0.36, 1);
+
 .app-detail-view .app-detail-content.app-detail-mba-gym-content {
     padding: 0;
+}
+.app-detail-score {
+  padding-right: $defaultPadding * 0.5;
+  letter-spacing: $defaultPadding * 0.2;
+}
+.half-star {
+  opacity: 0.5;     /* lighter look */
+  filter: grayscale(100%);
 }
 .app-detail-mba-gym-content {
   display: flex;
@@ -15,20 +33,223 @@
       width: 100%;
       height: 100%;
       position: absolute;
-      display: none;
+      top: 0;
+      left: 0;
       overflow-y: auto; // scrollable area
+      padding: $defaultPadding * 0.5;
+
+      // --- Sliding system (display:none for non-active) ---
+      // Hidden by default to save resources
+      display: none;
+      opacity: 0;
+      transform: translateX(100%); // parked off-screen to the right
+      will-change: transform, opacity;
+
+      // Shown page (steady state, no transition needed)
       &.on {
         display: block;
+        opacity: 1;
+        transform: translateX(0);
+        transition: none;
+        pointer-events: auto; // interactive
       }
+
+      // Prepare to enter: visible but off-screen right
+      &.enter {
+        display: block;
+        opacity: 0;
+        transform: translateX(100%);
+        pointer-events: none; // avoid accidental interactions mid-transition
+      }
+
+      // Animate entrance to final position
+      &.enter-active {
+        display: block;
+        transition: transform $mbaGymSlideDur $mbaGymSlideEase, opacity $mbaGymSlideDur $mbaGymSlideEase;
+        transform: translateX(0);
+        opacity: 1;
+        pointer-events: none;
+      }
+
+      // Animate exit: slide out left, then JS will remove classes -> display:none
+      &.exit-active {
+        display: block;
+        transition: transform $mbaGymSlideDur $mbaGymSlideEase, opacity $mbaGymSlideDur $mbaGymSlideEase;
+        transform: translateX(-100%);
+        opacity: 0;
+        pointer-events: none;
+      }
+      // --- End sliding system ---
+    }
+
+    .slide-inner {
+      margin: auto;
+      max-width: 728px;
+    }
+
+    .pagetitle {
+        font-weight: bold;
+        font-size: 1.4em;
+        margin-bottom: 1em;
+    }
+    .pageintro {
+        font-weight: bold;
+        margin-bottom: 1em;
+    }
+
+    div, p {
+        line-height: 1.618em;
+    }
+  }
+  .rightanswer {
+    display: none;
+    padding-top: 1em;
+    &.show {
+      display: block;
     }
   }
 
-  .mba-gym-progress {
+  .answer-result {
+    font-weight: bold;
+    font-size: 1.2em;
+    &.is-correct {
+      color: $correct;
+    }
+    &.is-wrong {
+      color: $wrong;
+    }
+  }
+
+
+
+
+
+    ul.quizlist li {
+        position: relative;
+        cursor: pointer;
+        padding: $defaultPadding * 0.5 0 $defaultPadding * 0.5 $navHeight;
+        transition: background 0.3s linear;
+        &:before {
+            content: "";
+            position: absolute;
+            top: 20px;
+            left: 14px;
+            width: 10px;
+            height: 10px;
+            border: 2px solid #ABA498;
+            border-radius: 10px;
+        }
+        &.option-selected {
+            background-color: $bannerBG;
+            &:before {
+              border-color: $darkGreen;
+              background-color: $darkGreen;
+            }
+        }
+        &.is-correct {
+          color: $darkGreen;
+          background-image: url(/powertranslate/assets/ic_correct_green_24px.svg);              
+          background-position: 10px center;
+          background-size: 24px;
+          background-repeat: no-repeat;
+          &:before {
+            display: none;
+          }
+        }
+        &.is-wrong {
+          color: $darkGrey;
+          background-image: url(/powertranslate/assets/ic_wrong_red_24px.svg);              
+          background-position: 10px center;
+          background-size: 24px;
+          background-repeat: no-repeat;
+          &:before {
+            display: none;
+          }
+        }
+    }
+
+}
+
+.mba-gym-progress {
     // background-color: green;
-    height: 100px;
+    height: $mbaGymBottomContainerHeight;
     position: sticky;
     bottom: 0;
     left: 0;
     right: 0;
+}
+
+.mba-gym-progress-bar-container {
+    height: $mbaGymProgressBarHeight;
+    width: 100%;
+    background-color: $borderColor;
+}
+.mba-gym-progress-bar-inner {
+    height: $mbaGymProgressBarHeight;
+    background-color: $darkGreen;
+}
+
+.mba-gym-big-button {
+    position: absolute;
+    background-color: $darkGreen;
+    color: white;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: $mbaGymBigButtonHeight;
+    height: $mbaGymBigButtonHeight;
+    border-radius: $mbaGymBigButtonHeight * 0.5;
+    line-height: $mbaGymBigButtonHeight;
+    text-align: center;
+    // pulse
+    transform-origin: center;
+    will-change: transform;
+    animation: mba-gym-heartbeat 1.2s ease-in-out infinite;
+    cursor: pointer;
+    &.is-disabled {
+      animation-play-state: paused;
+      background-color: $bannerBG;
+      color: $borderColor;
+      cursor: default;
+    }
+}
+
+.mba-gym-percentage {
+  margin: 0 auto 1em auto;
+  font-size: 3em;
+  > div {
+    text-align: center;
+  }
+  &.perfect {
+    color: orange;
+  }
+  &.excellent {
+    color: $teal;
+  }
+  &.good {
+    color: $correct;
+  }
+  &.bad {
+    color: $wrong;
+  }
+}
+
+
+
+@keyframes mba-gym-heartbeat {
+  0%   { transform: scale(1); }
+  50%  { transform: scale($mbaGymBeatScale); } // quick up
+  100% { transform: scale(1); }                // rest until next beat
+}
+
+// Respect reduced motion (also disables span transitions)
+@media (prefers-reduced-motion: reduce) {
+  .mba-gym-big-button { animation: none; }
+  .app-detail-mba-gym-content .mba-gym-content span {
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
   }
 }
