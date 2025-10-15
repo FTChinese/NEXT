@@ -24,7 +24,7 @@ async function renderPage(pages = [], index = 0) {
     if (avScoreEle) {
       avScoreEle.innerHTML = Math.round(accumulatedValue * 0.6);
     }
-    // TODO: show the final score percentage rate in in big font
+    // show the final score percentage rate in in big font
     const percentage = Math.round(100 * accumulatedScore / accumulatedValue);
     let percentageClass = '';
     if (percentage >= 100) {
