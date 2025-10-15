@@ -12,7 +12,7 @@ async function renderPage(pages = [], index = 0) {
   let viewEle = next.closest('.app-detail-content');
 
   // all the other cases
-  if (yourScoreEle) {
+  if (yourScoreEle && !next?.querySelector('.mba-gym-percentage')) {
     const accumulatedScore = parseInt(viewEle.getAttribute('data-accumulated-score') ?? '0', 10);
     const accumulatedValue = parseInt(viewEle.getAttribute('data-accumulated-value') ?? '0', 10);
     yourScoreEle.innerHTML = accumulatedScore;
@@ -80,7 +80,7 @@ async function renderPage(pages = [], index = 0) {
 
     // prepare next
     next.classList.add('enter');
-    next.offsetWidth; // force reflow
+    void next.offsetWidth; // force reflow
     next.classList.add('enter-active');
 
     // animate out previous
@@ -109,6 +109,8 @@ async function renderPage(pages = [], index = 0) {
   if (button) {
     if (l === index + 1) {
       button.innerHTML = '回顾';
+    } else if (l === index + 2) {
+      button.innerHTML = '完成';
     } else if (index === 0) {
       button.innerHTML = '开始';
     } else {
@@ -118,7 +120,7 @@ async function renderPage(pages = [], index = 0) {
 
   // Track page view
   const page_title = viewEle?.getAttribute('data-title') ?? '';
-  const url = viewEle?.getAttribute('data-url') ?? ''
+  const url = viewEle?.getAttribute('data-url') ?? '';
   const page_location = `${window.location.origin}${url}/${index}`;
   gtag('event', 'page_view', { page_title, page_location });
 
@@ -230,30 +232,26 @@ delegate.on('click', '.mba-gym-big-button', async function () {
         viewEle.setAttribute('data-accumulated-score', accumulatedScore);
         viewEle.setAttribute('data-accumulated-value', accumulatedValue);
 
+        // Visualize the accumulatedScore and accumulatedValue at the top right corner
         const lostScore = accumulatedValue - accumulatedScore;
         const remainScore = maxValue - lostScore;
-        const remainScoreInTen = Math.round(10 * remainScore / maxValue);
-        const remainHeartsOfFive = remainScoreInTen / 2;
-        const fullStars = Math.ceil(remainHeartsOfFive);
-        console.log(`remainHeartsOfFive:`, remainHeartsOfFive);
-        // TODO: Visualize the accumulatedScore and accumulatedValue at the top right corner
+        const remainScoresOfFive = 5 * remainScore / maxValue;
+        const fullStars = Math.floor(remainScoresOfFive);
+        // console.log(`remainHeartsOfFive:`, remainScoresOfFive);
         let starsHTML = '⭐'.repeat(fullStars);
-        if (remainHeartsOfFive > fullStars) {
-          starsHTML = `<font class="half-star">⭐</font>${starsHTML}`;
+        console.log(`remainScoresOfFive: ${remainScoresOfFive}, fullStars: ${fullStars}`);
+        if (remainScoresOfFive > fullStars) {
+          const opacity = remainScoresOfFive - fullStars;
+          const grayscale = (1 - opacity) * 100;
+          starsHTML = `<font style="opacity:${opacity};filter:grayscale(${grayscale}%)">⭐</font>${starsHTML}`;
         }
         let scoreEle = this.closest('.app-detail-view')?.querySelector('.app-detail-score');
         if (scoreEle) {
           scoreEle.innerHTML = starsHTML;
         }
 
-
-
-
-        const button = this.closest('.app-detail-content')?.querySelector('.mba-gym-big-button');
-        if (button) {
-          button.innerHTML = '继续';
-          button.classList.remove('is-disabled');
-        }
+        this.innerHTML = currentPageIndex === pagesLength - 2 ? '完成' : '继续';
+        this.classList.remove('is-disabled');
 
         quizList.classList.add('done');
         let rightAnswer = currentPageEle?.querySelector('.rightanswer');
@@ -263,7 +261,10 @@ delegate.on('click', '.mba-gym-big-button', async function () {
           rightAnswer.innerHTML = `<div class="answer-result ${resultClass}">${result}</div><div>正确答案是：${correctOptionHTML}</div>${rightAnswer.innerHTML}`;
           rightAnswer.classList.add('show');
           // Move the rightAnswer element to the end of currentPageEle
-          currentPageEle.appendChild(rightAnswer);
+          let slideInner = currentPageEle?.querySelector('.slide-inner');
+          if (slideInner) {
+            slideInner.appendChild(rightAnswer);
+          }
 
           // Scroll it into view smoothly
           rightAnswer.scrollIntoView({
