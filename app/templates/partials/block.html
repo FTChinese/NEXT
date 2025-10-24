@@ -885,6 +885,7 @@
 										<%assign var="itemImage" value=$item.image|default:$item.story_pic.cover|default:$item.story_pic.smallbutton|default:$item.story_pic.other|default:$item.story_pic.bigbutton%>
 									<%/if%>
 									<%assign var="itemImage" value=$itemImage|replace:"http://i.ftimg.net/picture/":"https://d1sh1cgb4xvhl.cloudfront.net/unsafe/picture/"%>
+									<%assign var="itemImage" value=$itemImage|replace:"http://i.ftimg.net/https":"https"%>
 									<%assign var="itemId" value=$itemInfo.id|default:$item.id|default:$item.photonewsid%>
 
 									<%*<!--

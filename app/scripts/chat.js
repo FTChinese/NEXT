@@ -1154,13 +1154,44 @@ function handleExcerpt(html) {
 }
 
 function markdownConvert(text) {
-  let result = markdownCodeBlock(text);
-  result = markdownToHtmlTable(result);
-  result = result.replace(/[\*]{2}([^*]+)[\*]{2}/g, '<strong>$1</strong>');
-  result = result.replace(/[\n\r]/g, '<br>').replace(/[\|]{3}/g, '\n');
-  result = handleExcerpt(result);
+  let result = markdownCodeBlock(text); // your existing code handler
+  result = markdownToHtmlTable(result); // your existing table handler
+
+  // Headings (###### .. #)
+  result = result.replace(/^######\s?(.*)$/gm, '<h6>$1</h6>');
+  result = result.replace(/^#####\s?(.*)$/gm, '<h5>$1</h5>');
+  result = result.replace(/^####\s?(.*)$/gm, '<h4>$1</h4>');
+  result = result.replace(/^###\s?(.*)$/gm, '<h3>$1</h3>');
+  result = result.replace(/^##\s?(.*)$/gm, '<h2>$1</h2>');
+  result = result.replace(/^#\s?(.*)$/gm, '<h1>$1</h1>');
+
+  // Horizontal rules --- *** ___
+  result = result.replace(/^\s*(?:-{3,}|\*{3,}|_{3,})\s*$/gm, '<hr>');
+
+  // Bold **text**
+  result = result.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+
+  // Italic *text* or _text_
+  result = result.replace(/(?<!\*)\*(?!\*)([^*]+)(?<!\*)\*(?!\*)/g, '<em>$1</em>');
+  result = result.replace(/(?<!_)_(?!_)([^_]+)(?<!_)_(?!_)/g, '<em>$1</em>');
+
+  // Images ![alt](url)
+  result = result.replace(/!\[([^\]]*)\]\(([^)]+)\)/g,
+    '<img src="$2" alt="$1" loading="lazy" decoding="async">'
+  );
+
+  // Links [text](url)
+  result = result.replace(/\[([^\]]+)\]\(([^)]+)\)/g,
+    '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>'
+  );
+
+  // Your existing replacements
+  result = result.replace(/[\n\r]/g, '<br>').replace(/\|{3}/g, '\n');
+
+  result = handleExcerpt(result); // your existing helper
   return result;
 }
+
 
 const purposeToFunction = {
   'search-ft-api': searchFTAPI,

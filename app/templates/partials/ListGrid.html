@@ -228,6 +228,7 @@
         <%assign var=itemId value=$item.id%>
         <%assign var=itemType value=$item.type%>
         <%assign var=itemImage value=$item.image|default:$item.piclink%>
+        <%assign var="itemImage" value=$itemImage|replace:"http://i.ftimg.net/https":"https"%>
         <%assign var=imageClass value=""%>
         <%if $itemImage == ""%>
             <%assign var=imageClass value=" no-image`$item.background`"%>
@@ -576,6 +577,8 @@
             <%assign var=itemLead value=$item.cshortleadbody|default:$item.shortlead|default:$item.longlead%>
             <!--shortlead: <%$item.shortlead%>, longlead: <%$item.longlead%>-->
         <%/if%>
+
+        <%assign var="itemImage" value=$itemImage|replace:"http://i.ftimg.net/https":"https"%>
 
 
         <div class="item-container <%$itemClass%>"<%$itemData%> data-update="<%$itemT%>"><div class="item-inner">

@@ -937,16 +937,17 @@
 	<%assign var=imageCaption value="<div class=\"caption\">`$story_pic.caption`</div>"%>
 <%/if%>
 
-
 <%assign var="storyImage" value=$storyImage|replace:"http://d2hgac2iiu3amu.cloudfront.net/picture/":"https://d1sh1cgb4xvhl.cloudfront.net/unsafe/picture/"%>
 <%assign var="storyImage" value=$storyImage|replace:"https://d2hgac2iiu3amu.cloudfront.net/picture/":"https://d1sh1cgb4xvhl.cloudfront.net/unsafe/picture/"%>
 <%assign var="storyImage" value=$storyImage|replace:"http://i.ftimg.net/picture/":"https://d1sh1cgb4xvhl.cloudfront.net/unsafe/picture/"%>
 <%assign var="storyImage" value=$storyImage|replace:"https://i.ftimg.net/picture/":"https://d1sh1cgb4xvhl.cloudfront.net/unsafe/picture/"%>
+<%assign var="storyImage" value=$storyImage|replace:"http://creatives.ftmailbox.cnhttps":"https"%>
+
+
 <%*<!--MARK: - Requested by editorial team: For stories that are published before 2017, show no image for safety. Machine Translated stories that are marked as no copy right will also no show image.  -->*%>
 <%if ($itemType == "story" && date("Ymd",$pubDate) < 20170101) || $noCopyrightCover == "yes"%>
 	<%assign var="storyImage" value=""%>
 <%/if%>
-
 
 <%if $storyImage != ""%>
 	<%*<!--MARK: - Check if the image belongs to FT -->*%>

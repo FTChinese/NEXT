@@ -729,8 +729,8 @@ async function handlePaginationReload(ele, data) {
 
 async function handleContentData(data) {
     try {
-        const {id, type} = data;
-        if (!id || !type) {return;}
+        const {id = '', type} = data;
+        if (!type || !id) {return;}
 
         // Create a fresh detail-view layer and append to body (stackable)
         const appDetailEle = document.createElement('div');
@@ -756,8 +756,6 @@ async function handleContentData(data) {
         // eslint-disable-next-line no-unused-expressions
         void appDetailEle.offsetHeight;
         appDetailEle.classList.add('on');
-
-        // console.log(`Now we need to handle ${type} / ${id}`);
 
         const typeMap = {premium: 'story'};
         const contentType = typeMap[type] ?? type;
