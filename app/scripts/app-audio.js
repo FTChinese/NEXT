@@ -24,7 +24,7 @@
     try {
       // console.log(`info render audio: `, info);
       let subtype = info && info.subtype;
-      if (!subtype || !['英语电台', '双语电台'].includes(subtype)) {return;}
+      if (!subtype || !['英语电台', '双语电台', '音频'].includes(subtype)) {return;}
       let useEN = !!(langSel && langSel.useEN);
       let audioUrl;
       let bodyObject;

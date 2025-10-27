@@ -789,7 +789,7 @@ function renderPaginationHTML() {
         }
         var currentHTML = '';
         const dataUrl = paginationEle?.closest('[data-url]')?.getAttribute('data-url');
-        console.log(`data url:`, dataUrl);
+        // console.log(`data url:`, dataUrl);
         if (!dataUrl) {continue;}
 
         var currentUrl = dataUrl.replace(/p=[0-9]+/g, '');
