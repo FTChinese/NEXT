@@ -21,16 +21,44 @@ const coerceBool = (v) => (
   String(v) === '1' || v === 1 || v === true || String(v).toLowerCase() === 'true'
 );
 
-const secToDateISO = (s) => {
-  const n = Number(s);
-  if (!Number.isFinite(n)) {
-    return '';
+function getTimeStamp(info, isEn = true) {
+  if (!info?.pubdate || !info?.fileupdatetime) {return '';}
+
+  const pubDate = new Date(parseInt(info.pubdate, 10) * 1000);
+  const fileUpdateDate = new Date(parseInt(info.fileupdatetime, 10) * 1000);
+
+  const isSameDay =
+    pubDate.getFullYear() === fileUpdateDate.getFullYear() &&
+    pubDate.getMonth() === fileUpdateDate.getMonth() &&
+    pubDate.getDate() === fileUpdateDate.getDate();
+
+  const formatDate = (date, includeTime = true) => {
+    if (isEn) {
+      const options = includeTime ? { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' } : { year: 'numeric', month: 'short', day: 'numeric' };
+      return date.toLocaleString('en-GB', options).replace(',', '');
+    } else {
+      const pad = (n) => n.toString().padStart(2, '0');
+      const y = date.getFullYear();
+      const m = pad(date.getMonth() + 1);
+      const d = pad(date.getDate());
+      const h = pad(date.getHours());
+      const min = pad(date.getMinutes());
+      return includeTime ? `${y}年${m}月${d}日 ${h}:${min}` : `${y}年${m}月${d}日`;
+    }
+  };
+
+  if (isSameDay) {
+    // ✅ Only show updated time
+    const updateStr = formatDate(fileUpdateDate, true);
+    return isEn ? `${updateStr}` : `${updateStr}`;
+  } else {
+    // ✅ Show published (date only) and updated (full)
+    const pubStr = formatDate(pubDate, false);
+    const updateStr = formatDate(fileUpdateDate, true);
+    return isEn ? `Published on ${pubStr}, updated at ${updateStr}` : `发布于 ${pubStr}，更新于 ${updateStr}`;
   }
-  // payload is seconds, not ms
-  const d = new Date(n * 1000);
-  // e.g., 2025-09-22 14:30
-  return d.toLocaleString('zh-CN', { hour12: false });
-};
+}
+
 
 
 /* -----------------------------
@@ -258,6 +286,9 @@ function setupFollowButtons() {
 ----------------------------- */
 
 async function renderContentPage(info, appDetailEle) {
+  // console.log(info);
+  pushHistory(info?.type ?? 'content', info?.id ?? '');
+
   // Mark this node as a view root using an attribute (string → no GC risk)
   if (appDetailEle && !appDetailEle.hasAttribute('data-detail-root')) {
     appDetailEle.setAttribute('data-detail-root', '1');
@@ -299,9 +330,8 @@ async function renderContentPageBody(info, appDetailEle, langSel, langValue) {
   const longLead = isEN ? (info.elongleadbody || info.eshortleadbody || '') : (info.clongleadbody || info.cshortleadbody || '');
   const byline = isEN ? (info.englishByline || info.eauthor || '') : ((info.cbyline && info.cbyline.replace(/\s+/g, '') !== '') ? info.cbyline : (info.eauthor || ''));
 
-  const timeStamp = secToDateISO(
-    isEN ? (info.englishPublishTime || info.pubdate) : (info.pubdate || info.last_publish_time)
-  );
+
+  const timeStamp = getTimeStamp(info, isEN);
 
   let bodyHtml = isEN ? (info.ebody || '') : (info.cbody || '');
   if (isCE && info.ebody) {

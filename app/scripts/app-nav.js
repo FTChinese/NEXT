@@ -502,6 +502,7 @@ function markUrlForPagination(targetDom, urlString) {
 
 async function renderChannel(channel) {
     try {
+        pushHistory('channel', channel);
         const index = channel?.index;
         // const title = channel?.title ?? '';
         // console.log(`render ${index}: ${title}`);
@@ -822,6 +823,26 @@ function renderPaginationHTML() {
         paginationEle.removeAttribute('data-page-index');
     }
 }
+
+
+function pushHistory(type, value) {
+  // Step 0: Fallback defaults
+  const safeType = typeof type === 'string' && type.trim() ? type.trim() : 'section';
+  const safeValue = typeof value === 'string' && value.trim() ? value.trim() : 'home';
+
+  // Step 1: Build safe base URL (no hash)
+  const baseUrl = location.pathname + location.search;
+
+  // Step 2: Encode and build hash params
+  const hashParams = new URLSearchParams();
+  hashParams.set('type', safeType);
+  hashParams.set('value', safeValue);
+
+  // Step 3: Construct and push new URL
+  const newUrl = `${baseUrl}#${hashParams.toString()}`;
+  history.pushState(null, '', newUrl);
+}
+
 
 delegate.on('click', '.app-icon-container', async function () {
     if (!this.classList?.contains('dim')) {return;}
