@@ -328,7 +328,7 @@ async function renderContentPageBody(info, appDetailEle, langSel, langValue) {
 
   const headline = isEN ? (info.eheadline || info.cheadline || '') : (info.cheadline || info.eheadline || '');
   const longLead = isEN ? (info.elongleadbody || info.eshortleadbody || '') : (info.clongleadbody || info.cshortleadbody || '');
-  const byline = isEN ? (info.englishByline || info.eauthor || '') : ((info.cbyline && info.cbyline.replace(/\s+/g, '') !== '') ? info.cbyline : (info.eauthor || ''));
+  const byline = isEN ? (info.englishByline || info.eauthor || '') : ((info.cbyline && info.cbyline.replace(/\s+/g, '') !== '') ? info.cbyline : (info.cauthor ?? info.eauthor ?? ''));
 
 
   const timeStamp = getTimeStamp(info, isEN);
@@ -492,9 +492,9 @@ async function renderContentPageBody(info, appDetailEle, langSel, langValue) {
         <div class="block-inner">
           <div class="content-container"><div class="content-inner"><div class="story-container">
             <div class="story-theme"><!-- theme goes here later --></div>
-            <h1 class="story-headline">${esc(headline)}</h1>
-            <div class="story-lead">${esc(longLead)}</div>
-            <div class="story-author">${esc(byline)}</div>
+            <h1 class="story-headline">${headline}</h1>
+            <div class="story-lead">${longLead}</div>
+            <div class="story-author">${byline}</div>
             <div class="author-headshot">${headerStyle.headshot}</div>
           </div></div></div>
           <div class="clearfloat block-bottom"></div>
@@ -560,8 +560,8 @@ async function renderContentPageBody(info, appDetailEle, langSel, langValue) {
               ${defaultTopper}
               ${disclaimer || ''}
               <div class="story-byline">
-                <span class="story-time">${esc(timeStamp)}</span>
-                <span class="story-author">${esc(byline)}</span>
+                <span class="story-time">${timeStamp}</span>
+                <span class="story-author">${byline}</span>
               </div>
               <div class="story-body">
                 <div id="ios-story-body">${finalBody}</div>
