@@ -392,20 +392,9 @@ MyFT: {
     navLeftItem: 'Chat',
     intent: 'CustomerService',
     Channels: [
-    { title: '设置', type: 'setting', compactLayout: '', screenName: 'myft/preference' },
-    {
-        title: '会员订阅',
-        type: 'iap',
-        subtype: 'membership',
-        compactLayout: 'books',
-        screenName: 'membrership'
-    },
-    {
-        title: '账户',
-        type: 'account',
-        url: 'http://www.ftchinese.com/users/setting/index',
-        screenName: 'myft/account'
-    },
+    { title: '设置', type: 'setting'},
+    { title: '会员订阅', frame: '/subscription'},
+    { title: '账户', frame: '/myaccount'},
     {
         title: '关注',
         type: 'follow',
@@ -446,6 +435,116 @@ MyFT: {
     ]
 }
 };
+
+
+const appTypeMap = {
+  'setting': [
+    {
+      'title': '订阅服务',
+      'type': 'Group',
+      'items': [
+        {
+          'headline': '我的订阅',
+          'url': '/subscription'
+        },
+        {
+          'headline': '客服',
+          'url': '/m/corp/subscriber.html'
+        }
+      ]
+    },
+    {
+      'title': '阅读偏好',
+      'type': 'Group',
+      'items': [
+        {
+          'id': 'font-setting',
+          'headline': '字号设置',
+          'type': 'setting'
+        },
+        {
+          'id': 'language-preference',
+          'headline': '语言偏好',
+          'type': 'setting'
+        },
+        {
+          'id': 'audio-preference',
+          'headline': '语音偏好',
+          'type': 'setting'
+        },
+        {
+          'id': 'dark-mode',
+          'headline': '深色模式',
+          'type': 'setting'
+        }
+      ]
+    },
+    {
+      'title': '流量与缓存',
+      'type': 'Group',
+      'items': [
+        {
+          'id': 'clear-cache',
+          'headline': '清除缓存',
+          'type': 'setting'
+        },
+        {
+          'id': 'no-image-with-data',
+          'headline': '使用数据时不下载图片',
+          'type': 'setting'
+        }
+      ]
+    },
+    {
+      'title': '服务与反馈',
+      'type': 'Group',
+      'items': [
+        {
+          'id': 'feedback',
+          'headline': '反馈',
+          'type': 'setting'
+        },
+        {
+          'id': 'app-store',
+          'headline': 'App Store评分',
+          'type': 'setting'
+        },
+        {
+          'id': 'privacy',
+          'headline': '隐私协议',
+          'type': 'setting'
+        },
+        {
+          'id': 'about',
+          'headline': '关于我们',
+          'type': 'setting'
+        },
+        {
+          'id': 'chat-customer-service',
+          'headline': '常见问题',
+          'type': 'setting'
+        }
+      ]
+    },
+    {
+      'title': '诊断',
+      'type': 'Group',
+      'items': [
+        {
+          'id': 'ios-receipt',
+          'headline': '购买信息诊断',
+          'type': 'setting'
+        },
+        {
+          'id': 'developer-info',
+          'headline': '开发者诊断',
+          'type': 'setting'
+        }
+      ]
+    }
+  ]
+};
+
 
 async function renderSection(name) {
     try {
@@ -502,8 +601,9 @@ function markUrlForPagination(targetDom, urlString) {
 
 async function renderChannel(channel) {
     try {
+
         pushHistory('channel', channel);
-        const index = channel?.index;
+        const index = channel?.index ?? 0;
         // const title = channel?.title ?? '';
         // console.log(`render ${index}: ${title}`);
         const navDoms = document.querySelectorAll('.app-nav div');
@@ -511,6 +611,12 @@ async function renderChannel(channel) {
             const navIndex = parseInt(navDom.getAttribute('data-index', 10));
             navDom.classList.toggle('on', index === navIndex);
         }
+        const currentNavDom = navDoms[index];
+        currentNavDom.scrollIntoView({
+            behavior: 'smooth',       // enables smooth scrolling
+            inline: 'center',         // centers horizontally in scrollable container
+            block: 'nearest'          // prevents unnecessary vertical scrolling
+        });
         let targetDom = document.getElementById('app-main-content');
         let listapi = getRelativeLink(channel?.listapi);
         // console.log(`list api now:`, listapi);
@@ -518,6 +624,12 @@ async function renderChannel(channel) {
             listapi = `/api/page/app_home.html`;
         }
         targetDom.innerHTML = `<div class="app-loading"><div class="spinner"></div></div>`;
+        const type = channel.type;
+        const iframeUrl = channel.frame;
+
+        // console.log(`channel:`, channel, 'iframe url:', iframeUrl);
+
+
         if (listapi) {
             // console.log(`render the list api: ${listapi}`);
             // First request (or re-request if you call it again)
@@ -531,13 +643,53 @@ async function renderChannel(channel) {
             targetDom.setAttribute('data-url', listapi);
             markUrlForPagination(targetDom, listapi);
             handleChannelUpdates();
-        } else {
-            console.log(`not a list api, need to deal with it. `);
+        } else if (iframeUrl) {
+            targetDom.innerHTML = '';
+            loadIframe(targetDom, iframeUrl);
+        } else if (type){
+            const sections = appTypeMap[type];
+            if (!sections) {
+                console.log(`No data found for the type ${type}`, channel);
+                return;
+            }
+            targetDom.innerHTML = generateHTMLFromData(sections);
         }
     } catch(err) {
         console.error(`render channel error: `, err);
     }
 }
+
+function generateHTMLFromData(sections) {
+  if (!Array.isArray(sections)) {
+    return '';
+  }
+
+  let html = '';
+
+  for (const section of sections) {
+    const title = section.title || '';
+    const items = Array.isArray(section.items) ? section.items : [];
+
+    let itemsHTML = '';
+    for (const item of items) {
+      const headline = item.headline || '';
+      const id = item.id || '';
+      const type = item.type || '';
+      const url = item.url || '';
+
+      if (url) {
+        itemsHTML += `<a class="settings-item" href="${url}">${headline}</a>`;
+      } else {
+        itemsHTML += `<li class="settings-item"><button class="settings-button" type="button" data-id="${id}" data-type="${type}">${headline}</button></li>`;
+      }
+    }
+
+    html += `<section class="settings-group">${title ? `<h2 class="settings-title">${title}</h2>` : ''}<ul class="settings-items">${itemsHTML}</ul></section>`;
+  }
+
+  return `<div class="settings-container">${html}</div>`;
+}
+
 
 // After the channel dom is updated, we need to execute some tasks including loading images, refresh ads etc...
 async function handleChannelUpdates() {
@@ -596,6 +748,9 @@ function handleLink(ele) {
     } else if (/^\/(tag|m\/corp|m\/marketing|channel|archive|archiver)\//gi.test(link)) {
         handlePageData({link, title});
         return true;
+    }  else if (/^\/(subscription)/gi.test(link)) {
+        handleSeamlessFrame({link, title});
+        return true;//
     } else if (/\/(story|premium|interactive|content|video)/gi.test(link)) {
         const u = new URL(link, window.location.href);
         const segments = u.pathname.split('/').filter(Boolean);
@@ -670,6 +825,105 @@ async function handlePageData(data) {
     console.error('handle content data error:', err);
   }
 }
+
+async function handleSeamlessFrame(data) {
+  try {
+    const { link, title } = data;
+    const appDetailEle = document.createElement('div');
+    appDetailEle.className = 'app-detail-view';
+    appDetailEle.innerHTML = `
+      <div class="app-detail-navigation">
+        <div class="app-detail-back"></div>
+        <div class="app-detail-title">${title}</div>
+        <div class="app-detail-share"></div>
+      </div>
+      <div class="app-detail-content api-detail-content-page"></div>
+    `;
+    const stackDepth = document.querySelectorAll('.app-detail-view').length;
+    appDetailEle.style.zIndex = String(2 + stackDepth);
+    document.body.appendChild(appDetailEle);
+    void appDetailEle.offsetHeight;
+    appDetailEle.classList.add('on');
+
+    // Build URL robustly
+    let urlString;
+    if (window.isFrontEndTest) {
+      urlString = '/api/page/app_home.html';
+    } else {
+      if (typeof URL === 'function') {
+        const u = new URL(link, window.location.href);
+        u.searchParams.set('source', 'webapp');
+        urlString = u.toString();
+      } else {
+        const sep = (link.indexOf('?') === -1) ? '?' : '&';
+        urlString = link + sep + 'source=webapp';
+      }
+    }
+
+    const contentEl = appDetailEle.querySelector('.app-detail-content');
+    loadIframe(contentEl, urlString);
+
+  } catch (err) {
+    console.error('handle content data error:', err);
+  }
+}
+
+
+function loadIframe(contentEl, urlString) {
+    const iframe = document.createElement('iframe');
+    iframe.src = urlString;
+    iframe.style.width = '100%';
+    iframe.style.border = 'none';
+    iframe.style.overflow = 'hidden';
+    iframe.style.display = 'block';
+    iframe.setAttribute('scrolling', 'no');
+    iframe.setAttribute('allowtransparency', 'true');
+    iframe.setAttribute('frameborder', '0');
+    contentEl.appendChild(iframe);
+    const tidyUpIframe = function () {
+        try {
+            const doc = iframe.contentWindow && iframe.contentWindow.document;
+            if (!doc) { return; }
+
+            // Only hide once per load
+            if (!doc.body.classList.contains('iframe-cleaned')) {
+            const hideElements = doc.querySelectorAll('.header-container, .footer-container');
+            for (let hideElement of hideElements) {
+                hideElement.style.display = 'none';
+            }
+            doc.body.classList.add('iframe-cleaned');
+            }
+
+            // ✅ Delay height measurement to allow DOM/layout to settle
+            requestAnimationFrame(() => {
+            const height = doc.documentElement.scrollHeight;
+            console.log('version 1: iframe height updated to:', height);
+            iframe.style.height = height + 'px';
+            });
+
+        } catch (e) {
+            console.warn('iframe resize failed:', e);
+        }
+    };
+    iframe.onload = function () {
+      tidyUpIframe();
+
+      try {
+        const observer = new iframe.contentWindow.MutationObserver(tidyUpIframe);
+        observer.observe(iframe.contentWindow.document.body, {
+          childList: true,
+          subtree: true,
+          attributes: true
+        });
+
+        iframe.contentWindow.addEventListener('resize', tidyUpIframe);
+      } catch (err) {
+        console.warn('mutation observer failed:', err);
+      }
+    };
+}
+
+
 
 async function handlePaginationReload(ele, data) {
   try {

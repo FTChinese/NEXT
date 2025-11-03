@@ -361,6 +361,8 @@ async function renderContentPageBody(info, appDetailEle, langSel, langValue) {
     }
 
     const audioId = info?.story_audio?.interactive_id;
+
+    console.log(`audio id: `, audioId);
     if (audioId) {
       appDetailEle.querySelector('.app-detail-audio').classList.add('on');
     }

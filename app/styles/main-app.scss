@@ -234,7 +234,6 @@ $app-detail-border: rgba(0, 0, 0, 0.08) !default;
   .app-detail-language-switch,
   .app-detail-title,
   .app-detail-share,
-  .app-detail-search-form
   .app-detail-audio {
     min-width: 44px;
     height: $app-detail-nav-height;
@@ -461,4 +460,42 @@ $app-detail-border: rgba(0, 0, 0, 0.08) !default;
 .search-key {
   cursor: pointer;
   margin-bottom: 1em;
+}
+
+
+// MyFT Pages
+.settings-container {
+  margin: auto;
+  max-width: 600px;
+}
+
+.settings-group {
+  margin-bottom: $defaultPadding * 0.5;
+}
+
+.settings-title {
+  background-color: $darkTint;
+  padding: $defaultPadding * 0.25 $defaultPadding * 0.5;
+}
+
+.settings-items {
+  padding: 0 $defaultPadding * 0.5;
+}
+.settings-item {
+  color: $darkGrey;
+  display: block;
+  padding: $defaultPadding * 0.5 0;
+  border-top: 1px solid $borderColor;
+  position: relative;
+  &::before {
+    content: '>';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $lightFontColor;
+  }
+  &:first-child {
+    border-top-width: 0;
+  }
 }
