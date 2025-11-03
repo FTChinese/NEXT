@@ -431,12 +431,13 @@ async function renderContentPageBody(info, appDetailEle, langSel, langValue) {
     const tag = info.tag || '';
     const genre = info.genre || '';
     const eauthor = info.eauthor || '';
-    const columnInfo = info.columnInfo || null;
+    const columnInfo = info.columninfo || null;
 
     const isHeroByBody = body.indexOf('full-grid') >= 0 || body.indexOf('scrollable-block') >= 0;
     const isBigFeatureTag = /FT大视野|卧底经济学家|FT杂志|FT大視野|臥底經濟學家|FT雜誌/.test(tag);
     const isWeekendEssay = /周末随笔|周末隨筆/.test(tag);
     const isFTAcademy = /FT商学院|FT商學院/.test(tag);
+
 
     if (isHeroByBody || isBigFeatureTag) {
       headerType = 'hero';
@@ -444,6 +445,13 @@ async function renderContentPageBody(info, appDetailEle, langSel, langValue) {
     } else if (isWeekendEssay) {
       headerType = 'hero';
       headerStyle = { styleClass: ' show-story-hero-container', headshot: '', bgClass: ' story-hero-theme-pink' };
+    } else if (columnInfo && columnInfo.piclink) {
+      headerType = 'columnist';
+      headerStyle = {
+        styleClass: ' show-story-columnist-topper',
+        headshot: `<figure data-url="${esc(columnInfo.piclink)}" class="loading"></figure>`,
+        bgClass: ''
+      };
     } else if (!isFTAcademy && genre && /(comment|opinion|column)/i.test(genre)) {
       const key = (eauthor || '').toUpperCase();
       const pic = HEADSHOTS[key] || (columnInfo && columnInfo.piclink) || '';
@@ -457,13 +465,6 @@ async function renderContentPageBody(info, appDetailEle, langSel, langValue) {
       } else {
         headerType = 'default';
       }
-    } else if (columnInfo && columnInfo.piclink) {
-      headerType = 'columnist';
-      headerStyle = {
-        styleClass: ' show-story-columnist-topper',
-        headshot: `<figure data-url="${esc(columnInfo.piclink)}" class="loading"></figure>`,
-        bgClass: ''
-      };
     } else {
       headerType = 'default';
     }
@@ -471,7 +472,17 @@ async function renderContentPageBody(info, appDetailEle, langSel, langValue) {
     headerType = 'default';
   }
 
-  // -------- 5) Build the SINGLE header HTML --------
+
+  // -------- 5) Theme + related topics --------
+  const relatedBits = buildRelatedTopics(
+    { tag: info.tag || '', tag_code: info.tag_code || info.tagCode || '' },
+    isEN
+  );
+
+  const storyTheme = relatedBits.themeTag ? `<div class="story-theme"><a target="_blank" href="/tag/${encodeURIComponent(relatedBits.themeTag)}">${esc(relatedBits.themeTag)}</a><button class="myft-follow plus" data-tag="${encodeURIComponent(relatedBits.themeTag)}" data-type="tag">${isEN ? 'Follow' : '关注'}</button></div>` : '';
+
+
+  // -------- 6) Build the SINGLE header HTML --------
   let headerHTML = '';
   if (headerType === 'hero') {
     headerHTML = `
@@ -479,7 +490,7 @@ async function renderContentPageBody(info, appDetailEle, langSel, langValue) {
         <div class="story-hero-inner">
           <div class="story-hero-intro">
             <div class="story-hero-intro-container">
-              <div class="story-hero-tag"><!-- theme goes here later --></div>
+              <div class="story-hero-tag">${storyTheme}</div>
               <div class="story-hero-title">${esc(headline)}</div>
               <div class="story-hero-content"><p>${esc(longLead)}</p></div>
             </div>
@@ -493,7 +504,7 @@ async function renderContentPageBody(info, appDetailEle, langSel, langValue) {
       <div class="story-topper-container has-side">
         <div class="block-inner">
           <div class="content-container"><div class="content-inner"><div class="story-container">
-            <div class="story-theme"><!-- theme goes here later --></div>
+            ${storyTheme}
             <h1 class="story-headline">${headline}</h1>
             <div class="story-lead">${longLead}</div>
             <div class="story-author">${byline}</div>
@@ -506,21 +517,6 @@ async function renderContentPageBody(info, appDetailEle, langSel, langValue) {
   } else {
     // default topper (inside main story container further below)
     headerHTML = '';
-  }
-
-  // -------- 6) Theme + related topics --------
-  const relatedBits = buildRelatedTopics(
-    { tag: info.tag || '', tag_code: info.tag_code || info.tagCode || '' },
-    isEN
-  );
-
-  const storyTheme = relatedBits.themeTag ? `<div class="story-theme"><a target="_blank" href="/tag/${encodeURIComponent(relatedBits.themeTag)}">${esc(relatedBits.themeTag)}</a><button class="myft-follow plus" data-tag="${encodeURIComponent(relatedBits.themeTag)}" data-type="tag">${isEN ? 'Follow' : '关注'}</button></div>` : '';
-
-  // Inject theme into hero/columnist header if present
-  if (headerType === 'hero') {
-    headerHTML = headerHTML.replace('<!-- theme goes here later -->', storyTheme);
-  } else if (headerType === 'columnist') {
-    headerHTML = headerHTML.replace('<div class="story-theme"><!-- theme goes here later --></div>', storyTheme);
   }
 
   // -------- 7) Comments visibility --------

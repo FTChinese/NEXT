@@ -230,27 +230,12 @@ async function showSearchPage() {
       console.error(`search history error:`, err);
     }
 
-    // appDetailEle.innerHTML = `
-    //   <div class="app-detail-navigation">
-    //     <div class="app-detail-back"></div>
-    //     <form class="app-detail-search-form" role="search">
-    //       <input type="search" placeholder="input key" class="app-detail-search" name="q" />
-    //     </form>
-    //   </div>
-    //   <div class="app-detail-content api-detail-content-page"><div class="block-container">
-    //     <div class="block-inner">
-    //       <div class="list-container">
-    //         <div class="list-inner">
-    //           ${searchHistoryHTML}
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </div>
-    // `;
-
     appDetailEle.innerHTML = `
       <div class="app-detail-navigation">
         <div class="app-detail-back"></div>
+        <form class="app-detail-search-form" role="search">
+          <input type="search" placeholder="input key" class="app-detail-search" name="q" />
+        </form>
       </div>
       <div class="app-detail-content api-detail-content-page"><div class="block-container">
         <div class="block-inner">
@@ -262,7 +247,6 @@ async function showSearchPage() {
         </div>
       </div>
     `;
-
     const stackDepth = document.querySelectorAll('.app-detail-view').length;
     appDetailEle.style.zIndex = String(2 + stackDepth);
     document.body.appendChild(appDetailEle);
