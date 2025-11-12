@@ -447,20 +447,23 @@ gulp.task('copy:ftcoffer', async () => {
     .pipe(gulp.dest(`${dest}/scripts`));
 
   // Read file content into a string
-  const serviceWorkerPath = 'app/scripts/chat-service-worker.js';
-  let fileContent = fs.readFileSync(serviceWorkerPath, 'utf8');
-  const regex = /cacheName = 'v([0-9]+)'/;
-  const matches = regex.exec(fileContent);
-  if (matches && matches.length > 1) {
-    const versionNumber = matches[1];
-    const version = parseInt(versionNumber, 10);
-    if (version > 0) {
-      const newVersion = version + 1;
-      fileContent = fileContent.replace(regex, `cacheName = 'v${newVersion}'`);
-      fs.writeFileSync(serviceWorkerPath, fileContent, 'utf8');
+  const serviceWorkerPaths = ['app/scripts/chat-service-worker.js', 'app/scripts/app-service-worker.js'];
+  for (const serviceWorkerPath of serviceWorkerPaths) {
+    let fileContent = fs.readFileSync(serviceWorkerPath, 'utf8');
+    const regex = /cacheName = 'v([0-9]+)'/;
+    const matches = regex.exec(fileContent);
+    if (matches && matches.length > 1) {
+      const versionNumber = matches[1];
+      const version = parseInt(versionNumber, 10);
+      if (version > 0) {
+        console.log(`new version:`, version);
+        const newVersion = version + 1;
+        fileContent = fileContent.replace(regex, `cacheName = 'v${newVersion}'`);
+        fs.writeFileSync(serviceWorkerPath, fileContent, 'utf8');
+      }
     }
   }
-  gulp.src([serviceWorkerPath])
+  gulp.src(serviceWorkerPaths)
     .on('error', (err) => {
       console.error(err.stack);
     })

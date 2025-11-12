@@ -306,6 +306,11 @@ async function renderContentPage(info, appDetailEle) {
     await renderMBAGymPageBody(info, appDetailEle);
   } else {
     await renderContentPageBody(info, appDetailEle, langSel);
+    try {
+      checkFTQuiz(info);
+    } catch(err){
+      console.error(`render quiz error:`, err);
+    }
   }
 
   // Render or update the language switch without re-creating it
@@ -538,13 +543,18 @@ async function renderContentPageBody(info, appDetailEle, langSel, langValue) {
   const contentType = (type === 'premium') ? 'story' : type;
 
   // Precompute default topper HTML to avoid multiline ternary inside template
-  const defaultTopper = (headerType === 'default') ? `
-      <div class="story-topper">
-        ${storyTheme}
-        <h1 class="story-headline${storyHeadlineClass}" id="story-headline-ios">${esc(headlinePrefix + headline)}</h1>
-        <div class="story-lead">${esc(longLead)}</div>
-        ${storyImage}
-      </div>` : '';
+  let defaultTopper = '';
+  
+  if (headerType === 'default') {
+    defaultTopper = `<div class="story-topper">
+      ${storyTheme}
+      <h1 class="story-headline${storyHeadlineClass}" id="story-headline-ios">${esc(headlinePrefix + headline)}</h1>
+      <div class="story-lead">${esc(longLead)}</div>
+      ${storyImage}
+    </div>`;
+  } else if (headerType === 'columnist') {
+    defaultTopper = storyImage;
+  }
 
   const appDetailContentEle = appDetailEle.querySelector('.app-detail-content');
 
@@ -684,6 +694,27 @@ async function renderContentPageBody(info, appDetailEle, langSel, langValue) {
   runLoadImages();
 
   renderAudio(info, appDetailEle, langSel);
+
+  displayRecommendationInContentPageLazy();
+
+  // console.log('content info: ', JSON.stringify(info, null, 2));
+
+  const id = info?.id;
+  const ftid = info?.ftid;
+  const upLimit = 500;
+  if (ftid) {
+    updateReadIdsInStorage('readids', ftid, upLimit);
+  }
+  if (id && type) {
+    const key = type + id;
+    updateReadIdsInStorage('ftcreadids', key, upLimit);
+  }
+
+    //   if (itemType === 'content') {
+    //   updateReadIdsInStorage('readids', itemId, upLimit);
+    // } else {
+    //   updateReadIdsInStorage('ftcreadids', itemTypeId, upLimit);
+    // }
 }
 
 // JS — renderLanguageSwitch (stable widget; no full re-render on toggle)

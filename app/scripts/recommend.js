@@ -36,10 +36,13 @@ const recommendationWeights = {
 };
 
 
-// === Kickstart ===
-runRecommendationForDoms();
+// === Kickstart only for web page ===
+if (!/^\/app/.test(top.location.pathname)) {
+  console.log('recommending...');
+  runRecommendationForDoms();
+  displayRecommendationInContentPageLazy();
+}
 
-displayRecommendationInContentPageLazy();
 
 // === Main Flow ===
 function runRecommendationForDoms() {
@@ -169,6 +172,9 @@ function displayRecommendationInContentPageLazy() {
         observer.unobserve(entry.target);
         // this function is in the main.js, it should have been available
         runLoadImages();
+        if (typeof markReadContent === 'function') {
+          markReadContent(entry.target);
+        }
       } catch (error) {
         console.error('Error fetching recommendations:', error);
       }
@@ -314,10 +320,11 @@ function calculateScores(items) {
     const itemType = itemTypeMap[item?.type ?? ''] ?? item?.type;
     const itemTypeId = `${itemType}${item?.id ?? ''}`;
     const ftid = item?.ftid ?? '';
+    const id = item?.id ?? '';
     // const annotationsMain = item?.annotationsMain ?? '';
     // const isUpdatingContent = /FT Live news/gi.test(annotationsMain);
     // const read = !isUpdatingContent && (readIds.has(ftid) || readIds.has(itemTypeId));
-    const read = readIds.has(ftid) || readIds.has(itemTypeId);
+    const read = readIds.has(ftid) || readIds.has(itemTypeId) || readIds.has(id);
     const readMinusScore = read ? (recommendationWeights.readPenalty ? 1 : 0) : 0;
     item.readMinusScore = readMinusScore;
 

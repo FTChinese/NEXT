@@ -165,18 +165,16 @@ News: {
     },
     {
         title: '文章收藏',
-        type: 'clip',
-        url: 'http://www.ftchinese.com/users/favstorylist?webview=ftcapp',
-        screenName: 'myft',
-        compactLayout: ''
+        frame: '/saved_content',
+        screenName: 'homepage/saved_content',
     },
-    {
-        title: 'FT电子书',
-        type: 'iap',
-        subtype: 'ebook',
-        compactLayout: 'books',
-        screenName: 'homepage/ebook'
-    }
+    // {
+    //     title: 'FT电子书',
+    //     type: 'iap',
+    //     subtype: 'ebook',
+    //     compactLayout: 'books',
+    //     screenName: 'homepage/ebook'
+    // }
     ]
 },
 
@@ -392,46 +390,43 @@ MyFT: {
     navLeftItem: 'Chat',
     intent: 'CustomerService',
     Channels: [
-    { title: '设置', type: 'setting'},
-    { title: '会员订阅', frame: '/subscription'},
     { title: '账户', frame: '/myaccount'},
+    { title: '会员订阅', frame: '/subscription'},
     {
         title: '关注',
-        type: 'follow',
-        screenName: 'myft/follow',
-        'Insert Content': '', // inject
-        compactLayout: ''
+        listapi: 'http://www.ftchinese.com/channel/myftfollow.html?webview=ftcapp&bodyonly=yes',
+        screenName: 'channel/myftfollow.html',
     },
-    { title: '已读', type: 'read', screenName: 'myft/read', compactLayout: '' },
+    // { title: '已读', type: 'read', screenName: 'myft/read', compactLayout: '' },
     {
         title: '收藏',
-        type: 'clip',
-        url: 'http://www.ftchinese.com/users/favstorylist?webview=ftcapp',
-        screenName: 'myft/favstorylist',
-        compactLayout: ''
+        frame: '/saved_content',
+        screenName: 'myft/saved_content',
     },
-    { title: '消息', type: 'notifications', screenName: 'myft/notifications', compactLayout: '' },
-    {
-        title: '已购电子书',
-        type: 'iap',
-        subtype: 'ebook',
-        compactLayout: 'books',
-        screenName: 'myft/ebook',
-        include: 'purchased'
-    },
-    {
-        title: '已购单品',
-        listapi:
-        'https://www.ftchinese.com/channel/myproducts.html?webview=ftcapp&bodyonly=yes&norepeat=yes',
-        url: 'http://www.ftchinese.com/channel/myproducts.html?webview=ftcapp',
-        screenName: 'myft/myproducts'
-    },
-    {
-        title: 'FT商城',
-        url: 'https://h5.youzan.com/v2/showcase/homepage?alias=16e315o1t',
-        doNotConvert: 'yes',
-        screenName: 'myft/shop'
-    }
+    { title: '设置', type: 'setting'},
+
+    // { title: '消息', type: 'notifications', screenName: 'myft/notifications', compactLayout: '' },
+    // {
+    //     title: '已购电子书',
+    //     type: 'iap',
+    //     subtype: 'ebook',
+    //     compactLayout: 'books',
+    //     screenName: 'myft/ebook',
+    //     include: 'purchased'
+    // },
+    // {
+    //     title: '已购单品',
+    //     listapi:
+    //     'https://www.ftchinese.com/channel/myproducts.html?webview=ftcapp&bodyonly=yes&norepeat=yes',
+    //     url: 'http://www.ftchinese.com/channel/myproducts.html?webview=ftcapp',
+    //     screenName: 'myft/myproducts'
+    // },
+    // {
+    //     title: 'FT商城',
+    //     url: 'https://h5.youzan.com/v2/showcase/homepage?alias=16e315o1t',
+    //     doNotConvert: 'yes',
+    //     screenName: 'myft/shop'
+    // }
     ]
 }
 };
@@ -545,6 +540,7 @@ const appTypeMap = {
   ]
 };
 
+window.preferredLanguage = navigator.language;
 
 async function renderSection(name) {
     try {
@@ -597,7 +593,41 @@ function markUrlForPagination(targetDom, urlString) {
     let paginationEle = targetDom?.querySelector('.pagination-inner');
     if (!paginationEle) {return;}
     paginationEle.setAttribute('data-page-url', urlString);
+
+
+
 }
+
+function markReadContent(targetDom) {
+  try {
+    const ftcreadids = localStorage.getItem('ftcreadids') ?? '[]';
+    const ftcreadKeys = JSON.parse(ftcreadids);
+    const readids = localStorage.getItem('readids') ?? '[]';
+    const readKeys = JSON.parse(readids);
+    let itemContainers = targetDom.querySelectorAll('.item-container');
+    for (const itemContainer of itemContainers) {
+      const type = itemContainer.getAttribute('data-type');
+      const id = itemContainer.getAttribute('data-id');
+      if (type && id) {
+        const typeMap = {premium: 'story'};
+        const finalType = typeMap?.[type] ?? type;
+        const key = finalType + id;
+        if (ftcreadKeys.includes(key)) {
+          itemContainer.classList.add('visited');
+          continue;
+        }
+      }
+      if (id && readKeys.includes(id)) {
+
+        itemContainer.classList.add('visited');
+      }
+    }
+  } catch(err) {
+    console.error(`markReadContent error:`, err);
+  }
+}
+
+
 
 async function renderChannel(channel) {
     try {
@@ -624,16 +654,25 @@ async function renderChannel(channel) {
             listapi = `/api/page/app_home.html`;
         }
         targetDom.innerHTML = `<div class="app-loading"><div class="spinner"></div></div>`;
+        targetDom.setAttribute('data-rendering-url', listapi);
         const type = channel.type;
         const iframeUrl = channel.frame;
 
         // console.log(`channel:`, channel, 'iframe url:', iframeUrl);
-
+        // Fire this without waiting for the result
+        if (typeof checkUserLogin === 'function') {
+          checkUserLogin();
+        }
 
         if (listapi) {
             // console.log(`render the list api: ${listapi}`);
             // First request (or re-request if you call it again)
             const response = await fetch(listapi);
+            const renderingUrl = targetDom.getAttribute('data-rendering-url');
+            if (listapi !== renderingUrl) {
+              console.log(`the dom is not expecting ${listapi} any more! `);
+              return;
+            }
             if (!response.ok) {
                 return;
             }
@@ -642,18 +681,22 @@ async function renderChannel(channel) {
             targetDom.innerHTML = text;
             targetDom.setAttribute('data-url', listapi);
             markUrlForPagination(targetDom, listapi);
+            markReadContent(targetDom);
             handleChannelUpdates();
         } else if (iframeUrl) {
             targetDom.innerHTML = '';
+            targetDom.removeAttribute('data-rendering-url');
             loadIframe(targetDom, iframeUrl);
         } else if (type){
             const sections = appTypeMap[type];
+            targetDom.removeAttribute('data-rendering-url');
             if (!sections) {
                 console.log(`No data found for the type ${type}`, channel);
                 return;
             }
             targetDom.innerHTML = generateHTMLFromData(sections);
         }
+        
     } catch(err) {
         console.error(`render channel error: `, err);
     }
@@ -765,6 +808,10 @@ function handleLink(ele) {
             ...subtype && {subtype}
         };
         handleContentData(data);
+        const itemContainer = ele?.closest('.item-container');
+        if (itemContainer) {
+          itemContainer.classList.add('visited');
+        }
         return true;
     }
     // return true when testing so that when I click, the browser won't go to the link
@@ -816,6 +863,7 @@ async function handlePageData(data) {
 
 
     markUrlForPagination(contentEl, urlString);
+    markReadContent(contentEl);
 
     // Kick lazy media loader for newly injected content
     if (typeof runLoadImages === 'function') {
@@ -869,60 +917,223 @@ async function handleSeamlessFrame(data) {
 }
 
 
-function loadIframe(contentEl, urlString) {
-    const iframe = document.createElement('iframe');
-    iframe.src = urlString;
-    iframe.style.width = '100%';
-    iframe.style.border = 'none';
-    iframe.style.overflow = 'hidden';
-    iframe.style.display = 'block';
-    iframe.setAttribute('scrolling', 'no');
-    iframe.setAttribute('allowtransparency', 'true');
-    iframe.setAttribute('frameborder', '0');
-    contentEl.appendChild(iframe);
-    const tidyUpIframe = function () {
-        try {
-            const doc = iframe.contentWindow && iframe.contentWindow.document;
-            if (!doc) { return; }
-
-            // Only hide once per load
-            if (!doc.body.classList.contains('iframe-cleaned')) {
-            const hideElements = doc.querySelectorAll('.header-container, .footer-container');
-            for (let hideElement of hideElements) {
-                hideElement.style.display = 'none';
-            }
-            doc.body.classList.add('iframe-cleaned');
-            }
-
-            // ✅ Delay height measurement to allow DOM/layout to settle
-            requestAnimationFrame(() => {
-            const height = doc.documentElement.scrollHeight;
-            console.log('version 1: iframe height updated to:', height);
-            iframe.style.height = height + 'px';
-            });
-
-        } catch (e) {
-            console.warn('iframe resize failed:', e);
-        }
-    };
-    iframe.onload = function () {
-      tidyUpIframe();
-
-      try {
-        const observer = new iframe.contentWindow.MutationObserver(tidyUpIframe);
-        observer.observe(iframe.contentWindow.document.body, {
-          childList: true,
-          subtree: true,
-          attributes: true
-        });
-
-        iframe.contentWindow.addEventListener('resize', tidyUpIframe);
-      } catch (err) {
-        console.warn('mutation observer failed:', err);
-      }
-    };
+// --- helper: safe viewport height (handles iOS toolbars better) ---
+function getViewportHeight() {
+  try {
+    if (window.visualViewport && typeof window.visualViewport.height === 'number') {
+      return Math.floor(window.visualViewport.height);
+    }
+  } catch (_) {}
+  return Math.floor(window.innerHeight || 0);
 }
 
+// --- helper: compute available height for the iframe ---
+function computeIframeHeight(contentEl) {
+  // contentEl is .app-detail-content (the container we append the iframe into)
+  const overlay = contentEl.closest('.app-detail-view');
+  const header = overlay ? overlay.querySelector('.app-detail-navigation') : null;
+  const bottomBar = document.getElementById('app-bottom'); // your global bottom bar
+
+  const vh = getViewportHeight();
+
+  const headerH = header ? Math.ceil(header.getBoundingClientRect().height) : 0;
+  // only subtract bottom bar if it’s rendered/visible
+  const bottomH = (bottomBar && bottomBar.offsetParent !== null) ?
+    Math.ceil(bottomBar.getBoundingClientRect().height) :
+    0;
+
+
+  // Optional container paddings (kept minimal/safe)
+  const cs = getComputedStyle(contentEl);
+  const padT = parseInt(cs.paddingTop, 10) || 0;
+  const padB = parseInt(cs.paddingBottom, 10) || 0;
+
+  // Guard against negatives
+  return Math.max(0, vh - headerH - bottomH - padT - padB);
+}
+
+function loadIframe(contentEl, urlString, options) {
+  const opts = options || {};
+  const iframe = document.createElement('iframe');
+
+  iframe.src = urlString;
+  iframe.style.width = '100%';
+  iframe.style.display = 'block';
+  iframe.style.border = 'none';
+  iframe.style.overflowY = 'auto';           // key: let iframe scroll itself
+  iframe.removeAttribute('scrolling');       // ensure not forced to "no"
+  iframe.setAttribute('allowtransparency', 'true');
+  iframe.setAttribute('frameborder', '0');
+
+  contentEl.innerHTML = '';
+  contentEl.appendChild(iframe);
+
+  // size once + on viewport changes
+  const sizeNow = () => {
+    try {
+      iframe.style.height = computeIframeHeight(contentEl) + 'px';
+    } catch (_) {}
+  };
+
+  sizeNow();
+
+  // keep height in sync with viewport changes (keyboard, rotation, resize)
+  const onResize = () => sizeNow();
+  window.addEventListener('resize', onResize);
+  window.addEventListener('orientationchange', onResize);
+  if (window.visualViewport && typeof window.visualViewport.addEventListener === 'function') {
+    window.visualViewport.addEventListener('resize', onResize);
+  }
+
+  // optional cleanup hook if you remove .app-detail-view dynamically
+  // (call this before removing the element)
+  iframe.__cleanup = () => {
+    window.removeEventListener('resize', onResize);
+    window.removeEventListener('orientationchange', onResize);
+    if (window.visualViewport && typeof window.visualViewport.removeEventListener === 'function') {
+      window.visualViewport.removeEventListener('resize', onResize);
+    }
+  };
+
+  iframe.onload = function () {
+    // Same-origin niceties preserved
+    try {
+      const win = iframe.contentWindow;
+      const doc = win && win.document;
+      if (!doc) { return; }
+
+      if (opts.hideChrome !== false && !doc.body.classList.contains('iframe-cleaned')) {
+        const hideElements = doc.querySelectorAll('.header-container, .footer-container');
+        let i = 0;
+        while (i < hideElements.length) {
+          hideElements[i].style.display = 'none';
+          i += 1;
+        }
+        doc.body.classList.add('iframe-cleaned');
+        if (!doc.body.style.paddingBottom) {
+          doc.body.style.paddingBottom = '44px';
+        }
+      }
+
+      if (opts.wireNav !== false) {
+        tryWireIframeNavigation(iframe);
+      }
+    } catch (_) {
+      // cross-origin: fine
+    }
+
+    // after load, recalc (fonts/assets may change header height)
+    sizeNow();
+  };
+}
+
+
+// function loadIframe(contentEl, urlString) {
+
+//   var iframe = document.createElement('iframe');
+//   iframe.src = urlString;
+//   iframe.style.width = '100%';
+//   iframe.style.border = 'none';
+//   iframe.style.overflow = 'hidden';
+//   iframe.style.display = 'block';
+//   iframe.setAttribute('scrolling', 'no');
+//   iframe.setAttribute('allowtransparency', 'true');
+//   iframe.setAttribute('frameborder', '0');
+//   contentEl.appendChild(iframe);
+
+//   function tidyUpIframe() {
+//     try {
+//       let win = iframe.contentWindow;
+//       let doc = win && win.document;
+//       if (!doc) { return; }
+
+//       // Hide chrome (once)
+//       if (!doc.body.classList.contains('iframe-cleaned')) {
+//         let hideElements = doc.querySelectorAll('.header-container, .footer-container');
+//         for (var i = 0; i < hideElements.length; i += 1) {
+//           hideElements[i].style.display = 'none';
+//         }
+//         doc.body.classList.add('iframe-cleaned');
+//         doc.body.style.paddingBottom = '44px';
+//       }
+
+//       // Defer measurement to next frame
+//       win.requestAnimationFrame(function () {
+//         try {
+//           var h = doc.documentElement.scrollHeight;
+//           iframe.style.height = String(h) + 'px';
+//         } catch (err1) {
+//           // swallow
+//         }
+//       });
+
+//       // Wire navigation interception (same-origin only)
+//       tryWireIframeNavigation(iframe);
+//     } catch (err) {
+//       // Cross-origin or timing issues — ignore silently (you said only same-origin is needed).
+//     }
+//   }
+
+//   iframe.onload = function () {
+//     tidyUpIframe();
+
+//     try {
+//       var win = iframe.contentWindow;
+//       var doc = win && win.document;
+//       if (doc) {
+//         var observer = new win.MutationObserver(tidyUpIframe);
+//         observer.observe(doc.body, { childList: true, subtree: true, attributes: true });
+//         win.addEventListener('resize', tidyUpIframe);
+//       }
+//     } catch (err) {
+//       // Ignore if observer cannot be attached.
+//     }
+//   };
+// }
+
+/**
+ * Same-origin only: delegate clicks on <a href> inside the iframe
+ * and route them through the parent's handleLink(). If handled,
+ * prevent the iframe's default navigation.
+ */
+function tryWireIframeNavigation(iframe) {
+  'use strict';
+
+  try {
+    var win = iframe.contentWindow;
+    var doc = win && win.document;
+    if (!doc) { return; }
+
+    if (doc.__IFRAME_NAV_WIRED__) { return; }
+    doc.__IFRAME_NAV_WIRED__ = true;
+
+    doc.addEventListener('click', function (e) {
+      try {
+        var target = e.target;
+        if (!target || typeof target.closest !== 'function') { return; }
+
+        var anchor = target.closest('a[href]');
+        if (!anchor) { return; }
+
+        // Reuse existing parent router
+        var handled = false;
+        if (window.parent && typeof window.parent.handleLink === 'function') {
+          handled = window.parent.handleLink(anchor) === true;
+        }
+
+        if (handled) {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          e.stopPropagation();
+        }
+      } catch (err) {
+        // Swallow any per-click issues to avoid breaking page interactions.
+      }
+    }, true);
+  } catch (errOuter) {
+    // If this throws, it's likely not same-origin; do nothing.
+  }
+}
 
 
 async function handlePaginationReload(ele, data) {
@@ -971,6 +1182,7 @@ async function handlePaginationReload(ele, data) {
     }
     pageEle.setAttribute('data-url', urlString);
     markUrlForPagination(pageEle, urlString);
+    markReadContent(pageEle);
     handleChannelUpdates();
 
     // Kick lazy media loader for newly injected content
@@ -983,50 +1195,50 @@ async function handlePaginationReload(ele, data) {
 }
 
 async function handleContentData(data) {
-    try {
-        const {id = '', type} = data;
-        if (!type || !id) {return;}
+  try {
+    const {id = '', type} = data;
+    if (!type || !id) {return;}
 
-        // Create a fresh detail-view layer and append to body (stackable)
-        const appDetailEle = document.createElement('div');
-        appDetailEle.className = 'app-detail-view';
-        appDetailEle.innerHTML = `
-            <div class="app-detail-navigation">
-                <div class="app-detail-back"></div>
-                <div class="app-detail-language-switch"></div>
-                <div class="app-detail-audio"></div>
-            </div>
-            <div class="app-detail-content"></div>
-            <div class="app-detail-bottom"></div>
-        `;
+    // Create a fresh detail-view layer and append to body (stackable)
+    const appDetailEle = document.createElement('div');
+    appDetailEle.className = 'app-detail-view';
+    appDetailEle.innerHTML = `
+        <div class="app-detail-navigation">
+            <div class="app-detail-back"></div>
+            <div class="app-detail-language-switch"></div>
+            <div class="app-detail-audio"></div>
+        </div>
+        <div class="app-detail-content"></div>
+        <div class="app-detail-bottom"></div>`;
 
-        // Optional: bump z-index per stack depth so newer views sit on top
-        const stackDepth = document.querySelectorAll('.app-detail-view').length;
-        appDetailEle.style.zIndex = String(2 + stackDepth);
+    // Optional: bump z-index per stack depth so newer views sit on top
+    const stackDepth = document.querySelectorAll('.app-detail-view').length;
+    appDetailEle.style.zIndex = String(2 + stackDepth);
 
-        document.body.appendChild(appDetailEle);
+    document.body.appendChild(appDetailEle);
 
-        // -------- 11) Transition & initializers --------
-        // reflow to ensure transition
-        // eslint-disable-next-line no-unused-expressions
-        void appDetailEle.offsetHeight;
-        appDetailEle.classList.add('on');
+    // -------- 11) Transition & initializers --------
+    // reflow to ensure transition
+    // eslint-disable-next-line no-unused-expressions
+    void appDetailEle.offsetHeight;
+    appDetailEle.classList.add('on');
 
-        const typeMap = {premium: 'story'};
-        const contentType = typeMap[type] ?? type;
-        let url = `/api/${contentType}/${id}`;
-        if (window.isFrontEndTest) {
-            url = '/api/page/app_content.json';
-        }
-        const response = await fetch(url);
-        if (!response.ok) {return;}
-        // Get the raw text of the response
-        const info = await response.json();
-
-        await renderContentPage(info, appDetailEle);
-    } catch (err) {
-        console.error('handle content data error:', err);
+    const typeMap = {premium: 'story'};
+    const contentType = typeMap[type] ?? type;
+    window.type = contentType;
+    window.id = id;
+    let url = `/api/${contentType}/${id}`;
+    if (window.isFrontEndTest) {
+        url = '/api/page/app_content.json';
     }
+    const response = await fetch(url);
+    if (!response.ok) {return;}
+    // Get the raw text of the response
+    const info = await response.json();
+    await renderContentPage(info, appDetailEle);
+  } catch (err) {
+    console.error('handle content data error:', err);
+  }
 }
 
 function renderPaginationHTML() {
@@ -1039,8 +1251,8 @@ function renderPaginationHTML() {
         var startIndex = Math.max(1, currentIndex - Math.floor(indexLength / 2));
         var endIndex = startIndex + indexLength - 1;
         if (endIndex > maxIndex) {
-        endIndex = maxIndex;
-        startIndex = Math.max(1, endIndex - indexLength + 1);
+          endIndex = maxIndex;
+          startIndex = Math.max(1, endIndex - indexLength + 1);
         }
         var currentHTML = '';
         const dataUrl = paginationEle?.closest('[data-url]')?.getAttribute('data-url');
@@ -1060,17 +1272,17 @@ function renderPaginationHTML() {
         }
         var nextIndex = currentIndex + 1;
         if (nextIndex <= maxIndex) {
-        currentHTML += '<a href="' + currentUrl + 'p=' + nextIndex + '">&rsaquo;&rsaquo;下一页</a>';
+          currentHTML += '<a href="' + currentUrl + 'p=' + nextIndex + '">&rsaquo;&rsaquo;下一页</a>';
         }
         if (endIndex < maxIndex) {
-        currentHTML += '<a href="' + currentUrl + 'p=' + maxIndex + '">&rsaquo;|</a>';
+          currentHTML += '<a href="' + currentUrl + 'p=' + maxIndex + '">&rsaquo;|</a>';
         }
         var prevIndex = currentIndex - 1;
         if (prevIndex >= 1) {
-        currentHTML = '<a href="' + currentUrl + 'p=' + prevIndex + '">上一页&lsaquo;&lsaquo;</a>' + currentHTML;
+          currentHTML = '<a href="' + currentUrl + 'p=' + prevIndex + '">上一页&lsaquo;&lsaquo;</a>' + currentHTML;
         }
         if (startIndex > 1) {
-        currentHTML = '<a href="' + currentUrl + 'p=1">|&lsaquo;</a>' + currentHTML;
+          currentHTML = '<a href="' + currentUrl + 'p=1">|&lsaquo;</a>' + currentHTML;
         }
         paginationEle.innerHTML = currentHTML;
         paginationEle.removeAttribute('data-max-page-index');
@@ -1115,6 +1327,7 @@ delegate.on('click', '.app-channel', async function () {
 delegate.on('click', '.item-container-app', async function (event) {
     try {
         if (event?.defaultPrevented || event?.target?.closest('a[href]')) {return;}
+        this.classList.add('visited');
         const id = this.getAttribute('data-id');
         const type = this.getAttribute('data-type');
         // const subtype = this.getAttribute('data-sub-type');
