@@ -115,7 +115,7 @@ function displayRecommendationInContentPageLazy() {
         items = (items ?? []).filter(item => item.type !== window.type || item.id !== window.id);
         // console.log(`items: \n`, JSON.stringify(items));
         // items = calculateScores(items).sort((a, b) => b.finalScore - a.finalScore).slice(0, 6);
-        console.log(`recommended items sorted: `, JSON.stringify(items, null, 2));
+        // console.log(`recommended items sorted: `, JSON.stringify(items, null, 2));
 
         // const preferredLanguage = window.preferredLanguage ?? 'zh-CN';
 

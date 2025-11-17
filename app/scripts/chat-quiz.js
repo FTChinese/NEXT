@@ -127,7 +127,7 @@ function moveStoryActions() {
     return actions;
 }
 
-async function displayCachedQuiz(ftid, language) {
+async function displayCachedQuiz(ftid, language, appDetailEle) {
     // console.log(`displayCachedQuiz: language: ${language}`)
     // MARK: - Check if there's a cached quiz
     const data = await checkQuiz(ftid, language);
@@ -141,7 +141,7 @@ async function displayCachedQuiz(ftid, language) {
         results = results.concat(item.result || []);
     }
     const quizInfo = {status: 'success', results: results};
-    renderQuizInfoAndUpdateDisplay(quizId, quizInfo, ftid, false, language, true);
+    renderQuizInfoAndUpdateDisplay(quizId, quizInfo, ftid, false, language, true, appDetailEle);
     markQuizRequestAsFinished(ftid);
 }
 
@@ -185,7 +185,8 @@ function markQuizRequestAsFinished(ftid) {
 }
 
 
-function renderQuizInfoAndUpdateDisplay(quizId, quizInfo, ftid, isQuizDisplayed, language, isAuto = false) {
+function renderQuizInfoAndUpdateDisplay(quizId, quizInfo, ftid, isQuizDisplayed, language, isAuto = false, appDetailEle) {
+
 
     if (quizInfo.status !== 'success' || !quizInfo.results) {
         return true;
@@ -232,14 +233,17 @@ function renderQuizInfoAndUpdateDisplay(quizId, quizInfo, ftid, isQuizDisplayed,
         html += `<div class="quizzes-container"><button class="quiz-next hide" data-quiz-id="${quizId}">${localize('NEXT')}</button></div>`;
         const audioEle = document.querySelector(`[data-id="${ftid}"] .audio-placeholder.is-sticky-top`);
         let chatInnerEle = storyBodyContainer?.closest('.chat-talk-inner');
-        // console.log(`is auto? ${isAuto}, storyBodyContainer: ${storyBodyContainer.innerHTML}, ftid: ${ftid}`);
         const quizHTML = `<div class="quizzes-container"><hr></div>${html}`;
 
-        if (document.documentElement.classList.contains('discuss-article-only')) {
+
+        const appDetailEleQuizContainer = appDetailEle?.querySelector('#story-quiz-container');
+
+        if (appDetailEleQuizContainer) {
+            appDetailEleQuizContainer.innerHTML = quizHTML;
+        } else if (document.documentElement.classList.contains('discuss-article-only')) {
             const result = {text: quizHTML};
             showQuiz(result);
         } else if (audioEle && audioEle.parentElement) {
-
             // Get the parent element of the audio element
             let parentElement = audioEle.parentElement;
 
@@ -298,7 +302,7 @@ async function checkQuiz(id, language) {
 
         const languageForEndpoint = language === 'en' ? language : 'zh-CN';
         const queryData = {id: id, language: languageForEndpoint};
-        console.log(`query data:`, queryData);
+        // console.log(`query data:`, queryData);
         let url = '/ai/check_quiz';
         let options = {
             method: 'POST',

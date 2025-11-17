@@ -1310,6 +1310,26 @@ function pushHistory(type, value) {
 }
 
 
+
+const registerServiceWorkerForApp = async() => {
+  if ('serviceWorker' in navigator) {
+    try {
+      const registration = await navigator.serviceWorker.register('/app-service-worker.js', {scope: '/',});
+      if (registration.installing) {
+        console.log('Service worker installing');
+      } else if (registration.waiting) {
+        console.log('Service worker installed');
+      } else if (registration.active) {
+        console.log('Service worker active');
+      }
+
+    } catch (error) {
+      console.error(`Registration failed with ${error}`);
+    }
+  }
+};
+
+
 delegate.on('click', '.app-icon-container', async function () {
     if (!this.classList?.contains('dim')) {return;}
     const section = this.getAttribute('data-section');
@@ -1346,4 +1366,7 @@ delegate.on('click', 'a[href]', function (event) {
     event.stopImmediatePropagation();
 });
 
-renderSection('News');
+(async () => {
+  renderSection('News');
+  await registerServiceWorkerForApp();
+})();

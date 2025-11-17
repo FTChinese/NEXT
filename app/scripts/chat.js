@@ -2432,17 +2432,17 @@ function urlBase64ToUint8Array(base64String) {
 
 const registerServiceWorker = async () => {
   if (isFrontendTest && !isPowerTranslate) {return;}
-  if ("serviceWorker" in navigator) {
+  if ('serviceWorker' in navigator) {
     try {
-      registration = await navigator.serviceWorker.register("/powertranslate/chat-service-worker.js", {
-        scope: "/powertranslate/",
+      registration = await navigator.serviceWorker.register('/powertranslate/chat-service-worker.js', {
+        scope: '/powertranslate/',
       });
       if (registration.installing) {
-        console.log("Service worker installing");
+        console.log('Service worker installing');
       } else if (registration.waiting) {
-        console.log("Service worker installed");
+        console.log('Service worker installed');
       } else if (registration.active) {
-        console.log("Service worker active");
+        console.log('Service worker active');
       }
 
     } catch (error) {

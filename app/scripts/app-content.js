@@ -307,7 +307,7 @@ async function renderContentPage(info, appDetailEle) {
   } else {
     await renderContentPageBody(info, appDetailEle, langSel);
     try {
-      checkFTQuiz(info);
+      checkFTQuiz(info, appDetailEle, langSel);
     } catch(err){
       console.error(`render quiz error:`, err);
     }
@@ -367,7 +367,7 @@ async function renderContentPageBody(info, appDetailEle, langSel, langValue) {
 
     const audioId = info?.story_audio?.interactive_id;
 
-    console.log(`audio id: `, audioId);
+    // console.log(`audio id: `, audioId);
     if (audioId) {
       appDetailEle.querySelector('.app-detail-audio').classList.add('on');
     }
