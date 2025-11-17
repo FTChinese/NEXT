@@ -1,4 +1,4 @@
-/* global window, document, IntersectionObserver, HEADSHOTS */
+/* global window, document, IntersectionObserver, ResizeObserver, HEADSHOTS */
 /* exported renderContentPage */
 
 /* -----------------------------
@@ -8,6 +8,8 @@ const reading_preference_key = 'reading_preference';
 
 // Per-view state registry (keyed by a view's root element)
 const detailViewState = new WeakMap();
+const BOKECC_SITE_ID = '922662811F1A49E9';
+const VIDEO_ASPECT_RATIO = 16 / 9;
 
 const esc = (s) => {
   const v = (s === null || s === undefined) ? '' : s;
@@ -118,6 +120,158 @@ function buildHeroFromStoryPic(story_pic, withContainer = true) {
   const caption = story_pic.caption ? `<div class="caption">${esc(story_pic.caption)}</div>` : '';
   const figure = `<figure data-url="${esc(src)}" class="loading"></figure>`;
   return withContainer ? `<div class="story-image image" style="margin-bottom:0;">${figure}${caption}</div>` : figure;
+}
+
+// Video APIs sometimes ship a raw vid field, sometimes only the HTML snippet.
+// Extracting it centrally lets us reuse the same player builder everywhere.
+function extractVideoId(info) {
+  if (info?.vid) {
+    return String(info.vid);
+  }
+  if (typeof document === 'undefined' || !info?.customHTML) {
+    return '';
+  }
+  const temp = document.createElement('div');
+  temp.innerHTML = info.customHTML;
+  const preset = temp.querySelector('[data-vid]');
+  if (preset && preset.getAttribute('data-vid')) {
+    return preset.getAttribute('data-vid');
+  }
+  const scriptText = temp.textContent || '';
+  const match = scriptText.match(/vid\s*=\s*['"]([A-Za-z0-9_-]+)['"]/i);
+  return match ? match[1] : '';
+}
+
+function buildVideoPlayerHTML(info, providedVid) {
+  const resolvedVid = providedVid || extractVideoId(info);
+  if (!resolvedVid) {
+    return '';
+  }
+
+  const siteId = info.siteId || BOKECC_SITE_ID;
+  if (typeof document !== 'undefined' && info.customHTML) {
+    const temp = document.createElement('div');
+    temp.innerHTML = info.customHTML;
+    const player = temp.querySelector('.video-player');
+    if (player) {
+      player.setAttribute('data-video-player', 'bokecc');
+      player.setAttribute('data-vid', resolvedVid);
+      player.setAttribute('data-site-id', siteId);
+      const innerEls = player.querySelectorAll('.video-player-inner');
+      if (innerEls.length === 0) {
+        const inner = document.createElement('div');
+        inner.className = 'video-player-inner';
+        inner.setAttribute('data-video-player-inner', '1');
+        player.appendChild(inner);
+      } else {
+        for (let i = 0; i < innerEls.length; i += 1) {
+          const innerEl = innerEls[i];
+          innerEl.setAttribute('data-video-player-inner', '1');
+        }
+      }
+      const scripts = player.querySelectorAll('script');
+      for (let s = 0; s < scripts.length; s += 1) {
+        const scriptNode = scripts[s];
+        if (scriptNode?.parentNode) {
+          scriptNode.parentNode.removeChild(scriptNode);
+        }
+      }
+      return player.outerHTML;
+    }
+  }
+
+  return `<div class="video-player" data-video-player="bokecc" data-vid="${esc(resolvedVid)}" data-site-id="${esc(siteId)}"><div class="video-player-inner" data-video-player-inner="1"></div></div>`;
+}
+
+// Replace third-party inline scripts with a measured player so it works in SPA views.
+function hydrateVideoPlayers(root) {
+  if (!root) {
+    return;
+  }
+  const players = root.querySelectorAll('[data-video-player="bokecc"]');
+  if (!players.length) {
+    return;
+  }
+
+  for (let i = 0; i < players.length; i += 1) {
+    const wrapper = players[i];
+    const inner = wrapper.querySelector('[data-video-player-inner]') || wrapper.querySelector('.video-player-inner') || wrapper;
+    const vid = wrapper.getAttribute('data-vid');
+    const siteId = wrapper.getAttribute('data-site-id') || BOKECC_SITE_ID;
+
+    if (!inner || !vid) {
+      continue;
+    }
+
+    const mountPlayer = () => {
+      const bounds = wrapper.getBoundingClientRect();
+      const fallbackWidth = wrapper.offsetWidth || inner.offsetWidth || inner.parentElement?.offsetWidth || 0;
+      const width = Math.max(Math.round(bounds.width || fallbackWidth), 0);
+      if (!width) {
+        if (!wrapper.__videoRetryScheduled) {
+          wrapper.__videoRetryScheduled = true;
+          const rerender = () => {
+            wrapper.__videoRetryScheduled = false;
+            mountPlayer();
+          };
+          if (typeof window !== 'undefined' && typeof window.requestAnimationFrame === 'function') {
+            window.requestAnimationFrame(rerender);
+          } else {
+            setTimeout(rerender, 50);
+          }
+        }
+        return;
+      }
+      const height = Math.max(Math.round(width / VIDEO_ASPECT_RATIO), 1);
+
+      inner.innerHTML = '';
+      inner.style.height = `${height}px`;
+
+      const script = document.createElement('script');
+      const params = `vid=${encodeURIComponent(vid)}&siteid=${encodeURIComponent(siteId)}&autoStart=true&width=${width}&height=${height}`;
+      script.src = `https://p.bokecc.com/player?${params}`;
+      script.type = 'text/javascript';
+      script.async = true;
+      inner.appendChild(script);
+
+      wrapper.__videoHydrated = true;
+      wrapper.__videoRenderedWidth = width;
+    };
+
+    mountPlayer();
+
+    if (typeof ResizeObserver === 'function' && !wrapper.__videoResizeObserver) {
+      const ro = new ResizeObserver(() => {
+        if (!wrapper.isConnected) {
+          ro.disconnect();
+          return;
+        }
+        const currentWidth = Math.max(Math.round(wrapper.getBoundingClientRect().width), 0);
+        if (!currentWidth || currentWidth === wrapper.__videoRenderedWidth) {
+          return;
+        }
+        wrapper.__videoHydrated = false;
+        mountPlayer();
+      });
+      ro.observe(wrapper);
+      wrapper.__videoResizeObserver = ro;
+    } else if (typeof window !== 'undefined' && !wrapper.__videoResizeHandler) {
+      const resizeHandler = () => {
+        if (!wrapper.isConnected) {
+          window.removeEventListener('resize', resizeHandler);
+          return;
+        }
+        const currentWidth = Math.max(Math.round(wrapper.getBoundingClientRect().width), 0);
+        if (!currentWidth || currentWidth === wrapper.__videoRenderedWidth) {
+          return;
+        }
+        wrapper.__videoHydrated = false;
+        mountPlayer();
+      };
+      window.addEventListener('resize', resizeHandler);
+      wrapper.__videoResizeHandler = resizeHandler;
+    }
+  }
 }
 
 
@@ -410,16 +564,34 @@ async function renderContentPageBody(info, appDetailEle, langSel, langValue) {
     </div></div>`;
   }
 
+  // Detect any playable video regardless of entitlements so the hero swap is consistent.
+  const videoId = extractVideoId(info);
+  const videoHeroHTML = videoId ? buildVideoPlayerHTML(info, videoId) : '';
+  const hasVideoHero = !!videoHeroHTML;
+  if (hasVideoHero && finalBody && typeof document !== 'undefined') {
+    const tempBody = document.createElement('div');
+    tempBody.innerHTML = finalBody;
+    // Remove the first inline player so we only render the hero instance once.
+    const inlineVideo = tempBody.querySelector('.video-player, figure.loading-video, .loading-video');
+    if (inlineVideo && inlineVideo.parentNode) {
+      inlineVideo.parentNode.removeChild(inlineVideo);
+      finalBody = tempBody.innerHTML;
+    }
+  }
+
   // -------- 3) IMAGE GATE (exactly like Swift) --------
   const tagsStr = info.tag || '';
   const noCopyrightCover = /(^|,)\s*NoCopyrightCover\s*(,|$)/.test(tagsStr);
   const bodyHasTopPic = bodyStartsWithImage(finalBody);
-  const heroAllowed = !noCopyrightCover && !bodyHasTopPic;
+  const heroAllowed = hasVideoHero || (!noCopyrightCover && !bodyHasTopPic);
 
   let storyImage = '';
   let storyImageNoContainer = '';
   if (heroAllowed) {
-    if (info.customHTML) {
+    if (hasVideoHero) {
+      storyImage = `<div class="story-image image story-video">${videoHeroHTML}</div>`;
+      storyImageNoContainer = videoHeroHTML;
+    } else if (info.customHTML) {
       storyImage = info.customHTML;
     } else {
       storyImage = buildHeroFromStoryPic(info.story_pic, true);
@@ -691,6 +863,7 @@ async function renderContentPageBody(info, appDetailEle, langSel, langValue) {
       document.head.appendChild(s2);
     }
   }
+  hydrateVideoPlayers(appDetailEle);
   runLoadImages();
 
   renderAudio(info, appDetailEle, langSel);
