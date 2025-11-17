@@ -683,6 +683,7 @@ async function renderChannel(channel) {
             markUrlForPagination(targetDom, listapi);
             markReadContent(targetDom);
             handleChannelUpdates();
+            createCalendar();
         } else if (iframeUrl) {
             targetDom.innerHTML = '';
             targetDom.removeAttribute('data-rendering-url');
@@ -782,10 +783,9 @@ function getPathWithWebviewParams(link, extraParams) {
 function handleLink(ele) {
 
     const link = getPathWithWebviewParams(ele.href);
-    const title = ele?.innerText ?? '';
+    const title = ele?.getAttribute('value') ?? ele?.innerText ?? '';
     // Return true if this link was handled here, false if browser should handle
     if (/p=[\d]/gi.test(link)) {
-        // handlePageData({link, title});
         handlePaginationReload(ele, {link, title});
         return true;
     } else if (/^\/(tag|m\/corp|m\/marketing|channel|archive|archiver)\//gi.test(link)) {
@@ -793,7 +793,7 @@ function handleLink(ele) {
         return true;
     }  else if (/^\/(subscription)/gi.test(link)) {
         handleSeamlessFrame({link, title});
-        return true;//
+        return true;
     } else if (/\/(story|premium|interactive|content|video)/gi.test(link)) {
         const u = new URL(link, window.location.href);
         const segments = u.pathname.split('/').filter(Boolean);

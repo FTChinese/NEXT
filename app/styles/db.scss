@@ -111,6 +111,7 @@ div.o-ads{
   top:0;
   left:0;
 }
+
 .in-article-advert[data-o-ads-loaded]{
   border-color: #cec6b9;
   border-width: 1px 0;
@@ -118,11 +119,18 @@ div.o-ads{
   padding: 25px 0;
   clear: both;
 }
+
 .o-ads {
   &.fullscreen-pc, &.fullscreen-ad, &[data-o-ads-name=fullscreen-pc], &.paid-post, &.infoflow, &[data-o-ads-name=paidpost], &[data-o-ads-loaded=false] {
     display: none;
   }
   &.fullscreen-ad[data-o-ads-loaded=FtcMobileFullscreen], &.fullscreen-pc[data-o-ads-loaded=FtcPcFullscreen] {
       display: block;
+  }
+}
+
+.card-grid {
+  div.o-ads {
+    display: none;
   }
 }
