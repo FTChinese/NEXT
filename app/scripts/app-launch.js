@@ -213,54 +213,20 @@
             closeLaunchScreenSafely(true);
         };
     
-        log('continue rendering...');
+        log('Preparing launch creative before display...');
+
+        let creativeContent;
+        try {
+            creativeContent = await buildCreativeContent(creative, assetUrl);
+        } catch (err) {
+            logError('Failed to prepare creative content', err);
+            closeLaunchScreenSafely(true);
+            return;
+        }
 
         launchScreen.classList.add('is-showing-ad');
         launchScreen.innerHTML = '';
-    
-    
-        // Determine if the creative is a video or an image
-        if (creative.fileName.endsWith('.mp4')) {
-            const video = document.createElement('video');
-            video.src = assetUrl;
-            video.style.width = '100%';
-            video.style.height = '100%';
-            video.style.objectFit = 'contain'; // Ensure the video is contained within the container without losing its aspect ratio
-            video.autoplay = true;
-            video.controls = true; // Optionally, add controls
-            video.muted = true; // Play the video silently
-            launchScreen?.appendChild(video);
-
-            const videoLink = document.createElement('a');
-            videoLink.href = creative.click || '#'; // The URL you want to navigate to on click
-            videoLink.target = '_blank';
-            videoLink.style.position = 'absolute';
-            videoLink.style.display = 'block';
-            videoLink.style.top = 0;
-            videoLink.style.left = 0;
-            videoLink.style.right = 0;
-            videoLink.style.bottom = '50px';
-            launchScreen?.appendChild(videoLink);
-
-        } else {
-            const adLink = document.createElement('a');
-            adLink.style.backgroundColor = 'black';
-            adLink.style.backgroundImage = `url(${assetUrl})`;
-            adLink.style.backgroundPosition = 'center';
-            adLink.style.backgroundSize = 'contain';
-            adLink.style.backgroundRepeat = 'no-repeat';
-            adLink.style.width = '100%';
-            adLink.style.height = '100%';
-            adLink.style.display = 'block';
-            adLink.target = '_blank';
-    
-            const click = creative.click || '';
-            if (click !== '') {
-                adLink.href = click;
-            }
-    
-            launchScreen?.appendChild(adLink);
-        }
+        launchScreen?.appendChild(creativeContent);
     
         const closeButton = document.createElement('button');
         closeButton.textContent = 'X';
@@ -439,6 +405,94 @@
             logError('ensureCreativeAsset remote preload failed for ' + assetUrl, err);
             return false;
         }
+    }
+
+    function preloadImage(url) {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            const cleanup = () => {
+                img.onload = null;
+                img.onerror = null;
+            };
+            img.onload = () => {
+                cleanup();
+                resolve();
+            };
+            img.onerror = (err) => {
+                cleanup();
+                reject(err || new Error('Image preload failed'));
+            };
+            img.src = url;
+        });
+    }
+
+    function waitForVideo(video) {
+        return new Promise((resolve, reject) => {
+            function cleanup() {
+                video.removeEventListener('loadeddata', onLoaded);
+                video.removeEventListener('error', onError);
+            }
+            function onLoaded() {
+                cleanup();
+                resolve();
+            }
+            function onError(err) {
+                cleanup();
+                reject(err || new Error('Video preload failed'));
+            }
+            video.addEventListener('loadeddata', onLoaded, { once: true });
+            video.addEventListener('error', onError, { once: true });
+        });
+    }
+
+    async function buildCreativeContent(creative, assetUrl) {
+        if (creative.fileName.endsWith('.mp4')) {
+            const fragment = document.createDocumentFragment();
+            const video = document.createElement('video');
+            video.style.width = '100%';
+            video.style.height = '100%';
+            video.style.objectFit = 'contain';
+            video.autoplay = true;
+            video.controls = true;
+            video.muted = true;
+            video.preload = 'auto';
+            video.src = assetUrl;
+            video.load();
+            await waitForVideo(video);
+            fragment.appendChild(video);
+
+            const videoLink = document.createElement('a');
+            videoLink.href = creative.click || '#';
+            videoLink.target = '_blank';
+            videoLink.style.position = 'absolute';
+            videoLink.style.display = 'block';
+            videoLink.style.top = 0;
+            videoLink.style.left = 0;
+            videoLink.style.right = 0;
+            videoLink.style.bottom = '50px';
+            fragment.appendChild(videoLink);
+
+            return fragment;
+        }
+
+        await preloadImage(assetUrl);
+        const adLink = document.createElement('a');
+        adLink.style.backgroundColor = 'black';
+        adLink.style.backgroundImage = `url(${assetUrl})`;
+        adLink.style.backgroundPosition = 'center';
+        adLink.style.backgroundSize = 'contain';
+        adLink.style.backgroundRepeat = 'no-repeat';
+        adLink.style.width = '100%';
+        adLink.style.height = '100%';
+        adLink.style.display = 'block';
+        adLink.target = '_blank';
+
+        const click = creative.click || '';
+        if (click !== '') {
+            adLink.href = click;
+        }
+
+        return adLink;
     }
 
     
