@@ -224,9 +224,16 @@
             return;
         }
 
+        const creativeWrapper = document.createElement('div');
+        creativeWrapper.className = 'launch-ad-content';
+        creativeWrapper.appendChild(creativeContent);
+
         launchScreen.classList.add('is-showing-ad');
         launchScreen.innerHTML = '';
-        launchScreen?.appendChild(creativeContent);
+        launchScreen?.appendChild(creativeWrapper);
+        requestAnimationFrame(() => {
+            creativeWrapper.classList.add('is-visible');
+        });
     
         const closeButton = document.createElement('button');
         closeButton.textContent = 'X';
