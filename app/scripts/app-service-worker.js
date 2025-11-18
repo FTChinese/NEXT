@@ -1,7 +1,7 @@
 /* jshint esversion: 11 */
 /* global self, caches, fetch, Response */
 
-const cacheName = 'v62';
+const cacheName = 'v70';
 const LOG_PREFIX = '[SW ' + cacheName + ']';
 console.log(LOG_PREFIX + ' loaded');
 

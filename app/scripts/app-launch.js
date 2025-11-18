@@ -1,6 +1,6 @@
 
 
-/* global caches, URL, Request */
+/* global URL */
 // MARK: - We only need this to work for modern mobile devices. 
 (async()=>{
 
@@ -65,9 +65,6 @@
             if (creative) {
                 log('Rendering cached creative:', creative.fileName);
                 await renderCreative(creative);
-            } else {
-                log('No cached creative available during launch.');
-                closeLaunchScreenSafely(true);
             }
 
             // Refresh schedule/assets in background so next launch is instant.
