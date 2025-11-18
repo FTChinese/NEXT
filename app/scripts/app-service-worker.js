@@ -1,7 +1,7 @@
 /* jshint esversion: 11 */
 /* global self, caches, fetch, Response */
 
-const cacheName = 'v70';
+const cacheName = 'v71';
 const LOG_PREFIX = '[SW ' + cacheName + ']';
 console.log(LOG_PREFIX + ' loaded');
 
@@ -9,6 +9,7 @@ console.log(LOG_PREFIX + ' loaded');
 const START_URL = '/app';
 const PRECACHE = [
   START_URL,
+  '/powertranslate/icons/FTC-start.png',
   // '/powertranslate/styles/main-app.css',
   // '/powertranslate/scripts/main-app.js',
   // '/powertranslate/scripts/register.js',
