@@ -1,7 +1,7 @@
 /* jshint esversion: 11 */
 /* global self, caches, fetch, Response */
 
-const cacheName = 'v44';
+const cacheName = 'v62';
 const LOG_PREFIX = '[SW ' + cacheName + ']';
 console.log(LOG_PREFIX + ' loaded');
 
@@ -9,11 +9,14 @@ console.log(LOG_PREFIX + ' loaded');
 const START_URL = '/app';
 const PRECACHE = [
   START_URL,
-  '/powertranslate/styles/main-app.css',
-  '/powertranslate/scripts/main-app.js',
-  '/powertranslate/scripts/register.js',
-  '/powertranslate/scripts/app-load-quiz.js'
+  // '/powertranslate/styles/main-app.css',
+  // '/powertranslate/scripts/main-app.js',
+  // '/powertranslate/scripts/register.js',
+  // '/powertranslate/scripts/app-load-quiz.js'
 ];
+const PRECACHE_ASSETS = PRECACHE.filter(function (url) {
+  return url !== START_URL;
+});
 
 // Endpoints we should NEVER cache (auth/state, etc.)
 const NO_CACHE_PREFIXES = [
@@ -139,10 +142,19 @@ self.addEventListener('install', function (event) {
     const cache = await caches.open(cacheName);
     if (PRECACHE.length) {
       try {
-        await cache.addAll(PRECACHE);
-        log('precache complete:', PRECACHE);
+        await cache.add(new Request(START_URL, { cache: 'reload' }));
+        log('start-url precache complete:', START_URL);
       } catch (e) {
-        log('precache error:', e && e.message);
+        log('start-url precache error:', e && e.message);
+      }
+
+      if (PRECACHE_ASSETS.length) {
+        try {
+          await cache.addAll(PRECACHE_ASSETS);
+          log('precache complete:', PRECACHE_ASSETS);
+        } catch (e) {
+          log('precache error:', e && e.message);
+        }
       }
     }
     await self.skipWaiting();

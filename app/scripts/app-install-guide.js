@@ -1,6 +1,5 @@
 // install-guide.js (fixed for iOS 26 UA freeze and jshint curly braces)
 (function () {
-  'use strict';
 
   // --- Environment detection ---
   const ua = navigator.userAgent || '';
@@ -10,11 +9,7 @@
   // True Safari only (exclude Chrome/Firefox/Edge shells on iOS)
   const isSafari = (/Safari/i.test(ua) && !/CriOS|FxiOS|EdgiOS/i.test(ua));
 
-  // Already running as installed web app?
-  const isStandalone = ((window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
-                        (typeof navigator.standalone !== 'undefined' && navigator.standalone === true));
-
-  if (isStandalone) {
+  if (isStandalone()) {
     return;
   }
 

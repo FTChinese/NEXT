@@ -1,4 +1,6 @@
+/* exported isStandalone */
 
+const jsVersion = 'v1';
 const appMap = {
 News: {
     title: 'FT中文网',
@@ -677,13 +679,14 @@ async function renderChannel(channel) {
                 return;
             }
             // Get the raw text of the response
-            const text = await response.text();
-            targetDom.innerHTML = text;
+            const text = await response.text() ?? '';
+            targetDom.innerHTML = text.replace(/<!--js_version-->/g, jsVersion);
             targetDom.setAttribute('data-url', listapi);
             markUrlForPagination(targetDom, listapi);
             markReadContent(targetDom);
             handleChannelUpdates();
             createCalendar();
+            closeLaunchScreenSafely();
         } else if (iframeUrl) {
             targetDom.innerHTML = '';
             targetDom.removeAttribute('data-rendering-url');
@@ -748,6 +751,28 @@ async function handleChannelUpdates() {
     }
 }
 
+function isStandalone() {
+  return (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
+    (typeof navigator.standalone !== 'undefined' && navigator.standalone === true) ||
+    /standalone=yes/gi.test(window.location.href); // This makes it easy to test on local dev
+}
+
+function closeLaunchScreenSafely(force = false) {
+  const launchScreen = document.getElementById('app-launch-screen');
+  if (!launchScreen) {return;}
+
+  if (!force && launchScreen.classList.contains('is-showing-ad')) {return;}
+
+  // Add slide-up class to start the animation
+  launchScreen.classList.add('slide-up');
+
+  // Remove only after CSS transition finishes
+  launchScreen.addEventListener('transitionend', () => {
+    launchScreen.remove();
+  }, { once: true });
+}
+
+
 async function refreshAllAds() {
     try {
         document.querySelectorAll('.o-ads').forEach(el => el.remove());
@@ -755,7 +780,6 @@ async function refreshAllAds() {
         console.error(`refreshAllAds error:`, err);
     }
 }
-
 
 function getPathWithWebviewParams(link, extraParams) {
   try {
@@ -1370,3 +1394,5 @@ delegate.on('click', 'a[href]', function (event) {
   renderSection('News');
   await registerServiceWorkerForApp();
 })();
+
+setTimeout(closeLaunchScreenSafely, 5000);
