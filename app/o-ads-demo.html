@@ -5,220 +5,202 @@
  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
  <title>FT中文网</title>
  <meta http-equiv="Content-Language" content="zh-CN"/>
- <meta content="<%$p.meta.description%>" name="description"/>
  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
  <link rel="apple-touch-icon-precomposed" href="https://d2785ji6wtdqx8.cloudfront.net/img/ipad_icon.png" />
  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
- <link rel="preconnect" href="https://d2785ji6wtdqx8.cloudfront.net" />
- <link rel="preconnect" href="https://d1sh1cgb4xvhl.cloudfront.net/unsafe" />
- <script>
- window.errorBuffer = window.errorBuffer || [];
- function beaconCssError(e) {
- window.errorBuffer.push({
- error: e ? e : new Error('CSS failed to load.'),
- context: {
- isMobileNetork: document.cookie.replace(/(?:(?:^|.*;\s*)h2_isMobile\s*\=\s*([^;]*).*$)|^.*$/, "$1") === '' ? false : true
- }
- });
- }
-
- //window.gDebugAd = '<span style="display:block;width:100%;position:relative;height:0;overflow:visible;"><div style="position:absolute;top:0;left:0;font-size:14px;color:#777;">adcode_for_debug</div></span>';
- </script>
-
-<script>
-window.cutsTheMustard = (typeof Function.prototype.bind !== 'undefined');
-if (window.cutsTheMustard) {
-document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/, 'js').replace(/\bcore\b/, 'enhanced');
-}
-</script>
 
 
-<script>
-// MARK: Test info passed from Android native app
-var androidUserInfo = {
-  "displayName": "Faker",
-  "email": "faker@example.org",
-  "id": "0c726d53-2ec3-41e2-aa8c-5c4b0e23876a",
-  "isFtcOnly": true,
-  "isLinked": false,
-  "isMember": true,
-  "isVerified": false,
-  "isWxOnly": false,
-  "loginMethod": "email",
-  "membership": {
-    "autoRenew": false,
-    "cycle": "year",
-    "expireDate": "2021-05-22",
-    "id": "mmb_DYBOVDytt1PH",
-    "payMethod": "alipay",
-    "tier": "premium",
-    "tierStringRes": 2131886632,
-    "vip": false
-  },
-  "userName": "Faker",
-  "wechat": {
-    "isEmpty": true,
-    "loggerTag": "Wechat"
-  }
-};
-
-</script>
-
-
-<!--[if lte IE 8]>
-    <script>
-        document.documentElement.className += ' is-ie-8';
-        document.createElement('figure');
-        document.createElement('header');
-        document.createElement('nav');
-        document.createElement('section');
-        document.createElement('article');
-        document.createElement('aside');
-        document.createElement('footer');
-    </script>
-<![endif]-->
 
 
 
 
 <link rel="stylesheet" href="styles/main-pop-ad.css">
 
-<link rel="stylesheet" href="styles/main-header.css">
-
-<link rel="stylesheet" href="styles/main-footer.css">
-
-<link rel="stylesheet" href="styles/main-ie-XL.css">
-
 <link rel="stylesheet" href="styles/main-paid-post.css">
-
-<link rel="stylesheet" href="styles/main-calendar.css">
-
-<link rel="stylesheet" href="styles/main-form-subscription.css">
-
-<link rel="stylesheet" href="styles/main-subscription-box.css">
-
-<link rel="stylesheet" href="styles/main-subscription-qa.css">
-
-<link rel="stylesheet" href="styles/main-list-for-image.css">
-
-<link rel="stylesheet" href="styles/main-fixed-buttons.css">
 
 <link rel="stylesheet" href="styles/main-default.css">
 
-
-<script type="text/javascript">
-if(typeof startTime === "undefined"){
-var startTime=new Date().getTime();
+<style>
+body {
+    padding: clamp(1rem, 3vw, 2.5rem);
+    background: #fff7ef;
 }
-var adchID = '1000';
-var dolRand = Math.round(Math.random()*1000000000);//定义slot随机数实现联动互斥功能 
-var adchIDNew = window.location.href.replace(/^.*adchannelID=([0-9]{4}).*$/g,'$1');
-if (/^[0-9]{4}$/.test(adchIDNew)) {
-adchID = adchIDNew;
+h2 {
+    color: #9e2f50;
+    font-size: 1.15rem;
 }
-</script>
-
-
-
-<script type="text/javascript" src="scripts/adPatternsPC.js"></script>
-
-<script type="text/javascript" src="scripts/adPatternsPhone.js"></script>
-
-<script type="text/javascript" src="scripts/adPatternsPad.js"></script>
-
-<script type="text/javascript" src="scripts/adChannel.js"></script>
+.ad-set {
+    border: 2px dashed #d8b59c;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    background: #fff;
+}
+.ad-set__label {
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: #a06c4b;
+    margin-bottom: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.ad-set__label::before,
+.ad-set__label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: repeating-linear-gradient(90deg, #a06c4b, #a06c4b 6px, transparent 6px, transparent 12px);
+}
+.notes {
+    background: #fff;
+    border-left: 4px solid #9e2f50;
+    padding: 1.5rem;
+    margin-top: 2rem;
+    line-height: 1.6;
+}
+.notes h3 {
+    margin-top: 1rem;
+    font-size: 1rem;
+}
+.notes ol,
+.notes ul {
+    margin: 0;
+    padding-left: 1.25rem;
+}
+.clone-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    border: 1px solid #9e2f50;
+    background: #fff;
+    color: #9e2f50;
+    font-weight: 600;
+    padding: 0.6rem 1.2rem;
+    border-radius: 999px;
+    cursor: pointer;
+    margin: 1rem 0 2rem;
+}
+.clone-btn:active {
+    transform: scale(0.98);
+}
+.ad-set--inactive {
+    opacity: 0.35;
+}
+pre {
+    background: #0f172a;
+    color: #f8fafc;
+    padding: 1rem;
+    overflow-x: auto;
+}
+</style>
 
 
 
 
 
 <script type="text/javascript" src="scripts/key.js"></script>
-<script type="text/javascript" src="scripts/adDevice.js"></script>
-<script type="text/javascript" src="scripts/ad.js"></script>
-<script type="text/javascript" src="scripts/ad-third-party.js"></script>
-<script type="text/javascript" src="scripts/ad-third-party-impression.js"></script>
-<script type="text/javascript" src="scripts/browserTime.js"></script>
-
-
-<script type="text/javascript" src="scripts/key.js"></script>
-<script type="text/javascript" src="scripts/adDevice.js"></script>
-<script type="text/javascript" src="scripts/ad.js"></script>
-<script type="text/javascript" src="scripts/ad-third-party.js"></script>
-<script type="text/javascript" src="scripts/ad-third-party-impression.js"></script>
-<script type="text/javascript" src="scripts/browserTime.js"></script>
-<script type="text/javascript" src="scripts/chat-dict.js"></script>
-
-
-<script type="text/javascript" src="scripts/ad-web-launch.js"></script>
-
-<script type="text/javascript" src="scripts/key.js"></script>
-
-
-<script type="text/javascript" src="scripts/ad-third-party.js"></script>
-<script type="text/javascript" src="scripts/ad-third-party-impression.js"></script>
-
-<script type="text/javascript" src="scripts/ad-third-party-impression.js"></script>
-
-<script type="text/javascript" src="scripts/ad-third-party-imp-once.js"></script>
-
-<script type="text/javascript" src="scripts/myft-display.js"></script>
-
- <link rel="icon" type="image/png" href="https://next-geebee.ft.com/assets/brand-alpha/icons/favicon-32x32.png" sizes="32x32">
- <link rel="icon" type="image/png" href="https://next-geebee.ft.com/assets/brand-alpha/icons/favicon-194x194.png" sizes="194x194">
- <link rel="apple-touch-icon" sizes="180x180" href="https://next-geebee.ft.com/assets/brand-alpha/icons/apple-touch-icon-180x180.png" />
- <meta name="msapplication-TileColor" content="#fff1e0" />
- <meta name="msapplication-TileImage" content="https://next-geebee.ft.com/assets/brand-alpha/icons/mstile-144x144.png" />
- <script>
- window.cutsTheMustard = (typeof Function.prototype.bind !== 'undefined');
- if (window.cutsTheMustard) {
- document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/, 'js').replace(/\bcore\b/, 'enhanced');
- }
- </script>
- 
- <!--[if lte IE 8]>
- <link rel="stylesheet" href="https://next-geebee.ft.com/hashed-assets/front-page/35cf21f8/ie8.css" />
- <![endif]-->
- <script>var startTime = new Date().getTime();</script>
- <script>
- if ( screen.width<=480) {
- document.write('<meta content="FT中文网" name="application-name" /><meta content="app-id=443870811" name="apple-itunes-app" />');
- } else {
- document.write('<meta content="FT中文网" name="application-name" /><meta content="app-id=396124008" name="apple-itunes-app" />');
- }
- </script>
- <link rel="alternate" type="application/rss+xml" title="FT中文网 - 每日更新" href="/rss/feed" />
- <link rel="alternate" type="application/rss+xml" title="FT中文网 - 双语阅读" href="/rss/diglossia" />
- <link rel="alternate" type="application/rss+xml" title="FT中文网 - 今日焦点" href="/rss/news" />
- <link rel="alternate" type="application/rss+xml" title="FT中文网 - 生活时尚" href="/rss/lifestyle" />
- <link rel="alternate" type="application/rss+xml" title="FT中文网 - 一周十大热门文章" href="/rss/hotstoryby7day" />
- <link rel="alternate" type="application/rss+xml" title="FT中文网 - 热门用户评论" href="/rss/hotusercomment" />
- <link rel="search" type="application/opensearchdescription+xml" title="FT中文网财经搜索" href="/opensearch.xml">
-
-
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-1608715-1"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    if (window.gAutoStart === undefined) {
-        try {
-            trackerNew();
-        }catch(err){
-            gtag('config', 'UA-1608715-1');
-        }
-    }
-</script>
-<!-- End Google Analytics -->
-
-
 <script type="text/javascript" src="scripts/ad-polyfill.js"></script>
+
 
 <!-- zone: home-->
 <!-- topnav:home subnav: pageId:home-->
 <script type="text/javascript">
 function parseUserkv(n){var c={},i=n.split(";");if(0!==i.length)return i.forEach(function(n){var i=n.split("|");2===i.length&&(c[i[0]]=i[1])}),c}function getDfpTargetingStr(n){var c="";return n.sex&&(c+="cnsex="+n.sex+";"),n.cs&&(c+="cncs="+n.cs+";"),n.csp&&(c+="cncsp="+n.csp+";"),n.hi&&(c+="cnhi="+n.hi+";"),n.in&&(c+="cnin="+n.in+";"),n.wf&&(c+="cnwf="+n.wf+";"),c}</script>
 <script>
+function refreshAds(container) {
+    if (!container) {
+        console.warn('[o-ads-demo] refreshAds called without a container');
+        return;
+    }
+    if (!window.oAds) {
+        console.warn('[o-ads-demo] oAds not ready yet');
+        return;
+    }
+
+    var setIndex = container.getAttribute('data-set-index');
+    if (!setIndex) {
+        setIndex = Date.now().toString();
+        container.setAttribute('data-set-index', setIndex);
+    }
+
+    var slotEls = Array.prototype.slice.call(container.querySelectorAll('.o-ads'));
+    if (!slotEls.length) {
+        console.warn('[o-ads-demo] refreshAds: no slots found inside container');
+        return;
+    }
+
+    slotEls.forEach(function (slot) {
+        var name = slot.getAttribute('data-o-ads-name');
+        if (!name) {
+            var stored = slot.getAttribute('data-original-name');
+            if (stored) {
+                slot.setAttribute('data-o-ads-name', stored);
+            }
+        }
+
+        slot.removeAttribute('data-o-ads-loaded');
+        slot.classList.remove('o-ads--empty');
+
+        while (slot.firstChild) {
+            slot.removeChild(slot.firstChild);
+        }
+    });
+
+    var initialised = false;
+    if (typeof window.oAds.initSlot === 'function') {
+        try {
+            slotEls.forEach(function (slot) {
+                window.oAds.initSlot(slot);
+            });
+            initialised = true;
+        } catch (err) {
+            console.warn('[o-ads-demo] oAds.initSlot failed, fallback to refresh', err);
+        }
+    }
+
+    if (!initialised && typeof window.oAds.refresh === 'function') {
+        try {
+            window.oAds.refresh(slotEls);
+        } catch (err) {
+            console.warn('[o-ads-demo] oAds.refresh failed', err);
+        }
+    }
+}
+
+function deactivateAdSet(container) {
+    if (!container) {
+        return;
+    }
+    container.classList.add('ad-set--inactive');
+    Array.prototype.slice.call(container.querySelectorAll('.o-ads')).forEach(function (slot) {
+        var name = slot.getAttribute('data-o-ads-name');
+        if (name) {
+            slot.setAttribute('data-original-name', name);
+            slot.removeAttribute('data-o-ads-name');
+        }
+    });
+}
+
+function destroyActiveAds(root) {
+    if (!window.oAds || typeof window.oAds.destroy !== 'function') {
+        return;
+    }
+    var scope = root || document;
+    var slots = Array.prototype.slice.call(scope.querySelectorAll('.ad-set .o-ads'));
+    var activeSlots = slots.filter(function (slot) {
+        return slot.hasAttribute('data-o-ads-loaded');
+    });
+    if (activeSlots.length === 0) {
+        return;
+    }
+    try {
+        window.oAds.destroy(activeSlots);
+    } catch (err) {
+        console.warn('[o-ads-demo] destroyActiveAds failed', err);
+    }
+}
+
 // MARK: - the cookie USER_KV is set from server side when user logs in
 var userKv = GetCookie('USER_KV');
 var dfpTargetingStr = '';
@@ -281,6 +263,8 @@ document.writeln(configScriptJsonStr);
 
  </head>
 <body>
+<div id="ad-slots" class="ad-set" data-set-index="0">
+<div class="ad-set__label">Ad Set #0</div>
 <h2>Ad Slot: banner1</h2>
 <div class="o-ads" data-o-ads-name="banner1"
               data-o-ads-center="true" 
@@ -451,45 +435,93 @@ document.writeln(configScriptJsonStr);
               data-cy='[{"devices":["PC"],"pattern":"Leaderboard","position":"Num4"}]'>
           </div>
 
+</div>
+
+<button type="button" id="clone-ad-slots" class="clone-btn">Clone ad block</button>
+
+<script>
+window.adSlotsTemplateHTML = document.getElementById('ad-slots').innerHTML;
+</script>
+
+<section class="notes">
+    <h2>FTChinese 如何通过 o-ads 渲染 Google Ad Manager 广告</h2>
+    <ol>
+        <li><strong>环境初始化 (`scripts/key.js`).</strong> 该脚本解析用户/设备 cookie，计算 <code>gUserType</code>、<code>USER_KV</code> 等值并暴露 <code>GetCookie</code>。广告定向字符串（例如 <code>cnuser=ChurnedVIP;</code>）必须在此阶段准备好，否则 DFP 不会匹配到上架的订单。</li>
+        <li><strong>加载 o-ads 框架 (`scripts/ad-polyfill.js`).</strong> 该文件会根据浏览器能力注入必要的 polyfill，然后按顺序加载 shrinkwrap 过的 <code>o-ads</code> + GPT bundle（含 <code>o-autoinit</code>）。只有在这个 bundle 完成后，页面上的 <code>.o-ads</code> 才会被自动扫描。</li>
+        <li><strong>声明式配置。</strong> o-ads 在 DOM 中查找 <code>&lt;script data-o-ads-config type="application/json"&gt;</code>，我们在其中描述 network、site、zone、<code>collapseEmpty</code> 策略，以及 <code>formats</code>（FT 自定义的 FtcLeaderboard、FtcMpu 等尺寸）。</li>
+        <li><strong>Slot 标记。</strong> 每个广告位都是一个带 <code>class="o-ads"</code> 的容器，使用 <code>data-o-ads-formats-*</code> 定义各断点尺寸，<code>data-o-ads-targeting</code> 提供位置信息（如 <code>cnpos=top1;</code>），必要时还可设置 <code>data-o-ads-center</code>、<code>data-o-ads-lazy-load</code> 等属性覆盖全局行为。</li>
+        <li><strong>事件与调试。</strong> o-ads 在渲染生命周期中会发出 <code>oAds.slotRenderStart</code>、<code>oAds.slotRenderEnded</code> 等事件。下面的监听器示例会把每个 slot 的最终格式写到控制台，方便确认 GPT 是否返回了创意。</li>
+    </ol>
+</section>
+
+<section class="notes">
+    <h2>官方 README 提到的进阶技巧（适用于独立 Web App / SPA）</h2>
+    <ul>
+        <li><strong>编程式初始化。</strong> 在独立应用里可以通过 npm 直接 <code>import oAds</code> 并调用 <code>oAds.init</code>，而不是依赖 <code>data-o-ads-config</code>。示例：
+            <pre><code>import oAds from '@financial-times/o-ads';
+oAds.init({
+    gpt: { network: 21753042392, site: 'FtChinese', zone: 'labs' },
+    collapseEmpty: 'after',
+    lazyLoad: true
+});</code></pre>
+            在单页应用里，当路由变化后可重用同一实例并调用 <code>oAds.refresh()</code> 让可见的 slot 重新向 GAM 请求。</li>
+        <li><strong>Lazy Loading / Master-Companion.</strong> 通过全局 <code>lazyLoad</code> 配置（或 slot 级 <code>data-o-ads-lazy-load</code>）可以控制 IntersectionObserver 触发阈值。README 还注明 Master/Companion 创意会绕过懒加载并立即触发同组广告。</li>
+        <li><strong>自定义断点与格式。</strong> 使用 <code>oAds.config({ responsive: {...} })</code> 可以覆写 small/medium/large/extra 的 px 范围，从而在特殊页面请求不同的 Ftc 格式或你自定义的 format 名称。</li>
+        <li><strong>slot 层定制。</strong> README 列出了全部 <code>data-o-ads-*</code> 属性，包括 <code>data-o-ads-collapse-empty</code>、<code>data-o-ads-out-of-page</code>（承载 interstitial）、<code>data-o-ads-loaded</code>（渲染后由 o-ads 写回，可配合 CSS 或观察者改变布局）。</li>
+        <li><strong>Metrics & Monitoring.</strong> 通过 <code>oAds.utils.setupMetrics()</code> 可以把多个事件组合成一次监控上报：
+            <pre><code>oAds.utils.setupMetrics([
+  {
+    name: 'slot-rendered',
+    marks: ['slotRenderStart','slotRenderEnded'],
+    trigger: 'slotRenderEnded',
+    callback: (data) => console.log('render time', data)
+  }
+]);</code></pre>
+            如果在 SPA 中重复导航，可调用 <code>oAds.utils.clearPerfMarks()</code> 清空旧的 performance entries。</li>
+    </ul>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    if (window.oAds && typeof window.oAds.on === 'function') {
+        window.oAds.on('slotRenderEnded', function (slot) {
+            var format = slot.container && slot.container.getAttribute('data-o-ads-loaded');
+            console.log('[o-ads-demo]', slot.name, '->', format || 'empty');
+        });
+    }
+
+    var slotsRoot = document.getElementById('ad-slots');
+    var cloneBtn = document.getElementById('clone-ad-slots');
+    var adSetTemplateHTML = window.adSlotsTemplateHTML || (slotsRoot ? slotsRoot.innerHTML : '');
+    var cloneCount = 0;
+    var activeAdSet = slotsRoot;
+    function createAdSet(index) {
+        var container = document.createElement('div');
+        container.className = 'ad-set';
+        container.setAttribute('data-set-index', index);
+        container.innerHTML = adSetTemplateHTML;
+        var label = container.querySelector('.ad-set__label');
+        if (label) {
+            label.textContent = 'Ad Set #' + index;
+        }
+        return container;
+    }
+    if (slotsRoot && cloneBtn) {
+        cloneBtn.addEventListener('click', function () {
+            cloneCount += 1;
+            destroyActiveAds(activeAdSet || document);
+            deactivateAdSet(activeAdSet);
+            var clone = createAdSet(cloneCount);
+            cloneBtn.parentNode.insertBefore(clone, cloneBtn);
+            clone.classList.remove('ad-set--inactive');
+            activeAdSet = clone;
+            refreshAds(activeAdSet);
+        });
+    }
+});
+</script>
+
 </body>
-<!--[if lte IE 8]>
-<script src="https://cdnjs.cloudflare.com/polyfill/v2/polyfill.min.js"></script>
-<![endif]-->
 
-<script type="text/javascript" src="scripts/dom-delegate.js"></script>
-<script type="text/javascript" src="scripts/o-nav.js"></script>
-<script type="text/javascript" src="scripts/main.js"></script>
-<script type="text/javascript" src="scripts/track-click.js"></script>
-<script type="text/javascript" src="scripts/myft-follow.js"></script>
-<script type="text/javascript" src="scripts/get-my-preference.js"></script>
-<script type="text/javascript" src="scripts/main-search.js"></script>
-<script type="text/javascript" src="scripts/recommend.js"></script>
-
-<script type="text/javascript" src="scripts/require-log-in.js"></script>
-
-<script type="text/javascript" src="scripts/track-click.js"></script>
-
-<script type="text/javascript" src="scripts/home-click.js"></script>
-
-<script type="text/javascript" src="scripts/main-calendar.js"></script>
-
-<script type="text/javascript" src="scripts/pay-wall.js"></script>
-
-<script type="text/javascript" src="scripts/android-app-pay-wall.js"></script>
-
-<script type="text/javascript" src="scripts/main-db-zone-helper.js"></script>
-
-<script type="text/javascript" src="scripts/listen.js"></script>
-
-<script type="text/javascript" src="scripts/smart-home-page.js"></script>
-
-
-<script type="text/javascript" src="scripts/ie-grid-polyfill.js"></script>
-
-
-<script type="text/javascript" src="scripts/trie.js"></script> 
-<script type="text/javascript" src="scripts/convert-chinese.js"></script>
-<script type="text/javascript" src="scripts/chat-dict.js"></script>
 
 </html>
-
