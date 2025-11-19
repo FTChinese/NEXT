@@ -82,8 +82,22 @@ function parseUserkv(n){var c={},i=n.split(";");if(0!==i.length)return i.forEach
 // --- CORE FUNCTIONS ---
 
 /**
- * FINAL STRATEGY: Manual GPT Definition + Responsive Size Mapping.
- * This bypasses oAds.init() bugs and manually sets up responsive logic via GPT API.
+ * FINAL STRATEGY SUMMARY FOR FUTURE DEVELOPERS
+ * -------------------------------------------
+ * This demo intentionally bypasses the normal `oAds.init()` lifecycle because in a PWA
+ * the original GPT slot definitions persist across soft navigations. To simulate a
+ * fresh navigation we manually define each slot via the GPT API using the attributes
+ * already present on the `.o-ads` placeholder. The key steps are:
+ *   1. Destroy every GPT slot (`googletag.destroySlots`) and wipe the oAds slot map so
+ *      the same `data-o-ads-name` values can be reused safely.
+ *   2. Insert the new DOM block (ad placeholders) before creating any GPT slots. If we
+ *      define before inserting, GPT throws "Element not found" errors.
+ *   3. Rebuild each slot manually: read the format names from `data-o-ads-formats-*`,
+ *      look up sizes from the cached config, build a GPT sizeMapping (desktop vs mobile),
+ *      set targeting (`cnpos`, `navid`), call `googletag.defineSlot(...)`, and finally
+ *      call `googletag.display()` + `googletag.pubads().refresh(...)`.
+ * By handling GPT directly we avoid stale state inside o-ads and insure that every SPA
+ * navigation redefines the ad unit exactly like a hard page load.
  */
 function reInitializeAds(container) {
     if (!container || !window.googletag || !window.cachedConfig) {
@@ -181,6 +195,7 @@ function reInitializeAds(container) {
 }
 
 function destroyAllAdSlots() {
+    // Step 1 of lifecycle: guarantee GPT forgets every prior slot definition.
     if (window.googletag && typeof window.googletag.destroySlots === 'function') {
         window.googletag.cmd.push(function() {
             window.googletag.destroySlots();
@@ -197,6 +212,7 @@ function destroyAllAdSlots() {
 }
 
 function removeAllAdSets() {
+    // Step 2 of lifecycle: ensure no stale DOM survives the navigation.
     Array.prototype.slice.call(document.querySelectorAll('.ad-set')).forEach(function (set) {
         if (set.parentNode) set.parentNode.removeChild(set);
     });
@@ -461,8 +477,8 @@ document.addEventListener('DOMContentLoaded', function () {
             cloneCount += 1;
             console.log('[o-ads-demo] --- PWA NAVIGATION START (Simulated) ---');
             
-            destroyAllAdSlots(); 
-            removeAllAdSets();             
+            destroyAllAdSlots();           // Phase 1: clear GPT/oAds state
+            removeAllAdSets();             // Phase 2: remove stale DOM
 
             var clone = createAdSet(cloneCount);
             
@@ -471,7 +487,7 @@ document.addEventListener('DOMContentLoaded', function () {
             activeAdSet = clone;
             
             // Define & Display SECOND (Fixes "Invalid size" error)
-            reInitializeAds(clone); 
+            reInitializeAds(clone);        // Phase 3: manual GPT re-definition
             
             console.log('[o-ads-demo] --- PWA NAVIGATION END ---');
         });
