@@ -742,7 +742,8 @@ function generateHTMLFromData(sections) {
 async function handleChannelUpdates() {
     try {
         runLoadImages();
-        refreshAllAds();
+        const root = document.getElementById('app-main-content');
+        refreshAllAds(root);
         renderPaginationHTML();
 
         // TODO: other things such as sending a page view count, render calendar for the home page, render the promo box etc...
@@ -773,9 +774,13 @@ function closeLaunchScreenSafely(force = false) {
 }
 
 
-async function refreshAllAds() {
+async function refreshAllAds(root) {
     try {
-        document.querySelectorAll('.o-ads').forEach(el => el.remove());
+        if (window.appAds && typeof window.appAds.refresh === 'function') {
+            window.appAds.refresh(root);
+        } else {
+            document.querySelectorAll('.o-ads').forEach(el => el.remove());
+        }
     } catch(err) {
         console.error(`refreshAllAds error:`, err);
     }

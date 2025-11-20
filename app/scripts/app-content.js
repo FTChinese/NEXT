@@ -1,4 +1,4 @@
-/* global window, document, IntersectionObserver, ResizeObserver, HEADSHOTS */
+/* global window, document, IntersectionObserver, ResizeObserver, HEADSHOTS, refreshAllAds */
 /* exported renderContentPage */
 
 /* -----------------------------
@@ -888,6 +888,10 @@ async function renderContentPageBody(info, appDetailEle, langSel, langValue) {
     // } else {
     //   updateReadIdsInStorage('ftcreadids', itemTypeId, upLimit);
     // }
+
+  if (typeof refreshAllAds === 'function') {
+    refreshAllAds(appDetailEle);
+  }
 }
 
 // JS — renderLanguageSwitch (stable widget; no full re-render on toggle)
@@ -953,6 +957,9 @@ function getUserInfo() {
 
 function destroyDetailView(view) {
       try {
+        if (view && window.appAds && typeof window.appAds.teardown === 'function') {
+          window.appAds.teardown(view);
+        }
 
         // Remove the "on" class → triggers your CSS transition/animation
         view.classList.remove('on');
