@@ -525,6 +525,24 @@ async function toggleSave(button) {
   }
 }
 
+function scrollToComments(rootView) {
+  try {
+    const viewRoot = rootView || document;
+    const target = viewRoot.querySelector('.user_comments_container');
+    if (!target) { return; }
+
+    if (typeof target.scrollIntoView === 'function') {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      const rect = target.getBoundingClientRect();
+      const scrollTop = (document.documentElement || document.body).scrollTop || window.pageYOffset || 0;
+      window.scrollTo(0, scrollTop + rect.top);
+    }
+  } catch (err) {
+    console.error('comments scroll error:', err);
+  }
+}
+
 /* -----------------------------
    MAIN RENDERER (refactored)
 ----------------------------- */
@@ -1172,6 +1190,10 @@ delegate.on('click', '.app-detail-bottom-action', async function () {
   const action = this.getAttribute('data-action') || 'unknown';
   if (action === 'save') {
     await toggleSave(this);
+    return;
+  } else if (action === 'comments') {
+    const rootView = this.closest('[data-detail-root]') || document;
+    scrollToComments(rootView);
     return;
   }
   console.log(`[app-detail-bottom] ${action} clicked`);
