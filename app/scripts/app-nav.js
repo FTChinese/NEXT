@@ -1,6 +1,6 @@
 /* exported isStandalone */
 
-const jsVersion = 'v1';
+const jsVersion = 'v2';
 const appMap = {
 News: {
     title: 'FT中文网',

@@ -403,6 +403,17 @@
       log('no target root for ads refresh');
       return;
     }
+    // console.log(`ftc-ad-config: `, target.querySelector(`.ftc-ad-config`));
+
+    let zone = 'home';
+    let cntopic = '';
+
+    const ftcAdConfigEle = target?.querySelector(`.ftc-ad-config`);
+    if (ftcAdConfigEle) {
+      zone = ftcAdConfigEle?.getAttribute('data-zone') ?? zone;
+      cntopic = ftcAdConfigEle?.getAttribute('data-cntopic') ?? cntopic;
+    }
+
     var slotEls = getSlotElements(target);
     if (!slotEls.length) {
       teardown(target);
