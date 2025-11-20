@@ -9,8 +9,10 @@
     const launchScheduleStorageKey = 'ftc:webLaunchSchedule';
     const supportedCreativeExtensions = /\.(jpg|jpeg|png|gif)$/i; // Add |mp4 when re-enabling video assets
     const LOG_PREFIX = '[launch-ad]';
+    const ENABLE_LAUNCH_LOGS = false;
 
     function log() {
+        if (!ENABLE_LAUNCH_LOGS) { return; }
         const args = Array.prototype.slice.call(arguments);
         args.unshift(LOG_PREFIX);
         console.log.apply(console, args);
@@ -236,15 +238,60 @@
         });
     
         const closeButton = document.createElement('button');
-        closeButton.textContent = 'X';
-        closeButton.style.fontFamily = 'Arial';
+        closeButton.type = 'button';
+        closeButton.setAttribute('aria-label', 'Close launch ad');
         closeButton.style.position = 'absolute';
-        closeButton.style.top = '10px';
-        closeButton.style.right = '10px';
-        closeButton.style.backgroundColor = 'transparent';
-        closeButton.style.color = 'white';
-        closeButton.style.fontSize = '32px';
+        closeButton.style.top = '12px';
+        closeButton.style.right = '12px';
+        closeButton.style.width = '42px';
+        closeButton.style.height = '42px';
+        closeButton.style.border = '1px solid rgba(255,255,255,0.45)';
+        closeButton.style.padding = '0';
+        closeButton.style.display = 'flex';
+        closeButton.style.alignItems = 'center';
+        closeButton.style.justifyContent = 'center';
+        closeButton.style.borderRadius = '50%';
+        closeButton.style.cursor = 'pointer';
+        closeButton.style.background = 'rgba(12, 12, 12, 0.22)';
+        closeButton.style.backdropFilter = 'blur(2.5px)';
+        closeButton.style.boxShadow = '0 4px 12px rgba(0,0,0,0.22)';
+        closeButton.style.transition = 'transform 120ms ease, background 150ms ease, opacity 150ms ease, box-shadow 150ms ease, border-color 150ms ease';
+        closeButton.style.color = '#fff';
         closeButton.onclick = closeAd;
+
+        const closeIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        closeIcon.setAttribute('viewBox', '0 0 24 24');
+        closeIcon.setAttribute('width', '22');
+        closeIcon.setAttribute('height', '22');
+        closeIcon.setAttribute('aria-hidden', 'true');
+        closeIcon.style.filter = 'drop-shadow(0 1px 2px rgba(0,0,0,0.35))';
+
+        const cross = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        cross.setAttribute('d', 'M7.5 7.5 L16.5 16.5 M16.5 7.5 L7.5 16.5');
+        cross.setAttribute('stroke', 'currentColor');
+        cross.setAttribute('stroke-width', '2.2');
+        cross.setAttribute('stroke-linecap', 'round');
+        cross.setAttribute('stroke-linejoin', 'round');
+        closeIcon.appendChild(cross);
+        closeButton.appendChild(closeIcon);
+
+        closeButton.addEventListener('mouseenter', () => {
+            closeButton.style.background = 'rgba(0, 0, 0, 0.35)';
+            closeButton.style.boxShadow = '0 6px 16px rgba(0,0,0,0.26)';
+            closeButton.style.transform = 'scale(1.05)';
+        });
+        closeButton.addEventListener('mouseleave', () => {
+            closeButton.style.background = 'rgba(12, 12, 12, 0.22)';
+            closeButton.style.boxShadow = '0 4px 12px rgba(0,0,0,0.22)';
+            closeButton.style.transform = 'scale(1)';
+        });
+        closeButton.addEventListener('focus', () => {
+            closeButton.style.outline = '2px solid rgba(255,255,255,0.6)';
+            closeButton.style.outlineOffset = '2px';
+        });
+        closeButton.addEventListener('blur', () => {
+            closeButton.style.outline = 'none';
+        });
     
         launchScreen?.appendChild(closeButton);
     

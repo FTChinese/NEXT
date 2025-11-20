@@ -1,9 +1,12 @@
 /* jshint esversion: 11 */
 /* global self, caches, fetch, Response */
 
-const cacheName = 'v78';
+const cacheName = 'v81';
 const LOG_PREFIX = '[SW ' + cacheName + ']';
-console.log(LOG_PREFIX + ' loaded');
+const ENABLE_SW_LOGS = false;
+if (ENABLE_SW_LOGS) {
+  console.log(LOG_PREFIX + ' loaded');
+}
 
 // ---- Precache (optional/offline bootstrap) ----
 const START_URL = '/app';
@@ -80,6 +83,7 @@ function isJsonEndpoint(pathname) {
 }
 
 function log() {
+  if (!ENABLE_SW_LOGS) { return; }
   console.log.apply(console, [LOG_PREFIX].concat([].slice.call(arguments)));
 }
 

@@ -2,7 +2,8 @@
 (function (window, document) {
   'use strict';
 
-  var DEBUG = Boolean(window.isFrontEndTest);
+  var ENABLE_APP_ADS_LOGS = false;
+  var DEBUG = ENABLE_APP_ADS_LOGS && Boolean(window.isFrontEndTest);
   var slotRegistry = Object.create(null);
   var rootCounter = 0;
   var slotRenderListenerBound = false;
@@ -17,6 +18,39 @@
   function ensureGoogletagQueue() {
     window.googletag = window.googletag || {};
     window.googletag.cmd = window.googletag.cmd || [];
+  }
+
+  function getAdContext(root) {
+    var defaultZone = (window.cachedConfig && window.cachedConfig.gpt && window.cachedConfig.gpt.zone) || 'home';
+    var context = {
+      zone: defaultZone,
+      cntopic: ''
+    };
+    var target = root || null;
+    if (!target) { return context; }
+
+    var configNode = target.querySelector && target.querySelector('.ftc-ad-config');
+    if (configNode) {
+      var dataZone = configNode.getAttribute('data-zone');
+      if (dataZone) {
+        context.zone = dataZone;
+      }
+      var dataCntopic = configNode.getAttribute('data-cntopic');
+      if (dataCntopic) {
+        context.cntopic = dataCntopic;
+      }
+      return context;
+    }
+
+    var attrZone = target.getAttribute && target.getAttribute('data-zone');
+    if (attrZone) {
+      context.zone = attrZone;
+    }
+    var attrCntopic = target.getAttribute && target.getAttribute('data-cntopic');
+    if (attrCntopic) {
+      context.cntopic = attrCntopic;
+    }
+    return context;
   }
 
   function parseUserkv(str) {
@@ -369,14 +403,13 @@
     }
     var slotTargetId = resetSlotElement(slot, slotId);
 
-    var adUnitPath = '/' + config.gpt.network + '/' + config.gpt.site + '/' + config.gpt.zone;
     var pubads = window.googletag.pubads ? window.googletag.pubads() : null;
     if (!pubads || typeof window.googletag.defineSlot !== 'function' || typeof window.googletag.sizeMapping !== 'function') {
       log('googletag not ready');
       return null;
     }
     try {
-      var gptSlot = window.googletag.defineSlot(adUnitPath, sizes.all, slotTargetId);
+      var gptSlot = window.googletag.defineSlot(ctx.adUnitPath, sizes.all, slotTargetId);
       if (!gptSlot) { return null; }
       var mapping = window.googletag.sizeMapping()
         .addSize([990, 0], sizes.desktop.length ? sizes.desktop : [])
@@ -403,23 +436,16 @@
       log('no target root for ads refresh');
       return;
     }
-    // console.log(`ftc-ad-config: `, target.querySelector(`.ftc-ad-config`));
 
-    let zone = 'home';
-    let cntopic = '';
-
-    const ftcAdConfigEle = target?.querySelector(`.ftc-ad-config`);
-    if (ftcAdConfigEle) {
-      zone = ftcAdConfigEle?.getAttribute('data-zone') ?? zone;
-      cntopic = ftcAdConfigEle?.getAttribute('data-cntopic') ?? cntopic;
-    }
+    var config = ensureConfig();
+    var context = getAdContext(target);
+    log('refresh context zone=%s cntopic=%s', context.zone, context.cntopic || '(empty)');
 
     var slotEls = getSlotElements(target);
     if (!slotEls.length) {
       teardown(target);
       return;
     }
-    var config = ensureConfig();
     ensureGoogletagQueue();
     ensureSlotRenderListener();
     var rootId = ensureRootId(target);
@@ -427,6 +453,18 @@
     if (!navId) {
       navId = 'spa' + rootId;
       target.setAttribute('data-ads-nav-id', navId);
+    }
+    var adUnitPath = '/' + config.gpt.network + '/' + config.gpt.site + '/' + context.zone;
+    log('ad unit path resolved to %s', adUnitPath);
+    var pubads = window.googletag.pubads ? window.googletag.pubads() : null;
+    if (pubads && typeof pubads.setTargeting === 'function') {
+      if (context.cntopic) {
+        pubads.setTargeting('cntopic', context.cntopic);
+        log('applied cntopic targeting %s', context.cntopic);
+      } else if (typeof pubads.clearTargeting === 'function') {
+        pubads.clearTargeting('cntopic');
+        log('cleared cntopic targeting');
+      }
     }
     window.googletag.cmd.push(function () {
       destroySlotsForRoot(rootId);
@@ -438,7 +476,8 @@
           config: config,
           navId: navId,
           rootId: rootId,
-          index: i
+          index: i,
+          adUnitPath: adUnitPath
         });
         if (defined && defined.gptSlot) {
           gptSlots.push(defined.gptSlot);

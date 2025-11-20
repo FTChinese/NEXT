@@ -105,14 +105,28 @@ function reInitializeAds(container) {
         return;
     }
 
+    var setIndex = container.getAttribute('data-set-index') || '0';
+    var adContext = getAdContext(container);
+    console.log('[o-ads-demo] Context for Set #' + setIndex + ': zone=' + adContext.zone + ', cntopic=' + (adContext.cntopic || '(empty)'));
+
     window.googletag.cmd.push(function() {
-        var setIndex = container.getAttribute('data-set-index');
         var slotEls = Array.prototype.slice.call(container.querySelectorAll('.o-ads'));
         var uniqueId = 'nav' + setIndex; 
         
         var adUnitPath = '/' + window.cachedConfig.gpt.network + 
                          '/' + window.cachedConfig.gpt.site + 
-                         '/' + window.cachedConfig.gpt.zone;
+                         '/' + adContext.zone;
+        console.log('[o-ads-demo] Using ad unit path:', adUnitPath);
+        var pubads = window.googletag.pubads ? window.googletag.pubads() : null;
+        if (pubads && typeof pubads.setTargeting === 'function') {
+            if (adContext.cntopic) {
+                pubads.setTargeting('cntopic', adContext.cntopic);
+                console.log('[o-ads-demo] Applied cntopic targeting:', adContext.cntopic);
+            } else if (typeof pubads.clearTargeting === 'function') {
+                pubads.clearTargeting('cntopic');
+                console.log('[o-ads-demo] Cleared cntopic targeting (no value)');
+            }
+        }
         
         var newGptSlots = [];
 
@@ -222,6 +236,39 @@ function logRegisteredSlots(prefix) {
     if (window.oAds && window.oAds.slots) {
         console.log('[o-ads-demo]', prefix, Object.keys(window.oAds.slots));
     }
+}
+
+function getAdContext(container) {
+    var baseZone = (window.cachedConfig && window.cachedConfig.gpt && window.cachedConfig.gpt.zone) || 'home';
+    var context = {
+        zone: baseZone,
+        cntopic: ''
+    };
+    if (!container) { return context; }
+
+    var configNode = container.querySelector('.ftc-ad-config');
+    if (configNode) {
+        var zoneAttr = configNode.getAttribute('data-zone');
+        if (zoneAttr) {
+            context.zone = zoneAttr;
+        }
+        var cntopicAttr = configNode.getAttribute('data-cntopic');
+        if (cntopicAttr) {
+            context.cntopic = cntopicAttr;
+        }
+        return context;
+    }
+
+    var containerZone = container.getAttribute('data-zone');
+    if (containerZone) {
+        context.zone = containerZone;
+    }
+    var containerCntopic = container.getAttribute('data-cntopic');
+    if (containerCntopic) {
+        context.cntopic = containerCntopic;
+    }
+
+    return context;
 }
 
 // MARK: - Configuration Setup
