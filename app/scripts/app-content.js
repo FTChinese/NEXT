@@ -435,6 +435,33 @@ function setupFollowButtons() {
   root.__followWired = true;
 }
 
+// Build sticky bottom action bar (save / comment / share / settings)
+function renderDetailBottomBar(appDetailEle) {
+  try {
+    const bottom = appDetailEle?.querySelector('.app-detail-bottom');
+    if (!bottom || bottom.__rendered) { return; }
+
+    bottom.innerHTML = `
+      <button class="app-detail-bottom-action" type="button" data-action="save" aria-label="Save">
+        <span class="app-detail-bottom-icon icon-save"></span>
+      </button>
+      <button class="app-detail-bottom-action" type="button" data-action="comments" aria-label="Comments">
+        <span class="app-detail-bottom-icon icon-comments"></span>
+      </button>
+      <button class="app-detail-bottom-action" type="button" data-action="share" aria-label="Share">
+        <span class="app-detail-bottom-icon icon-share"></span>
+      </button>
+      <button class="app-detail-bottom-action" type="button" data-action="settings" aria-label="Settings">
+        <span class="app-detail-bottom-icon icon-settings"></span>
+      </button>
+    `;
+
+    bottom.__rendered = true;
+  } catch (err) {
+    console.error('render detail bottom bar error:', err);
+  }
+}
+
 /* -----------------------------
    MAIN RENDERER (refactored)
 ----------------------------- */
@@ -450,6 +477,9 @@ async function renderContentPage(info, appDetailEle) {
 
   // Remember state for this view so we can re-render body only
   detailViewState.set(appDetailEle, { info });
+
+  // Inject the sticky action bar once per view
+  renderDetailBottomBar(appDetailEle);
 
   // Select language (reads saved preference)
   const langSel = selectLanguage(info);
@@ -1059,14 +1089,14 @@ delegate.on('click', '.app-detail-audio.on', async function () {
   }
 });
 
-
 delegate.on('click', '.app-detail-back', async function () {
   destroyDetailView(this.closest('.app-detail-view'));
 });
 
-
-
-
+delegate.on('click', '.app-detail-bottom-action', function () {
+  const action = this.getAttribute('data-action') || 'unknown';
+  console.log(`[app-detail-bottom] ${action} clicked`);
+});
 
 // // TODO: - Use translateY to implement the touch screen gesture of swipe from left to right to dismiss the app-detail-view by moving it visually to the right and remove it after the animation is done. 
 

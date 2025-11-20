@@ -316,8 +316,68 @@ $app-detail-border: rgba(0, 0, 0, 0.08) !default;
     position: sticky;
     bottom: 0;
     min-height: $navHeight;
-    padding-bottom: env(safe-area-inset-bottom);
+    padding: $defaultPadding * 0.35 $defaultPadding * 0.75;
+    padding-bottom: calc(env(safe-area-inset-bottom) + #{$defaultPadding * 0.35});
     background-color: $appBottomTint;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: $defaultPadding * 0.5;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+
+    .app-detail-bottom-action {
+      flex: 1 1 0;
+      min-width: 52px;
+      max-width: 120px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      padding: 10px 4px;
+      background: transparent;
+      border: 0;
+      color: $darkGrey;
+      text-align: center;
+      cursor: pointer;
+      border-radius: 14px;
+      transition: background-color 0.15s ease, transform 0.1s ease;
+
+      &:active {
+        background-color: rgba(0, 0, 0, 0.04);
+        transform: translateY(1px);
+      }
+
+      &:focus-visible {
+        outline: 2px solid rgba($darkGreen, 0.3);
+        outline-offset: 2px;
+      }
+    }
+
+    .app-detail-bottom-icon {
+      width: 26px;
+      height: 26px;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 26px 26px;
+    }
+
+    .icon-save {
+      background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20height%3D%2224px%22%20viewBox%3D%220%20-960%20960%20960%22%20width%3D%2224px%22%20fill%3D%22%235f6368%22%3E%3Cpath%20d%3D%22M200-120v-640q0-33%2023.5-56.5T280-840h400q33%200%2056.5%2023.5T760-760v640L480-240%20200-120Zm80-122%20200-86%20200%2086v-518H280v518Zm0-518h400-400Z%22/%3E%3C/svg%3E");
+      &.saved {
+        background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20height%3D%2224px%22%20viewBox%3D%220%20-960%20960%20960%22%20width%3D%2224px%22%20fill%3D%22%235f6368%22%3E%3Cpath%20d%3D%22M713-600%20600-713l56-57%2057%2057%20141-142%2057%2057-198%20198ZM200-120v-640q0-33%2023.5-56.5T280-840h240v80H280v518l200-86%20200%2086v-278h80v400L480-240%20200-120Zm80-640h240-240Z%22/%3E%3C/svg%3E");
+      }
+    }
+
+    .icon-comments {
+      background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20height%3D%2224px%22%20viewBox%3D%220%20-960%20960%20960%22%20width%3D%2224px%22%20fill%3D%22%235f6368%22%3E%3Cpath%20d%3D%22M240-400h480v-80H240v80Zm0-120h480v-80H240v80Zm0-120h480v-80H240v80ZM880-80%20720-240H160q-33%200-56.5-23.5T80-320v-480q0-33%2023.5-56.5T160-880h640q33%200%2056.5%2023.5T880-800v720ZM160-320h594l46%2045v-525H160v480Zm0%200v-480%20480Z%22/%3E%3C/svg%3E");
+    }
+    .icon-share {
+      background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20height%3D%2224px%22%20viewBox%3D%220%20-960%20960%20960%22%20width%3D%2224px%22%20fill%3D%22%235f6368%22%3E%3Cpath%20d%3D%22M240-80q-33%200-56.5-23.5T160-160v-400q0-33%2023.5-56.5T240-640h120v80H240v400h480v-400H600v-80h120q33%200%2056.5%2023.5T800-560v400q0%2033-23.5%2056.5T720-80H240Zm200-240v-447l-64%2064-56-57%20160-160%20160%20160-56%2057-64-64v447h-80Z%22/%3E%3C/svg%3E");
+    }
+    .icon-settings {
+      background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20height%3D%2224px%22%20viewBox%3D%220%20-960%20960%20960%22%20width%3D%2224px%22%20fill%3D%22%235f6368%22%3E%3Cpath%20d%3D%22m370-80-16-128q-13-5-24.5-12T307-235l-119%2050L78-375l103-78q-1-7-1-13.5v-27q0-6.5%201-13.5L78-585l110-190%20119%2050q11-8%2023-15t24-12l16-128h220l16%20128q13%205%2024.5%2012t22.5%2015l119-50%20110%20190-103%2078q1%207%201%2013.5v27q0%206.5-2%2013.5l103%2078-110%20190-118-50q-11%208-23%2015t-24%2012L590-80H370Zm70-80h79l14-106q31-8%2057.5-23.5T639-327l99%2041%2039-68-86-65q5-14%207-29.5t2-31.5q0-16-2-31.5t-7-29.5l86-65-39-68-99%2042q-22-23-48.5-38.5T533-694l-13-106h-79l-14%20106q-31%208-57.5%2023.5T321-633l-99-41-39%2068%2086%2064q-5%2015-7%2030t-2%2032q0%2016%202%2031t7%2030l-86%2065%2039%2068%2099-42q22%2023%2048.5%2038.5T427-266l13%20106Zm42-180q58%200%2099-41t41-99q0-58-41-99t-99-41q-59%200-99.5%2041T342-480q0%2058%2040.5%2099t99.5%2041Zm-2-140Z%22/%3E%3C/svg%3E");
+    }
   }
 }
 
