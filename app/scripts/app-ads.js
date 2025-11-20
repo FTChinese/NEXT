@@ -5,6 +5,7 @@
   var DEBUG = Boolean(window.isFrontEndTest);
   var slotRegistry = Object.create(null);
   var rootCounter = 0;
+  var slotRenderListenerBound = false;
 
   function log() {
     if (!DEBUG) { return; }
@@ -163,6 +164,17 @@
     return fallbackValue || null;
   }
 
+  function collectFormatNames(slot) {
+    var fallback = detectFallbackFormats(slot);
+    return {
+      'default': getFormatName(slot, 'default', fallback.default || fallback.small || fallback.large),
+      small: getFormatName(slot, 'small', fallback.small),
+      medium: getFormatName(slot, 'medium', fallback.medium),
+      large: getFormatName(slot, 'large', fallback.large),
+      extra: getFormatName(slot, 'extra', fallback.extra)
+    };
+  }
+
   function dedupeSizes(list) {
     var seen = Object.create(null);
     var out = [];
@@ -179,12 +191,12 @@
   }
 
   function buildSizeBuckets(slot, config) {
-    var fallback = detectFallbackFormats(slot);
-    var defaults = formatNameToSizes(getFormatName(slot, 'default', fallback.default || fallback.small || fallback.large), config);
-    var small = formatNameToSizes(getFormatName(slot, 'small', fallback.small), config);
-    var medium = formatNameToSizes(getFormatName(slot, 'medium', fallback.medium), config);
-    var large = formatNameToSizes(getFormatName(slot, 'large', fallback.large), config);
-    var extra = formatNameToSizes(getFormatName(slot, 'extra', fallback.extra), config);
+    var formats = collectFormatNames(slot);
+    var defaults = formatNameToSizes(formats['default'], config);
+    var small = formatNameToSizes(formats.small, config);
+    var medium = formatNameToSizes(formats.medium, config);
+    var large = formatNameToSizes(formats.large, config);
+    var extra = formatNameToSizes(formats.extra, config);
 
     var mobile = small.length ? small : defaults;
     var desktop = large.length ? large : (medium.length ? medium : (extra.length ? extra : defaults));
@@ -200,18 +212,120 @@
     };
   }
 
-  function markSlotEmpty(slot) {
+  function findSlotContainer(node) {
+    var current = node;
+    while (current && current !== document.body) {
+      if (current.classList && current.classList.contains('o-ads')) {
+        return current;
+      }
+      current = current.parentNode;
+    }
+    return null;
+  }
+
+  function sizeMatchesFormat(formatName, size, config) {
+    if (!formatName || !size) { return false; }
+    var sizes = formatNameToSizes(formatName, config);
+    if (!sizes || !sizes.length) { return false; }
+    for (var i = 0; i < sizes.length; i += 1) {
+      var candidate = sizes[i];
+      if (candidate[0] === size[0] && candidate[1] === size[1]) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  function determineFormatForSize(slot, size, config) {
+    var formats = collectFormatNames(slot);
+    if (!size || size.length !== 2) {
+      return formats.small || formats.large || formats['default'] || null;
+    }
+    var order = ['small', 'medium', 'large', 'extra', 'default'];
+    for (var i = 0; i < order.length; i += 1) {
+      var key = order[i];
+      var formatName = formats[key];
+      if (formatName && sizeMatchesFormat(formatName, size, config)) {
+        return formatName;
+      }
+    }
+    return formats.small || formats.large || formats['default'] || null;
+  }
+
+  function handleSlotRenderEnded(event) {
+    var slotObj = event && event.slot;
+    if (!slotObj || typeof slotObj.getSlotElementId !== 'function') { return; }
+    var targetId = slotObj.getSlotElementId();
+    var inner = targetId ? document.getElementById(targetId) : null;
+    if (!inner) { return; }
+    var slot = findSlotContainer(inner);
     if (!slot) { return; }
+    if (event.isEmpty) {
+      markSlotEmpty(slot, false);
+      return;
+    }
+    var config = ensureConfig();
+    var format = determineFormatForSize(slot, event.size, config);
+    if (format) {
+      slot.setAttribute('data-o-ads-loaded', format);
+    } else {
+      slot.setAttribute('data-o-ads-loaded', 'true');
+    }
+    slot.classList.remove('o-ads--empty');
+    slot.removeAttribute('aria-hidden');
+  }
+
+  function ensureSlotRenderListener() {
+    if (slotRenderListenerBound) { return; }
+    ensureGoogletagQueue();
+    window.googletag.cmd.push(function () {
+      try {
+        window.googletag.pubads().addEventListener('slotRenderEnded', handleSlotRenderEnded);
+        slotRenderListenerBound = true;
+      } catch (err) {
+        log('slot render listener error', err);
+      }
+    });
+  }
+
+  function markSlotEmpty(slot, resetDom) {
+    if (!slot) { return; }
+    if (typeof resetDom === 'undefined') {
+      resetDom = true;
+    }
+    if (resetDom) {
+      slot.innerHTML = '';
+    }
+    slot.setAttribute('data-o-ads-loaded', 'false');
     slot.classList.add('o-ads--empty');
-    slot.innerHTML = '';
+    slot.setAttribute('aria-hidden', 'true');
+  }
+
+  function shouldCenterSlot(slot) {
+    if (!slot) { return false; }
+    if (!slot.hasAttribute('data-o-ads-center')) { return false; }
+    var val = slot.getAttribute('data-o-ads-center');
+    return val === null || val === '' || val === 'true';
   }
 
   function resetSlotElement(slot, slotId) {
-    slot.id = slotId;
-    slot.innerHTML = '';
     slot.removeAttribute('data-o-ads-loaded');
-    slot.removeAttribute('aria-hidden');
     slot.classList.remove('o-ads--empty');
+    slot.setAttribute('aria-hidden', 'true');
+    slot.innerHTML = '';
+    if (shouldCenterSlot(slot)) {
+      slot.classList.add('o-ads--center');
+    } else {
+      slot.classList.remove('o-ads--center');
+    }
+    var outer = document.createElement('div');
+    outer.className = 'o-ads__outer';
+    var inner = document.createElement('div');
+    inner.className = 'o-ads__inner';
+    inner.id = slotId;
+    outer.appendChild(inner);
+    slot.appendChild(outer);
+    return inner.id;
   }
 
   function extractCnPos(slot) {
@@ -253,7 +367,7 @@
       markSlotEmpty(slot);
       return null;
     }
-    resetSlotElement(slot, slotId);
+    var slotTargetId = resetSlotElement(slot, slotId);
 
     var adUnitPath = '/' + config.gpt.network + '/' + config.gpt.site + '/' + config.gpt.zone;
     var pubads = window.googletag.pubads ? window.googletag.pubads() : null;
@@ -262,7 +376,7 @@
       return null;
     }
     try {
-      var gptSlot = window.googletag.defineSlot(adUnitPath, sizes.all, slotId);
+      var gptSlot = window.googletag.defineSlot(adUnitPath, sizes.all, slotTargetId);
       if (!gptSlot) { return null; }
       var mapping = window.googletag.sizeMapping()
         .addSize([990, 0], sizes.desktop.length ? sizes.desktop : [])
@@ -272,7 +386,7 @@
       gptSlot.setTargeting('cnpos', extractCnPos(slot));
       gptSlot.setTargeting('navid', ctx.navId);
       gptSlot.addService(pubads);
-      window.googletag.display(slotId);
+      window.googletag.display(slotTargetId);
       return {
         gptSlot: gptSlot,
         slotName: slotName
@@ -296,6 +410,7 @@
     }
     var config = ensureConfig();
     ensureGoogletagQueue();
+    ensureSlotRenderListener();
     var rootId = ensureRootId(target);
     var navId = target.getAttribute('data-ads-nav-id');
     if (!navId) {
