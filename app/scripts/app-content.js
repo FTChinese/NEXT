@@ -462,6 +462,71 @@ function renderDetailBottomBar(appDetailEle) {
   }
 }
 
+async function syncSaveButtonState(btn) {
+  try {
+    const id = btn?.getAttribute('data-item-id');
+    const type = btn?.getAttribute('data-item-type');
+    const hasToken = typeof GetCookie === 'function' ? GetCookie('accessTokenUpdateTime') : null;
+    if (!btn || !id || !type || !hasToken) { return; }
+
+    const response = await fetch('/check_saved_content', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id, type })
+    });
+    if (!response.ok) { return; }
+    const data = await response.json();
+    const isSaved = !!data?.isSaved;
+    btn.classList.toggle('saved', isSaved);
+    btn.setAttribute('aria-pressed', String(isSaved));
+    btn.setAttribute('aria-label', isSaved ? 'Unsave content' : 'Save content');
+  } catch (err) {
+    console.error('check saved content error:', err);
+  }
+}
+
+async function toggleSave(button) {
+  const id = button?.getAttribute('data-item-id');
+  const type = button?.getAttribute('data-item-type');
+  const hasToken = typeof GetCookie === 'function' ? GetCookie('accessTokenUpdateTime') : null;
+  if (!id || !type) { return; }
+  if (!hasToken) {
+    const msg = (typeof convertChinese === 'function')
+      ? await convertChinese('请先登录后再收藏', window?.preferredLanguage || 'zh')
+      : 'Please log in to save content.';
+    alert(msg);
+    return;
+  }
+
+  const action = button.classList.contains('saved') ? 'unsave' : 'save';
+
+  button.disabled = true;
+  button.classList.add('loading');
+
+  try {
+    const response = await fetch('/save_content', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id, type, action })
+    });
+
+    if (!response.ok) {
+      console.error(`Failed to ${action} content. Status: ${response.status}`);
+      return;
+    }
+
+    const nowSaved = action === 'save';
+    button.classList.toggle('saved', nowSaved);
+    button.setAttribute('aria-pressed', String(nowSaved));
+    button.setAttribute('aria-label', nowSaved ? 'Unsave content' : 'Save content');
+  } catch (error) {
+    console.error('Error saving content:', error);
+  } finally {
+    button.disabled = false;
+    button.classList.remove('loading');
+  }
+}
+
 /* -----------------------------
    MAIN RENDERER (refactored)
 ----------------------------- */
@@ -483,6 +548,18 @@ async function renderContentPage(info, appDetailEle) {
 
   // Select language (reads saved preference)
   const langSel = selectLanguage(info);
+  // Wire save button metadata + initial state
+  const typeMap = { premium: 'story' };
+  const contentType = typeMap[info?.type] ?? info?.type ?? info?.item_type ?? 'story';
+  const saveBtn = appDetailEle.querySelector('.app-detail-bottom [data-action="save"]');
+  if (saveBtn) {
+    if (info?.id) { saveBtn.setAttribute('data-item-id', info.id); }
+    saveBtn.setAttribute('data-item-type', contentType);
+    saveBtn.classList.add('save_content_button');
+    saveBtn.setAttribute('aria-pressed', 'false');
+    saveBtn.setAttribute('aria-label', 'Save content');
+    syncSaveButtonState(saveBtn);
+  }
 
   // Render language-dependent body (topper, article, comments, etc.)
   const tags = (info?.tag ?? '').split(',').map(x => x.trim());
@@ -1093,8 +1170,12 @@ delegate.on('click', '.app-detail-back', async function () {
   destroyDetailView(this.closest('.app-detail-view'));
 });
 
-delegate.on('click', '.app-detail-bottom-action', function () {
+delegate.on('click', '.app-detail-bottom-action', async function () {
   const action = this.getAttribute('data-action') || 'unknown';
+  if (action === 'save') {
+    await toggleSave(this);
+    return;
+  }
   console.log(`[app-detail-bottom] ${action} clicked`);
 });
 
