@@ -491,9 +491,7 @@ async function toggleSave(button) {
   const hasToken = typeof GetCookie === 'function' ? GetCookie('accessTokenUpdateTime') : null;
   if (!id || !type) { return; }
   if (!hasToken) {
-    const msg = (typeof convertChinese === 'function')
-      ? await convertChinese('请先登录后再收藏', window?.preferredLanguage || 'zh')
-      : 'Please log in to save content.';
+    const msg = (typeof convertChinese === 'function') ? await convertChinese('请先登录后再收藏', window?.preferredLanguage || 'zh') : 'Please log in to save content.';
     alert(msg);
     return;
   }

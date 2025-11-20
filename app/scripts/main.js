@@ -1585,8 +1585,19 @@ updateStickyRightRail();
     }
   }
 
+  function hideHeader() {
+    try {
+      if (!/hideheader=yes/.test(window.location.href)) {return;}
+      document.documentElement.classList.add('hide_header');
+    } catch(err) {
+      console.error(`hide header error: `);
+      console.log(err);
+    }
+  }
+
   try {
     hideNavForDomains();
+    hideHeader();
     checkFTCApp();
     // MARK: - iPhone App Use the same process as well
     if (!window.userId) {return;}

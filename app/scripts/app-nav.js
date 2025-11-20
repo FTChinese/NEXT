@@ -690,7 +690,8 @@ async function renderChannel(channel) {
         } else if (iframeUrl) {
             targetDom.innerHTML = '';
             targetDom.removeAttribute('data-rendering-url');
-            loadIframe(targetDom, iframeUrl);
+            const connector = /\?/.test(iframeUrl) ? '&' : '?';
+            loadIframe(targetDom, `${iframeUrl}${connector}hideheader=yes`);
         } else if (type){
             const sections = appTypeMap[type];
             targetDom.removeAttribute('data-rendering-url');
