@@ -688,6 +688,85 @@ async function shareContent(triggerEl) {
   }
 }
 
+// ------- Settings overlay (stacked view) -------
+
+// Reusable shell so stacked overlays reuse the same transition/back behavior
+function createStackedDetailView(extraClass = '') {
+  const view = document.createElement('div');
+  view.className = `app-detail-view ${extraClass}`.trim();
+  view.innerHTML = `
+      <div class="app-detail-navigation">
+        <div class="app-detail-back" aria-label="Close"></div>
+        <div class="app-detail-language-switch"></div>
+        <div class="app-detail-audio"></div>
+      </div>
+      <div class="app-detail-content"></div>
+      <div class="app-detail-bottom"></div>`;
+
+  // Stack newer overlays above older ones
+  const stackDepth = document.querySelectorAll('.app-detail-view').length;
+  view.style.zIndex = String(2 + stackDepth);
+
+  document.body.appendChild(view);
+  // Force reflow so CSS transition can kick in
+  // eslint-disable-next-line no-unused-expressions
+  void view.offsetHeight;
+  view.classList.add('on');
+  return view;
+}
+
+function buildSettingsHTMLFallback(groups = []) {
+  if (!groups.length) {
+    return '<div class="settings-container"><p>暂无可用设置</p></div>';
+  }
+  let html = '';
+  for (const section of groups) {
+    const title = section.title || '';
+    const items = Array.isArray(section.items) ? section.items : [];
+    const itemsHTML = items.map((item) => {
+      const headline = item.headline || '';
+      const url = item.url || '';
+      const id = item.id || '';
+      const type = item.type || '';
+      if (url) {
+        return `<a class="settings-item" href="${url}">${headline}</a>`;
+      }
+      return `<li class="settings-item"><button class="settings-button" type="button" data-id="${id}" data-type="${type}">${headline}</button></li>`;
+    }).join('');
+    html += `<section class="settings-group">${title ? `<h2 class="settings-title">${title}</h2>` : ''}<ul class="settings-items">${itemsHTML}</ul></section>`;
+  }
+  return `<div class="settings-container">${html}</div>`;
+}
+
+async function renderSettingsOverlay() {
+  const view = createStackedDetailView('settings-overlay');
+  const contentEl = view.querySelector('.app-detail-content');
+  if (!contentEl) { return; }
+
+  // Prefer canonical settings groups from global appTypeMap; fall back to empty array.
+  const groups = (window.appTypeMap && window.appTypeMap.setting) ? window.appTypeMap.setting : [];
+  const html = (typeof window.generateHTMLFromData === 'function') ? window.generateHTMLFromData(groups) : buildSettingsHTMLFallback(groups);
+
+  const heading = (typeof convertChinese === 'function') ? await convertChinese('设置') : '设置';
+
+  contentEl.innerHTML = `
+    <div class="block-container">
+      <div class="block-inner">
+        <div class="content-container">
+          <div class="content-inner">
+            <h1 class="settings-heading">${heading}</h1>
+            ${html}
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Settings doesn’t need the bottom action bar; keep it empty for a clean overlay.
+  const bottom = view.querySelector('.app-detail-bottom');
+  if (bottom) { bottom.innerHTML = ''; }
+}
+
 function scrollToComments(rootView) {
   try {
     const viewRoot = rootView || document;
@@ -1357,6 +1436,9 @@ delegate.on('click', '.app-detail-bottom-action', async function () {
   } else if (action === 'comments') {
     const rootView = this.closest('[data-detail-root]') || document;
     scrollToComments(rootView);
+    return;
+  } else if (action === 'settings') {
+    await renderSettingsOverlay();
     return;
   } else if (action === 'share') {
     await shareContent(this);
