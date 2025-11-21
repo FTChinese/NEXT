@@ -15,7 +15,16 @@
     return;
   }
 
-  const scrollRoot = document.scrollingElement || document.documentElement || document.body;
+  // Identify the element that actually scrolls. On the app shell most content
+  // scrolls inside `#app-main-content` with `-webkit-overflow-scrolling: touch`,
+  // so using `document.scrollingElement` reports `0` even when the inner
+  // container has been scrolled. That caused pull-to-refresh to fire mid-page.
+  const scrollRoot = (function getScrollContainer() {
+    if (container && container.scrollHeight > container.clientHeight) {
+      return container;
+    }
+    return document.scrollingElement || document.documentElement || document.body;
+  })();
   const THRESHOLD = 80;
   const MAX_PULL = 140;
   const DAMPING = 0.5;
