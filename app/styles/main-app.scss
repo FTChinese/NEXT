@@ -315,15 +315,15 @@ $app-detail-border: rgba(0, 0, 0, 0.08) !default;
   .app-detail-bottom {
     position: sticky;
     bottom: 0;
-    min-height: $navHeight;
-    padding: $defaultPadding * 0.35 $defaultPadding * 0.75;
-    padding-bottom: calc(env(safe-area-inset-bottom) + #{$defaultPadding * 0.35});
+    min-height: calc(#{$navHeight} + env(safe-area-inset-bottom) / 2);
+    padding: $defaultPadding * 0.35 $defaultPadding * 0.75 calc(env(safe-area-inset-bottom) / 2);
     background-color: $appBottomTint;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
     gap: $defaultPadding * 0.5;
     border-top: 1px solid rgba(0, 0, 0, 0.08);
+    box-sizing: border-box;
 
     .app-detail-bottom-action {
       flex: 1 1 0;

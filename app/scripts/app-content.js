@@ -525,6 +525,169 @@ async function toggleSave(button) {
   }
 }
 
+// Build a best-effort URL for sharing based on content type/id and current language
+function buildShareUrl(info, langMode) {
+  const origin = (typeof window !== 'undefined' && window.location && window.location.origin) ? window.location.origin : 'https://www.ftchinese.com';
+  const id = info?.id || info?.content_id || info?.storyid || '';
+  const rawType = info?.item_type || info?.type || 'story';
+  const type = rawType === 'interactive' ? 'interactive' : 'story';
+
+  let url = info?.web_url || info?.weburl || info?.url || '';
+  if (!url && id) {
+    url = `${origin}/${type}/${id}`;
+  }
+  if (!url && typeof window !== 'undefined' && window.location) {
+    url = window.location.href;
+  }
+
+  // Append language suffix when appropriate, avoiding duplicates and preserving hash
+  const hash = (url && url.indexOf('#') >= 0) ? url.slice(url.indexOf('#')) : '';
+  let base = hash ? url.slice(0, url.indexOf('#')) : url;
+  const hasLangSuffix = /\/(en|ce)(?:[/?#]|$)/i.test(base);
+  if (!hasLangSuffix) {
+    if (langMode === 'en') {
+      base = `${base}/en`;
+    } else if (langMode === 'ce') {
+      base = `${base}/ce`;
+    }
+  }
+  return `${base}${hash}`;
+}
+
+function resolveShareLang(rootView, info) {
+  const activeBtn = rootView?.querySelector?.('.lang-btn.on');
+  if (activeBtn) {
+    return activeBtn.getAttribute('data-mode') || 'cn';
+  }
+  const sel = selectLanguage(info || {});
+  if (sel?.bilingual) { return 'ce'; }
+  if (sel?.useEN) { return 'en'; }
+  return 'cn';
+}
+
+function resolveShareTitle(rootView, info, langMode) {
+  const domTitle = rootView?.querySelector?.('.story-hero-title, #story-headline-ios, .story-headline')?.textContent?.trim();
+  if (domTitle) { return domTitle; }
+  if (langMode === 'en') { return info?.eheadline || info?.headline || info?.title || info?.cheadline || document.title || ''; }
+  if (langMode === 'ce') { return `${info?.cheadline || ''} / ${info?.eheadline || info?.headline || info?.title || ''}`.trim().replace(/^\/|\/$/g, ''); }
+  return info?.cheadline || info?.headline || info?.title || info?.eheadline || document.title || '';
+}
+
+function resolveShareText(rootView, info, langMode) {
+  const domLead = rootView?.querySelector?.('.story-lead')?.textContent?.trim();
+  let text = domLead || '';
+  if (!text) {
+    if (langMode === 'en') {
+      text = info?.elongleadbody || info?.eshortleadbody || '';
+    } else if (langMode === 'ce') {
+      const cn = info?.clongleadbody || info?.cshortleadbody || '';
+      const en = info?.elongleadbody || info?.eshortleadbody || '';
+      text = [cn, en].filter(Boolean).join(' / ');
+    } else {
+      text = info?.clongleadbody || info?.cshortleadbody || '';
+    }
+  }
+  const trimmed = (text || '').replace(/\s+/g, ' ').trim();
+  return trimmed.length > 200 ? `${trimmed.slice(0, 197)}…` : trimmed;
+}
+
+function resolveShareImage(rootView, info) {
+  const figureUrl = rootView?.querySelector?.('.story-image figure[data-url]')?.getAttribute?.('data-url');
+  if (figureUrl) { return figureUrl; }
+  const pic = info?.story_pic || info?.image || {};
+  return pic.cover || pic.other || pic.smallbutton || pic.bigbutton || '';
+}
+
+async function prepareShareFiles(imageUrl) {
+  if (!imageUrl || typeof fetch !== 'function' || typeof File === 'undefined') {
+    return [];
+  }
+  try {
+    const res = await fetch(imageUrl, { mode: 'cors' });
+    if (!res.ok) { return []; }
+    const blob = await res.blob();
+    const name = (imageUrl.split('/').pop() || 'thumbnail').split('?')[0] || 'thumbnail';
+    const file = new File([blob], name, { type: blob.type || 'image/jpeg' });
+    if (typeof navigator !== 'undefined' && typeof navigator.canShare === 'function' && navigator.canShare({ files: [file] })) {
+      return [file];
+    }
+  } catch (err) {
+    console.warn('Share image fetch failed:', err);
+  }
+  return [];
+}
+
+async function copyShareToClipboard(title, text, url) {
+  const payload = [title, text, url].filter(Boolean).join('\n');
+  if (!payload) { return; }
+  try {
+    if (navigator?.clipboard?.writeText) {
+      await navigator.clipboard.writeText(payload);
+    } else {
+      const ta = document.createElement('textarea');
+      ta.value = payload;
+      ta.setAttribute('readonly', 'true');
+      ta.style.position = 'absolute';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      ta.remove();
+    }
+    const msg = (typeof convertChinese === 'function') ? await convertChinese('分享内容已复制到剪贴板') : 'Share info is in your clipboard.';
+    alert(msg);
+  } catch (err) {
+    console.error('Clipboard share failed:', err);
+  }
+}
+
+async function shareContent(triggerEl) {
+  try {
+    const rootView = triggerEl?.closest?.('[data-detail-root]') || document;
+    const st = detailViewState.get(rootView) || {};
+    const info = st.info || {};
+    const langMode = resolveShareLang(rootView, info);
+
+    const title = resolveShareTitle(rootView, info, langMode);
+    const descriptionText = resolveShareText(rootView, info, langMode);
+    const text = `【${title}】${descriptionText}`;
+    const url = buildShareUrl(info, langMode);
+    const imageUrl = resolveShareImage(rootView, info);
+
+    const baseShare = { title, text, url };
+
+    // console.log(`share data:`, baseShare);
+
+    const files = await prepareShareFiles(imageUrl);
+    const payload = (files.length) ? { ...baseShare, files } : baseShare;
+
+    if (navigator?.share) {
+      const canShare =
+        !payload.files ||
+        typeof navigator.canShare !== 'function' ||
+        navigator.canShare(payload);
+      if (canShare) {
+        await navigator.share(payload);
+        return;
+      }
+    }
+    await copyShareToClipboard(title, text, url);
+  } catch (err) {
+    console.error('share action error:', err);
+    try {
+      const rootView = triggerEl?.closest?.('[data-detail-root]') || document;
+      const st = detailViewState.get(rootView) || {};
+      const info = st.info || {};
+      const langMode = resolveShareLang(rootView, info);
+      await copyShareToClipboard(
+        resolveShareTitle(rootView, info, langMode),
+        resolveShareText(rootView, info, langMode),
+        buildShareUrl(info, langMode)
+      );
+    } catch (ignore) { /* noop */ }
+  }
+}
+
 function scrollToComments(rootView) {
   try {
     const viewRoot = rootView || document;
@@ -1194,6 +1357,9 @@ delegate.on('click', '.app-detail-bottom-action', async function () {
   } else if (action === 'comments') {
     const rootView = this.closest('[data-detail-root]') || document;
     scrollToComments(rootView);
+    return;
+  } else if (action === 'share') {
+    await shareContent(this);
     return;
   }
   console.log(`[app-detail-bottom] ${action} clicked`);
