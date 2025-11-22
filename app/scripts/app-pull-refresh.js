@@ -15,16 +15,25 @@
     return;
   }
 
-  // Identify the element that actually scrolls. On the app shell most content
-  // scrolls inside `#app-main-content` with `-webkit-overflow-scrolling: touch`,
-  // so using `document.scrollingElement` reports `0` even when the inner
-  // container has been scrolled. That caused pull-to-refresh to fire mid-page.
-  const scrollRoot = (function getScrollContainer() {
-    if (container && container.scrollHeight > container.clientHeight) {
+  // Identify likely scrollable root. Prefer the main app container if its
+  // content is taller than its viewport; otherwise fall back to the document.
+  function chooseScrollRoot() {
+    if (container && container.scrollHeight - container.clientHeight > 1) {
       return container;
     }
     return document.scrollingElement || document.documentElement || document.body;
-  })();
+  }
+
+  const scrollRoot = chooseScrollRoot();
+
+  // Lightweight debug logger so we can collect device logs.
+  const DEBUG = false; // set to false to silence
+  function logDebug(label, payload) {
+    if (!DEBUG || !window.console || typeof window.console.log !== 'function') {
+      return;
+    }
+    window.console.log('[pull-refresh]', label, payload || '');
+  }
   const THRESHOLD = 80;
   const MAX_PULL = 140;
   const DAMPING = 0.5;
@@ -33,6 +42,7 @@
     pulling: false,
     triggered: false,
     refreshing: false,
+    loggedMove: false,
   };
 
   const header = document.querySelector('.app-header-container');
@@ -56,12 +66,32 @@
   indicator.style.maxWidth = '100%';
   document.body.appendChild(indicator);
 
-  function isAtTop() {
-    if (scrollRoot && typeof scrollRoot.scrollTop === 'number') {
-      return scrollRoot.scrollTop <= 0;
-    }
-    return (window.pageYOffset || 0) <= 0;
+  function currentScrollTops() {
+    return {
+      scrollRoot: scrollRoot ? scrollRoot.scrollTop : null,
+      container: container ? container.scrollTop : null,
+      docEl: document.documentElement ? document.documentElement.scrollTop : null,
+      body: document.body ? document.body.scrollTop : null,
+      pageYOffset: window.pageYOffset || 0,
+    };
   }
+
+  // Treat as "at top" only when every candidate scroller is at (or near) 0.
+  function isAtTop() {
+    const tops = currentScrollTops();
+    const vals = [tops.scrollRoot, tops.container, tops.docEl, tops.body, tops.pageYOffset];
+    const anyScrolled = vals.some(function (v) {
+      return typeof v === 'number' && v > 0.5;
+    });
+    return !anyScrolled;
+  }
+
+  logDebug('init', {
+    scrollRoot: scrollRoot === container ? '#app-main-content' : (scrollRoot && scrollRoot.tagName),
+    scrollRootHeight: scrollRoot ? {scrollHeight: scrollRoot.scrollHeight, clientHeight: scrollRoot.clientHeight} : null,
+    containerHeight: container ? {scrollHeight: container.scrollHeight, clientHeight: container.clientHeight} : null,
+    tops: currentScrollTops(),
+  });
 
   function getActiveChannel() {
     const activeTab = document.querySelector('.app-channel.on');
@@ -104,13 +134,16 @@
       return;
     }
     state.refreshing = true;
+    logDebug('refresh:start', { channel });
     hideIndicator();
     try {
       await renderChannel(channel);
     } catch (err) {
       console.error('Pull refresh failed', err);
+      logDebug('refresh:error', err && err.message ? err.message : err);
     } finally {
       state.refreshing = false;
+      logDebug('refresh:done');
     }
   }
 
@@ -118,13 +151,17 @@
     if (state.refreshing || event.touches.length !== 1) {
       return;
     }
-    if (!isAtTop()) {
+    const atTop = isAtTop();
+    state.loggedMove = false;
+    if (!atTop) {
       state.pulling = false;
+      logDebug('touchstart: blocked (not at top)', { tops: currentScrollTops() });
       return;
     }
     state.startY = event.touches[0].clientY;
     state.pulling = true;
     state.triggered = false;
+    logDebug('touchstart: allowed', { startY: state.startY, tops: currentScrollTops() });
   }
 
   function onTouchMove(event) {
@@ -149,6 +186,15 @@
       indicator.textContent = '下拉刷新';
       state.triggered = false;
     }
+    if (!state.loggedMove) {
+      logDebug('touchmove', {
+        delta: +delta.toFixed(1),
+        pullDistance: +pullDistance.toFixed(1),
+        thresholdReached: state.triggered,
+        tops: currentScrollTops(),
+      });
+      state.loggedMove = true;
+    }
     event.preventDefault();
   }
 
@@ -158,13 +204,16 @@
     }
     resetTransform();
     if (state.triggered && !state.refreshing) {
+      logDebug('touchend: trigger refresh', { tops: currentScrollTops() });
       triggerRefresh();
     } else {
+      logDebug('touchend: cancel', { tops: currentScrollTops() });
       hideIndicator();
     }
     state.pulling = false;
     state.startY = 0;
     state.triggered = false;
+    state.loggedMove = false;
   }
 
   container.addEventListener('touchstart', onTouchStart, { passive: true });
