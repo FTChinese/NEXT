@@ -394,15 +394,19 @@ $app-detail-border: rgba(0, 0, 0, 0.08) !default;
 
   // Lightweight loading overlay shown while content fetches/renders
   .app-detail-loading {
-    position: fixed;
-    inset: 0;
+    position: absolute;
+    top: var(--app-detail-nav-total);
+    bottom: var(--app-detail-bottom-total);
+    left: 0;
+    right: 0;
     z-index: 4;
+    padding: $defaultPadding $defaultPadding;
+    background: linear-gradient(90deg, rgba(255,241,224,0.8) 25%, rgba(255,241,224,0.95) 50%, rgba(255,241,224,0.8) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.2s ease-in-out infinite;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    background: rgba(255, 241, 224, 0.7);
-    backdrop-filter: blur(4px);
+    flex-direction: column;
+    gap: 12px;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.2s ease;
@@ -412,20 +416,39 @@ $app-detail-border: rgba(0, 0, 0, 0.08) !default;
       pointer-events: auto;
     }
 
-    .spinner {
-      width: 28px;
-      height: 28px;
-      border: 3px solid rgba(0, 0, 0, 0.1);
-      border-top-color: rgba(0, 0, 0, 0.45);
-      border-radius: 50%;
-      animation: spin 0.9s linear infinite;
+    .skeleton {
+      background: rgba(0, 0, 0, 0.08);
+      border-radius: 6px;
+      height: 12px;
+      width: 100%;
     }
 
-    .loader-text {
-      font-size: 14px;
-      color: #333;
+    .skeleton.title {
+      height: 18px;
+      width: 80%;
+      margin-bottom: 4px;
+    }
+
+    .skeleton.meta {
+      height: 10px;
+      width: 45%;
+      margin-bottom: 6px;
+    }
+
+    .skeleton.block {
+      height: 12px;
+      width: 100%;
+    }
+
+    .skeleton.block.short {
+      width: 65%;
     }
   }
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
 }
 
 

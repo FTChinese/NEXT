@@ -469,7 +469,15 @@ function ensureDetailLoader(root) {
   if (loader) { return loader; }
   loader = document.createElement('div');
   loader.className = 'app-detail-loading';
-  loader.innerHTML = '<div class="spinner" aria-hidden="true"></div><div class="loader-text">加载中…</div>';
+  loader.innerHTML = `
+    <div class="skeleton title"></div>
+    <div class="skeleton meta"></div>
+    <div class="skeleton block"></div>
+    <div class="skeleton block"></div>
+    <div class="skeleton block short"></div>
+    <div class="skeleton block"></div>
+    <div class="skeleton block short"></div>
+  `;
   root.appendChild(loader);
   return loader;
 }
