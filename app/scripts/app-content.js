@@ -462,6 +462,28 @@ function renderDetailBottomBar(appDetailEle) {
   }
 }
 
+// Simple loading veil while content loads/renders
+function ensureDetailLoader(root) {
+  if (!root) { return null; }
+  let loader = root.querySelector('.app-detail-loading');
+  if (loader) { return loader; }
+  loader = document.createElement('div');
+  loader.className = 'app-detail-loading';
+  loader.innerHTML = '<div class="spinner" aria-hidden="true"></div><div class="loader-text">加载中…</div>';
+  root.appendChild(loader);
+  return loader;
+}
+
+function setDetailLoading(root, show) {
+  const loader = ensureDetailLoader(root);
+  if (!loader) { return; }
+  if (show) {
+    loader.classList.add('on');
+  } else {
+    loader.classList.remove('on');
+  }
+}
+
 async function syncSaveButtonState(btn) {
   try {
     const id = btn?.getAttribute('data-item-id');
@@ -798,6 +820,9 @@ async function renderContentPage(info, appDetailEle) {
     appDetailEle.setAttribute('data-detail-root', '1');
   }
 
+  // show loading veil until body is rendered
+  setDetailLoading(appDetailEle, true);
+
   // Remember state for this view so we can re-render body only
   detailViewState.set(appDetailEle, { info });
 
@@ -819,24 +844,27 @@ async function renderContentPage(info, appDetailEle) {
     syncSaveButtonState(saveBtn);
   }
 
-  // Render language-dependent body (topper, article, comments, etc.)
-  const tags = (info?.tag ?? '').split(',').map(x => x.trim());
-  if (tags.includes('教程')) {
-    await renderMBAGymPageBody(info, appDetailEle);
-  } else {
-    await renderContentPageBody(info, appDetailEle, langSel);
-    try {
-      checkFTQuiz(info, appDetailEle, langSel);
-    } catch(err){
-      console.error(`render quiz error:`, err);
+  try {
+    // Render language-dependent body (topper, article, comments, etc.)
+    const tags = (info?.tag ?? '').split(',').map(x => x.trim());
+    if (tags.includes('教程')) {
+      await renderMBAGymPageBody(info, appDetailEle);
+    } else {
+      await renderContentPageBody(info, appDetailEle, langSel);
+      try {
+        checkFTQuiz(info, appDetailEle, langSel);
+      } catch(err){
+        console.error(`render quiz error:`, err);
+      }
     }
-  }
 
-  // Render or update the language switch without re-creating it
-  await renderLanguageSwitch(appDetailEle, langSel);
+    // Render or update the language switch without re-creating it
+    await renderLanguageSwitch(appDetailEle, langSel);
+  } finally {
+    setDetailLoading(appDetailEle, false);
+  }
 }
 
-// Body-only renderer: language-dependent UI (called on initial load and on switch)
 async function renderContentPageBody(info, appDetailEle, langSel, langValue) {
   // -------- 0) Clean up previous observers before replacing the body --------
   const oldTarget = appDetailEle.querySelector('.user_comments_container');
