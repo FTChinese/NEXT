@@ -437,7 +437,7 @@ MyFT: {
 
 
 const appTypeMap = {
-  'setting': [
+  setting: [
     {
       'title': '订阅服务',
       'type': 'Group',
@@ -457,14 +457,27 @@ const appTypeMap = {
       'type': 'Group',
       'items': [
         {
-          'id': 'font-setting',
-          'headline': '字号设置',
-          'type': 'setting'
+          id: 'font-setting',
+          headline: '字号设置',
+          type: 'setting',
+          options: [
+            { name: 'smallest', display: '最小' },
+            { name: 'smaller', display: '较小' },
+            { name: 'normal', display: '默认', is_default: true },
+            { name: 'bigger', display: '较大' },
+            { name: 'biggest', display: '最大' }
+          ],
+          cookieName: 'fs'
         },
         {
-          'id': 'reading-preference',
-          'headline': '阅读偏好',
-          'type': 'setting'
+          id: 'translation-preference',
+          headline: '文章翻译偏好',
+          type: 'setting',
+          options: [
+            { name: 'human', display: '仅人工翻译' },
+            { name: 'both', display: '机器翻译及人工翻译' }
+          ],
+          preferenceKey: 'Article Translation Preference'
         }
       ]
     },
@@ -759,19 +772,28 @@ function generateHTMLFromData(sections) {
 
   let html = '';
 
-  for (const section of sections) {
+  const myPreference = getMyPreference();
+
+  for (const [sectionIndex, section] of sections.entries()) {
     const title = section.title || '';
     const items = Array.isArray(section.items) ? section.items : [];
 
     let itemsHTML = '';
-    for (const item of items) {
-      const headline = item.headline || '';
-      const id = item.id || '';
-      const type = item.type || '';
-      const url = item.url || '';
+    for (const [itemIndex, item] of items.entries()) {
+      const headline = item.headline ?? '';
+      const id = item.id ?? '';
+      const type = item.type ?? '';
+      const url = item.url ?? '';
+      const options = item?.options ?? [];
+      const cookieName = item?.cookieName ?? '';
+      const preferenceKey = item?.preferenceKey ?? '';
 
       if (url) {
         itemsHTML += `<a class="settings-item" href="${url}">${headline}</a>`;
+      } else if (options.length > 0) {
+        const currentValue = myPreference?.[preferenceKey] ?? GetCookie(cookieName) ?? options?.filter(x => x.is_default)?.[0].name ?? options?.[0].name ?? '';
+        const defaultDisplay = options?.filter(x => x.name = currentValue)?.[0].display;
+        itemsHTML += `<li class="settings-item" data-id="${id}" data-type="${type}" data-section-index=${sectionIndex} data-item-index=${itemIndex}>${headline}<span>${defaultDisplay}</span></li>`;
       } else {
         itemsHTML += `<a class="settings-item" data-id="${id}" data-type="${type}">${headline}</a>`;
       }
