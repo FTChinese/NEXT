@@ -792,7 +792,7 @@ function generateHTMLFromData(sections) {
         itemsHTML += `<a class="settings-item" href="${url}">${headline}</a>`;
       } else if (options.length > 0) {
         const currentValue = myPreference?.[preferenceKey] ?? GetCookie(cookieName) ?? options?.filter(x => x.is_default)?.[0].name ?? options?.[0].name ?? '';
-        const defaultDisplay = options?.filter(x => x.name = currentValue)?.[0].display;
+        const defaultDisplay = options?.filter(x => x.name === currentValue)?.[0].display;
         itemsHTML += `<li class="settings-item" data-id="${id}" data-type="${type}" data-section-index=${sectionIndex} data-item-index=${itemIndex}>${headline}<span>${defaultDisplay}</span></li>`;
       } else {
         itemsHTML += `<a class="settings-item" data-id="${id}" data-type="${type}">${headline}</a>`;
