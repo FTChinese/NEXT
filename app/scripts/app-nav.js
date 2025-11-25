@@ -1,6 +1,8 @@
 /* exported isStandalone */
 
 const jsVersion = 'v2';
+const APP_PAGE_CACHE_NAME = 'v98'; // keep in sync with app-service-worker.js
+const MAX_CACHE_AGE_MS = 5 * 60 * 1000; // 5 minutes freshness window for HTML pages
 const appMap = {
 News: {
     title: 'FT中文网',
@@ -460,18 +462,8 @@ const appTypeMap = {
           'type': 'setting'
         },
         {
-          'id': 'language-preference',
-          'headline': '语言偏好',
-          'type': 'setting'
-        },
-        {
-          'id': 'audio-preference',
-          'headline': '语音偏好',
-          'type': 'setting'
-        },
-        {
-          'id': 'dark-mode',
-          'headline': '深色模式',
+          'id': 'reading-preference',
+          'headline': '阅读偏好',
           'type': 'setting'
         }
       ]
@@ -629,6 +621,77 @@ function markReadContent(targetDom) {
   }
 }
 
+// Serve cached channel/home HTML immediately, then refresh; guards against stale.
+async function fetchHtmlWithCacheSWR(url, targetDom) {
+  const req = new Request(url, { headers: { Accept: 'text/html' } });
+  let fallbackHtml = null;
+
+  // 1) Fast path: paint fresh-enough cache (else keep as fallback)
+  if (window.caches && targetDom) {
+    try {
+      const cached = await caches.match(req);
+      if (cached) {
+        const cachedHtml = await cached.text();
+        fallbackHtml = cachedHtml; // for offline fallback if network fails
+
+        const cachedAt = parseInt(cached.headers.get('x-ft-cached-at') || '0', 10);
+        const isFresh = cachedAt && (Date.now() - cachedAt) <= MAX_CACHE_AGE_MS;
+        if (isFresh && targetDom.getAttribute('data-rendering-url') === url) {
+          targetDom.innerHTML = cachedHtml.replace(/<!--js_version-->/g, jsVersion);
+          targetDom.setAttribute('data-url', url);
+          markUrlForPagination(targetDom, url);
+          markReadContent(targetDom);
+          handleChannelUpdates();
+          createCalendar();
+        }
+      }
+    } catch (err) {
+      console.warn('cache read failed', err);
+    }
+  }
+
+  // 2) Network fetch; render if still relevant, then refresh cache
+  try {
+    const response = await fetch(req);
+    if (!response || !response.ok) { throw new Error('fetch failed'); }
+
+    const html = await response.text();
+    if (targetDom && targetDom.getAttribute('data-rendering-url') === url) {
+      targetDom.innerHTML = html.replace(/<!--js_version-->/g, jsVersion);
+      targetDom.setAttribute('data-url', url);
+      markUrlForPagination(targetDom, url);
+      markReadContent(targetDom);
+      handleChannelUpdates();
+      createCalendar();
+    }
+
+    if (window.caches) {
+      try {
+        const cache = await caches.open(APP_PAGE_CACHE_NAME);
+        await cache.put(req, new Response(html, {
+          headers: {
+            'Content-Type': 'text/html',
+            'x-ft-cached-at': String(Date.now()),
+          }
+        }));
+      } catch (err) {
+        console.warn('cache write failed', err);
+      }
+    }
+  } catch (err) {
+    // If network fails and we have any cached HTML, fall back to it even if stale
+    if (fallbackHtml && targetDom && targetDom.getAttribute('data-rendering-url') === url) {
+      targetDom.innerHTML = fallbackHtml.replace(/<!--js_version-->/g, jsVersion);
+      targetDom.setAttribute('data-url', url);
+      markUrlForPagination(targetDom, url);
+      markReadContent(targetDom);
+      handleChannelUpdates();
+      createCalendar();
+    }
+    console.warn('fetchHtmlWithCacheSWR network error', err && err.message ? err.message : err);
+  }
+}
+
 
 
 async function renderChannel(channel) {
@@ -667,25 +730,7 @@ async function renderChannel(channel) {
         }
 
         if (listapi) {
-            // console.log(`render the list api: ${listapi}`);
-            // First request (or re-request if you call it again)
-            const response = await fetch(listapi);
-            const renderingUrl = targetDom.getAttribute('data-rendering-url');
-            if (listapi !== renderingUrl) {
-              console.log(`the dom is not expecting ${listapi} any more! `);
-              return;
-            }
-            if (!response.ok) {
-                return;
-            }
-            // Get the raw text of the response
-            const text = await response.text() ?? '';
-            targetDom.innerHTML = text.replace(/<!--js_version-->/g, jsVersion);
-            targetDom.setAttribute('data-url', listapi);
-            markUrlForPagination(targetDom, listapi);
-            markReadContent(targetDom);
-            handleChannelUpdates();
-            createCalendar();
+            await fetchHtmlWithCacheSWR(listapi, targetDom);
             closeLaunchScreenSafely();
         } else if (iframeUrl) {
             targetDom.innerHTML = '';
@@ -728,7 +773,7 @@ function generateHTMLFromData(sections) {
       if (url) {
         itemsHTML += `<a class="settings-item" href="${url}">${headline}</a>`;
       } else {
-        itemsHTML += `<li class="settings-item"><button class="settings-button" type="button" data-id="${id}" data-type="${type}">${headline}</button></li>`;
+        itemsHTML += `<a class="settings-item" data-id="${id}" data-type="${type}">${headline}</a>`;
       }
     }
 
