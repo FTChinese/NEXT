@@ -467,7 +467,8 @@ const appTypeMap = {
             { name: 'bigger', display: '较大' },
             { name: 'biggest', display: '最大' }
           ],
-          cookieName: 'fs'
+          cookieName: 'fs',
+          applyTo: 'bodyClassList'
         },
         {
           id: 'translation-preference',

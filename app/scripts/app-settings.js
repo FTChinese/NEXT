@@ -28,16 +28,17 @@ delegate.on('click', '.settings-item', async function () {
     const list = contentEl.querySelector('.settings-option-list');
     if (!list) { return; }
 
-    list.addEventListener('click', async (evt) => {
-      const optionEl = evt.target.closest('.settings-option');
-      if (!optionEl) { return; }
-      const value = optionEl.getAttribute('data-value') ?? '';
-      const display = optionEl.getAttribute('data-display') ?? value;
+  list.addEventListener('click', async (evt) => {
+    const optionEl = evt.target.closest('.settings-option');
+    if (!optionEl) { return; }
+    const value = optionEl.getAttribute('data-value') ?? '';
+    const display = optionEl.getAttribute('data-display') ?? value;
 
-      await applySettingSelection(info, value);
+    await applySettingSelection(info, value);
+    applySettingToTargets(info, value);
 
-      updateSelectedOptionUI(list, optionEl);
-      updateSummaryLabel(trigger, display);
+    updateSelectedOptionUI(list, optionEl);
+    updateSummaryLabel(trigger, display);
 
       if (typeof destroyDetailView === 'function') {
         destroyDetailView(detailView);
@@ -78,6 +79,22 @@ function resolveCurrentValue(info, options = []) {
   const defaultValue = options.find((opt) => opt?.is_default)?.name;
   const firstValue = options?.[0]?.name;
   return prefValue || cookieValue || defaultValue || firstValue || '';
+}
+
+function applySettingToTargets(info, value) {
+  try {
+    if (!info?.applyTo || !value) { return; }
+    if (info.applyTo === 'bodyClassList' && document?.body?.classList) {
+      const options = Array.isArray(info.options) ? info.options : [];
+      const toRemove = options.map((opt) => opt?.name).filter(Boolean);
+      if (toRemove.length) {
+        document.body.classList.remove(...toRemove);
+      }
+      document.body.classList.add(value);
+    }
+  } catch (err) {
+    console.error('apply setting target error:', err);
+  }
 }
 
 function createSettingsDetailView(title = '') {
@@ -168,6 +185,24 @@ function updateSummaryLabel(trigger, displayText) {
   const span = trigger.querySelector('span') || trigger.appendChild(document.createElement('span'));
   span.textContent = displayText;
 }
+
+// Apply any settings that target the DOM immediately on load (e.g., bodyClassList for font size)
+(function applyInitialSettingTargets() {
+  try {
+    const groups = appTypeMap?.setting ?? [];
+    for (const group of groups) {
+      const items = Array.isArray(group?.items) ? group.items : [];
+      for (const item of items) {
+        if (!item?.applyTo) { continue; }
+        const options = Array.isArray(item.options) ? item.options : [];
+        const value = resolveCurrentValue(item, options);
+        applySettingToTargets(item, value);
+      }
+    }
+  } catch (err) {
+    console.error('apply initial setting targets error:', err);
+  }
+})();
 
 function escapeHTML(str = '') {
   return String(str)
