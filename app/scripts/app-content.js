@@ -328,10 +328,14 @@ function buildCEBody(ebody, cbody) {
 
 // Very small follow chips from tags (you can expand later)
 function buildRelatedTopics({ tag = '', tag_code = '' }, isEnglish) {
+  // console.log(`tag: ${tag}, tag_code: ${tag_code}`);
   if (!tag) {
     return { listHTML: '', themeTag: '' };
   }
-  const names = tag.split(',').map((s) => s.trim()).filter(Boolean);
+  const reservedSet = new Set(['去广告', '单页', '透明', '置顶', '白底', '靠右', '沉底', '资料', '突发', '插图', '高清', 'interactive_search', '高清', '科技', 'QuizPlus', '单选题', 'SurveyPlus', '置顶', '低调', '精华', '小测', '生活时尚', '测试', '视频', '新闻', 'FTLifeOfASong', 'Podcast', '播音员朗读', 'AI合成', '科技', '双语阅读', '高端专享', '订户专享', '会员专享', '双语电台', '高端限免', '限免', 'NoCopyrightCover', 'AITranslation', 'FTArticle', 'IsEdited', 'HasTranscript', '']);  
+  const names = tag.split(',')
+    .map(s => s.trim())
+    .filter(s => s && !reservedSet.has(s));
   const codes = decodeURIComponent(tag_code || '').split(',').map((s) => s.trim());
   const items = [];
   let primary = '';
