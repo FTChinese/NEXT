@@ -1,4 +1,5 @@
 /* exported isStandalone */
+/* global renderRecommendationForWebAppHome */
 
 const jsVersion = 'v2';
 const APP_PAGE_CACHE_NAME = 'v98'; // keep in sync with app-service-worker.js

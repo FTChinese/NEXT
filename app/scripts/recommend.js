@@ -1,4 +1,7 @@
 
+/* global getMyPreference, convertChinese, runLoadImages, markReadContent */
+/* exported renderRecommendationForWebAppHome */
+
 // === Attribute Mapping ===
 const attributeMap = [
   ['data-ft-id', 'ftid'],
@@ -96,74 +99,16 @@ function displayRecommendationInContentPageLazy() {
     for (const entry of entries) {
       if (!entry.isIntersecting) {continue;}
       try {
-        // const articleTranslationPreference = getMyPreference()?.['Article Translation Preference'];
-        const showAITranslation = getMyPreference()?.recommendationWeights?.showAITranslation ?? false;
-        //articleTranslationPreference === 'both' || 
-        const source = showAITranslation ? 'all' : 'ftchinese';
-        console.log(source);
-        const response = await fetch('/recommend', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ source })
-        });
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        let items = await response.json();
-        items = (items ?? []).filter(item => item.type !== window.type || item.id !== window.id);
-        // console.log(`items: \n`, JSON.stringify(items));
-        // items = calculateScores(items).sort((a, b) => b.finalScore - a.finalScore).slice(0, 6);
-        // console.log(`recommended items sorted: `, JSON.stringify(items, null, 2));
-
-        // const preferredLanguage = window.preferredLanguage ?? 'zh-CN';
-
-        // let html = '';
-        items = calculateScores(items).sort((a, b) => b.finalScore - a.finalScore).slice(0, 6);
+        const source = getRecommendationSource();
+        let items = await fetchRecommendations(source);
+        items = filterOutCurrentContent(items);
+        items = selectRecommendations(items, { limit: 6 });
 
         // ① Cache computed items on the container so we can re-score without refetching
         entry.target.dataset.recommendationItems = JSON.stringify(items);
 
-        // ② Render as before
-        const preferredLanguage = window.preferredLanguage ?? 'zh-CN';
-        let html = '';
-        for (const item of items) {
-          const update = Math.round((item?.updateTimestamp ?? 0)/1000);
-          const type = item?.type ?? 'interactive';
-          const id = item?.id ?? '';
-          const cheadline = await convertChinese(item?.cheadline ?? '', preferredLanguage);
-          const clongleadbody = await convertChinese(item?.clongleadbody ?? '', preferredLanguage);
-          let lockClass = '';
-          const tier = item?.tier ?? 'free';
-          if (tier === 'premium') {
-            lockClass = ' vip locked';
-          } else if (tier === 'standard') {
-            lockClass = ' locked';
-          }
-
-          // Not sure if story page in native app supports data-id yet. Let's put in a string that will never be contained so that it always falls back to the link
-          const subtype = item?.subtype ?? '';
-          const subTypeMap = {FTArticle: 'bilingual'};
-          const tierParameter = `?tier=${tier}`;
-          const subtypeParameter = subtype !== '' && type === 'interactive' ? `&subtype=${subTypeMap[subtype] ?? subtype}` : '';
-          const parameter = tierParameter + subtypeParameter;
-          const linkHTML = ` href="/${type}/${id}${parameter}"`;
-          html += `<div class="item-container" data-update="${update}">
-            <div class="item-inner">
-              <a class="image" ${linkHTML}>
-                <figure class="loading" data-url="${item.pictures?.main ?? ''}"></figure>
-              </a>
-              <div class="item-headline-lead">
-                <h2 class="item-headline">
-                  <a ${linkHTML} class="item-headline-link${lockClass}">${cheadline}</a>
-                </h2>
-                <div class="item-lead">${clongleadbody}</div>
-              </div>
-            </div>
-          </div>`;
-        }
-
+        // ② Render
+        const html = await buildRecommendationHTML(items, window.preferredLanguage ?? 'zh-CN');
         entry.target.innerHTML = html;
 
         showCustomisation(entry.target);
@@ -186,6 +131,106 @@ function displayRecommendationInContentPageLazy() {
     observer.observe(container);
   }
 
+}
+
+
+// === Shared helpers for recommendation rendering ===
+function getRecommendationSource() {
+  const showAITranslation = getMyPreference()?.recommendationWeights?.showAITranslation ?? false;
+  return showAITranslation ? 'all' : 'ftchinese';
+}
+
+async function fetchRecommendations(source = 'ftchinese') {
+  const response = await fetch('/recommend', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ source })
+  });
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  const items = await response.json();
+  return Array.isArray(items) ? items : [];
+}
+
+function filterOutCurrentContent(items = []) {
+  return (items ?? []).filter(item => item.type !== window.type || item.id !== window.id);
+}
+
+function selectRecommendations(items = [], { limit = 6 } = {}) {
+  const scored = calculateScores(items).sort((a, b) => b.finalScore - a.finalScore);
+  return scored.slice(0, limit);
+}
+
+async function buildRecommendationHTML(items = [], preferredLanguage = 'zh-CN') {
+  let html = '';
+  for (const item of items) {
+    const update = Math.round((item?.updateTimestamp ?? 0) / 1000);
+    const type = item?.type ?? 'interactive';
+    const id = item?.id ?? '';
+    const cheadline = await convertChinese(item?.cheadline ?? '', preferredLanguage);
+    const clongleadbody = await convertChinese(item?.clongleadbody ?? '', preferredLanguage);
+    let lockClass = '';
+    const tier = item?.tier ?? 'free';
+    if (tier === 'premium') {
+      lockClass = ' vip locked';
+    } else if (tier === 'standard') {
+      lockClass = ' locked';
+    }
+
+    const subtype = item?.subtype ?? '';
+    const subTypeMap = { FTArticle: 'bilingual' };
+    const tierParameter = `?tier=${tier}`;
+    const subtypeParameter = subtype !== '' && type === 'interactive' ? `&subtype=${subTypeMap[subtype] ?? subtype}` : '';
+    const parameter = tierParameter + subtypeParameter;
+    const linkHTML = ` href="/${type}/${id}${parameter}"`;
+    html += `<div class="item-container" data-update="${update}">
+      <div class="item-inner">
+        <a class="image" ${linkHTML}>
+          <figure class="loading" data-url="${item.pictures?.main ?? ''}"></figure>
+        </a>
+        <div class="item-headline-lead">
+          <h2 class="item-headline">
+            <a ${linkHTML} class="item-headline-link${lockClass}">${cheadline}</a>
+          </h2>
+          <div class="item-lead">${clongleadbody}</div>
+        </div>
+      </div>
+    </div>`;
+  }
+  return html;
+}
+
+async function renderRecommendationForWebAppHome(targetDom) {
+  if (!targetDom) { return; }
+  try {
+    targetDom.innerHTML = `<div class="app-loading"><div class="spinner"></div></div>`;
+    updateFollows();
+    updateWeights();
+
+    const source = getRecommendationSource();
+    let items = await fetchRecommendations(source);
+    items = selectRecommendations(items, { limit: 36 });
+
+    const html = await buildRecommendationHTML(items, window.preferredLanguage ?? 'zh-CN');
+    const container = document.createElement('div');
+    container.className = 'list-recommendation';
+    container.innerHTML = html;
+
+    targetDom.innerHTML = '';
+    targetDom.appendChild(container);
+
+    showCustomisation(container);
+    runLoadImages();
+    if (typeof markReadContent === 'function') {
+      markReadContent(container);
+    }
+  } catch (err) {
+    console.error('render recommendation for home error:', err);
+    targetDom.innerHTML = '<p class="highlight">加载推荐内容失败</p>';
+  }
 }
 
 
