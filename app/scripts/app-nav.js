@@ -22,11 +22,7 @@ News: {
         url: 'http://www.ftchinese.com/?webview=ftcapp',
         listapi:
         'https://www.ftchinese.com/?webview=ftcapp&bodyonly=yes&maxB=1&backupfile=localbackup&showIAP=yes&pagetype=home',
-        compactLayout: 'home',
-        coverTheme: 'Classic',
         screenName: 'homepage',
-        'Insert Content': 'home',
-        highlight: 'follow'
     },
     {
         title: '中国',
@@ -743,7 +739,16 @@ async function renderChannel(channel) {
           checkUserLogin();
         }
 
-        if (listapi) {
+        let showRecommendation = false;
+        if (channel?.screenName === 'homepage') {
+          const myPreference = getMyPreference();
+          showRecommendation = myPreference?.['Article Translation Preference'] === 'both';
+        }
+
+        if (showRecommendation) {
+            // TODO: show recommendation in the home page, this is similar to what we have at the bottom of content view, but I will probably want at least 36 items rather than 6 items
+            closeLaunchScreenSafely();
+        } else if (listapi) {
             await fetchHtmlWithCacheSWR(listapi, targetDom);
             closeLaunchScreenSafely();
         } else if (iframeUrl) {
