@@ -746,7 +746,7 @@ async function renderChannel(channel) {
         }
 
         if (showRecommendation) {
-            // TODO: show recommendation in the home page, this is similar to what we have at the bottom of content view, but I will probably want at least 36 items rather than 6 items
+            await renderRecommendationForWebAppHome(targetDom);
             closeLaunchScreenSafely();
         } else if (listapi) {
             await fetchHtmlWithCacheSWR(listapi, targetDom);
