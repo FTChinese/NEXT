@@ -186,6 +186,9 @@ function buildImageRequest(figureEl) {
     return null; // cannot size → skip
   }
 
+
+  console.log(`image url: ${imageUrl}, final: ${finalUrl}`);
+
   return { finalUrl: finalUrl, finalBackup: finalBackup, loadedClass: loadedClass, fitType: fitType };
 }
 

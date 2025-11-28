@@ -1273,7 +1273,7 @@ async function renderContentPageBody(info, appDetailEle, langSel, langValue) {
 
   renderAudio(info, appDetailEle, langSel);
 
-  displayRecommendationInContentPageLazy();
+  displayRecommendationInContentPageLazy(appDetailEle);
 
   // console.log('content info: ', JSON.stringify(info, null, 2));
 

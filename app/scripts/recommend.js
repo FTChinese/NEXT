@@ -17,9 +17,9 @@ const attributeMap = [
 ];
 
 const GENRE_SCORE_MAP = {
-  Feature: 1.0,
-  Opinion: 0.8,
-  News: 0.8,
+  Feature: 0.8,
+  Opinion: 1.8,
+  News: 1.0,
   Other: 0.8
 };
 
@@ -89,9 +89,12 @@ function runRecommendationForDoms() {
   }
 }
 
-function displayRecommendationInContentPageLazy() {
+function displayRecommendationInContentPageLazy(targetDom) {
 
-  const containers = document.querySelectorAll('.list-recommendation');
+  let containers = document.querySelectorAll('.list-recommendation');
+  if (targetDom) {
+    containers = targetDom.querySelectorAll('.list-recommendation');
+  }
   if (containers.length === 0) {return;}
   updateFollows();
   updateWeights();
@@ -141,12 +144,21 @@ function getRecommendationSource() {
 }
 
 async function fetchRecommendations(source = 'ftchinese') {
-  const response = await fetch('/recommend', {
-    method: 'POST',
+  let url = '/recommend';
+  let method = 'POST';
+  let body = JSON.stringify({ source });
+  // console.log(window.location.href);
+  if (window.location.href.includes('localhost:3000/app.html')) {
+    url = '/api/page/app-recommend.json';
+    method = 'GET';
+    body = undefined;
+  }
+  const response = await fetch(url, {
+    method,
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ source })
+    ...body && {body}
   });
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
@@ -164,12 +176,14 @@ function selectRecommendations(items = [], { limit = 6 } = {}) {
   return scored.slice(0, limit);
 }
 
-async function buildRecommendationHTML(items = [], preferredLanguage = 'zh-CN') {
+async function buildRecommendationHTML(items = [], preferredLanguage = 'zh-CN', isInWebApp = false) {
   let html = '';
   for (const item of items) {
     const update = Math.round((item?.updateTimestamp ?? 0) / 1000);
     const type = item?.type ?? 'interactive';
     const id = item?.id ?? '';
+    const ftid = item?.ftid ?? '';
+    const keywords = item?.keywords ?? '';
     const cheadline = await convertChinese(item?.cheadline ?? '', preferredLanguage);
     const clongleadbody = await convertChinese(item?.clongleadbody ?? '', preferredLanguage);
     let lockClass = '';
@@ -185,17 +199,28 @@ async function buildRecommendationHTML(items = [], preferredLanguage = 'zh-CN') 
     const tierParameter = `?tier=${tier}`;
     const subtypeParameter = subtype !== '' && type === 'interactive' ? `&subtype=${subTypeMap[subtype] ?? subtype}` : '';
     const parameter = tierParameter + subtypeParameter;
-    const linkHTML = ` href="/${type}/${id}${parameter}"`;
-    html += `<div class="item-container" data-update="${update}">
+    const linkHTML = isInWebApp ? '' : ` href="/${type}/${id}${parameter}"`;
+    const imageUrl = item.pictures?.main ?? '';
+    // const backupUrl = imageUrl ? `${imageUrl}?source=ftchinese&width=800&height=450&fit=cover&from=next001` : '';
+    
+    let imageHTML = '';
+    let imageClass = 'no-image';
+
+    if (imageUrl) {
+      // imageHTML = `<a class="image" ${linkHTML} target="_blank"><figure class="is-retina" data-url="${imageUrl}"><img data-backupimage="${backupUrl}" src="${imageUrl}"></figure></a>`;
+      imageHTML = `<a class="image" target="_blank"><figure class="loading" data-url="${imageUrl}"></figure></a>`;
+      imageClass = `has-image`;
+    }
+    
+    html += `<div class="item-container ${imageClass} item-container-app" data-id="${id}" data-type="${type}" data-sub-type="${subtype}" data-keywords="${keywords}" data-update="${update}" data-ft-id="${ftid}">
       <div class="item-inner">
-        <a class="image" ${linkHTML}>
-          <figure class="loading" data-url="${item.pictures?.main ?? ''}"></figure>
-        </a>
         <div class="item-headline-lead">
           <h2 class="item-headline">
-            <a ${linkHTML} class="item-headline-link${lockClass}">${cheadline}</a>
+            <a ${linkHTML} target="_blank" class="item-headline-link${lockClass}">${cheadline}</a>
           </h2>
+          ${imageHTML}
           <div class="item-lead">${clongleadbody}</div>
+          <div class="item-bottom"></div>
         </div>
       </div>
     </div>`;
@@ -214,15 +239,15 @@ async function renderRecommendationForWebAppHome(targetDom) {
     let items = await fetchRecommendations(source);
     items = selectRecommendations(items, { limit: 36 });
 
-    const html = await buildRecommendationHTML(items, window.preferredLanguage ?? 'zh-CN');
+    const html = await buildRecommendationHTML(items, window.preferredLanguage ?? 'zh-CN', true);
     const container = document.createElement('div');
-    container.className = 'list-recommendation';
-    container.innerHTML = html;
+    container.innerHTML = `<div class="block-container"><div class="block-inner"><div class="list-container"><div class="list-inner customisation-container"></div></div><div class="list-container"><div class="list-inner list-recommendation card-grid">${html}</div></div></div></div>`;
 
     targetDom.innerHTML = '';
     targetDom.appendChild(container);
 
-    showCustomisation(container);
+    let customisationEle = container.querySelector('.customisation-container');
+    showCustomisation(customisationEle);
     runLoadImages();
     if (typeof markReadContent === 'function') {
       markReadContent(container);
@@ -338,6 +363,10 @@ function calculateScores(items) {
 
     const ageMs = now - updateTimestamp;
     const genreOrSubtype = detectGenre(item.annotationsMain, item.subtype);
+
+    // console.log(`\n\n=============\n`, JSON.stringify(item, null, 2));
+    // console.log(`genreOrSubtype: `, genreOrSubtype);
+
     const halfLifeMs = (DECAY_HALFLIFE_IN_HOURS[genreOrSubtype] || DECAY_HALFLIFE_IN_HOURS.Other) * 60 * 60 * 1000;
 
     // const subtype = item.subtype;
@@ -481,6 +510,9 @@ function updateWeights() {
 }
 
 
+
+
+
 // === Relevance Calculation ===
 function calculateRelevanceScores(items) {
   const WEIGHTS = {
@@ -494,6 +526,8 @@ function calculateRelevanceScores(items) {
     main: 0.5,
     secondary: 0.2
   };
+
+  // console.log(followsSet);
 
   for (const item of items) {
     let score = 0;
@@ -931,12 +965,19 @@ delegate.on('click', '[data-action="reorderItems"]', function () {
         if (item.tier === 'premium')      {lockClass = ' vip locked';}
         else if (item.tier === 'standard') {lockClass = ' locked';}
 
+        let imageHTML = '';
+        let imageClass = 'no-image';
+
+        const mainImage = item.pictures?.main ?? '';
+        if (mainImage) {
+          imageHTML = `<a class="image" href="/${type}/${id}"><figure class="loading" data-url="${mainImage}"></figure></a>`;
+          imageClass = `has-image`;
+        }
+
         html += `
-          <div class="item-container " data-update="${update}">
+          <div class="item-container ${imageClass}" data-update="${update}">
             <div class="item-inner">
-              <a class="image" href="/${type}/${id}">
-                <figure class="loading" data-url="${item.pictures?.main ?? ''}"></figure>
-              </a>
+              ${imageHTML}
               <div class="item-headline-lead">
                 <h2 class="item-headline">
                   <a href="/${type}/${id}" class="item-headline-link${lockClass}">${cheadline}</a>

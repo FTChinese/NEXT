@@ -468,6 +468,16 @@ const appTypeMap = {
           applyTo: 'bodyClassList'
         },
         {
+          id: 'home-page-preference',
+          headline: '首页',
+          type: 'setting',
+          options: [
+            { name: 'default', display: '默认' },
+            { name: 'customized', display: '自定义' }
+          ],
+          preferenceKey: 'Home Page Preference'
+        },
+        {
           id: 'translation-preference',
           headline: '文章翻译偏好',
           type: 'setting',
@@ -743,7 +753,7 @@ async function renderChannel(channel) {
         let showRecommendation = false;
         if (channel?.screenName === 'homepage') {
           const myPreference = getMyPreference();
-          showRecommendation = myPreference?.['Article Translation Preference'] === 'both';
+          showRecommendation = myPreference?.['Home Page Preference'] === 'customized';
         }
 
         if (showRecommendation) {
@@ -798,7 +808,7 @@ function generateHTMLFromData(sections) {
       if (url) {
         itemsHTML += `<a class="settings-item" href="${url}">${headline}</a>`;
       } else if (options.length > 0) {
-        const currentValue = myPreference?.[preferenceKey] ?? GetCookie(cookieName) ?? options?.filter(x => x.is_default)?.[0].name ?? options?.[0].name ?? '';
+        const currentValue = myPreference?.[preferenceKey] ?? GetCookie(cookieName) ?? options?.filter(x => x.is_default)?.[0]?.name ?? options?.[0].name ?? '';
         const defaultDisplay = options?.filter(x => x.name === currentValue)?.[0].display;
         itemsHTML += `<li class="settings-item" data-id="${id}" data-type="${type}" data-section-index=${sectionIndex} data-item-index=${itemIndex}>${headline}<span>${defaultDisplay}</span></li>`;
       } else {
