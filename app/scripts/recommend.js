@@ -17,10 +17,11 @@ const attributeMap = [
 ];
 
 const GENRE_SCORE_MAP = {
-  Feature: 0.8,
-  Opinion: 1.8,
+  Feature: 0.5,
+  Opinion: 0.8,
   News: 1.0,
-  Other: 0.8
+  Other: 0.5,
+  'Deep dive': 1.6
 };
 
 const attrToKeyMap = Object.fromEntries(attributeMap);
@@ -352,6 +353,7 @@ function calculateScores(items) {
     News: 6,
     Feature: 12,
     Opinion: 12,
+    'Deep dive': 48,
     Other: 12
   };
 
