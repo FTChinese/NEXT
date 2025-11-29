@@ -126,7 +126,7 @@ function buildImageRequest(figureEl) {
   const figureParentClass = figureEl.parentNode && figureEl.parentNode.className || '';
   let fitType = /brand/.test(figureParentClass) ? 'contain' : 'cover';
 
-  const imageServiceHost = 'https://images.ft.com/v3/images/raw/';
+  const imageServiceHost = 'https://images.ft.com/v3/image/raw/';
   const imageServiceHostFTC = 'https://d1sh1cgb4xvhl.cloudfront.net/unsafe/';
   const ftcStaticServer = 'https://d1sh1cgb4xvhl.cloudfront.net/unsafe/';
 
@@ -174,14 +174,14 @@ function buildImageRequest(figureEl) {
   let finalBackup = '';
 
   if (imageUrl.indexOf('bokecc.com') >= 0) {
-    finalBackup = 'https://images.ft.com/v3/images/raw/' + imageUrlBack + '?source=ftchinese&width=' + imageWidth + '&height=' + imageHeight + '&fit=' + fitType + '&from=next001';
+    finalBackup = 'https://images.ft.com/v3/image/raw/' + imageUrlBack + '?source=ftchinese&width=' + imageWidth + '&height=' + imageHeight + '&fit=' + fitType;
     finalUrl = finalBackup;
   } else if (/sponsor|logo/.test(figureClass)) {
     finalUrl = imageServiceHostFTC + '0x' + imageHeight + '/' + imageUrlPart;
-    finalBackup = 'https://images.ft.com/v3/images/raw/' + imageUrlBack + '?source=ftchinese&height=' + imageHeight + '&fit=' + fitType + '&from=next001';
+    finalBackup = 'https://images.ft.com/v3/image/raw/' + imageUrlBack + '?source=ftchinese&height=' + imageHeight + '&fit=' + fitType;
   } else if (imageWidth > 0 && imageHeight > 0) {
     finalUrl = imageServiceHostFTC + imageWidth + 'x' + imageHeight + '/' + imageUrlPart;
-    finalBackup = 'https://images.ft.com/v3/images/raw/' + imageUrlBack + '?source=ftchinese&width=' + imageWidth + '&height=' + imageHeight + '&fit=' + fitType + '&from=next001';
+    finalBackup = 'https://images.ft.com/v3/image/raw/' + imageUrlBack + '?source=ftchinese&width=' + imageWidth + '&height=' + imageHeight + '&fit=' + fitType;
   } else {
     return null; // cannot size → skip
   }
