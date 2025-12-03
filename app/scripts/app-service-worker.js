@@ -1,7 +1,7 @@
 /* jshint esversion: 11 */
-/* global self, caches, fetch, Response */
+/* global self, caches, fetch, Response, clients */
 
-const cacheName = 'v130';
+const cacheName = 'v131';
 const LOG_PREFIX = '[SW ' + cacheName + ']';
 const ENABLE_SW_LOGS = false;
 if (ENABLE_SW_LOGS) {
@@ -316,4 +316,72 @@ self.addEventListener('fetch', function (event) {
       });
     }
   })());
+});
+
+
+
+
+
+
+self.addEventListener('push', e => {
+    const data = e.data.json();
+    console.log('Push Recieved:', data);
+    self.registration.showNotification(data.title, {
+      body: data.body || '',
+      icon: data.icon || '',
+      vibrate: data.vibrate || '',
+      data: data
+    });
+});
+
+
+
+self.addEventListener('notificationclick', (event) => {
+    const notification = event.notification;
+    const data = notification.data;
+
+    console.log('On notification click: ', notification.tag);
+    notification.close();
+
+    console.log(`Handle notification click with data: `, data);
+
+    const url = data.from + START_URL;
+    console.log(`Look for url: ${url}`);
+
+    // We define the async logic here and pass it to waitUntil
+    const focusOrOpen = async () => {
+        try {
+            // matchAll returns a Promise that resolves to a list of clients
+            const clientList = await clients.matchAll({
+                type: 'window',
+                includeUncontrolled: true // Ensure we find tabs not currently controlled
+            });
+
+            // 1. Try to find an existing tab
+            for (const client of clientList) {
+                // Check if the URL matches and we can focus
+                if (client.url === url && 'focus' in client) {
+                    await client.focus();
+                    client.postMessage({ name: 'webpush', data: data });
+                    return; // Job done, exit function
+                }
+            }
+
+            // 2. If no existing tab found, open a new one
+            if (clients.openWindow) {
+                const newClient = await clients.openWindow(url);
+                
+                // Note: sending postMessage immediately to a new window 
+                // is risky (see note below code block)
+                if (newClient) {
+                    newClient.postMessage({ name: 'webpush', data: data });
+                }
+            }
+        } catch (err) {
+            console.error('notificationclick error: ', err);
+        }
+    };
+
+    // Keep the service worker alive until the async function completes
+    event.waitUntil(focusOrOpen());
 });

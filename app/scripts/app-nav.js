@@ -1,4 +1,4 @@
-/* exported isStandalone */
+/* exported isStandalone, subscribeWebPush */
 /* global renderRecommendationForWebAppHome */
 
 const jsVersion = 'v2';
@@ -486,22 +486,11 @@ const appTypeMap = {
             { name: 'both', display: '机器翻译及人工翻译' }
           ],
           preferenceKey: 'Article Translation Preference'
-        }
-      ]
-    },
-    {
-      'title': '流量与缓存',
-      'type': 'Group',
-      'items': [
-        {
-          'id': 'clear-cache',
-          'headline': '清除缓存',
-          'type': 'setting'
         },
         {
-          'id': 'no-image-with-data',
-          'headline': '使用数据时不下载图片',
-          'type': 'setting'
+          id: 'enable-web-push',
+          headline: '通知推送',
+          type: 'toggle_web_push',
         }
       ]
     },
@@ -554,6 +543,9 @@ const appTypeMap = {
     }
   ]
 };
+
+const publicVapidKey = 'BCbyPnt30RUDSelV6n1jJk8jHzR9cT7ajJPXLRq7tohhQ8D6TVb1h3ENUOJGdPxJgbbg8zPaDNJzOXIUfkWk67M';
+var registration;
 
 window.preferredLanguage = navigator.language;
 
@@ -1428,7 +1420,7 @@ function pushHistory(type, value) {
 const registerServiceWorkerForApp = async() => {
   if ('serviceWorker' in navigator) {
     try {
-      const registration = await navigator.serviceWorker.register('/app-service-worker.js', {scope: '/',});
+      registration = await navigator.serviceWorker.register('/app-service-worker.js', {scope: '/',});
       if (registration.installing) {
         console.log('Service worker installing');
       } else if (registration.waiting) {
@@ -1442,6 +1434,55 @@ const registerServiceWorkerForApp = async() => {
     }
   }
 };
+
+
+function urlBase64ToUint8Array(base64String) {
+  const padding = '='.repeat((4 - base64String.length % 4) % 4);
+  const base64 = (base64String + padding)
+    .replace(/\-/g, '+')
+    .replace(/_/g, '/');
+
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+  return outputArray;
+}
+
+async function toggleWebPush() {
+      // MARK: - Check if the browser supports push notifications
+    if ('PushManager' in window) {
+      let subscription = await registration.pushManager.getSubscription();
+      if (subscription) {
+        await subscription.unsubscribe();
+      }
+      subscription = await registration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
+      });
+      console.log('Push Registered...');
+      const info = {
+        topics: [],
+        subscription: subscription
+      };
+      // Subscribe Topics for Push Notification
+      console.log('Sending Push...');
+      await fetch('/subscribe_topic', {
+        method: 'POST',
+        body: JSON.stringify(info),
+        headers: {
+          'content-type': 'application/json',
+          // 'Authorization': `Bearer ${token}`
+        }
+      });
+      console.log('Push Sent...');
+    } else {
+      console.warn('Push notifications are not supported by this browser.');
+    }
+}
+
 
 
 delegate.on('click', '.app-icon-container', async function () {
