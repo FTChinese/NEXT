@@ -1,4 +1,4 @@
-/* global window, document, IntersectionObserver, ResizeObserver, HEADSHOTS, refreshAllAds */
+/* global window, document, IntersectionObserver, ResizeObserver, HEADSHOTS, refreshAllAds, hydrateSettingsPage */
 /* exported renderContentPage */
 
 /* -----------------------------
@@ -812,6 +812,10 @@ async function renderSettingsOverlay() {
       </div>
     </div>
   `;
+
+  if (typeof hydrateSettingsPage === 'function') {
+    await hydrateSettingsPage(contentEl);
+  }
 
   // Settings doesn’t need the bottom action bar; keep it empty for a clean overlay.
   const bottom = view.querySelector('.app-detail-bottom');

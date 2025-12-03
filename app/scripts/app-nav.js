@@ -767,6 +767,7 @@ async function renderChannel(channel) {
                 return;
             }
             targetDom.innerHTML = generateHTMLFromData(sections);
+            await hydrateSettingsPage(targetDom);
         }
         
     } catch(err) {
@@ -797,7 +798,10 @@ function generateHTMLFromData(sections) {
       const cookieName = item?.cookieName ?? '';
       const preferenceKey = item?.preferenceKey ?? '';
 
-      if (url) {
+      if (type === 'toggle_web_push') {
+        const toggleId = id ? `toggle-${id}` : 'toggle-web-push';
+        itemsHTML += `<li class="settings-item settings-toggle" data-id="${id}" data-type="${type}"><span class="settings-toggle-label">${headline}</span><label class="toggle-switch" for="${toggleId}"><input type="checkbox" id="${toggleId}" class="settings-toggle-input" data-id="${id}" data-type="${type}"><span class="toggle-switch-slider"></span></label></li>`;
+      } else if (url) {
         itemsHTML += `<a class="settings-item" href="${url}">${headline}</a>`;
       } else if (options.length > 0) {
         const currentValue = myPreference?.[preferenceKey] ?? GetCookie(cookieName) ?? options?.filter(x => x.is_default)?.[0]?.name ?? options?.[0].name ?? '';
@@ -812,6 +816,40 @@ function generateHTMLFromData(sections) {
   }
 
   return `<div class="settings-container">${html}</div>`;
+}
+
+
+async function hydrateSettingsPage(rootDom) {
+  try {
+    if (!rootDom) {return;}
+    await hydrateWebPushToggleState(rootDom);
+  } catch (err) {
+    console.error('hydrate settings page error:', err);
+  }
+}
+
+async function hydrateWebPushToggleState(rootDom) {
+  try {
+    const toggle = rootDom?.querySelector('.settings-toggle-input[data-type="toggle_web_push"]');
+    if (!toggle) {return;}
+    const parent = toggle.closest('.settings-toggle');
+    const applyState = (state) => {
+      if (parent) {parent.setAttribute('data-state', state);}
+    };
+
+    if (!('PushManager' in window)) {
+      toggle.disabled = true;
+      applyState('unsupported');
+      return;
+    }
+
+    await ensureServiceWorkerRegistration();
+    const enabled = await isWebPushEnabled();
+    toggle.checked = enabled;
+    applyState(enabled ? 'on' : 'off');
+  } catch (err) {
+    console.error('hydrate web push toggle error:', err);
+  }
 }
 
 
@@ -1433,6 +1471,8 @@ const registerServiceWorkerForApp = async() => {
       console.error(`Registration failed with ${error}`);
     }
   }
+
+  return registration;
 };
 
 
@@ -1452,35 +1492,68 @@ function urlBase64ToUint8Array(base64String) {
 }
 
 async function toggleWebPush() {
-      // MARK: - Check if the browser supports push notifications
-    if ('PushManager' in window) {
-      let subscription = await registration.pushManager.getSubscription();
-      if (subscription) {
-        await subscription.unsubscribe();
-      }
-      subscription = await registration.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
-      });
-      console.log('Push Registered...');
-      const info = {
-        topics: [],
-        subscription: subscription
-      };
-      // Subscribe Topics for Push Notification
-      console.log('Sending Push...');
-      await fetch('/subscribe_topic', {
-        method: 'POST',
-        body: JSON.stringify(info),
-        headers: {
-          'content-type': 'application/json',
-          // 'Authorization': `Bearer ${token}`
-        }
-      });
-      console.log('Push Sent...');
-    } else {
-      console.warn('Push notifications are not supported by this browser.');
+  if (!registration) {await ensureServiceWorkerRegistration();}
+  // MARK: - Check if the browser supports push notifications
+  if ('PushManager' in window) {
+    let subscription = await registration.pushManager.getSubscription();
+    if (subscription) {
+      await subscription.unsubscribe();
     }
+    subscription = await registration.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
+    });
+    console.log('Push Registered...');
+    const info = {
+      topics: [],
+      subscription: subscription
+    };
+    // Subscribe Topics for Push Notification
+    console.log('Sending Push...');
+    await fetch('/subscribe_topic', {
+      method: 'POST',
+      body: JSON.stringify(info),
+      headers: {
+        'content-type': 'application/json',
+        // 'Authorization': `Bearer ${token}`
+      }
+    });
+    console.log('Push Sent...');
+  } else {
+    console.warn('Push notifications are not supported by this browser.');
+  }
+}
+
+async function disableWebPush() {
+  try {
+    if (!('PushManager' in window)) {return;}
+    await ensureServiceWorkerRegistration();
+    const subscription = registration && registration.pushManager ? await registration.pushManager.getSubscription() : null;
+    if (subscription) {
+      await subscription.unsubscribe();
+    }
+  } catch (error) {
+    console.error(`Disable web push failed with ${error}`);
+  }
+}
+
+async function ensureServiceWorkerRegistration() {
+  if (!registration) {
+    await registerServiceWorkerForApp();
+  }
+  return registration;
+}
+
+async function isWebPushEnabled() {
+  try {
+    if (!('PushManager' in window)) {return false;}
+    await ensureServiceWorkerRegistration();
+    const subscription = registration && registration.pushManager ? await registration.pushManager.getSubscription() : null;
+    return Boolean(subscription);
+  } catch (err) {
+    console.error('check web push status error:', err);
+    return false;
+  }
 }
 
 
@@ -1497,6 +1570,29 @@ delegate.on('click', '.app-channel', async function () {
     const index = parseInt(this.getAttribute('data-index'), 10);
     const channel = appMap?.[section]?.Channels?.[index];
     await renderChannel(channel);
+});
+
+delegate.on('change', '.settings-toggle-input', async function () {
+    try {
+        const type = this.getAttribute('data-type');
+        if (type !== 'toggle_web_push') {return;}
+        const parent = this.closest('.settings-toggle');
+        const updateState = (isOn) => {
+            if (parent) {parent.setAttribute('data-state', isOn ? 'on' : 'off');}
+            this.checked = isOn;
+        };
+
+        if (this.checked) {
+            await toggleWebPush();
+            updateState(true);
+        } else {
+            await disableWebPush();
+            updateState(false);
+        }
+    } catch (err) {
+        console.error('settings toggle change error:', err);
+        this.checked = !this.checked;
+    }
 });
 
 delegate.on('click', '.item-container-app', async function (event) {
