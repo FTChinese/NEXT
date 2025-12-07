@@ -853,9 +853,6 @@ async function renderContentPage(info, appDetailEle) {
     appDetailEle.setAttribute('data-detail-root', '1');
   }
 
-  // show loading veil until body is rendered
-  setDetailLoading(appDetailEle, true);
-
   // Remember state for this view so we can re-render body only
   detailViewState.set(appDetailEle, { info });
 
@@ -893,6 +890,7 @@ async function renderContentPage(info, appDetailEle) {
 
     // Render or update the language switch without re-creating it
     await renderLanguageSwitch(appDetailEle, langSel);
+    await checkFollow();
   } finally {
     setDetailLoading(appDetailEle, false);
   }
@@ -1149,13 +1147,13 @@ async function renderContentPageBody(info, appDetailEle, langSel, langValue) {
   const appDetailContentEle = appDetailEle.querySelector('.app-detail-content');
 
   appDetailContentEle.innerHTML = `
+    ${disclaimer}
     ${headerHTML}
     <div class="block-container has-side story-page">
       <div class="block-inner">
         <div class="content-container">
           <div class="content-inner">
             <div class="story-container${storyBodyClass}">
-              ${disclaimer}
               ${defaultTopper}
               <div class="story-byline">
                 <span class="story-time">${timeStamp}</span>

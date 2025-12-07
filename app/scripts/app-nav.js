@@ -499,45 +499,20 @@ const appTypeMap = {
       'type': 'Group',
       'items': [
         {
-          'id': 'feedback',
           'headline': '反馈',
-          'type': 'setting'
+          'url': '/m/corp/subscriber.html'
         },
         {
-          'id': 'app-store',
-          'headline': 'App Store评分',
-          'type': 'setting'
-        },
-        {
-          'id': 'privacy',
           'headline': '隐私协议',
-          'type': 'setting'
+          'url': '/m/corp/service.html'
         },
         {
-          'id': 'about',
           'headline': '关于我们',
-          'type': 'setting'
+          'url': '/m/corp/aboutus.html'
         },
         {
-          'id': 'chat-customer-service',
           'headline': '常见问题',
-          'type': 'setting'
-        }
-      ]
-    },
-    {
-      'title': '诊断',
-      'type': 'Group',
-      'items': [
-        {
-          'id': 'ios-receipt',
-          'headline': '购买信息诊断',
-          'type': 'setting'
-        },
-        {
-          'id': 'developer-info',
-          'headline': '开发者诊断',
-          'type': 'setting'
+          'url': '/m/corp/faq.html'
         }
       ]
     }
@@ -769,7 +744,7 @@ async function renderChannel(channel) {
             targetDom.innerHTML = generateHTMLFromData(sections);
             await hydrateSettingsPage(targetDom);
         }
-        
+        await checkFollow();
     } catch(err) {
         console.error(`render channel error: `, err);
     }
@@ -1339,12 +1314,14 @@ async function handlePaginationReload(ele, data) {
 }
 
 async function handleContentData(data) {
+  let appDetailEle;
+
   try {
     const {id = '', type} = data;
     if (!type || !id) {return;}
 
     // Create a fresh detail-view layer and append to body (stackable)
-    const appDetailEle = document.createElement('div');
+    appDetailEle = document.createElement('div');
     appDetailEle.className = 'app-detail-view';
     appDetailEle.innerHTML = `
         <div class="app-detail-navigation">
@@ -1367,6 +1344,9 @@ async function handleContentData(data) {
     void appDetailEle.offsetHeight;
     appDetailEle.classList.add('on');
 
+    // Show skeleton immediately before network request starts
+    setDetailLoading(appDetailEle, true);
+
     const typeMap = {premium: 'story'};
     const contentType = typeMap[type] ?? type;
     window.type = contentType;
@@ -1376,12 +1356,18 @@ async function handleContentData(data) {
         url = '/api/page/app_content.json';
     }
     const response = await fetch(url);
-    if (!response.ok) {return;}
+    if (!response.ok) {
+        setDetailLoading(appDetailEle, false);
+        return;
+    }
     // Get the raw text of the response
     const info = await response.json();
     await renderContentPage(info, appDetailEle);
   } catch (err) {
     console.error('handle content data error:', err);
+    if (appDetailEle) {
+      setDetailLoading(appDetailEle, false);
+    }
   }
 }
 
@@ -1510,7 +1496,7 @@ async function toggleWebPush() {
     };
     // Subscribe Topics for Push Notification
     console.log('Sending Push...');
-    await fetch('/subscribe_topic', {
+    await fetch('/save_web_push_info', {
       method: 'POST',
       body: JSON.stringify(info),
       headers: {
@@ -1556,6 +1542,73 @@ async function isWebPushEnabled() {
   }
 }
 
+function checkHashForPush() {
+    const hash = window.location.hash;
+
+    // We look for a hash that actually contains params
+    if (hash && hash.length > 1 && hash.includes('=')) {
+        
+        // Remove the leading '#'
+        const hashString = hash.substring(1); 
+        const params = new URLSearchParams(hashString);
+
+        const action = params.get('action');
+        const value = params.get('value');
+
+        if (action || value) {
+            console.log(`🔔 Launched via Push (Hash): Action=${action}, Value=${value}`);
+
+            // Reconstruct the data object to match what postMessage sends
+            window.pushData = {
+                action: action,
+                value: value
+            };
+          const cleanUrl = window.location.pathname + window.location.search;
+          window.history.replaceState(null, null, cleanUrl);
+        }
+
+    }
+}
+
+
+async function handleHashForPush() {
+  try {
+    if (typeof window.pushData !== 'object') {return;}
+    const type = window.pushData?.action;
+    const id = window.pushData?.value;
+    if (!type || !id) {return;}
+    await handleContentData({id, type});
+    delete window.pushData;
+  } catch(err) {
+    console.error(`handleHashForPush:`, err);
+  }
+}
+
+
+function setupPushMessageListener() {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.addEventListener('message', async (event) => {
+      // 1. Security/Sanity Check: Ensure message is from our SW
+      if (!event.data || event.data.name !== 'webpush') { return; }
+
+      console.log('🔔 Received Push via postMessage (Warm Start)', event.data.data);
+      
+      const rawData = event.data.data;
+      
+      // 2. Map SW data (action/value) to your App data (type/id)
+      const type = rawData.action;
+      const id = rawData.value;
+
+      // 3. Execute navigation
+      if (type && id) {
+        // Optional: clear any existing overlays or side panels if necessary
+        // closeSidePanel(); 
+        
+        await handleContentData({ id, type });
+      }
+    });
+  }
+}
 
 
 delegate.on('click', '.app-icon-container', async function () {
@@ -1597,7 +1650,9 @@ delegate.on('change', '.settings-toggle-input', async function () {
 
 delegate.on('click', '.item-container-app', async function (event) {
     try {
-        if (event?.defaultPrevented || event?.target?.closest('a[href]')) {return;}
+        if (event?.defaultPrevented || event?.target?.closest('a[href], button')) {
+          return;
+        }
         this.classList.add('visited');
         const id = this.getAttribute('data-id');
         const type = this.getAttribute('data-type');
@@ -1618,8 +1673,11 @@ delegate.on('click', 'a[href]', function (event) {
 });
 
 (async () => {
+  checkHashForPush();
   renderSection('News');
   await registerServiceWorkerForApp();
+  setupPushMessageListener();
+  await handleHashForPush();
 })();
 
 setTimeout(closeLaunchScreenSafely, 5000);

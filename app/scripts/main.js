@@ -187,7 +187,7 @@ function buildImageRequest(figureEl) {
   }
 
 
-  console.log(`image url: ${imageUrl}, final: ${finalUrl}`);
+  // console.log(`image url: ${imageUrl}, final: ${finalUrl}`);
 
   return { finalUrl: finalUrl, finalBackup: finalBackup, loadedClass: loadedClass, fitType: fitType };
 }

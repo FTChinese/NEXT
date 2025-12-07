@@ -123,10 +123,11 @@ async function syncLocalFollowsWithServer() {
 }
 
 async function checkFollow() {
+    
     let savedFollowListJSON = JSON.parse(localStorage.getItem(key)) || {};
-
     if (hasLoggedIn() && timeToSync()) {
         try {
+            // console.log(`syncLocalFollowsWithServer...`);
             await syncLocalFollowsWithServer(); // Ensure local follows are synced first.
             const response = await fetch('/get_myft_follows');
             if (response.ok) {

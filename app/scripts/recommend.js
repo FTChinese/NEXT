@@ -208,15 +208,20 @@ async function buildRecommendationHTML(items = [], preferredLanguage = 'zh-CN', 
     let imageClass = 'no-image';
 
     if (imageUrl) {
-      // imageHTML = `<a class="image" ${linkHTML} target="_blank"><figure class="is-retina" data-url="${imageUrl}"><img data-backupimage="${backupUrl}" src="${imageUrl}"></figure></a>`;
       imageHTML = `<a class="image" target="_blank"><figure class="loading" data-url="${imageUrl}"></figure></a>`;
       imageClass = `has-image`;
+    }
+    const mainTag = item?.matchedKeys?.[0] ?? keywords?.split(',').map(x=>x.trim()).filter(x => x)?.[0];
+    let themeHTML = '';
+    if (mainTag) {
+      themeHTML = `<div class="item-tag"><a href="/tag/${mainTag}">${mainTag}</a><button class="myft-follow plus" data-tag="${mainTag}" data-type="tag">关注</button></div>`;
     }
     
     html += `<div class="item-container ${imageClass} item-container-app" data-id="${id}" data-type="${type}" data-sub-type="${subtype}" data-keywords="${keywords}" data-update="${update}" data-ft-id="${ftid}">
       <div class="item-inner">
         <div class="item-headline-lead">
           <h2 class="item-headline">
+            ${themeHTML}
             <a ${linkHTML} target="_blank" class="item-headline-link${lockClass}">${cheadline}</a>
           </h2>
           ${imageHTML}
@@ -535,6 +540,7 @@ function calculateRelevanceScores(items) {
     let score = 0;
     let hasMainMatch = false;
     let hasSecondaryMatch = false;
+    let matchedKeys = [];
 
     const mainTags = item.annotationsMain?.split(',').map(t => t.trim()).filter(Boolean) || [];
     const secondaryTags = item.annotationsSecondary?.split(',').map(t => t.trim()).filter(Boolean) || [];
@@ -557,6 +563,7 @@ function calculateRelevanceScores(items) {
     for (const [i, tag] of keywords.entries()) {
       if (followsSet.has(tag)) {
         score += i === 0 ? WEIGHTS.keywordPrimary : WEIGHTS.keywordOther;
+        matchedKeys.push(tag);
       }
     }
 
@@ -567,6 +574,7 @@ function calculateRelevanceScores(items) {
     }
 
     item.relevanceRaw = score;
+    item.matchedKeys = matchedKeys;
   }
 
   // Normalize to [0.5, 1.0] or 0 if no match
