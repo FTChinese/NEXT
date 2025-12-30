@@ -896,10 +896,6 @@ async function renderContentPage(info, appDetailEle) {
   }
 }
 
-
-
-
-
 async function renderContentPageBody(info, appDetailEle, langSel, langValue) {
   // -------- 0) Cleanup --------
   const oldTarget = appDetailEle.querySelector('.user_comments_container');
