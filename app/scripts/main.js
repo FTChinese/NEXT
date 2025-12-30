@@ -116,80 +116,94 @@ function isDataSaverOn() {
 
 // Build image service URLs (preserves your previous logic)
 function buildImageRequest(figureEl) {
-  const isRetina = (window.devicePixelRatio || 1) > 1;
-  const qs = window.location.search || '';
-  let imageWidth = figureEl.offsetWidth || figureEl.getBoundingClientRect().width || 0;
-  let imageHeight = figureEl.offsetHeight || figureEl.getBoundingClientRect().height || 0;
-  let imageUrl = figureEl.getAttribute('data-url') || '';
-  let loadedClass = '';
-  const figureClass = figureEl.className || '';
-  const figureParentClass = figureEl.parentNode && figureEl.parentNode.className || '';
-  let fitType = /brand/.test(figureParentClass) ? 'contain' : 'cover';
+    // --- Configuration ---
+    // Update this constant whenever the image server changes
+    const FTC_IMAGE_HOST = 'https://dq4atoxl7csa1.cloudfront.net/unsafe/';
+    const FT_ORIGAMI_HOST = 'https://images.ft.com/v3/image/raw/';
 
-  const imageServiceHost = 'https://images.ft.com/v3/image/raw/';
-  const imageServiceHostFTC = 'https://d1sh1cgb4xvhl.cloudfront.net/unsafe/';
-  const ftcStaticServer = 'https://d1sh1cgb4xvhl.cloudfront.net/unsafe/';
-
-  if (!imageUrl) { return null; }
-
-  if (isRetina) {
-    imageWidth *= 2;
-    imageHeight *= 2;
-    loadedClass = 'is-retina';
-  }
-
-  // Snap width to 100px multiples when ad param isn't present
-  if ((!qs || qs.indexOf('?ad=no') === -1)) {
-    const MULTIPLE = 100;
-    const mod = imageWidth % MULTIPLE;
-    if (mod !== 0 && imageWidth > 0 && imageHeight > 0) {
-      const ratio = imageHeight / imageWidth;
-      const q = parseInt(imageWidth / MULTIPLE, 10);
-      imageWidth = (q + 1) * MULTIPLE;
-      imageHeight = parseInt(imageWidth * ratio, 10);
-      loadedClass = 'is-retina';
+    // --- 1. Input Validation & Dimensions ---
+    const imageUrl = figureEl.getAttribute('data-url');
+    if (!imageUrl) {
+        return null;
     }
-  }
 
-  // Normalize incoming URL (already service vs raw)
-  if (imageUrl.indexOf(imageServiceHost) >= 0) {
-    imageUrl = decodeURIComponent(imageUrl.replace(imageServiceHost, '').replace(/\?.*$/g, ''));
-  } else if (imageUrl.indexOf(imageServiceHostFTC) >= 0) {
-    imageUrl = imageUrl
-      .replace(imageServiceHostFTC, '')
-      .replace(/^[0-9x]+\//g, '')
-      .replace(/^(picture)/g, ftcStaticServer + '$1');
-  }
+    const isRetina = (window.devicePixelRatio || 1) > 1;
+    let imageWidth = figureEl.offsetWidth || figureEl.getBoundingClientRect().width || 0;
+    let imageHeight = figureEl.offsetHeight || figureEl.getBoundingClientRect().height || 0;
 
-  // Backup URL via Origami
-  let imageUrlBack = imageUrl;
-  if (/^\/picture\//.test(imageUrlBack)) {
-    imageUrlBack = 'https://dq4atoxl7csa1.cloudfront.net/unsafe' + imageUrlBack;
-  }
-  imageUrlBack = encodeURIComponent(imageUrlBack);
+    // Determine fit type based on parent class
+    const figureParentClass = (figureEl.parentNode && figureEl.parentNode.className) || '';
+    const fitType = /brand/.test(figureParentClass) ? 'contain' : 'cover';
+    let loadedClass = '';
 
-  const imageUrlPart = imageUrl.replace(/^(https:\/\/.+\/unsafe\/)/g, '').replace(/^\//, '');
+    // --- 2. Retina & Grid Snapping Logic ---
+    // (Preserving original business logic for cache optimization)
+    if (isRetina) {
+        imageWidth *= 2;
+        imageHeight *= 2;
+        loadedClass = 'is-retina';
+    }
 
-  let finalUrl = '';
-  let finalBackup = '';
+    const qs = window.location.search || '';
+    if (!qs || qs.indexOf('?ad=no') === -1) {
+        const SNAP_GRID = 100;
+        const remainder = imageWidth % SNAP_GRID;
+        // Only snap if dimensions are valid and not already a multiple
+        if (remainder !== 0 && imageWidth > 0 && imageHeight > 0) {
+            const ratio = imageHeight / imageWidth;
+            const multiples = Math.floor(imageWidth / SNAP_GRID);
+            // Round UP to the nearest grid multiple
+            imageWidth = (multiples + 1) * SNAP_GRID;
+            imageHeight = Math.round(imageWidth * ratio);
+            loadedClass = 'is-retina';
+        }
+    }
 
-  if (imageUrl.indexOf('bokecc.com') >= 0) {
-    finalBackup = 'https://images.ft.com/v3/image/raw/' + imageUrlBack + '?source=ftchinese&width=' + imageWidth + '&height=' + imageHeight + '&fit=' + fitType;
-    finalUrl = finalBackup;
-  } else if (/sponsor|logo/.test(figureClass)) {
-    finalUrl = imageServiceHostFTC + '0x' + imageHeight + '/' + imageUrlPart;
-    finalBackup = 'https://images.ft.com/v3/image/raw/' + imageUrlBack + '?source=ftchinese&height=' + imageHeight + '&fit=' + fitType;
-  } else if (imageWidth > 0 && imageHeight > 0) {
-    finalUrl = imageServiceHostFTC + imageWidth + 'x' + imageHeight + '/' + imageUrlPart;
-    finalBackup = 'https://images.ft.com/v3/image/raw/' + imageUrlBack + '?source=ftchinese&width=' + imageWidth + '&height=' + imageHeight + '&fit=' + fitType;
-  } else {
-    return null; // cannot size → skip
-  }
+    if (imageWidth <= 0 || imageHeight <= 0) {
+        return null;
+    }
+
+    // --- 3. Robust URL Extraction ---
+    // Goal: Strip the proxy wrapper (d1sh..., dq4..., etc.) to get the "raw" asset.
+    // Regex matches: Start of string -> http/s -> any domain -> /unsafe/
+    let rawAssetUrl = imageUrl.replace(/^https?:\/\/[^\/]+\/unsafe\//, '');
+
+    // Cleanup: Remove leading slashes (fixes the "/unsafe//picture" bug saw in your HTML)
+    rawAssetUrl = rawAssetUrl.replace(/^\/+/, '');
+
+    // Result 'rawAssetUrl' is now clean. It is either:
+    // 1. A full S3 URL: "https://d1e00..../uuid.jpg"
+    // 2. A relative path: "picture/6/...piclink.jpg"
 
 
-  // console.log(`image url: ${imageUrl}, final: ${finalUrl}`);
+    // --- 4. URL Construction ---
 
-  return { finalUrl: finalUrl, finalBackup: finalBackup, loadedClass: loadedClass, fitType: fitType };
+    // A. Construct Primary URL (Using the NEW configuration)
+    // Pattern: [NewHost] / [WxH] / [RawAsset]
+    const finalUrl = FTC_IMAGE_HOST + imageWidth + 'x' + imageHeight + '/' + rawAssetUrl;
+
+
+    // B. Construct Backup URL (FT Origami Service)
+    // The Origami service requires a full, absolute URL as its source.
+    let sourceForBackup = rawAssetUrl;
+
+    // If the raw asset is just a relative path (e.g., "picture/..."),
+    // we must prepend our proxy domain so Origami can fetch it.
+    if (!/^https?:\/\//.test(rawAssetUrl)) {
+        sourceForBackup = FTC_IMAGE_HOST + rawAssetUrl;
+    }
+
+    const encodedSource = encodeURIComponent(sourceForBackup);
+    const finalBackup = FT_ORIGAMI_HOST + encodedSource + '?source=ftchinese&width=' + imageWidth + '&height=' + imageHeight + '&fit=' + fitType;
+
+
+    // --- 5. Return Result ---
+    return {
+        finalUrl: finalUrl,
+        finalBackup: finalBackup,
+        loadedClass: loadedClass,
+        fitType: fitType
+    };
 }
 
 function loadFigureNow(figureEl) {
