@@ -381,24 +381,24 @@ async function updateLiveBlogLinks() {
   try {
     const eles = document.querySelectorAll('.live-blog-container[data-id]');
     if (eles.length === 0) {return;}
-    // TODO: - use fetch get to check the endpoint, /show_detail_link_for_live_blog, it should return a json, if it has a property of show, and it is a bool true, then continue, other wise return immediately
+    // Use fetch get to check the endpoint, /show_detail_link_for_live_blog, it should return a json, if it has a property of show, and it is a bool true, then continue, other wise return immediately
     const response = await fetch('/show_detail_link_for_live_blog');
     const data = await response.json();
-    if (!data?.show) {
-      return;
-    }
+    if (!data?.show) {return;}
     let preferedChineseLanguage = document.documentElement?.getAttribute('data-preferred-language') ?? '';
     if (!tranditionalLanguages.includes(preferedChineseLanguage)) {
       preferedChineseLanguage = 'zh';
     }
+    const isEnglish = document.querySelector('.story-container.en') ? true : false;
+    const moreText = isEnglish ? 'More' : '更多';
+
     for (const ele of eles) {
       const id = ele.getAttribute('data-id');
       if (!id) {continue;}
-      console.log(`id: ${id}`);
       const linkEle = ele.querySelector('.detail-link');
       if (linkEle) {continue;}
       let link = document.createElement('P');
-      link.innerHTML = `<a href="/powertranslate/chat.html#ftid=${id}&language=${preferedChineseLanguage}&action=read" target="_blank">More</a>`;
+      link.innerHTML = `<a href="/powertranslate/chat.html#ftid=${id}&language=${preferedChineseLanguage}&action=read" target="_blank">${moreText}</a>`;
       link.className = 'detail-link';
       link.style.textAlign = 'right';
       ele.appendChild(link);

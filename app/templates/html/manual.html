@@ -202,18 +202,15 @@
         <%/if%>
     <%/if%>
     <%*<!--MARK: Show FT Academy on top during public holidays and weekends-->*%>
-    <%if date("Ymd", $smarty.now) == 20250126 || date("Ymd", $smarty.now) == 20250208 || date("Ymd", $smarty.now) == 20250427 || date("Ymd", $smarty.now) == 20250928 || date("Ymd", $smarty.now) == 20251011%>
-        <%*<!--MARK: When weekend days are working days in China because of long public holidays exchanges such as Chinese new year, National day, etc... -->*%>
+    <%if date("Ymd", $smarty.now) == 20260104 || date("Ymd", $smarty.now) == 20260214 || date("Ymd", $smarty.now) == 20260228 || date("Ymd", $smarty.now) == 20260509 || date("Ymd", $smarty.now) == 20260920 || date("Ymd", $smarty.now) == 20261010%>
         <%assign var="isPublicHoliday" value="no"%>
-    <%elseif (date("Ymd", $smarty.now) >= 20250128 && date("Ymd", $smarty.now) <= 20250204) || (date("Ymd", $smarty.now) >= 20250404 && date("Ymd", $smarty.now) <= 20250406) || (date("Ymd", $smarty.now) >= 20250501 && date("Ymd", $smarty.now) <= 20250505) || (date("Ymd", $smarty.now) >= 20250531 && date("Ymd", $smarty.now) <= 20250602) || (date("Ymd", $smarty.now) >= 20251001 && date("Ymd", $smarty.now) <= 20251008)%>
+    <%elseif (date("Ymd", $smarty.now) >= 20260101 && date("Ymd", $smarty.now) <= 20260103) || (date("Ymd", $smarty.now) >= 20260215 && date("Ymd", $smarty.now) <= 20260223) || (date("Ymd", $smarty.now) >= 20260404 && date("Ymd", $smarty.now) <= 20260406) || (date("Ymd", $smarty.now) >= 20260501 && date("Ymd", $smarty.now) <= 20260505) || (date("Ymd", $smarty.now) >= 20260619 && date("Ymd", $smarty.now) <= 20260621) || (date("Ymd", $smarty.now) >= 20260925 && date("Ymd", $smarty.now) <= 20260927) || (date("Ymd", $smarty.now) >= 20261001 && date("Ymd", $smarty.now) <= 20261007)%>
         <%assign var="isPublicHoliday" value="yes"%>
     <%elseif date("w", $smarty.now) == 0 || date("w", $smarty.now) == 6%>
         <%assign var="isPublicHoliday" value="yes"%>
     <%elseif $hasPublishedNewCoverStory == "no" && date("w", $smarty.now) == 1 && date("H", $smarty.now) <= 5%>
-        <%*<!--MARK: - Extend the public holiday setting to Monday Mornings -->*%>
         <%assign var="isPublicHoliday" value="yes"%>
     <%elseif $hasPublishedNewCoverStory == "no" && date("w", $smarty.now) >= 2 && date("w", $smarty.now) <= 5 && date("H", $smarty.now) <= 5%>
-        <%*<!--MARK: - Other working day mornings before editorial team start updating-->*%>
         <%assign var="isWorkingDayMorning" value="yes"%>
     <%/if%>
     <%*<!--MARK: - highlight FT Academy on public holidays for all users -->*%>
