@@ -1,4 +1,3 @@
-
 /* global getMyPreference, convertChinese, runLoadImages, markReadContent */
 /* exported renderRecommendationForWebAppHome */
 
@@ -79,14 +78,16 @@ function runRecommendationForDoms() {
         itemData.tier = 'standard';
       }
 
-      // console.log(`itemData.tier`, itemData.tier);
-
       items.push(itemData);
     }
 
     items = calculateScores(items);
     reorderListWithScores(list, items);
     showCustomisation(list);
+
+    // Optional: show explanation reasons for reordered DOM lists too
+    // (Safe to remove this line to disable reasons display)
+    appendRecommendationReasons(list, items, window.preferredLanguage ?? 'zh-CN');
   }
 }
 
@@ -97,8 +98,10 @@ function displayRecommendationInContentPageLazy(targetDom) {
     containers = targetDom.querySelectorAll('.list-recommendation');
   }
   if (containers.length === 0) {return;}
+
   updateFollows();
   updateWeights();
+
   const observer = new IntersectionObserver(async (entries) => {
     for (const entry of entries) {
       if (!entry.isIntersecting) {continue;}
@@ -115,11 +118,15 @@ function displayRecommendationInContentPageLazy(targetDom) {
         const html = await buildRecommendationHTML(items, window.preferredLanguage ?? 'zh-CN');
         entry.target.innerHTML = html;
 
+        // ✅ Optional: show explanation reasons (safe to remove)
+        appendRecommendationReasons(entry.target, items, window.preferredLanguage ?? 'zh-CN');
+
         showCustomisation(entry.target);
 
         // Stop observing after loading
         observer.unobserve(entry.target);
-        // this function is in the main.js, it should have been available
+
+        // these functions are in the main.js, it should have been available
         runLoadImages();
         if (typeof markReadContent === 'function') {
           markReadContent(entry.target);
@@ -134,7 +141,6 @@ function displayRecommendationInContentPageLazy(targetDom) {
   for (const container of containers) {
     observer.observe(container);
   }
-
 }
 
 
@@ -148,7 +154,6 @@ async function fetchRecommendations(source = 'ftchinese') {
   let url = '/recommend';
   let method = 'POST';
   let body = JSON.stringify({ source });
-  // console.log(window.location.href);
   if (window.location.href.includes('localhost:3000/app.html')) {
     url = '/api/page/app-recommend.json';
     method = 'GET';
@@ -202,21 +207,21 @@ async function buildRecommendationHTML(items = [], preferredLanguage = 'zh-CN', 
     const parameter = tierParameter + subtypeParameter;
     const linkHTML = isInWebApp ? '' : ` href="/${type}/${id}${parameter}"`;
     const imageUrl = item.pictures?.main ?? '';
-    // const backupUrl = imageUrl ? `${imageUrl}?source=ftchinese&width=800&height=450&fit=cover&from=next001` : '';
-    
+
     let imageHTML = '';
     let imageClass = 'no-image';
 
     if (imageUrl) {
-      imageHTML = `<a class="image" target="_blank"><figure class="loading" data-url="${imageUrl}"></figure></a>`;
+      imageHTML = `<a ${linkHTML} class="image" target="_blank"><figure class="loading" data-url="${imageUrl}"></figure></a>`;
       imageClass = `has-image`;
     }
+
     const mainTag = item?.matchedKeys?.[0] ?? keywords?.split(',').map(x=>x.trim()).filter(x => x)?.[0];
     let themeHTML = '';
     if (mainTag) {
       themeHTML = `<div class="item-tag"><a href="/tag/${mainTag}">${mainTag}</a><button class="myft-follow plus" data-tag="${mainTag}" data-type="tag">关注</button></div>`;
     }
-    
+
     html += `<div class="item-container ${imageClass} item-container-app" data-id="${id}" data-type="${type}" data-sub-type="${subtype}" data-keywords="${keywords}" data-update="${update}" data-ft-id="${ftid}">
       <div class="item-inner">
         <div class="item-headline-lead">
@@ -254,6 +259,11 @@ async function renderRecommendationForWebAppHome(targetDom) {
 
     let customisationEle = container.querySelector('.customisation-container');
     showCustomisation(customisationEle);
+
+    // ✅ Optional: show explanation reasons (safe to remove)
+    const recList = container.querySelector('.list-recommendation');
+    appendRecommendationReasons(recList, items, window.preferredLanguage ?? 'zh-CN');
+
     runLoadImages();
     if (typeof markReadContent === 'function') {
       markReadContent(container);
@@ -263,7 +273,6 @@ async function renderRecommendationForWebAppHome(targetDom) {
     targetDom.innerHTML = '<p class="highlight">加载推荐内容失败</p>';
   }
 }
-
 
 
 function showCustomisation(list) {
@@ -308,13 +317,113 @@ function showCustomisation(list) {
 }
 
 
+// === Optional: explanation reasons (FT-style, fully removable) ===
+function appendRecommendationReasons(container, items = [], preferredLanguage = 'zh-CN') {
+  if (!container || !Array.isArray(items) || items.length === 0) { return; }
+
+  const lang = (preferredLanguage || 'zh-CN').toLowerCase();
+
+  // FT-style wording (editorial tone, avoid product ambiguity)
+  const TEXT = {
+    zh: {
+      editorial: '编辑推荐',
+      popularity: '热门',
+    },
+    'zh-hk': {
+      editorial: '編輯推薦',
+      popularity: '熱門',
+    },
+    'zh-tw': {
+      editorial: '編輯推薦',
+      popularity: '熱門',
+    }
+  };
+
+  const t =
+    lang.startsWith('zh-hk') ? TEXT['zh-hk'] :
+    lang.startsWith('zh-tw') ? TEXT['zh-tw'] :
+    TEXT.zh;
+
+  // Build quick lookup: type::id -> item
+  const byKey = new Map();
+  for (const item of items) {
+    const key = `${item?.type ?? ''}::${item?.id ?? ''}`;
+    byKey.set(key, item);
+  }
+
+  const nodes = container.querySelectorAll('.item-container');
+
+  for (const node of nodes) {
+    const id = node.getAttribute('data-id') || '';
+    const type = node.getAttribute('data-type') || '';
+    const item = byKey.get(`${type}::${id}`);
+    if (!item) { continue; }
+
+    const reasons = [];
+
+    // ① Interest match: show tag only (editorial, no prefix)
+    if (item.matchedKeys && item.matchedKeys.length > 0) {
+      reasons.push(item.matchedKeys[0]);
+    }
+
+    // ② Editorial recommendation
+    if ((parseFloat(item.editorialScore) || 0) >= 0.7) {
+      reasons.push(t.editorial);
+    }
+
+    // ③ Popular / trending
+    if ((parseFloat(item.popularityScore) || 0) >= 0.7) {
+      reasons.push(t.popularity);
+    }
+
+    // If there is no meaningful reason, show nothing
+    if (reasons.length === 0) {
+      // If the DOM already has reasons from previous render, remove them
+      const existing = node.querySelector('.recommendation-reasons');
+      if (existing) { existing.remove(); }
+      continue;
+    }
+
+    // Limit to 2 reasons max to avoid noise
+    const limited = reasons.slice(0, 2);
+
+    let box = node.querySelector('.recommendation-reasons');
+    if (!box) {
+      box = document.createElement('div');
+      box.className = 'recommendation-reasons';
+
+      // Place under lead (least intrusive)
+      const lead = node.querySelector('.item-lead');
+      if (lead && lead.parentNode) {
+        lead.insertAdjacentElement('afterend', box);
+      } else {
+        // Fallback
+        const target =
+          node.querySelector('.item-headline-lead') ||
+          node.querySelector('.item-inner') ||
+          node;
+        target.appendChild(box);
+      }
+    }
+
+    // ✅ Rebuild children so the UI stays consistent after rerender
+    box.innerHTML = '';
+    for (const reason of limited) {
+      const span = document.createElement('span');
+      span.className = 'recommendation-reason';
+      span.textContent = reason;
+      box.appendChild(span);
+    }
+  }
+}
+
+
+
 
 
 
 // === Final Score Calculation ===
 function calculateScores(items) {
-
-  // console.log(`items: `, JSON.stringify(items));
 
   items = calculateRelevanceScores(items);
 
@@ -324,18 +433,16 @@ function calculateScores(items) {
     const readIdsString = localStorage?.getItem(key);
     if (!readIdsString) {continue;}
     try {
-        const readFTIds = JSON.parse(readIdsString);
-        if (readFTIds && readFTIds.length > 0) {
-            for (const id of readFTIds) {
-                readIds.add(id);
-            }
+      const readFTIds = JSON.parse(readIdsString);
+      if (readFTIds && readFTIds.length > 0) {
+        for (const id of readFTIds) {
+          readIds.add(id);
         }
+      }
     } catch(err){
-        console.error(`read ft ids error: `, err);
+      console.error(`read ft ids error: `, err);
     }
   }
-
-  // console.log(`read ids: `, readIds);
 
   const GENRE_WEIGHT_FRACTION = 0.01;
   const genreRawWeight = (
@@ -363,21 +470,23 @@ function calculateScores(items) {
   };
 
   const now = Date.now();
+  const lastVisitTs = parseInt(localStorage.getItem('ftc-last-recommendation-ts'), 10) || 0;
 
+  // ✅ Precompute updateTimestamp once + compute max once (O(n))
+  let mostRecentUpdateTs = 0;
   for (const item of items) {
     const rawUpdate = parseInt(item.update, 10);
     const updateTimestamp = !isNaN(rawUpdate) ? rawUpdate * 1000 : now - 3 * 24 * 60 * 60 * 1000;
+    item.updateTimestamp = updateTimestamp;
+    if (updateTimestamp > mostRecentUpdateTs) { mostRecentUpdateTs = updateTimestamp; }
+  }
 
+  for (const item of items) {
+    const updateTimestamp = item.updateTimestamp || (now - 3 * 24 * 60 * 60 * 1000);
     const ageMs = now - updateTimestamp;
     const genreOrSubtype = detectGenre(item.annotationsMain, item.subtype);
 
-    // console.log(`\n\n=============\n`, JSON.stringify(item, null, 2));
-    // console.log(`genreOrSubtype: `, genreOrSubtype);
-
     const halfLifeMs = (DECAY_HALFLIFE_IN_HOURS[genreOrSubtype] || DECAY_HALFLIFE_IN_HOURS.Other) * 60 * 60 * 1000;
-
-    // const subtype = item.subtype;
-    // console.log(`subtype: `, subtype);
 
     const editorialScore = parseFloat(item.editorialScore) || 0;
     const popularityScore = parseFloat(item.popularityScore) || 0;
@@ -394,7 +503,6 @@ function calculateScores(items) {
     const finalScore = weightedScore * decayFactor;
 
     item.genre = genreOrSubtype;
-    item.updateTimestamp = updateTimestamp;
     item.decayFactor = decayFactor;
 
     const itemTypeMap = {premium: 'story'};
@@ -402,9 +510,7 @@ function calculateScores(items) {
     const itemTypeId = `${itemType}${item?.id ?? ''}`;
     const ftid = item?.ftid ?? '';
     const id = item?.id ?? '';
-    // const annotationsMain = item?.annotationsMain ?? '';
-    // const isUpdatingContent = /FT Live news/gi.test(annotationsMain);
-    // const read = !isUpdatingContent && (readIds.has(ftid) || readIds.has(itemTypeId));
+
     const read = readIds.has(ftid) || readIds.has(itemTypeId) || readIds.has(id);
     const readMinusScore = read ? (recommendationWeights.readPenalty ? 1 : 0) : 0;
     item.readMinusScore = readMinusScore;
@@ -418,34 +524,25 @@ function calculateScores(items) {
       } else if (userTier !== 'premium') {
         tierPenalty = 1;
       }
-      // console.log(`content tier: `, contentTier, ', user tier: ', userTier, ', tier penalty: ', tierPenalty);
     }
 
-    // For unseen items, which are updated after the score is last calculated, we want to raise it up
-    const lastVisitTs = parseInt(localStorage.getItem('ftc-last-recommendation-ts'), 10) || 0;
     const unSeenItemBonus = updateTimestamp > lastVisitTs ? (recommendationWeights.freshnessBonus ? 1 : 0) : 0;
     item.unSeenItemBonus = unSeenItemBonus;
 
-
     item.finalScore = parseFloat(finalScore.toFixed(4)) - readMinusScore - tierPenalty + unSeenItemBonus;
-
-    // ✅ Instead of saving Date.now(), use the max updateTimestamp from current items
-    // item.updateTimestamp is already in milliseconds
-    const mostRecentUpdateTs = items.reduce((max, item) => {
-      const ts = item.updateTimestamp || 0;
-      return ts > max ? ts : max;
-    }, 0);
-
-    // ✅ Save in milliseconds to be consistent with Date.now() and updateTimestamp
-    localStorage.setItem('ftc-last-recommendation-ts', mostRecentUpdateTs.toString());
-
   }
+
+  // ✅ One write (same semantics)
+  localStorage.setItem('ftc-last-recommendation-ts', String(mostRecentUpdateTs));
 
   return items;
 }
 
 
 function updateFollows() {
+  // ✅ Reset to avoid stale or ever-growing follows in this module
+  followsSet = new Set();
+
   const myFTFollows = localStorage.getItem('my-ft-follow-ftc');
   const preference = localStorage.getItem('preference');
 
@@ -482,8 +579,6 @@ function updateFollows() {
   } catch (err) {
     console.warn('Failed to parse preference:', err);
   }
-
-//   console.log(`follows: `, follows);
 }
 
 
@@ -509,14 +604,10 @@ function updateWeights() {
         recommendationWeights[key] = weightsFromPref[key];
       }
     }
-
-    // console.log(`recommendationWeights: `, recommendationWeights);
   } catch (err) {
     console.warn('Failed to parse or apply recommendationWeights from preference:', err);
   }
 }
-
-
 
 
 
@@ -533,8 +624,6 @@ function calculateRelevanceScores(items) {
     main: 0.5,
     secondary: 0.2
   };
-
-  // console.log(followsSet);
 
   for (const item of items) {
     let score = 0;
@@ -592,8 +681,6 @@ function calculateRelevanceScores(items) {
   const MIN_SCORE = 0.5;
   const MAX_SCORE = 1.0;
 
-  
-
   for (const item of items) {
     const r = item.relevanceRaw || 0;
     if (r === 0) {
@@ -604,7 +691,6 @@ function calculateRelevanceScores(items) {
       item.relevanceScore = MAX_SCORE;
     }
   }
-
 
   const regionMinScores = {
     zh: {
@@ -638,7 +724,6 @@ function calculateRelevanceScores(items) {
   };
 
   const preferredLanguage = window.preferredLanguage ?? 'zh-CN';
-
   const regionMinScore = regionMinScores[preferredLanguage];
 
   for (const item of items) {
@@ -665,6 +750,7 @@ function calculateRelevanceScores(items) {
   return items;
 }
 
+
 // === Score Utilities ===
 function detectGenre(annotationsMain = '', subtype = '') {
   const tags = annotationsMain.split(',').map(t => t.trim());
@@ -673,7 +759,6 @@ function detectGenre(annotationsMain = '', subtype = '') {
   if (tags.includes('Feature') || tags.includes('Opinion') || tags.includes('Deep dive')) {return 'Feature';}
   return 'Other';
 }
-
 
 function getDecayFactor(ageMs, halfLifeMs) {
   return Math.pow(0.5, ageMs / halfLifeMs);
@@ -695,63 +780,62 @@ function normalizeWeights(rawWeights) {
 
 // === DOM Reordering ===
 function reorderListWithScores(list, items) {
-    const itemMap = new Map();
-    for (const item of items) {
-        itemMap.set(item.viewId, item);
-    }
+  const itemMap = new Map();
+  for (const item of items) {
+    itemMap.set(item.viewId, item);
+  }
 
-    const nodes = Array.from(list.children);
-    const itemNodes = [];
-    const otherNodes = [];
+  const nodes = Array.from(list.children);
+  const itemNodes = [];
+  const otherNodes = [];
 
-    for (const node of nodes) {
-        if (node.classList?.contains('item-container') && itemMap.has(node.id)) {
-            itemNodes.push(node);
-        } else {
-            otherNodes.push(node);
-        }
-    }
-
-    itemNodes.sort((a, b) => {
-        const scoreA = itemMap.get(a.id)?.finalScore ?? 0;
-        const scoreB = itemMap.get(b.id)?.finalScore ?? 0;
-        return scoreB - scoreA;
-    });
-
-    for (const node of itemNodes) {
-        const item = itemMap.get(node.id);
-        if (!item || typeof item.finalScore !== 'number') {
-            console.warn(`Missing score for node ${node.id}`, item);
-            continue;
-        }
-        node.setAttribute('data-score', item.finalScore.toFixed(4));
-        node.setAttribute('data-editorial-score', (item.editorialScore ?? 0).toFixed(4));
-        node.setAttribute('data-popularity-score', (item.popularityScore ?? 0).toFixed(4));
-        node.setAttribute('data-relevance-score', (item.relevanceScore ?? 0).toFixed(4));
-        node.setAttribute('data-read-minus-score', (item.readMinusScore ?? 0).toFixed(4));
-        node.setAttribute('data-unseen-bonus-score', (item.unSeenItemBonus ?? 0).toFixed(4));
-        node.setAttribute('data-genre-score', (GENRE_SCORE_MAP[item.genre] ?? 0).toFixed(2));
-    }
-
-    const newChildren = [];
-    let itemIndex = 0;
-
-    for (const node of nodes) {
-        if (node.classList?.contains('item-container') && itemMap.has(node.id)) {
-            newChildren.push(itemNodes[itemIndex++]);
-        } else {
-            newChildren.push(node);
-        }
-    }
-
-    if (document.startViewTransition) {
-        document.startViewTransition(() => {
-            list.replaceChildren(...newChildren);
-        });
+  for (const node of nodes) {
+    if (node.classList?.contains('item-container') && itemMap.has(node.id)) {
+      itemNodes.push(node);
     } else {
-        list.replaceChildren(...newChildren);
+      otherNodes.push(node);
     }
+  }
 
+  itemNodes.sort((a, b) => {
+    const scoreA = itemMap.get(a.id)?.finalScore ?? 0;
+    const scoreB = itemMap.get(b.id)?.finalScore ?? 0;
+    return scoreB - scoreA;
+  });
+
+  for (const node of itemNodes) {
+    const item = itemMap.get(node.id);
+    if (!item || typeof item.finalScore !== 'number') {
+      console.warn(`Missing score for node ${node.id}`, item);
+      continue;
+    }
+    node.setAttribute('data-score', item.finalScore.toFixed(4));
+    node.setAttribute('data-editorial-score', (item.editorialScore ?? 0).toFixed(4));
+    node.setAttribute('data-popularity-score', (item.popularityScore ?? 0).toFixed(4));
+    node.setAttribute('data-relevance-score', (item.relevanceScore ?? 0).toFixed(4));
+    node.setAttribute('data-read-minus-score', (item.readMinusScore ?? 0).toFixed(4));
+    node.setAttribute('data-unseen-bonus-score', (item.unSeenItemBonus ?? 0).toFixed(4));
+    node.setAttribute('data-genre-score', (GENRE_SCORE_MAP[item.genre] ?? 0).toFixed(2));
+  }
+
+  const newChildren = [];
+  let itemIndex = 0;
+
+  for (const node of nodes) {
+    if (node.classList?.contains('item-container') && itemMap.has(node.id)) {
+      newChildren.push(itemNodes[itemIndex++]);
+    } else {
+      newChildren.push(node);
+    }
+  }
+
+  if (document.startViewTransition) {
+    document.startViewTransition(() => {
+      list.replaceChildren(...newChildren);
+    });
+  } else {
+    list.replaceChildren(...newChildren);
+  }
 }
 
 
@@ -804,7 +888,6 @@ delegate.on('click', '.reorder-description a', function (event) {
       save: '儲存設定'
     }
   };
-
 
   const t = labels[langKey] || labels.zh;
 
@@ -893,19 +976,11 @@ delegate.on('click', '.reorder-description a', function (event) {
   container.appendChild(inner);
   wrapper.appendChild(container);
 
-  // const desc = document.querySelector('.reorder-description');
-  // if (desc) {
-  //   desc.parentNode.insertBefore(wrapper, desc.nextSibling);
-  // }
-
   const desc = this.closest('.reorder-description'); // scope to clicked banner
   if (desc) {
     desc.parentNode.insertBefore(wrapper, desc.nextSibling);
   }
-
 });
-
-
 
 
 delegate.on('click', '[data-action="reorderItems"]', function () {
@@ -953,6 +1028,7 @@ delegate.on('click', '[data-action="reorderItems"]', function () {
   (async () => {
     const preferredLanguage = window.preferredLanguage ?? 'zh-CN';
     const containers = document.querySelectorAll('.list-recommendation');
+
     for (const container of containers) {
       const json = container.dataset.recommendationItems;
       if (!json) {continue;} // not loaded yet
@@ -964,43 +1040,17 @@ delegate.on('click', '[data-action="reorderItems"]', function () {
       // Re-score with new weights and re-render
       let recalced = calculateScores(items).sort((a, b) => b.finalScore - a.finalScore).slice(0, 6);
 
-      // Rebuild HTML (same template you already use)
-      let html = '';
-      for (const item of recalced) {
-        const update = Math.round((item?.updateTimestamp ?? 0)/1000);
-        const type = item?.type ?? 'interactive';
-        const id = item?.id ?? '';
-        const cheadline = await convertChinese(item?.cheadline ?? '', preferredLanguage);
-        const clongleadbody = await convertChinese(item?.clongleadbody ?? '', preferredLanguage);
-        let lockClass = '';
-        if (item.tier === 'premium')      {lockClass = ' vip locked';}
-        else if (item.tier === 'standard') {lockClass = ' locked';}
-
-        let imageHTML = '';
-        let imageClass = 'no-image';
-
-        const mainImage = item.pictures?.main ?? '';
-        if (mainImage) {
-          imageHTML = `<a class="image" href="/${type}/${id}"><figure class="loading" data-url="${mainImage}"></figure></a>`;
-          imageClass = `has-image`;
-        }
-
-        html += `
-          <div class="item-container ${imageClass}" data-update="${update}">
-            <div class="item-inner">
-              ${imageHTML}
-              <div class="item-headline-lead">
-                <h2 class="item-headline">
-                  <a href="/${type}/${id}" class="item-headline-link${lockClass}">${cheadline}</a>
-                </h2>
-                <div class="item-lead">${clongleadbody}</div>
-              </div>
-            </div>
-          </div>`;
-      }
+      // ✅ Reuse the same template renderer to keep UI consistent
+      const html = await buildRecommendationHTML(recalced, preferredLanguage, false);
       container.innerHTML = html;
 
-      // Keep the cached items (optional): container.dataset.recommendationItems stays valid
+      // ✅ Optional: show explanation reasons (safe to remove)
+      appendRecommendationReasons(container, recalced, preferredLanguage);
+
+      runLoadImages();
+      if (typeof markReadContent === 'function') {
+        markReadContent(container);
+      }
     }
   })();
 
