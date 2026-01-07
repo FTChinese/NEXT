@@ -740,6 +740,51 @@
     <%/if%>
 
 
+    <%if date("Ymd",$smarty.now) <= 20260510%>
+    <script>
+    async function requestMemberEndpoint() {
+        // 1. Check if user has the legacy cookie (is logged in on old system)
+        const ft = (function(name) {
+            var v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+            return v ? v[2] : null;
+        })('ft');
+        
+        if (!ft) return; // Not logged in, exit
+
+        // 2. Optimization: Don't hammer the server if we checked recently (1 hour)
+        const accessTokenUpdateTime = (function(name) {
+            var v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+            return v ? v[2] : null;
+        })('accessTokenUpdateTime');
+
+        if (accessTokenUpdateTime) {
+            const timestamp = parseInt(accessTokenUpdateTime, 10);
+            if (!isNaN(timestamp)) {
+                const oneHourAgo = Date.now() - 60 * 60 * 1000;
+                // Note: Updated cutoff timestamp for the new migration window
+                const cutoffTimestamp = new Date('2024-10-01').getTime(); 
+                if (timestamp > cutoffTimestamp && timestamp > oneHourAgo) {
+                    return; 
+                }
+            }
+        }
+
+        // 3. The Bridge Call
+        try {
+            await fetch('/ftc_next_member.php', {
+                method: 'GET',
+                credentials: 'include', // Crucial: Sends the 'ft' cookie to the PHP script
+            });
+        } catch (error) {
+            // Silent fail is okay here; we will catch them on the next page load
+            console.error('Bridge connection failed', error);
+        }
+    }
+    // Run immediately
+    requestMemberEndpoint();
+    </script>
+    <%/if%>
+
 
 <%/if%>
 

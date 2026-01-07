@@ -670,9 +670,10 @@ function detectGenre(annotationsMain = '', subtype = '') {
   const tags = annotationsMain.split(',').map(t => t.trim());
   if (subtype === 'LiveBlogPackage') {return subtype;}
   if (tags.includes('News')) {return 'News';}
-  if (tags.includes('Feature') || tags.includes('Opinion')) {return 'Feature';}
+  if (tags.includes('Feature') || tags.includes('Opinion') || tags.includes('Deep dive')) {return 'Feature';}
   return 'Other';
 }
+
 
 function getDecayFactor(ageMs, halfLifeMs) {
   return Math.pow(0.5, ageMs / halfLifeMs);
