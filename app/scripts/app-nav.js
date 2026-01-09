@@ -1116,15 +1116,12 @@ function loadIframe(contentEl, urlString, options) {
 
   // ---- IMPORTANT: "load" handler fires on initial load + every full navigation/reload inside iframe ----
   const onIframeLoad = () => {
-    // This log is your “proof” that a real document load happened
-    console.log('[iframe] LOAD event fired (document reloaded). src=', iframe.src);
 
     // Same-origin niceties (will throw on cross-origin)
     try {
       const win = iframe.contentWindow;
       const doc = win && win.document;
       if (!doc || !doc.body) {
-        console.log('[iframe] LOAD: no doc/body available yet. src=', iframe.src);
         sizeNow('after load (no doc/body)');
         return;
       }
@@ -1153,8 +1150,6 @@ function loadIframe(contentEl, urlString, options) {
         if (!doc.body.style.paddingBottom) {
           doc.body.style.paddingBottom = '44px';
         }
-      } else {
-        // console.log('[iframe] LOAD: hideChrome disabled by opts');
       }
 
       if (opts.wireNav !== false) {

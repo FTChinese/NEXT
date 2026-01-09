@@ -344,6 +344,8 @@ function showCustomisation(list) {
 function appendRecommendationReasons(container, items = [], preferredLanguage = 'zh-CN') {
   if (!container || !Array.isArray(items) || items.length === 0) { return; }
 
+  console.log(`items: `, JSON.stringify(items, null, 2));
+
   const lang = (preferredLanguage || 'zh-CN').toLowerCase();
 
   // FT-style wording (editorial tone, avoid product ambiguity)
@@ -351,16 +353,20 @@ function appendRecommendationReasons(container, items = [], preferredLanguage = 
     zh: {
       editorial: '编辑推荐',
       popularity: '热门',
+      scoop: '独家',
     },
     'zh-hk': {
       editorial: '編輯推薦',
       popularity: '熱門',
+      scoop: '獨家',
     },
     'zh-tw': {
       editorial: '編輯推薦',
       popularity: '熱門',
+      scoop: '獨家',
     }
   };
+
 
   const t =
     lang.startsWith('zh-hk') ? TEXT['zh-hk'] :
@@ -385,7 +391,7 @@ function appendRecommendationReasons(container, items = [], preferredLanguage = 
     const reasons = [];
 
 
-    // ① Interest match: show tag only (but avoid duplicating the Theme tag)
+    // 1 Interest match: show tag only (but avoid duplicating the Theme tag)
     if (item.matchedKeys && item.matchedKeys.length > 0) {
       const matched = item.matchedKeys[0];
 
@@ -398,14 +404,19 @@ function appendRecommendationReasons(container, items = [], preferredLanguage = 
     }
 
 
-    // ② Editorial recommendation
+    // 2 Editorial recommendation
     if ((parseFloat(item.editorialScore) || 0) >= 0.7) {
       reasons.push(t.editorial);
     }
 
-    // ③ Popular / trending
+    // 3 Popular / trending
     if ((parseFloat(item.popularityScore) || 0) >= 0.7) {
       reasons.push(t.popularity);
+    }
+
+    // 4 scoop
+    if (item?.scoop === true) {
+      reasons.push(t.scoop);
     }
 
     // If there is no meaningful reason, show nothing
