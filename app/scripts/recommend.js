@@ -216,11 +216,34 @@ async function buildRecommendationHTML(items = [], preferredLanguage = 'zh-CN', 
       imageClass = `has-image`;
     }
 
-    const mainTag = item?.matchedKeys?.[0] ?? keywords?.split(',').map(x=>x.trim()).filter(x => x)?.[0];
+    // const mainTag = item?.matchedKeys?.[0] ?? keywords?.split(',').map(x=>x.trim()).filter(x => x)?.[0];
+    // let themeHTML = '';
+    // if (mainTag) {
+    //   themeHTML = `<div class="item-tag"><a href="/tag/${mainTag}">${mainTag}</a><button class="myft-follow plus" data-tag="${mainTag}" data-type="tag">关注</button></div>`;
+    // }
+
+    const mainTag = item?.matchedKeys?.[0] ?? keywords?.split(',').map(x => x.trim()).filter(x => x)?.[0];
+
     let themeHTML = '';
     if (mainTag) {
-      themeHTML = `<div class="item-tag"><a href="/tag/${mainTag}">${mainTag}</a><button class="myft-follow plus" data-tag="${mainTag}" data-type="tag">关注</button></div>`;
+      const isFollowed = followsSet?.has(mainTag);
+
+      // minimal i18n for the button label
+      const pl = (preferredLanguage || 'zh-CN').toLowerCase();
+      const followText =
+        pl.startsWith('zh-hk') ? (isFollowed ? '已關注' : '關注') :
+        pl.startsWith('zh-tw') ? (isFollowed ? '已關注' : '關注') :
+        (isFollowed ? '已关注' : '关注');
+
+      // class mapping to match existing UI style: plus / tick
+      const followClass = isFollowed ? 'tick' : 'plus';
+
+      themeHTML = `<div class="item-tag">
+        <a href="/tag/${mainTag}">${mainTag}</a>
+        <button class="myft-follow ${followClass}" data-tag="${mainTag}" data-type="tag">${followText}</button>
+      </div>`;
     }
+
 
     html += `<div class="item-container ${imageClass} item-container-app" data-id="${id}" data-type="${type}" data-sub-type="${subtype}" data-keywords="${keywords}" data-update="${update}" data-ft-id="${ftid}">
       <div class="item-inner">
@@ -361,10 +384,19 @@ function appendRecommendationReasons(container, items = [], preferredLanguage = 
 
     const reasons = [];
 
-    // ① Interest match: show tag only (editorial, no prefix)
+
+    // ① Interest match: show tag only (but avoid duplicating the Theme tag)
     if (item.matchedKeys && item.matchedKeys.length > 0) {
-      reasons.push(item.matchedKeys[0]);
+      const matched = item.matchedKeys[0];
+
+      // Theme tag text (if any)
+      const themeTagText = node.querySelector('.item-tag a')?.textContent?.trim() || '';
+
+      if (!themeTagText || themeTagText !== matched) {
+        reasons.push(matched);
+      }
     }
+
 
     // ② Editorial recommendation
     if ((parseFloat(item.editorialScore) || 0) >= 0.7) {

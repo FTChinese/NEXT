@@ -1071,6 +1071,8 @@ function computeIframeHeight(contentEl) {
   return Math.max(0, vh - headerH - bottomH - padT - padB);
 }
 
+
+
 function loadIframe(contentEl, urlString, options) {
   const opts = options || {};
   const iframe = document.createElement('iframe');
@@ -1079,34 +1081,107 @@ function loadIframe(contentEl, urlString, options) {
   iframe.style.width = '100%';
   iframe.style.display = 'block';
   iframe.style.border = 'none';
-  iframe.style.overflowY = 'auto';           // key: let iframe scroll itself
-  iframe.removeAttribute('scrolling');       // ensure not forced to "no"
+
+  // Let the iframe scroll itself
+  iframe.style.overflowY = 'auto';
+  iframe.removeAttribute('scrolling');
+
   iframe.setAttribute('allowtransparency', 'true');
   iframe.setAttribute('frameborder', '0');
 
   contentEl.innerHTML = '';
   contentEl.appendChild(iframe);
 
-  // size once + on viewport changes
-  const sizeNow = () => {
+  const sizeNow = (reason) => {
     try {
-      iframe.style.height = computeIframeHeight(contentEl) + 'px';
-    } catch (_) {}
+      const h = computeIframeHeight(contentEl);
+      iframe.style.height = h + 'px';
+      if (reason) {
+        console.log('[iframe] sizeNow:', reason, 'height=', h, 'src=', iframe.src);
+      }
+    } catch (e) {
+      if (reason) {
+        console.log('[iframe] sizeNow failed:', reason, 'src=', iframe.src, e);
+      }
+    }
   };
 
-  sizeNow();
-
-  // keep height in sync with viewport changes (keyboard, rotation, resize)
-  const onResize = () => sizeNow();
+  // Keep height in sync with viewport changes
+  const onResize = () => sizeNow('viewport change (resize/orientation/visualViewport)');
   window.addEventListener('resize', onResize);
   window.addEventListener('orientationchange', onResize);
   if (window.visualViewport && typeof window.visualViewport.addEventListener === 'function') {
     window.visualViewport.addEventListener('resize', onResize);
   }
 
-  // optional cleanup hook if you remove .app-detail-view dynamically
-  // (call this before removing the element)
+  // ---- IMPORTANT: "load" handler fires on initial load + every full navigation/reload inside iframe ----
+  const onIframeLoad = () => {
+    // This log is your “proof” that a real document load happened
+    console.log('[iframe] LOAD event fired (document reloaded). src=', iframe.src);
+
+    // Same-origin niceties (will throw on cross-origin)
+    try {
+      const win = iframe.contentWindow;
+      const doc = win && win.document;
+      if (!doc || !doc.body) {
+        console.log('[iframe] LOAD: no doc/body available yet. src=', iframe.src);
+        sizeNow('after load (no doc/body)');
+        return;
+      }
+
+      // Optional: show what URL the iframe actually ended up at (may differ due to redirects)
+      try {
+        console.log('[iframe] LOAD: same-origin href=', win.location.href);
+      } catch (_) {}
+
+      if (opts.hideChrome !== false) {
+        // IMPORTANT: we want this to run on EVERY reload.
+        // Your old code used a "iframe-cleaned" guard to avoid re-running;
+        // that prevents re-application on subsequent navigations.
+        // console.log('[iframe] LOAD: applying hideChrome');
+
+        const hideElements = doc.querySelectorAll('.header-container, .footer-container, .o-nav__placeholder');
+        let i = 0;
+        while (i < hideElements.length) {
+          hideElements[i].style.display = 'none';
+          i += 1;
+        }
+
+        // Marking is still useful as a debug signal, but we don't use it to skip future runs
+        doc.body.classList.add('iframe-cleaned');
+
+        if (!doc.body.style.paddingBottom) {
+          doc.body.style.paddingBottom = '44px';
+        }
+      } else {
+        // console.log('[iframe] LOAD: hideChrome disabled by opts');
+      }
+
+      if (opts.wireNav !== false) {
+        // console.log('[iframe] LOAD: wiring navigation');
+        tryWireIframeNavigation(iframe);
+      } else {
+        // console.log('[iframe] LOAD: wireNav disabled by opts');
+      }
+    } catch (e) {
+      // Cross-origin is the most common reason "onload code" seems to not run
+      console.log('[iframe] LOAD: cross-origin (cannot access iframe DOM). src=', iframe.src, e);
+    }
+
+    // After load, recalc (fonts/assets/chrome-hiding may change layout)
+    sizeNow('after load');
+  };
+
+  // Attach load handler (fires on initial load + every real navigation)
+  iframe.addEventListener('load', onIframeLoad);
+
+  // Size once immediately (before load finishes, useful for skeleton layout)
+  sizeNow('initial');
+
+  // Optional cleanup hook if you remove contentEl dynamically
+  // (call iframe.__cleanup() before removing the element)
   iframe.__cleanup = () => {
+    iframe.removeEventListener('load', onIframeLoad);
     window.removeEventListener('resize', onResize);
     window.removeEventListener('orientationchange', onResize);
     if (window.visualViewport && typeof window.visualViewport.removeEventListener === 'function') {
@@ -1114,101 +1189,9 @@ function loadIframe(contentEl, urlString, options) {
     }
   };
 
-  iframe.onload = function () {
-    // Same-origin niceties preserved
-    try {
-      const win = iframe.contentWindow;
-      const doc = win && win.document;
-      if (!doc) { return; }
-
-      if (opts.hideChrome !== false && !doc.body.classList.contains('iframe-cleaned')) {
-        const hideElements = doc.querySelectorAll('.header-container, .footer-container');
-        let i = 0;
-        while (i < hideElements.length) {
-          hideElements[i].style.display = 'none';
-          i += 1;
-        }
-        doc.body.classList.add('iframe-cleaned');
-        if (!doc.body.style.paddingBottom) {
-          doc.body.style.paddingBottom = '44px';
-        }
-      }
-
-      if (opts.wireNav !== false) {
-        tryWireIframeNavigation(iframe);
-      }
-    } catch (_) {
-      // cross-origin: fine
-    }
-
-    // after load, recalc (fonts/assets may change header height)
-    sizeNow();
-  };
+  return iframe; // handy if caller wants a reference
 }
 
-
-// function loadIframe(contentEl, urlString) {
-
-//   var iframe = document.createElement('iframe');
-//   iframe.src = urlString;
-//   iframe.style.width = '100%';
-//   iframe.style.border = 'none';
-//   iframe.style.overflow = 'hidden';
-//   iframe.style.display = 'block';
-//   iframe.setAttribute('scrolling', 'no');
-//   iframe.setAttribute('allowtransparency', 'true');
-//   iframe.setAttribute('frameborder', '0');
-//   contentEl.appendChild(iframe);
-
-//   function tidyUpIframe() {
-//     try {
-//       let win = iframe.contentWindow;
-//       let doc = win && win.document;
-//       if (!doc) { return; }
-
-//       // Hide chrome (once)
-//       if (!doc.body.classList.contains('iframe-cleaned')) {
-//         let hideElements = doc.querySelectorAll('.header-container, .footer-container');
-//         for (var i = 0; i < hideElements.length; i += 1) {
-//           hideElements[i].style.display = 'none';
-//         }
-//         doc.body.classList.add('iframe-cleaned');
-//         doc.body.style.paddingBottom = '44px';
-//       }
-
-//       // Defer measurement to next frame
-//       win.requestAnimationFrame(function () {
-//         try {
-//           var h = doc.documentElement.scrollHeight;
-//           iframe.style.height = String(h) + 'px';
-//         } catch (err1) {
-//           // swallow
-//         }
-//       });
-
-//       // Wire navigation interception (same-origin only)
-//       tryWireIframeNavigation(iframe);
-//     } catch (err) {
-//       // Cross-origin or timing issues — ignore silently (you said only same-origin is needed).
-//     }
-//   }
-
-//   iframe.onload = function () {
-//     tidyUpIframe();
-
-//     try {
-//       var win = iframe.contentWindow;
-//       var doc = win && win.document;
-//       if (doc) {
-//         var observer = new win.MutationObserver(tidyUpIframe);
-//         observer.observe(doc.body, { childList: true, subtree: true, attributes: true });
-//         win.addEventListener('resize', tidyUpIframe);
-//       }
-//     } catch (err) {
-//       // Ignore if observer cannot be attached.
-//     }
-//   };
-// }
 
 /**
  * Same-origin only: delegate clicks on <a href> inside the iframe
