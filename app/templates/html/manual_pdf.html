@@ -57,7 +57,6 @@
         }
         .cover-header {
             background-color: #479F8F;
-            background-image: url('https://d1sh1cgb4xvhl.cloudfront.net/unsafe/picture/4/000207154_piclink.jpg');
             background-size: cover;
             padding-bottom: 43.8%;
             position: relative;
@@ -224,7 +223,7 @@
         <%foreach from=$p.sections item=section%>
             <%if $section.type == "MainMessage"%>
                 <div class="cover-page">
-                    <div class="cover-header">
+                    <div class="cover-header" style="background-image: url('<%$section.BackgroundImage%>');">
                         <h1 class="page-title"><%$section.title%></h1>
                         <h1 class="page-title hide"><%$section.content%></h1>
                         <div class="publish-date"><%$smarty.now|date_format:"%Y年%m月%d日"%></div>
