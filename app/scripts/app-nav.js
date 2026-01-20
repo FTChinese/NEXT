@@ -1035,6 +1035,63 @@ async function handleSeamlessFrame(data) {
   }
 }
 
+function isSpeedreadSubType(value) {
+  if (!value || typeof value !== 'string') { return false; }
+  const v = value.toLowerCase();
+  return v.includes('speedread') || v.includes('speedreading') || v.includes('速读');
+}
+
+function openSpeedreadIframe(data = {}) {
+  try {
+    const id = data?.id ?? '';
+    if (!id) { return; }
+    const title = data?.title ?? '';
+    let appDetailEle = data?.appDetailEle;
+
+    if (!appDetailEle) {
+      appDetailEle = document.createElement('div');
+      appDetailEle.className = 'app-detail-view';
+      appDetailEle.innerHTML = `
+        <div class="app-detail-navigation">
+          <div class="app-detail-back"></div>
+          <div class="app-detail-title">${title}</div>
+          <div class="app-detail-share"></div>
+        </div>
+        <div class="app-detail-content api-detail-content-page"></div>
+      `;
+      const stackDepth = document.querySelectorAll('.app-detail-view').length;
+      appDetailEle.style.zIndex = String(2 + stackDepth);
+      document.body.appendChild(appDetailEle);
+      void appDetailEle.offsetHeight;
+      appDetailEle.classList.add('on');
+    } else {
+      const nav = appDetailEle.querySelector('.app-detail-navigation');
+      const titleEl = appDetailEle.querySelector('.app-detail-title');
+      const bottom = appDetailEle.querySelector('.app-detail-bottom');
+      if (bottom) {
+        bottom.remove();
+      }
+      if (!titleEl && nav) {
+        nav.innerHTML = `
+          <div class="app-detail-back"></div>
+          <div class="app-detail-title">${title}</div>
+          <div class="app-detail-share"></div>
+        `;
+      } else if (titleEl && title) {
+        titleEl.textContent = title;
+      }
+    }
+
+    pushHistory('interactive', id);
+    const urlString = `/interactive/${id}?webview=ftcapp&hideheader=yes&source=webapp`;
+    const contentEl = appDetailEle.querySelector('.app-detail-content');
+    if (!contentEl) { return; }
+    loadIframe(contentEl, urlString);
+  } catch (err) {
+    console.error('open speedread iframe error:', err);
+  }
+}
+
 
 // --- helper: safe viewport height (handles iOS toolbars better) ---
 function getViewportHeight() {
@@ -1295,8 +1352,13 @@ async function handleContentData(data) {
   let appDetailEle;
 
   try {
-    const {id = '', type} = data;
+    const {id = '', type, subType = ''} = data;
     if (!type || !id) {return;}
+
+    if (isSpeedreadSubType(subType)) {
+      openSpeedreadIframe({ id });
+      return;
+    }
 
     // Create a fresh detail-view layer and append to body (stackable)
     appDetailEle = document.createElement('div');
@@ -1340,6 +1402,11 @@ async function handleContentData(data) {
     }
     // Get the raw text of the response
     const info = await response.json();
+    if (isSpeedreadSubType(info?.subtype) || isSpeedreadSubType(info?.subType)) {
+      setDetailLoading(appDetailEle, false);
+      openSpeedreadIframe({ id, title: info?.cheadline || info?.eheadline || '', appDetailEle });
+      return;
+    }
     await renderContentPage(info, appDetailEle);
   } catch (err) {
     console.error('handle content data error:', err);
@@ -1634,8 +1701,14 @@ delegate.on('click', '.item-container-app', async function (event) {
         this.classList.add('visited');
         const id = this.getAttribute('data-id');
         const type = this.getAttribute('data-type');
+        const subType = this.getAttribute('data-sub-type') || '';
+        const title = (this.querySelector('.item-headline-link')?.innerText ?? '').trim();
         // const subtype = this.getAttribute('data-sub-type');
-        await handleContentData({id, type});
+        if (isSpeedreadSubType(subType)) {
+            openSpeedreadIframe({ id, title });
+            return;
+        }
+        await handleContentData({id, type, subType});
     } catch(err) {
         console.error(`render story error:`, err);
     }
