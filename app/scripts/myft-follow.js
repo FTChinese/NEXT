@@ -83,7 +83,9 @@ try {
 
 function shouldPromptWebPush() {
     try {
-        if (typeof isStandalone !== 'function' || !isStandalone()) {
+        const standalone = (typeof isStandalone === 'function') ? isStandalone() : false;
+        const appShell = isAppShellContext();
+        if (!standalone && !appShell) {
             return false;
         }
         if (!('PushManager' in window)) {
@@ -99,7 +101,33 @@ function shouldPromptWebPush() {
         if (nextAt && Date.now() < nextAt) {
             return false;
         }
-        return typeof toggleWebPush === 'function';
+        if (typeof toggleWebPush !== 'function') {
+            return false;
+        }
+        return true;
+    } catch (err) {
+        return false;
+    }
+}
+
+function isAppShellContext() {
+    try {
+        const path = window?.location?.pathname || '';
+        if (/\/app\.html$/i.test(path) || /\/app\//i.test(path)) {
+            return true;
+        }
+        const href = window?.location?.href || '';
+        if (/webview=ftcapp/i.test(href)) {
+            return true;
+        }
+        if (typeof document !== 'undefined') {
+            if (document.querySelector('.app-root-view') ||
+                document.getElementById('app-main-content') ||
+                document.getElementById('app-nav')) {
+                return true;
+            }
+        }
+        return false;
     } catch (ignore) {
         return false;
     }
@@ -117,6 +145,18 @@ function markWebPushPromptAccepted() {
     } catch (ignore) {}
 }
 
+function updateWebPushToggleUI(isOn) {
+    const toggle = document.querySelector('.settings-toggle-input[data-type="toggle_web_push"]');
+    if (!toggle) {
+        return;
+    }
+    const parent = toggle.closest('.settings-toggle');
+    toggle.checked = Boolean(isOn);
+    if (parent) {
+        parent.setAttribute('data-state', isOn ? 'on' : 'off');
+    }
+}
+
 function maybePromptWebPush() {
     if (!shouldPromptWebPush()) {
         return;
@@ -128,6 +168,7 @@ function maybePromptWebPush() {
     }
     markWebPushPromptAccepted();
     try {
+        updateWebPushToggleUI(true);
         toggleWebPush();
     } catch (ignore) {}
 }
