@@ -2,6 +2,9 @@
 const key = 'my-ft-follow';
 const keyForLocal = 'my-ft-follow-ftc';
 const last_sync_time_key = 'last_sync_time';
+const webPushPromptCooldownKey = 'ftc:webpushPromptNextAt';
+const webPushPromptAcceptedKey = 'ftc:webpushPromptAccepted';
+const webPushPromptCooldownMs = 30 * 24 * 60 * 60 * 1000;
 
 // follow and unfollow topic
 
@@ -49,6 +52,7 @@ try {
             this.classList.remove('plus');
             this.classList.add('tick');
             this.innerHTML = '已关注';
+            maybePromptWebPush();
         }
 
         // Send follow/unfollow request to the server in the background
@@ -76,6 +80,57 @@ try {
     });
 
 } catch (ignore) {}
+
+function shouldPromptWebPush() {
+    try {
+        if (typeof isStandalone !== 'function' || !isStandalone()) {
+            return false;
+        }
+        if (!('PushManager' in window)) {
+            return false;
+        }
+        if (typeof Notification !== 'undefined' && Notification.permission === 'denied') {
+            return false;
+        }
+        if (localStorage.getItem(webPushPromptAcceptedKey) === '1') {
+            return false;
+        }
+        const nextAt = parseInt(localStorage.getItem(webPushPromptCooldownKey) || '0', 10);
+        if (nextAt && Date.now() < nextAt) {
+            return false;
+        }
+        return typeof toggleWebPush === 'function';
+    } catch (ignore) {
+        return false;
+    }
+}
+
+function deferWebPushPrompt() {
+    try {
+        localStorage.setItem(webPushPromptCooldownKey, String(Date.now() + webPushPromptCooldownMs));
+    } catch (ignore) {}
+}
+
+function markWebPushPromptAccepted() {
+    try {
+        localStorage.setItem(webPushPromptAcceptedKey, '1');
+    } catch (ignore) {}
+}
+
+function maybePromptWebPush() {
+    if (!shouldPromptWebPush()) {
+        return;
+    }
+    const ok = confirm('是否开启通知，接收你关注内容的更新？');
+    if (!ok) {
+        deferWebPushPrompt();
+        return;
+    }
+    markWebPushPromptAccepted();
+    try {
+        toggleWebPush();
+    } catch (ignore) {}
+}
 
 function hasLoggedIn() {
     return typeof GetCookie('subscription_type') === 'string';
