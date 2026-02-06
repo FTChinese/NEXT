@@ -74,6 +74,109 @@ function handleLinks() {
     } catch(ignore){}
 }
 
+function getHashParam(param) {
+    var hash = window.location.hash || '';
+    if (hash.charAt(0) === '#') {
+        hash = hash.slice(1);
+    }
+    if (!hash) {return '';}
+    var parts = hash.split('&');
+    for (var i = 0; i < parts.length; i++) {
+        var kv = parts[i].split('=');
+        if (kv[0] === param) {
+            return decodeURIComponent(kv[1] || '');
+        }
+    }
+    return '';
+}
+
+function initHsbcSelectCopyButton() {
+    try {
+        var marker = getHashParam('marker');
+        if (marker !== 'hsbcselect') {return;}
+
+        var styleId = 'hsbcselect-copy-style';
+        if (!document.getElementById(styleId)) {
+            var style = document.createElement('style');
+            style.id = styleId;
+            style.textContent = `
+            .copy-buttons {
+                width: 100%;
+                height: 80px;
+                position: fixed;
+                bottom: 0;
+                background-color: rgba(0, 0, 0, 0.7);
+                display: table;
+                z-index: 1;
+            }
+            .copy-buttons-inner {
+                display: table-cell;
+                text-align: center;
+                vertical-align: middle;
+            }
+            .copy-button {
+                height: 60px;
+                font-size: 20px;
+                background-color: #0a5e66;
+                color: white;
+                margin: auto;
+                padding: 0 15px;
+            }
+            .copy-button:hover, .copy-button:active {
+                background-color: #0a5e66;
+                color: white;
+            }
+            .none-ft-image {
+                display: none;
+            }
+            `;
+            document.head.appendChild(style);
+        }
+
+        var copyText = function(ele) {
+            var headlineEle = document.querySelector('.story-headline');
+            var bodyEle = document.getElementById('story-body-container');
+            var headline = headlineEle ? headlineEle.innerText : '';
+            var body = bodyEle ? bodyEle.innerText : '';
+            if (body) {
+                body = body.split(/\r?\n/).filter(function(line) {
+                    return line.trim() !== '广告';
+                }).join('\n');
+            }
+            var all = headline + '\n\n' + body;
+            try {
+                navigator.clipboard.writeText(all);
+            } catch(err) {
+                alert('文章无法复制到您的剪贴板，最为可能的原因是因为您的浏览器不支持。推荐使用chrome的最新版本。如有进一步的问题，请截屏和FT中文网的销售代表联系：' + err.toString());
+            }
+            var oldButtonText = ele.innerHTML;
+            ele.innerHTML = '复制成功';
+            setTimeout(function(){
+                ele.innerHTML = oldButtonText;
+            }, 3000);
+        };
+
+        var drawButton = function() {
+            var existingButtons = document.querySelector('.copy-buttons');
+            if (existingButtons && existingButtons.parentElement) {
+                existingButtons.parentElement.removeChild(existingButtons);
+            }
+            var copyButtons = document.createElement('div');
+            copyButtons.className = 'copy-buttons';
+            copyButtons.innerHTML = '<div class="copy-buttons-inner"><button class="copy-button" id="copy-button">复制全文</button></div>';
+            document.body.appendChild(copyButtons);
+            var copyButton = document.getElementById('copy-button');
+            if (copyButton) {
+                copyButton.onclick = function() {
+                    copyText(this);
+                };
+            }
+        };
+
+        drawButton();
+    } catch (ignore) {}
+}
+
 async function checkSavedContent() {
     const accessTokenUpdateTime = GetCookie('accessTokenUpdateTime');
     
@@ -124,6 +227,7 @@ async function checkSavedContent() {
 
 try {
     handleLinks();
+    initHsbcSelectCopyButton();
     checkFontSize();
     changeFontSize();
     checkSavedContent();

@@ -521,8 +521,33 @@ const appTypeMap = {
 
 const publicVapidKey = 'BCbyPnt30RUDSelV6n1jJk8jHzR9cT7ajJPXLRq7tohhQ8D6TVb1h3ENUOJGdPxJgbbg8zPaDNJzOXIUfkWk67M';
 var registration;
+const lastChannelIndexKey = 'ftc:app:lastChannelIndex';
 
 window.preferredLanguage = navigator.language;
+
+function getLastChannelIndex(section, maxLen) {
+  try {
+    if (!section || maxLen === 0) { return null; }
+    const raw = localStorage.getItem(lastChannelIndexKey);
+    if (!raw) { return null; }
+    const map = JSON.parse(raw) || {};
+    const idx = parseInt(map[section], 10);
+    if (Number.isFinite(idx) && idx >= 0 && idx < maxLen) {
+      return idx;
+    }
+  } catch (ignore) {}
+  return null;
+}
+
+function setLastChannelIndex(section, index) {
+  try {
+    if (!section || !Number.isFinite(index)) { return; }
+    const raw = localStorage.getItem(lastChannelIndexKey);
+    const map = raw ? (JSON.parse(raw) || {}) : {};
+    map[section] = index;
+    localStorage.setItem(lastChannelIndexKey, JSON.stringify(map));
+  } catch (ignore) {}
+}
 
 async function renderSection(name) {
     try {
@@ -531,12 +556,17 @@ async function renderSection(name) {
         let navHTML = '';
         for (let [index, channel] of channels.entries()) {
             channel.index = index;
+            channel.section = name;
             const title = channel?.title;
             if (!title) {continue;}
             navHTML += `<div class="app-channel" data-index=${index} data-section="${name}">${title}</div>`;
         }
         document.getElementById('app-nav').innerHTML = navHTML;
-        await renderChannel(channels?.[0]);
+        let targetIndex = getLastChannelIndex(name, channels.length);
+        if (targetIndex === null) {
+          targetIndex = 0;
+        }
+        await renderChannel(channels?.[targetIndex]);
     } catch(err) {
         console.error(`render section error:`, err);
     }
@@ -687,6 +717,11 @@ async function renderChannel(channel) {
 
         pushHistory('channel', channel);
         const index = channel?.index ?? 0;
+        const sectionName = channel?.section ||
+          document.querySelector('.app-bottom > div:not(.dim)')?.getAttribute('data-section');
+        if (sectionName && Number.isFinite(index)) {
+          setLastChannelIndex(sectionName, index);
+        }
         // const title = channel?.title ?? '';
         // console.log(`render ${index}: ${title}`);
         const navDoms = document.querySelectorAll('.app-nav div');
@@ -1058,6 +1093,7 @@ function openSpeedreadIframe(data = {}) {
           <div class="app-detail-share"></div>
         </div>
         <div class="app-detail-content api-detail-content-page"></div>
+        <div class="app-detail-bottom"></div>
       `;
       const stackDepth = document.querySelectorAll('.app-detail-view').length;
       appDetailEle.style.zIndex = String(2 + stackDepth);
@@ -1067,10 +1103,6 @@ function openSpeedreadIframe(data = {}) {
     } else {
       const nav = appDetailEle.querySelector('.app-detail-navigation');
       const titleEl = appDetailEle.querySelector('.app-detail-title');
-      const bottom = appDetailEle.querySelector('.app-detail-bottom');
-      if (bottom) {
-        bottom.remove();
-      }
       if (!titleEl && nav) {
         nav.innerHTML = `
           <div class="app-detail-back"></div>
@@ -1083,6 +1115,30 @@ function openSpeedreadIframe(data = {}) {
     }
 
     pushHistory('interactive', id);
+    if (appDetailEle && !appDetailEle.hasAttribute('data-detail-root')) {
+      appDetailEle.setAttribute('data-detail-root', '1');
+    }
+    try {
+      if (typeof detailViewState !== 'undefined' && detailViewState?.set) {
+        detailViewState.set(appDetailEle, { info: { id, type: 'interactive', item_type: 'interactive', cheadline: title } });
+      }
+    } catch (ignore) {}
+    if (typeof renderDetailBottomBar === 'function') {
+      renderDetailBottomBar(appDetailEle);
+    }
+    try {
+      const saveBtn = appDetailEle.querySelector('.app-detail-bottom [data-action="save"]');
+      if (saveBtn) {
+        saveBtn.setAttribute('data-item-id', id);
+        saveBtn.setAttribute('data-item-type', 'interactive');
+        saveBtn.classList.add('save_content_button');
+        saveBtn.setAttribute('aria-pressed', 'false');
+        saveBtn.setAttribute('aria-label', 'Save content');
+        if (typeof syncSaveButtonState === 'function') {
+          syncSaveButtonState(saveBtn);
+        }
+      }
+    } catch (ignore) {}
     const urlString = `/interactive/${id}?webview=ftcapp&hideheader=yes&source=webapp`;
     const contentEl = appDetailEle.querySelector('.app-detail-content');
     if (!contentEl) { return; }
@@ -1109,20 +1165,39 @@ function computeIframeHeight(contentEl) {
   const overlay = contentEl.closest('.app-detail-view');
   const header = overlay ? overlay.querySelector('.app-detail-navigation') : null;
   const bottomBar = document.getElementById('app-bottom'); // your global bottom bar
-
-  const vh = getViewportHeight();
+  const overlayBottom = overlay ? overlay.querySelector('.app-detail-bottom') : null;
 
   const headerH = header ? Math.ceil(header.getBoundingClientRect().height) : 0;
-  // only subtract bottom bar if it’s rendered/visible
-  const bottomH = (bottomBar && bottomBar.offsetParent !== null) ?
-    Math.ceil(bottomBar.getBoundingClientRect().height) :
-    0;
-
 
   // Optional container paddings (kept minimal/safe)
   const cs = getComputedStyle(contentEl);
   const padT = parseInt(cs.paddingTop, 10) || 0;
   const padB = parseInt(cs.paddingBottom, 10) || 0;
+
+  if (overlayBottom) {
+    try {
+      if (contentEl && typeof contentEl.getBoundingClientRect === 'function') {
+        const rect = contentEl.getBoundingClientRect();
+        const directHeight = Math.floor(rect.height || 0);
+        if (directHeight > 0) {
+          return directHeight;
+        }
+      }
+    } catch (_) {}
+  }
+
+  if (overlay && typeof overlay.getBoundingClientRect === 'function') {
+    const overlayH = Math.floor(overlay.getBoundingClientRect().height || 0);
+    if (overlayH > 0) {
+      return Math.max(0, overlayH - headerH - padT - padB);
+    }
+  }
+
+  const vh = getViewportHeight();
+  // only subtract bottom bar if it’s rendered/visible (non-overlay fallback)
+  const bottomH = (bottomBar && bottomBar.offsetParent !== null) ?
+    Math.ceil(bottomBar.getBoundingClientRect().height) :
+    0;
 
   // Guard against negatives
   return Math.max(0, vh - headerH - bottomH - padT - padB);

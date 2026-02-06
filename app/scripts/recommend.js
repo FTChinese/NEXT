@@ -237,10 +237,11 @@ async function buildRecommendationHTML(items = [], preferredLanguage = 'zh-CN', 
 
       // class mapping to match existing UI style: plus / tick
       const followClass = isFollowed ? 'tick' : 'plus';
+      const preferenceAttrs = getFollowPreferenceAttrs(item, mainTag, preferredLanguage);
 
       themeHTML = `<div class="item-tag">
         <a href="/tag/${mainTag}">${mainTag}</a>
-        <button class="myft-follow ${followClass}" data-tag="${mainTag}" data-type="tag">${followText}</button>
+        <button class="myft-follow ${followClass}" data-tag="${mainTag}" data-type="tag"${preferenceAttrs}>${followText}</button>
       </div>`;
     }
 
@@ -260,6 +261,81 @@ async function buildRecommendationHTML(items = [], preferredLanguage = 'zh-CN', 
     </div>`;
   }
   return html;
+}
+
+function getFollowPreferenceAttrs(item, mainTag, preferredLanguage = 'zh-CN') {
+  const annotation = findAnnotationForTag(item, mainTag);
+  if (!annotation || !annotation.prefLabel) {return '';}
+
+  const key = annotation.prefLabel;
+  const field = annotation.field || mapAnnotationField(annotation);
+  if (!field) {return '';}
+
+  let display = annotation.display || annotation.translation || '';
+  if (!display) {
+    display = mainTag || key;
+  }
+  const lang = (preferredLanguage || '').toLowerCase();
+  if (lang.startsWith('en')) {
+    display = key;
+  }
+
+  return ` data-key="${key}" data-field="${field}" data-display="${display}"`;
+}
+
+function findAnnotationForTag(item, mainTag) {
+  if (!item || !mainTag) {return null;}
+  const annotations = Array.isArray(item.annotations) ? item.annotations : [];
+  if (annotations.length === 0) {return null;}
+
+  const normalizedTag = normalizeAnnotationValue(mainTag);
+  const normalizedTagUpper = normalizedTag.toUpperCase();
+  let displayMatch = null;
+  let prefMatch = null;
+
+  for (const annotation of annotations) {
+    const prefLabel = annotation?.prefLabel || '';
+    if (!prefLabel) {continue;}
+    const display = annotation.display || annotation.translation || '';
+    const normalizedDisplay = normalizeAnnotationValue(display);
+    if (normalizedDisplay && normalizedDisplay === normalizedTag) {
+      if (/hasDisplayTag/i.test(annotation.predicate || '')) {
+        return annotation;
+      }
+      displayMatch = displayMatch || annotation;
+    }
+    if (prefLabel.toUpperCase() === normalizedTagUpper) {
+      prefMatch = prefMatch || annotation;
+    }
+  }
+
+  return displayMatch || prefMatch;
+}
+
+function normalizeAnnotationValue(value) {
+  if (!value || typeof value !== 'string') {return '';}
+  let result = value;
+  try {
+    if (value.includes('%')) {
+      result = decodeURIComponent(value);
+    }
+  } catch (err) {}
+  return result.trim();
+}
+
+function mapAnnotationField(annotation) {
+  const rawType = (annotation?.type || '').toString().trim();
+  if (!rawType) {return '';}
+  const type = rawType.toUpperCase();
+  if (type === 'GENRE') {return 'genres';}
+  if (type === 'LOCATION') {return 'regions';}
+  if (type === 'ORGANISATION' || type === 'ORGANIZATION') {return 'organisations';}
+  if (type === 'PERSON') {
+    return /hasAuthor/i.test(annotation.predicate || '') ? 'byline' : 'topics';
+  }
+  if (type === 'TOPIC') {return 'topics';}
+  if (type === 'BRAND') {return 'brand';}
+  return '';
 }
 
 async function renderRecommendationForWebAppHome(targetDom) {
