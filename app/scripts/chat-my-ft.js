@@ -1,11 +1,10 @@
-/* jshint ignore:start */
 const delegate = new Delegate(document.body);
 
 const myInterestsKey = 'My Interests';
 const myCustomInterestsKey = 'My Custom Interests';
 const interestsInfos = [
     {id: myCustomInterestsKey, action: 'remove-custom-interest'},
-    {id: keyForMyInterests, action: 'add-interest'}
+    {id: myInterestsKey, action: 'add-interest'}
 ];
 const populars = ['China', 'Companies', 'Markets', 'Opinion', 'VIDEOS', 'PODCASTS', 'Life & Arts', 'Work & Careers', 'Artificial intelligence', 'Electric vehicles', 'Technology Sector'];
 
@@ -209,7 +208,7 @@ function getMyFollowsHTML() {
     if (my.Language && typeof my.Language === 'string' && my.Language !== '') {
         preferredLanguage = my['Language'] || navigator.language || 'zh-CN';
     }
-    const follows = (my[keyForMyInterests] || []).filter(x => typeof x === 'object');
+    const follows = (my[myInterestsKey] || []).filter(x => typeof x === 'object');
 
     let allIndex = 0;
     const reorderButton = `<button class="reorder-button"></button>`;
@@ -272,7 +271,7 @@ function checkType(key) {
 function createHTMLFromNames(names) {
 
     const myPreference = getMyPreference();
-    const myInterests = (myPreference[keyForMyInterests] || []).filter(x=>typeof x === 'object');
+    const myInterests = (myPreference[myInterestsKey] || []).filter(x=>typeof x === 'object');
     const myInterestsKeys = myInterests.map(x=>x.key || '').filter(x=>x!=='');
     return names
         .map(name=>{
@@ -298,7 +297,7 @@ function getAnnotaionsInfo(content, language) {
     // ['http://www.ft.com/ontology/annotation/about', 'http://www.ft.com/ontology/annotation/mentions', 'http://www.ft.com/ontology/implicitlyClassifiedBy', 'http://www.ft.com/ontology/classification/isClassifiedBy', 'http://www.ft.com/ontology/implicitlyAbout', 'http://www.ft.com/ontology/annotation/hasAuthor', 'http://www.ft.com/ontology/hasDisplayTag']
     const usefulPredicates = new Set(['http://www.ft.com/ontology/annotation/about', 'http://www.ft.com/ontology/classification/isClassifiedBy', 'http://www.ft.com/ontology/annotation/hasAuthor', 'http://www.ft.com/ontology/hasDisplayTag']);
     const myPreference = getMyPreference();
-    const myInterests = (myPreference[keyForMyInterests] || []).filter(x=>typeof x === 'object');
+    const myInterests = (myPreference[myInterestsKey] || []).filter(x=>typeof x === 'object');
     const myInterestsKeys = myInterests.map(x=>x.key || '').filter(x=>x!=='');
     const annotations = content.annotations;
     if (!annotations || annotations.length === '') {
@@ -554,7 +553,7 @@ function renderSuggestion(ele, suggestions) {
     }
     showEle(ele);
     const myPreference = getMyPreference();
-    const myInterests = (myPreference[keyForMyInterests] || []).filter(x=>typeof x === 'object');
+    const myInterests = (myPreference[myInterestsKey] || []).filter(x=>typeof x === 'object');
     const myInterestsKeys = myInterests.map(x=>x.key || '').filter(x=>x!=='');
     const suggestionsHTML = suggestions
         .map(suggestion=>{
@@ -588,7 +587,7 @@ function followAnnotation(name, instruction = 'toggle') {
 
     if (!name) {return;}
     let myPreference = getMyPreference();
-    let myInterests = (myPreference[keyForMyInterests] || []).filter(x=>typeof x === 'object');
+    let myInterests = (myPreference[myInterestsKey] || []).filter(x=>typeof x === 'object');
     let myInterestsKeys = myInterests.map(x=>x.key || '').filter(x=>x !== '');
 
     // MARK: - There might be duplicated buttons with the same names
@@ -618,7 +617,7 @@ function followAnnotation(name, instruction = 'toggle') {
             button.classList.remove('tick');
         }
     }
-    myPreference[keyForMyInterests] = myInterests;
+    myPreference[myInterestsKey] = myInterests;
     savePreference(myPreference);
     updateAnnotationsContainer(myPreference);
 
@@ -743,7 +742,7 @@ function renderShowIntention(ele, intentions) {
     }
     showEle(ele);
     const myPreference = getMyPreference();
-    const myInterests = (myPreference[keyForMyInterests] || []).filter(x=>typeof x === 'object');
+    const myInterests = (myPreference[myInterestsKey] || []).filter(x=>typeof x === 'object');
     const myInterestsKeys = myInterests.map(x=>x.key || '').filter(x=>x!=='');
     
     // console.log('intentions: ');
@@ -918,7 +917,7 @@ function updateMyPreferenceFromDragging(ele) {
         index += 1;
     }
 
-    const keys = [myCustomInterestsKey, keyForMyInterests];
+    const keys = [myCustomInterestsKey, myInterestsKey];
     for (const key of keys) {
         if (myPreference[key] && typeof myPreference[key] === 'object' && myPreference[key].length > 0) {  // Check if the key exists in the myPreference object
             for (const item of myPreference[key]) {
@@ -1308,4 +1307,3 @@ delegate.on('click', '.setting-next', async (event) => {
     await renderNextSettingInfo(name);
 });
 
-/* jshint ignore:end */
