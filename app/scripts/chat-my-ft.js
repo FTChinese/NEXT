@@ -1,3 +1,4 @@
+/* exported populars, clearAllPreferences, getAnnotaionsInfo, isItemFollowed, getHighScoreIdsFromVectorDB, shouldShowInduction, showInduction */
 const delegate = new Delegate(document.body);
 
 const myInterestsKey = 'My Interests';
@@ -31,7 +32,124 @@ window.recommendedAnnotations = [
     {title: 'Authors', data: authors},
 ];
 
-window.recommendedAnnotationsByIndustry = [{"title":"Accountancy & tax advisory","data":["Accountancy","International tax","Tax evasion and avoidance","Financial & markets regulation","Mergers & Acquisitions"]},{"title":"Aerospace & defence","data":["Aircraft manufacturing","Drones","Terrorism","Virtual and Augmented Reality","Space industry"]},{"title":"Automobiles","data":["Electric vehicles","Hydrogen vehicles","Driverless vehicles","Batteries","Artificial intelligence"]},{"title":"Banking","data":["Investment Banking","Fintech","Central banks","Financial & markets regulation","Mergers & Acquisitions"]},{"title":"Basic resources/Mining","data":["Industrial metals","Renewable energy","Oil","Shale Oil & Gas","Coal"]},{"title":"Chemicals","data":["Chemicals","Renewable energy","Dow Chemical Co","Batteries","Shale Oil & Gas"]},{"title":"Comms/Publishing/Media","data":["Digital Media","Social Media","Advertising","Lunch with the FT","Luxury goods"]},{"title":"Consulting/Business services","data":["Management consulting","Innovation","Corporate culture","Managing yourself","Women in business"]},{"title":"Education/Academia","data":["Work & Careers","Education","Business education","Online learning","Economics books"]},{"title":"Energy/Utilities","data":["Batteries","Renewable energy","Shale Oil & Gas","Nuclear energy","Climate change"]},{"title":"Engineering/Construction","data":["Infrastructure investment","Urban planning","Renewable energy","Architecture","UK housebuilding"]},{"title":"Financial services","data":["Fintech","Hedge funds","Private equity","Investment Banking"]},{"title":"Food & beverages","data":["Food Prices","Food diet","Beer and spirits","Agricultural production","Ecommerce"]},{"title":"Fund/Asset management","data":["Hedge funds","Private equity","Investment Banking","Emerging market investing"]},{"title":"Govt/Public service/NGOs","data":["Geopolitics","Populism","Globalisation","United Nations","Political books"]},{"title":"Health & pharmaceuticals","data":["Digital health","Drugs research","Drug prices","Medical science","Disease control and prevention"]},{"title":"Industrial goods & services","data":["Industrials","Industrial goods","Global economic growth","US economy","Eurozone economy"]},{"title":"Insurance","data":["Cyber Security","Fintech","Pensions crisis","Personal Insurance"]},{"title":"IT/Computing","data":["Artificial intelligence","Virtual and Augmented Reality","Science","Blockchain","Fintech"]},{"title":"IT/Tech/Telecoms","data":["Cyber Security","Internet of things","Artificial intelligence","Social Media","Fintech"]},{"title":"Legal services","data":["Law","Innovation","Financial & markets regulation","Corporate governance","Data protection"]},{"title":"Oil/Gas/Mining","data":["Oil","Natural gas","Mining","Renewable energy","Batteries"]},{"title":"Personal & household goods","data":["Consumer trends","Digital Media","Ecommerce","Luxury goods","UK retail sales"]},{"title":"Property","data":["Commercial property","Residential property","Global property","Property funds","Property"]},{"title":"Retail","data":["Consumer trends","Ecommerce","Digital Media","Wearable technology","Luxury goods"]},{"title":"Telecommunications","data":["Internet of things","Virtual and Augmented Reality","Mobile devices","Ecommerce","Cyber Security"]},{"title":"Trade/Import/Export","data":["Global trade","FT Commodities Global Summit","Artificial intelligence","Climate change"]},{"title":"Transport/Logistics","data":["Global trade","Globalisation","Electric vehicles","Container shipping"]},{"title":"Travel & Leisure","data":["Travel & leisure industry","Work-life balance","Lunch with the FT","Luxury goods"]}];
+window.recommendedAnnotationsByIndustry = [
+    {
+        title: 'Accountancy & tax advisory',
+        data: ['Accountancy', 'International tax', 'Tax evasion and avoidance', 'Financial & markets regulation', 'Mergers & Acquisitions']
+    },
+    {
+        title: 'Aerospace & defence',
+        data: ['Aircraft manufacturing', 'Drones', 'Terrorism', 'Virtual and Augmented Reality', 'Space industry']
+    },
+    {
+        title: 'Automobiles',
+        data: ['Electric vehicles', 'Hydrogen vehicles', 'Driverless vehicles', 'Batteries', 'Artificial intelligence']
+    },
+    {
+        title: 'Banking',
+        data: ['Investment Banking', 'Fintech', 'Central banks', 'Financial & markets regulation', 'Mergers & Acquisitions']
+    },
+    {
+        title: 'Basic resources/Mining',
+        data: ['Industrial metals', 'Renewable energy', 'Oil', 'Shale Oil & Gas', 'Coal']
+    },
+    {
+        title: 'Chemicals',
+        data: ['Chemicals', 'Renewable energy', 'Dow Chemical Co', 'Batteries', 'Shale Oil & Gas']
+    },
+    {
+        title: 'Comms/Publishing/Media',
+        data: ['Digital Media', 'Social Media', 'Advertising', 'Lunch with the FT', 'Luxury goods']
+    },
+    {
+        title: 'Consulting/Business services',
+        data: ['Management consulting', 'Innovation', 'Corporate culture', 'Managing yourself', 'Women in business']
+    },
+    {
+        title: 'Education/Academia',
+        data: ['Work & Careers', 'Education', 'Business education', 'Online learning', 'Economics books']
+    },
+    {
+        title: 'Energy/Utilities',
+        data: ['Batteries', 'Renewable energy', 'Shale Oil & Gas', 'Nuclear energy', 'Climate change']
+    },
+    {
+        title: 'Engineering/Construction',
+        data: ['Infrastructure investment', 'Urban planning', 'Renewable energy', 'Architecture', 'UK housebuilding']
+    },
+    {
+        title: 'Financial services',
+        data: ['Fintech', 'Hedge funds', 'Private equity', 'Investment Banking']
+    },
+    {
+        title: 'Food & beverages',
+        data: ['Food Prices', 'Food diet', 'Beer and spirits', 'Agricultural production', 'Ecommerce']
+    },
+    {
+        title: 'Fund/Asset management',
+        data: ['Hedge funds', 'Private equity', 'Investment Banking', 'Emerging market investing']
+    },
+    {
+        title: 'Govt/Public service/NGOs',
+        data: ['Geopolitics', 'Populism', 'Globalisation', 'United Nations', 'Political books']
+    },
+    {
+        title: 'Health & pharmaceuticals',
+        data: ['Digital health', 'Drugs research', 'Drug prices', 'Medical science', 'Disease control and prevention']
+    },
+    {
+        title: 'Industrial goods & services',
+        data: ['Industrials', 'Industrial goods', 'Global economic growth', 'US economy', 'Eurozone economy']
+    },
+    {
+        title: 'Insurance',
+        data: ['Cyber Security', 'Fintech', 'Pensions crisis', 'Personal Insurance']
+    },
+    {
+        title: 'IT/Computing',
+        data: ['Artificial intelligence', 'Virtual and Augmented Reality', 'Science', 'Blockchain', 'Fintech']
+    },
+    {
+        title: 'IT/Tech/Telecoms',
+        data: ['Cyber Security', 'Internet of things', 'Artificial intelligence', 'Social Media', 'Fintech']
+    },
+    {
+        title: 'Legal services',
+        data: ['Law', 'Innovation', 'Financial & markets regulation', 'Corporate governance', 'Data protection']
+    },
+    {
+        title: 'Oil/Gas/Mining',
+        data: ['Oil', 'Natural gas', 'Mining', 'Renewable energy', 'Batteries']
+    },
+    {
+        title: 'Personal & household goods',
+        data: ['Consumer trends', 'Digital Media', 'Ecommerce', 'Luxury goods', 'UK retail sales']
+    },
+    {
+        title: 'Property',
+        data: ['Commercial property', 'Residential property', 'Global property', 'Property funds', 'Property']
+    },
+    {
+        title: 'Retail',
+        data: ['Consumer trends', 'Ecommerce', 'Digital Media', 'Wearable technology', 'Luxury goods']
+    },
+    {
+        title: 'Telecommunications',
+        data: ['Internet of things', 'Virtual and Augmented Reality', 'Mobile devices', 'Ecommerce', 'Cyber Security']
+    },
+    {
+        title: 'Trade/Import/Export',
+        data: ['Global trade', 'FT Commodities Global Summit', 'Artificial intelligence', 'Climate change']
+    },
+    {
+        title: 'Transport/Logistics',
+        data: ['Global trade', 'Globalisation', 'Electric vehicles', 'Container shipping']
+    },
+    {
+        title: 'Travel & Leisure',
+        data: ['Travel & leisure industry', 'Work-life balance', 'Lunch with the FT', 'Luxury goods']
+    }
+];
 
 
 const countryMapping = {
@@ -101,6 +219,22 @@ const organisationsSet = new Set(['Federal Reserve']);
 const authorsSet = new Set(window.authors);
 
 
+// MARK: - Debounce function to limit the rate of invoking a function
+function debounce(func, delay) {
+
+    let debounceTimer;
+    return function() {
+        const context = this;
+        const args = arguments;
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => func.apply(context, args), delay);
+    };
+
+}
+
+// MARK: - debounce the syncPreferencesWithServer to avoid firing large amount of network requests in a short time
+const debouncedSyncPreferences = debounce(syncPreferencesWithServer, 5000);
+
 async function savePreference(myPreference) {
     let p = JSON.parse(JSON.stringify(myPreference));
     p = deepSanitizeFrontend(p);
@@ -118,7 +252,7 @@ async function syncPreferencesWithServer(preference) {
     // const token = GetCookie('accessToken');
     // if (!token) {return;}
     try {
-        const response = await fetch('/save_preference', {
+        await fetch('/save_preference', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -130,9 +264,6 @@ async function syncPreferencesWithServer(preference) {
         console.error('Failed to sync preferences with the server: ', error);
     }
 }
-
-// MARK: - debounce the syncPreferencesWithServer to avoid firing large amount of network requests in a short time
-const debouncedSyncPreferences = debounce(syncPreferencesWithServer, 5000);
 
 async function clearAllPreferences() {
 
@@ -206,7 +337,7 @@ function getMyFollowsHTML() {
     const my = getMyPreference();
     if (!my) {return;}
     if (my.Language && typeof my.Language === 'string' && my.Language !== '') {
-        preferredLanguage = my['Language'] || navigator.language || 'zh-CN';
+        preferredLanguage = my.Language || navigator.language || 'zh-CN';
     }
     const follows = (my[myInterestsKey] || []).filter(x => typeof x === 'object');
 
@@ -353,7 +484,6 @@ function getAnnotaionsInfo(content, language) {
     const endDate = new Date('2026-01-25T23:59:59+08:00').getTime();
     const now = new Date().getTime();
     const showPromotion = now >= startDate && now <= endDate;
-    const domain = isInNativeApp ? 'www.ftchinese.com' : 'www.ftchinese.com';
     const promotion = showPromotion ? `<a class="story-side-ad-inner" href="/m/corp/preview.html?pageid=2026CNYsub&to=all&ccode=2C2026CNYchatftclp" target="_blank"><img src="https://d1sh1cgb4xvhl.cloudfront.net/unsafe/picture/4/000318224_piclink.jpg" width="300" height="250"></a>` : '';
     annotationsHTMLMentions = `
         <div class="story-side-ad-container">${promotion}</div>`;
@@ -472,19 +602,6 @@ async function getHighScoreIdsFromVectorDB(content) {
 
 }
 
-
-// MARK: - Debounce function to limit the rate of invoking a function
-function debounce(func, delay) {
-
-    let debounceTimer;
-    return function() {
-        const context = this;
-        const args = arguments;
-        clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(() => func.apply(context, args), delay);
-    };
-
-}
 
 async function fetchSuggestions(query) {
     try {
@@ -634,7 +751,7 @@ delegate.on('click', '.hide-intention', async (event) => {
     hideEle(ele);
 });
 
-delegate.on('click', '[data-action="add-interests"]', async (event) => {
+delegate.on('click', '[data-action="add-interests"]', async () => {
     //点击添加按钮触发
     let myRegions = regions;
     const languageCodes = (preferredLanguage || '').split('-');
@@ -651,7 +768,7 @@ delegate.on('click', '[data-action="add-interests"]', async (event) => {
     const ele = document.createElement('DIV');
     ele.classList.add('overlay-container');
     ele.classList.add('on');
-    const recommenedAnnotationsHTML = recommendedAnnotations.concat(recommendedAnnotationsByIndustry)
+    const recommenedAnnotationsHTML = window.recommendedAnnotations.concat(window.recommendedAnnotationsByIndustry)
         .map(x => `<div class="input-title">${localize(x.title)}</div>${createHTMLFromNames(x.data)}`)
         .join('');
     ele.innerHTML = `
@@ -816,7 +933,7 @@ delegate.on('click', '[data-action="add-custom-interest"]', async (event) => {
         hideEle(suggestionEle);
     }
     const createNewElement = ()=>{
-        var newElement = document.createElement("div");
+        var newElement = document.createElement('div');
         newElement.classList.add('input-container');
         newElement.innerHTML = `
             <div class="input-name">${name}</div>
@@ -882,7 +999,7 @@ delegate.on('click', '[data-action="add-interests-for-all"]', async (event) => {
     
 });
 
-delegate.on('click', '[data-action="close-overlay"]', async (event) => {
+delegate.on('click', '[data-action="close-overlay"]', async () => {
 
     const overlayContainers = document.querySelectorAll('.overlay-container'); 
     for (let i = 0; i < overlayContainers.length; i++) {
@@ -1011,7 +1128,7 @@ if (isTouchDevice()) {
         }, longPressDuration);
     });
 
-    delegate.on('touchmove', '[draggable].for-long-press', (event) => {
+    delegate.on('touchmove', '[draggable].for-long-press', () => {
         movedDuringPress = true;
     });
 
@@ -1050,9 +1167,7 @@ if (isTouchDevice()) {
 
     });
 
-    delegate.on('dragend', '[draggable]', async (event) => {
-
-        const ele = event.target;
+    delegate.on('dragend', '[draggable]', async () => {
         draggingEle = undefined;
         // Remove the visual effect from all elements
         const elementsWithEffect = document.querySelectorAll('.drag-over-effect');
@@ -1089,7 +1204,9 @@ if (isTouchDevice()) {
         const ele = event.target.closest('[draggable]');
 
         // Ensure we are on a valid target
-        if (!ele) return;
+        if (!ele) {
+            return;
+        }
 
         // Add visual effect
         ele.classList.add('drag-over-effect');
@@ -1125,7 +1242,7 @@ if (isTouchDevice()) {
 async function shouldShowInduction() {
 
     // MARK: - For native app webviews, don't show the induction/onboarding
-    if (window.location.href.indexOf('webview=ftcapp') >= 0 && intention) {
+    if (window.location.href.indexOf('webview=ftcapp') >= 0 && window.intention) {
         return false;
     }
 
@@ -1140,7 +1257,7 @@ async function shouldShowInduction() {
       return false;
     }
 
-    if (myPreference['Language'] && accessToken) {
+    if (myPreference.Language && accessToken) {
       return false;
     }
 
@@ -1149,7 +1266,7 @@ async function shouldShowInduction() {
 
     // MARK: - Now you check local storage again
     myPreference = getMyPreference();
-    if (myPreference['Language'] && GetCookie('accessToken')) {
+    if (myPreference.Language && GetCookie('accessToken')) {
       return false;
     }
 
@@ -1159,10 +1276,11 @@ async function shouldShowInduction() {
 }
 
 async function showInduction() {
-    const name = inductionData?.name;
-    window[name] = inductionData;
+    const data = window.inductionData;
+    const name = data?.name;
+    window[name] = data;
     window[name].index = 0;
-    const info = inductionData?.questions?.[0];
+    const info = data?.questions?.[0];
     if (info) {
         await renderSettingInfo(info, name);
     }
@@ -1181,7 +1299,7 @@ async function renderSettingInfo(info, name) {
     } else if (type === 'custom_input') {
         html += renderCustomInput(info, name);
     }
-    showResultInChat({text: html});
+    window.showResultInChat({text: html});
     if (info.disable_input) {
         window.userInput.disabled = true; 
     } else {
@@ -1260,9 +1378,9 @@ async function renderNextSettingInfo(name) {
         await renderSettingInfo(info, name);
     } else {
         window.intention = undefined;
-        const html = `<p>${localize(window[name].ending)}</p>${getActionOptions()}`;
-        showResultInChat({text: html});
-        userInput.disabled = false;
+        const html = `<p>${localize(window[name].ending)}</p>${window.getActionOptions()}`;
+        window.showResultInChat({text: html});
+        window.userInput.disabled = false;
     }
 
 }
@@ -1306,4 +1424,3 @@ delegate.on('click', '.setting-next', async (event) => {
     if (!name) {return;}
     await renderNextSettingInfo(name);
 });
-
