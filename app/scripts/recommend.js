@@ -205,7 +205,11 @@ async function buildRecommendationHTML(items = [], preferredLanguage = 'zh-CN', 
     const tierParameter = `?tier=${tier}`;
     const subtypeParameter = subtype !== '' && type === 'interactive' ? `&subtype=${subTypeMap[subtype] ?? subtype}` : '';
     const parameter = tierParameter + subtypeParameter;
-    const linkHTML = isInWebApp ? '' : ` href="/${type}/${id}${parameter}"`;
+    const articlePath = `/${type}/${id}${parameter}`;
+    const linkHTML = isInWebApp ? '' : ` href="${articlePath}"`;
+    const leadBodyHTML = `<div class="item-lead">${clongleadbody}</div>`;
+    const leadHTML = isInWebApp ? leadBodyHTML : `<a ${linkHTML} target="_blank" class="item-lead-link">${leadBodyHTML}</a>`;
+    const cardArticleUrlAttr = isInWebApp ? '' : ` data-article-url="${articlePath}"`;
     const imageUrl = item.pictures?.main ?? '';
 
     let imageHTML = '';
@@ -246,7 +250,7 @@ async function buildRecommendationHTML(items = [], preferredLanguage = 'zh-CN', 
     }
 
 
-    html += `<div class="item-container ${imageClass} item-container-app" data-id="${id}" data-type="${type}" data-sub-type="${subtype}" data-keywords="${keywords}" data-update="${update}" data-ft-id="${ftid}">
+    html += `<div class="item-container ${imageClass} item-container-app" data-id="${id}" data-type="${type}" data-sub-type="${subtype}" data-keywords="${keywords}" data-update="${update}" data-ft-id="${ftid}"${cardArticleUrlAttr}>
       <div class="item-inner">
         <div class="item-headline-lead">
           <h2 class="item-headline">
@@ -254,7 +258,7 @@ async function buildRecommendationHTML(items = [], preferredLanguage = 'zh-CN', 
             <a ${linkHTML} target="_blank" class="item-headline-link${lockClass}">${cheadline}</a>
           </h2>
           ${imageHTML}
-          <div class="item-lead">${clongleadbody}</div>
+          ${leadHTML}
           <div class="item-bottom"></div>
         </div>
       </div>
@@ -262,6 +266,28 @@ async function buildRecommendationHTML(items = [], preferredLanguage = 'zh-CN', 
   }
   return html;
 }
+
+/**
+ * Recommendation cards are rendered from API data after page load.
+ * On touch devices many taps land on image/lead/card whitespace instead of the headline text anchor.
+ * We treat the card body as a navigation hit area while preserving dedicated controls (tag/follow).
+ */
+delegate.on('click', '.list-recommendation .item-container-app', function (event) {
+  if (event?.defaultPrevented) {
+    return;
+  }
+  // Keep dedicated controls untouched: tags open tag page, follow buttons keep toggle behavior.
+  if (event?.target?.closest('.item-tag a, .myft-follow, button, .item-headline-link[href]')) {
+    return;
+  }
+
+  const href = this.getAttribute('data-article-url') || this.querySelector('.item-headline-link[href]')?.getAttribute('href');
+  if (!href) {
+    return;
+  }
+  event.preventDefault();
+  window.location.href = href;
+});
 
 function getFollowPreferenceAttrs(item, mainTag, preferredLanguage = 'zh-CN') {
   const annotation = findAnnotationForTag(item, mainTag);
