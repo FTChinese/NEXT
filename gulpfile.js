@@ -1,4 +1,10 @@
 const fs = require('mz/fs');
+
+const { execFile } = require('child_process');
+const util = require('util');
+const execFileAsync = util.promisify(execFile);
+
+
 const got = require('got');
 const co = require('co');
 const cheerio = require('cheerio');
@@ -52,11 +58,11 @@ const origamiModules = [
   //   dest: './app/origami/o-table.js'
   // },
   {
-    source: 'https://ai.chineseft.net/tag/js/gpt.js',
+    source: 'https://www.googletagservices.com/tag/js/gpt.js',//https://ai.chineseft.net/tag/js/gpt.js
     dest: '../dev_www/frontend/static/js/gpt.js'
   },
   {
-    source: 'https://ai.chineseft.net/tag/js/gpt.js',
+    source: 'https://www.googletagservices.com/tag/js/gpt.js',
     dest: './app/origami/gpt.js'
   }
   
@@ -64,37 +70,45 @@ const origamiModules = [
 
 // fetch contents from `origamiModules.source` and write to `origamiModules.dest`.
 gulp.task('origami', () => {
-  const now = new Date().getTime();
-  return co(function *() {
-    const results = yield Promise.all(origamiModules.map(module => {
-  // After getting response from url, return a new object consisting of url's content and file name to write.
-      return got(module.source)
-        .then(response => {
-          var body = response.body;
+  const now = Date.now();
+
+  return co(function* () {
+    const results = yield Promise.all(
+      origamiModules.map(module => {
+        console.log('Getting:', module.source);
+
+        return execFileAsync('curl', [
+          '-L',            // follow redirects
+          '--silent',      // no progress meter
+          '--show-error',  // still show errors
+          module.source
+        ])
+        .then(({ stdout }) => {
+          let body = stdout;
+
           if (module.source.indexOf('o-ads') >= 0) {
-            // const gptUrl = 'd2hgac2iiu3amu.cloudfront.net/ads/gpt.js'; 
             const gptUrl = 'd2785ji6wtdqx8.cloudfront.net/js/gpt.js';
-            body = body.replace(/www\.googletagservices\.com\/tag\/js\/gpt\.js/g, `${gptUrl}?${now}`);
+            body = body.replace(
+              /www\.googletagservices\.com\/tag\/js\/gpt\.js/g,
+              `${gptUrl}?${now}`
+            );
           }
+
           return {
             dest: module.dest,
-            body: body
-          }
-        }, (error) => {
-  // return error if network failed.          
-          return Promise.reject(error);
+            body
+          };
         });
-    }));    
+      })
+    );
 
-
-    yield Promise.all(results.map(res => {
-      console.log(`Updated o-ads! `);
-      return fs.writeFile(res.dest, res.body, 'utf8');
-    }));
-
-  })
-  .catch((err) => {
-  // catch any error if there are.  
+    yield Promise.all(
+      results.map(res => {
+        console.log('Updated:', res.dest);
+        return fs.writeFile(res.dest, res.body, 'utf8'); // mz/fs returns a promise
+      })
+    );
+  }).catch(err => {
     console.error(err.stack);
   });
 });

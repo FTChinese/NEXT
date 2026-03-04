@@ -502,7 +502,7 @@ async function updateLiveBlogLinks() {
       const linkEle = ele.querySelector('.detail-link');
       if (linkEle) {continue;}
       let link = document.createElement('P');
-      link.innerHTML = `<a href="/powertranslate/chat.html#ftid=${id}&language=${preferedChineseLanguage}&action=read" target="_blank">${moreText}</a>`;
+      link.innerHTML = `<a href="/content/${id}" target="_blank">${moreText}</a>`;
       link.className = 'detail-link';
       link.style.textAlign = 'right';
       ele.appendChild(link);
