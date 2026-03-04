@@ -276,8 +276,12 @@ delegate.on('click', '.list-recommendation .item-container-app', function (event
   if (event?.defaultPrevented) {
     return;
   }
-  // Keep dedicated controls untouched: tags open tag page, follow buttons keep toggle behavior.
-  if (event?.target?.closest('.item-tag a, .myft-follow, button, .item-headline-link[href]')) {
+  // Web app shell has its own click routing in app-nav.js; avoid double handling.
+  if (/^\/app/.test(top.location.pathname)) {
+    return;
+  }
+  // Let native anchor/button behavior fire first so iOS/Android webviews see a true link activation.
+  if (event?.target?.closest('a[href], button')) {
     return;
   }
 
@@ -286,6 +290,10 @@ delegate.on('click', '.list-recommendation .item-container-app', function (event
     return;
   }
   event.preventDefault();
+  if (typeof window.openLink === 'function') {
+    window.openLink(href);
+    return;
+  }
   window.location.href = href;
 });
 
