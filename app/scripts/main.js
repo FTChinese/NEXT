@@ -1640,7 +1640,9 @@ updateStickyRightRail();
     // MARK: - Set Cookie to expire in 100 days
     SetCookie(deviceIdKey,uniqueId,86400*100,'/');
       // MARK: - Don't kick out if users are using new site or www7
-    if (/chineseft|ftchinese|heroku|ft\.com/.test(window.location.host)) {return;}
+    var shouldSkipKickoutProbe = /www7\.ftchinese\.com/.test(window.location.host)
+      || (/chineseft|ftchinese|heroku|ft\.com/.test(window.location.host) && !isiOSNative);
+    if (shouldSkipKickoutProbe) {return;}
     var xhr = new XMLHttpRequest();
     var message = {
       user_id: window.userId, 

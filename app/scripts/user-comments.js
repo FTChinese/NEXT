@@ -428,6 +428,9 @@ function logout() {
                     eles2[j].style.display = 'block';
                 }
                 window.username = '';
+                for (const name of ['USER_NAME', 'USER_NAME_FT', 'USER_ID']) {
+                    DeleteCookie(name);
+                }
                 checkLogin();
             }
         }
