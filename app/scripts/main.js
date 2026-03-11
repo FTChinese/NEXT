@@ -1640,9 +1640,30 @@ updateStickyRightRail();
     // MARK: - Set Cookie to expire in 100 days
     SetCookie(deviceIdKey,uniqueId,86400*100,'/');
       // MARK: - Don't kick out if users are using new site or www7
-    var shouldSkipKickoutProbe = /www7\.ftchinese\.com/.test(window.location.host)
-      || (/chineseft|ftchinese|heroku|ft\.com/.test(window.location.host) && !isiOSNative);
+    var shouldSkipKickoutProbe = /www7\.ftchinese\.com/.test(window.location.host) || (/chineseft|ftchinese|heroku|ft\.com/.test(window.location.host) && !isiOSNative);
+    var kickoutCheckStorageKey = 'AccountShareLastCheck:' + window.userId + ':' + uniqueId + ':' + deviceType;
+    var kickoutCheckCooldownMs = 120 * 1000;
+    var shouldThrottleKickoutProbe = false;
     if (shouldSkipKickoutProbe) {return;}
+    try {
+      var lastKickoutCheck = parseInt(localStorage.getItem(kickoutCheckStorageKey), 10);
+      shouldThrottleKickoutProbe = !isNaN(lastKickoutCheck) && (Date.now() - lastKickoutCheck) < kickoutCheckCooldownMs;
+    } catch (err) {
+      shouldThrottleKickoutProbe = false;
+    }
+    if (shouldThrottleKickoutProbe) {return;}
+    try {
+      localStorage.setItem(kickoutCheckStorageKey, Date.now().toString());
+    } catch (err) {
+      console.log(err);
+    }
+    var clearKickoutCheckStamp = function() {
+      try {
+        localStorage.removeItem(kickoutCheckStorageKey);
+      } catch (err) {
+        console.log(err);
+      }
+    };
     var xhr = new XMLHttpRequest();
     var message = {
       user_id: window.userId, 
@@ -1653,8 +1674,17 @@ updateStickyRightRail();
     xhr.open('POST', '/users/online');
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onload = function() {
-        if (xhr.status !== 200) {return;}
-        var data = JSON.parse(xhr.responseText);
+        if (xhr.status !== 200) {
+          clearKickoutCheckStamp();
+          return;
+        }
+        var data;
+        try {
+          data = JSON.parse(xhr.responseText);
+        } catch (err) {
+          clearKickoutCheckStamp();
+          return;
+        }
         var ec = 'AccountShare';
         var ea = data.online === 0 ? 'Kickout' : 'Allow';
         var currentDevice = '';
@@ -1673,6 +1703,9 @@ updateStickyRightRail();
           var message2 = {title: ea, message: el + ', ua: ' + ua + ', data: ' + xhr.responseText};
           webkit.messageHandlers.print.postMessage(message2);
         }
+    };
+    xhr.onerror = function() {
+      clearKickoutCheckStamp();
     };
     xhr.send(JSON.stringify(message));
   } catch(err) {
