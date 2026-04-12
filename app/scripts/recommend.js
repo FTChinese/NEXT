@@ -12,14 +12,18 @@ const attributeMap = [
   ['data-annotations-secondary', 'annotationsSecondary'],
   ['data-editorial-score', 'editorialScore'],
   ['data-popularity-score', 'popularityScore'],
-  ['data-sub-type', 'subtype']
+  ['data-sub-type', 'subtype'],
+  ['data-ft-type', 'ft_type']
 ];
 
-const GENRE_SCORE_MAP = {
+const CONTENT_CLASS_SCORE_MAP = {
+  LiveBlogPackage: 1.0,
+  LiveBlogPost: 1.0,
   Feature: 0.5,
   Opinion: 0.8,
   News: 1.0,
   Other: 0.5,
+  Letter: 0.1,
   'Deep dive': 1.6
 };
 
@@ -201,6 +205,7 @@ async function buildRecommendationHTML(items = [], preferredLanguage = 'zh-CN', 
     }
 
     const subtype = item?.subtype ?? '';
+    const ftType = item?.ft_type ?? '';
     const subTypeMap = { FTArticle: 'bilingual' };
     const tierParameter = `?tier=${tier}`;
     const subtypeParameter = subtype !== '' && type === 'interactive' ? `&subtype=${subTypeMap[subtype] ?? subtype}` : '';
@@ -210,6 +215,7 @@ async function buildRecommendationHTML(items = [], preferredLanguage = 'zh-CN', 
     const leadBodyHTML = `<div class="item-lead">${clongleadbody}</div>`;
     const leadHTML = isInWebApp ? leadBodyHTML : `<a ${linkHTML} target="_blank" class="item-lead-link">${leadBodyHTML}</a>`;
     const cardArticleUrlAttr = isInWebApp ? '' : ` data-article-url="${articlePath}"`;
+    const ftTypeAttr = ftType ? ` data-ft-type="${ftType}"` : '';
     const imageUrl = item.pictures?.main ?? '';
 
     let imageHTML = '';
@@ -250,7 +256,7 @@ async function buildRecommendationHTML(items = [], preferredLanguage = 'zh-CN', 
     }
 
 
-    html += `<div class="item-container ${imageClass} item-container-app" data-id="${id}" data-type="${type}" data-sub-type="${subtype}" data-keywords="${keywords}" data-update="${update}" data-ft-id="${ftid}"${cardArticleUrlAttr}>
+    html += `<div class="item-container ${imageClass} item-container-app" data-id="${id}" data-type="${type}" data-sub-type="${subtype}" data-keywords="${keywords}" data-update="${update}" data-ft-id="${ftid}"${ftTypeAttr}${cardArticleUrlAttr}>
       <div class="item-inner">
         <div class="item-headline-lead">
           <h2 class="item-headline">
@@ -613,8 +619,9 @@ function calculateScores(items) {
 
   const WEIGHTS = normalizeWeights(rawWeights);
 
-  const DECAY_HALFLIFE_IN_HOURS = {
+  const CONTENT_CLASS_HALFLIFE_IN_HOURS = {
     LiveBlogPackage: 1,
+    LiveBlogPost: 1,
     News: 6,
     Feature: 12,
     Opinion: 12,
@@ -637,25 +644,25 @@ function calculateScores(items) {
   for (const item of items) {
     const updateTimestamp = item.updateTimestamp || (now - 3 * 24 * 60 * 60 * 1000);
     const ageMs = now - updateTimestamp;
-    const genreOrSubtype = detectGenre(item.annotationsMain, item.subtype);
+    const contentClass = detectContentClass(item.annotationsMain, item.subtype, item.ft_type);
 
-    const halfLifeMs = (DECAY_HALFLIFE_IN_HOURS[genreOrSubtype] || DECAY_HALFLIFE_IN_HOURS.Other) * 60 * 60 * 1000;
+    const halfLifeMs = (CONTENT_CLASS_HALFLIFE_IN_HOURS[contentClass] || CONTENT_CLASS_HALFLIFE_IN_HOURS.Other) * 60 * 60 * 1000;
 
     const editorialScore = parseFloat(item.editorialScore) || 0;
     const popularityScore = parseFloat(item.popularityScore) || 0;
     const relevanceScore = parseFloat(item.relevanceScore) || 0;
-    const genreScore = GENRE_SCORE_MAP[genreOrSubtype] || GENRE_SCORE_MAP.Other;
+    const contentClassScore = CONTENT_CLASS_SCORE_MAP[contentClass] || CONTENT_CLASS_SCORE_MAP.Other;
 
     const weightedScore =
       editorialScore * WEIGHTS.editorial +
       popularityScore * WEIGHTS.popularity +
       relevanceScore * WEIGHTS.relevance +
-      genreScore * WEIGHTS.genre;
+      contentClassScore * WEIGHTS.genre;
 
     const decayFactor = getDecayFactor(ageMs, halfLifeMs);
     const finalScore = weightedScore * decayFactor;
 
-    item.genre = genreOrSubtype;
+    item.contentClass = contentClass;
     item.decayFactor = decayFactor;
 
     const itemTypeMap = {premium: 'story'};
@@ -905,11 +912,15 @@ function calculateRelevanceScores(items) {
 
 
 // === Score Utilities ===
-function detectGenre(annotationsMain = '', subtype = '') {
+function detectContentClass(annotationsMain = '', subtype = '', ftType = '') {
   const tags = annotationsMain.split(',').map(t => t.trim());
+  if (ftType === 'LiveBlogPackage' || ftType === 'LiveBlogPost') {return ftType;}
   if (subtype === 'LiveBlogPackage') {return subtype;}
   if (tags.includes('News')) {return 'News';}
-  if (tags.includes('Feature') || tags.includes('Opinion') || tags.includes('Deep dive')) {return 'Feature';}
+  if (tags.includes('Deep dive')) {return 'Deep dive';}
+  if (tags.includes('Opinion')) {return 'Opinion';}
+  if (tags.includes('Letter')) {return 'Letter';}
+  if (tags.includes('Feature')) {return 'Feature';}
   return 'Other';
 }
 
@@ -968,7 +979,7 @@ function reorderListWithScores(list, items) {
     node.setAttribute('data-relevance-score', (item.relevanceScore ?? 0).toFixed(4));
     node.setAttribute('data-read-minus-score', (item.readMinusScore ?? 0).toFixed(4));
     node.setAttribute('data-unseen-bonus-score', (item.unSeenItemBonus ?? 0).toFixed(4));
-    node.setAttribute('data-genre-score', (GENRE_SCORE_MAP[item.genre] ?? 0).toFixed(2));
+    node.setAttribute('data-content-class-score', (CONTENT_CLASS_SCORE_MAP[item.contentClass] ?? 0).toFixed(2));
   }
 
   const newChildren = [];
