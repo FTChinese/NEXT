@@ -460,7 +460,7 @@ function showCustomisation(list) {
 function appendRecommendationReasons(container, items = [], preferredLanguage = 'zh-CN') {
   if (!container || !Array.isArray(items) || items.length === 0) { return; }
 
-  console.log(`items: `, JSON.stringify(items, null, 2));
+  // console.log(`items: `, JSON.stringify(items, null, 2));
 
   const lang = (preferredLanguage || 'zh-CN').toLowerCase();
 
@@ -653,6 +653,8 @@ function calculateScores(items) {
     const relevanceScore = parseFloat(item.relevanceScore) || 0;
     const contentClassScore = CONTENT_CLASS_SCORE_MAP[contentClass] || CONTENT_CLASS_SCORE_MAP.Other;
 
+
+
     const weightedScore =
       editorialScore * WEIGHTS.editorial +
       popularityScore * WEIGHTS.popularity +
@@ -690,6 +692,11 @@ function calculateScores(items) {
     item.unSeenItemBonus = unSeenItemBonus;
 
     item.finalScore = parseFloat(finalScore.toFixed(4)) - readMinusScore - tierPenalty + unSeenItemBonus;
+
+
+    // if (contentClass === 'LiveBlogPost') {
+    //   console.log(`LiveBlogPost item: ${contentClassScore}, final: ${item.finalScore}, `, item, );
+    // }
   }
 
   // ✅ One write (same semantics)
