@@ -916,7 +916,7 @@ function showResultInChat(result, shouldScrollIntoView = true, isFullGrid = fals
   newResult.className = `chat-talk chat-talk-agent${fullGridClassName}`;
   // MARK: - Converting the HTML on the frontend
   if (!result || !result.text || typeof result.text !== 'string') {return;}
-  const resultHTML = markdownConvert(result.text);
+  const resultHTML = result.skipMarkdown === true ? result.text : markdownConvert(result.text);
   newResult.innerHTML = `<div class="chat-talk-inner">${resultHTML}</div>`;
   chatContent.appendChild(newResult);
   if (newResult.querySelector('h1, .story-header-container')) {

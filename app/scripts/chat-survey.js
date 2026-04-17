@@ -145,7 +145,7 @@ async function showSurvey(name) {
                 </div>`.replace(/[\n\r]+/g, '');
         }).join('');
         const html = `<p>${intro}</p><div class="survey-container" data-name="${name}" data-ending-note="${endingNote}" data-ending-button="${endingButton}" data-ending-link="${endingLink}">${questionsHTML}<button class="survey-submit hide">CONFIRM</button></div>`;
-        const result = {text: html};
+        const result = {text: html, skipMarkdown: true};
         showResultInChat(result);
     } catch(err) {
         console.log(err);
@@ -170,7 +170,6 @@ async function getSurveyInfo(name) {
             return {status: 'failed', message: results.message};
         }
         if (results) {
-            results = await handleFTContent(results);
             return {status: 'success', results: results};
         } else {
             return {status: 'failed', message: 'Something is wrong with FT Search, please try later. '};
