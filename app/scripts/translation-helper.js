@@ -1040,16 +1040,29 @@ function start() {
             }
             var j1 = info.translations.length;
             var t1 = existingTranslationDict[englishHTML] || '';
+            var updateStatusClass = '';
+            var updateStatusHTML = '';
+            if (window.opener?.checkUpdate === true) {
+                if (t1 !== '') {
+                    updateStatusClass = ' is-reused-translation';
+                    updateStatusHTML = '<div class="translation-update-status reused">已复用旧译文</div>';
+                } else {
+                    updateStatusClass = ' is-new-translation';
+                    updateStatusHTML = '<div class="translation-update-status changed">英文有更新，请检查</div>';
+                }
+            }
             if (t1 !== '') {
                 infoHTML += '<div data-translation-index="' + j1 + '" class="info-translation selected" title="click to confirm this translation to the right">' + t1 + '</div>';
             }
             const polishHTML = '<div class="info-translation-tools-container"><a class="info-translation-polish-final" title="Polish This Translation"></a></div>'; 
-            infoHTML = `<div class="info-container"><div>${infoHTML}${links}</div><div><div class="info-suggestion"></div><div class="info-error-message"></div><textarea data-info-id="${id}" placeholder="${localizeForTranslationHelper('Click the translation')}">${t1}</textarea>${polishHTML}</div><div class="info-helper"></div></div><hr>`;
+            infoHTML = `<div class="info-container${updateStatusClass}"><div>${infoHTML}${links}</div><div>${updateStatusHTML}<div class="info-suggestion"></div><div class="info-error-message"></div><textarea data-info-id="${id}" placeholder="${localizeForTranslationHelper('Click the translation')}">${t1}</textarea>${polishHTML}</div><div class="info-helper"></div></div><hr>`;
             k += infoHTML;
         }
         storyBodyEle.innerHTML = k;
         renderBottomButtons();
-        checkAITranslation();
+        if (window.opener?.checkUpdate !== true) {
+            checkAITranslation();
+        }
 
     } else if (isReviewMode && eText && tText) {
         var eTexts = eText.split('\n').filter(isNotEmpty);

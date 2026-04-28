@@ -213,6 +213,37 @@ a {
     }
 }
 
+.translation-update-status {
+    display: inline-block;
+    margin: 0 0 8px;
+    padding: 2px 8px;
+    border: 1px solid #cec6b9;
+    font-size: 13px;
+    line-height: 18px;
+    color: #33302e;
+    background-color: #f6e9d8;
+    &.reused {
+        border-color: #0d7680;
+        color: #0a5e66;
+        background-color: #e6f4f1;
+    }
+    &.changed {
+        border-color: #990f3d;
+        color: #990f3d;
+        background-color: #fff1e5;
+    }
+}
+
+.info-container.is-reused-translation textarea {
+    border-color: #0d7680;
+    box-shadow: inset 3px 0 0 #0d7680;
+}
+
+.info-container.is-new-translation textarea {
+    border-color: #990f3d;
+    box-shadow: inset 3px 0 0 #990f3d;
+}
+
 
 
 .info-original {
