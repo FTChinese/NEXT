@@ -232,6 +232,11 @@ a {
         color: #990f3d;
         background-color: #fff1e5;
     }
+    &.similar {
+        border-color: #b86300;
+        color: #7d4400;
+        background-color: #fff7ea;
+    }
 }
 
 .info-container.is-reused-translation textarea {
@@ -242,6 +247,72 @@ a {
 .info-container.is-new-translation textarea {
     border-color: #990f3d;
     box-shadow: inset 3px 0 0 #990f3d;
+}
+
+.info-container.is-similar-translation textarea {
+    border-color: #b86300;
+    box-shadow: inset 3px 0 0 #b86300;
+}
+
+.info-container.is-similar-translation {
+    align-items: start;
+    margin-bottom: 30px;
+    > div {
+        min-width: 0;
+    }
+    textarea {
+        height: auto;
+        min-height: 180px;
+    }
+}
+
+.translation-update-reference {
+    margin: 0 0 12px;
+    padding: 10px;
+    border-left: 3px solid #b86300;
+    background-color: #fff7ea;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.translation-update-reference-title {
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #7d4400;
+}
+
+.translation-update-reference-label {
+    margin-top: 8px;
+    font-weight: bold;
+    color: #505050;
+}
+
+.translation-update-reference-text,
+.translation-update-reference-translation {
+    margin-top: 4px;
+}
+
+.translation-update-diff-added {
+    background-color: #d6f0e8;
+    color: #0a5e66;
+}
+
+.translation-update-diff-removed {
+    background-color: #f4d4cf;
+    color: #990f3d;
+    text-decoration: line-through;
+}
+
+.translation-update-reference-choice-title {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #cec6b9;
+    color: #7d4400;
+    font-weight: bold;
+}
+
+.translation-update-reference-choice {
+    background-color: #fff7ea;
 }
 
 

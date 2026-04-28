@@ -797,6 +797,166 @@ function tidyHTML(html) {
     return d.innerHTML;
 }
 
+function escapeHTMLForTranslationHelper(value) {
+    return String(value || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+function getTextFromHTMLForUpdateMatch(html) {
+    var d = document.createElement('div');
+    d.innerHTML = html || '';
+    return d.textContent || d.innerText || '';
+}
+
+function normalizeEnglishForUpdateMatch(html) {
+    return getTextFromHTMLForUpdateMatch(html)
+        .replace(/\u00a0/g, ' ')
+        .replace(/[“”]/g, '"')
+        .replace(/[‘’]/g, "'")
+        .replace(/\s+/g, ' ')
+        .trim();
+}
+
+function getTokensForUpdateMatch(text) {
+    var tokenSource = String(text || '')
+        .toLowerCase()
+        .replace(/[‘’]/g, "'")
+        .replace(/[‐‑‒–—-]/g, ' ');
+    return tokenSource.match(/[a-z0-9]+(?:'[a-z0-9]+)?/g) || [];
+}
+
+function calculateUpdateMatchSimilarity(textA, textB) {
+    if (!textA || !textB) {return 0;}
+    if (textA === textB) {return 1;}
+    var tokensA = getTokensForUpdateMatch(textA);
+    var tokensB = getTokensForUpdateMatch(textB);
+    if (Math.min(tokensA.length, tokensB.length) < 6 || Math.min(textA.length, textB.length) < 35) {
+        return 0;
+    }
+    var tokenCounts = {};
+    for (var i=0; i<tokensA.length; i++) {
+        var token = tokensA[i];
+        tokenCounts[token] = (tokenCounts[token] || 0) + 1;
+    }
+    var commonTokenCount = 0;
+    for (var j=0; j<tokensB.length; j++) {
+        var currentToken = tokensB[j];
+        if (tokenCounts[currentToken] > 0) {
+            commonTokenCount += 1;
+            tokenCounts[currentToken] -= 1;
+        }
+    }
+    var tokenScore = (2 * commonTokenCount) / (tokensA.length + tokensB.length);
+    var lengthScore = Math.min(textA.length, textB.length) / Math.max(textA.length, textB.length);
+    return (tokenScore * 0.85) + (lengthScore * 0.15);
+}
+
+function findSimilarTranslationReference(existingTranslationRecords, currentEnglishHTML) {
+    var currentNormalized = normalizeEnglishForUpdateMatch(currentEnglishHTML);
+    var bestMatch = null;
+    for (var i=0; i<existingTranslationRecords.length; i++) {
+        var record = existingTranslationRecords[i];
+        if (!record.normalizedEnglish || record.normalizedEnglish === currentNormalized) {continue;}
+        var similarity = calculateUpdateMatchSimilarity(currentNormalized, record.normalizedEnglish);
+        if (!bestMatch || similarity > bestMatch.similarity) {
+            bestMatch = {
+                similarity: similarity,
+                record: record
+            };
+        }
+    }
+    if (!bestMatch || bestMatch.similarity < 0.82) {return null;}
+    return bestMatch;
+}
+
+function getDiffTokensForUpdateMatch(text) {
+    return String(text || '').match(/[A-Za-z0-9]+(?:[-'][A-Za-z0-9]+)*|[^\s]/g) || [];
+}
+
+function areUpdateDiffTokensEqual(tokenA, tokenB) {
+    return String(tokenA || '')
+        .replace(/[‘’]/g, "'") === String(tokenB || '').replace(/[‘’]/g, "'");
+}
+
+function renderUpdateDiff(oldText, newText) {
+    var oldTokens = getDiffTokensForUpdateMatch(oldText);
+    var newTokens = getDiffTokensForUpdateMatch(newText);
+    if (oldTokens.length * newTokens.length > 40000) {
+        return {
+            oldHTML: escapeHTMLForTranslationHelper(oldText),
+            newHTML: escapeHTMLForTranslationHelper(newText)
+        };
+    }
+    var matrix = [];
+    for (var i=0; i<=oldTokens.length; i++) {
+        matrix[i] = [];
+        for (var j=0; j<=newTokens.length; j++) {
+            matrix[i][j] = 0;
+        }
+    }
+    for (var oi=oldTokens.length - 1; oi>=0; oi--) {
+        for (var ni=newTokens.length - 1; ni>=0; ni--) {
+            if (areUpdateDiffTokensEqual(oldTokens[oi], newTokens[ni])) {
+                matrix[oi][ni] = matrix[oi + 1][ni + 1] + 1;
+            } else {
+                matrix[oi][ni] = Math.max(matrix[oi + 1][ni], matrix[oi][ni + 1]);
+            }
+        }
+    }
+    var oldParts = [];
+    var newParts = [];
+    var oldIndex = 0;
+    var newIndex = 0;
+    while (oldIndex < oldTokens.length && newIndex < newTokens.length) {
+        if (areUpdateDiffTokensEqual(oldTokens[oldIndex], newTokens[newIndex])) {
+            var sameToken = escapeHTMLForTranslationHelper(oldTokens[oldIndex]);
+            oldParts.push(sameToken);
+            newParts.push(sameToken);
+            oldIndex += 1;
+            newIndex += 1;
+        } else if (matrix[oldIndex + 1][newIndex] >= matrix[oldIndex][newIndex + 1]) {
+            oldParts.push('<span class="translation-update-diff-removed">' + escapeHTMLForTranslationHelper(oldTokens[oldIndex]) + '</span>');
+            oldIndex += 1;
+        } else {
+            newParts.push('<span class="translation-update-diff-added">' + escapeHTMLForTranslationHelper(newTokens[newIndex]) + '</span>');
+            newIndex += 1;
+        }
+    }
+    while (oldIndex < oldTokens.length) {
+        oldParts.push('<span class="translation-update-diff-removed">' + escapeHTMLForTranslationHelper(oldTokens[oldIndex]) + '</span>');
+        oldIndex += 1;
+    }
+    while (newIndex < newTokens.length) {
+        newParts.push('<span class="translation-update-diff-added">' + escapeHTMLForTranslationHelper(newTokens[newIndex]) + '</span>');
+        newIndex += 1;
+    }
+    return {
+        oldHTML: oldParts.join(' '),
+        newHTML: newParts.join(' ')
+    };
+}
+
+function getSimilarTranslationReferenceHTML(match, currentEnglishHTML) {
+    if (!match || !match.record) {return '';}
+    var oldEnglish = match.record.normalizedEnglish;
+    var newEnglish = normalizeEnglishForUpdateMatch(currentEnglishHTML);
+    var diffHTML = renderUpdateDiff(oldEnglish, newEnglish);
+    var score = Math.round(match.similarity * 100);
+    return '<div class="translation-update-reference">' +
+        '<div class="translation-update-reference-title">旧段落参考：' + score + '% 相似</div>' +
+        '<div class="translation-update-reference-label">旧英文</div>' +
+        '<div class="translation-update-reference-text">' + diffHTML.oldHTML + '</div>' +
+        '<div class="translation-update-reference-label">新英文</div>' +
+        '<div class="translation-update-reference-text">' + diffHTML.newHTML + '</div>' +
+        '<div class="translation-update-reference-label">旧译文</div>' +
+        '<div class="translation-update-reference-translation">' + match.record.chineseTranslation + '</div>' +
+        '</div>';
+}
+
 function confirmTranslation(ele) {
     if (ele.className.indexOf(' selected')>=0) {return;}
     var text = ele.innerHTML;
@@ -1004,6 +1164,8 @@ function start() {
             }
         }
         var existingTranslationDict = {};
+        var existingNormalizedTranslationDict = {};
+        var existingTranslationRecords = [];
         if (window.opener && window.opener.checkUpdate === true) {
             var cbodyEle = window.opener.document.getElementById('cbody');
             var ebodyEle = window.opener.document.getElementById('ebody');
@@ -1017,7 +1179,17 @@ function start() {
                         var englishParagraph = englishParagraphs[l];
                         if (englishParagraph === '' || l >= chineseParagraphs.length) {continue;}
                         var chineseParagraph = chineseParagraphs[l];
-                        existingTranslationDict[englishParagraph] = chineseParagraph;
+                        var normalizedEnglish = normalizeEnglishForUpdateMatch(englishParagraph);
+                        var translationRecord = {
+                            englishHTML: englishParagraph,
+                            normalizedEnglish: normalizedEnglish,
+                            chineseTranslation: chineseParagraph
+                        };
+                        existingTranslationDict[englishParagraph] = translationRecord;
+                        if (normalizedEnglish !== '') {
+                            existingNormalizedTranslationDict[normalizedEnglish] = translationRecord;
+                            existingTranslationRecords.push(translationRecord);
+                        }
                     }
                 }
             }
@@ -1039,7 +1211,11 @@ function start() {
                 infoHTML += `<div data-translation-index="${j}" class="info-translation" title="click to confirm this translation to the right">${t}</div>`;
             }
             var j1 = info.translations.length;
-            var t1 = existingTranslationDict[englishHTML] || '';
+            var normalizedEnglishHTML = normalizeEnglishForUpdateMatch(englishHTML);
+            var exactTranslationRecord = existingTranslationDict[englishHTML] || existingNormalizedTranslationDict[normalizedEnglishHTML];
+            var t1 = exactTranslationRecord?.chineseTranslation || '';
+            var similarTranslationReference = null;
+            var similarTranslationReferenceHTML = '';
             var updateStatusClass = '';
             var updateStatusHTML = '';
             if (window.opener?.checkUpdate === true) {
@@ -1047,15 +1223,25 @@ function start() {
                     updateStatusClass = ' is-reused-translation';
                     updateStatusHTML = '<div class="translation-update-status reused">已复用旧译文</div>';
                 } else {
-                    updateStatusClass = ' is-new-translation';
-                    updateStatusHTML = '<div class="translation-update-status changed">英文有更新，请检查</div>';
+                    similarTranslationReference = findSimilarTranslationReference(existingTranslationRecords, englishHTML);
+                    if (similarTranslationReference) {
+                        updateStatusClass = ' is-similar-translation';
+                        updateStatusHTML = '<div class="translation-update-status similar">疑似旧段落，请检查改动</div>';
+                        similarTranslationReferenceHTML = getSimilarTranslationReferenceHTML(similarTranslationReference, englishHTML);
+                    } else {
+                        updateStatusClass = ' is-new-translation';
+                        updateStatusHTML = '<div class="translation-update-status changed">英文有更新，请检查</div>';
+                    }
                 }
             }
             if (t1 !== '') {
                 infoHTML += '<div data-translation-index="' + j1 + '" class="info-translation selected" title="click to confirm this translation to the right">' + t1 + '</div>';
+            } else if (similarTranslationReference) {
+                infoHTML += '<div class="translation-update-reference-choice-title">旧译文参考（英文有改动）</div>';
+                infoHTML += '<div data-translation-index="' + j1 + '" class="info-translation translation-update-reference-choice" title="click to confirm this translation to the right">' + similarTranslationReference.record.chineseTranslation + '</div>';
             }
             const polishHTML = '<div class="info-translation-tools-container"><a class="info-translation-polish-final" title="Polish This Translation"></a></div>'; 
-            infoHTML = `<div class="info-container${updateStatusClass}"><div>${infoHTML}${links}</div><div>${updateStatusHTML}<div class="info-suggestion"></div><div class="info-error-message"></div><textarea data-info-id="${id}" placeholder="${localizeForTranslationHelper('Click the translation')}">${t1}</textarea>${polishHTML}</div><div class="info-helper"></div></div><hr>`;
+            infoHTML = `<div class="info-container${updateStatusClass}"><div>${infoHTML}${links}</div><div>${updateStatusHTML}${similarTranslationReferenceHTML}<div class="info-suggestion"></div><div class="info-error-message"></div><textarea data-info-id="${id}" placeholder="${localizeForTranslationHelper('Click the translation')}">${t1}</textarea>${polishHTML}</div><div class="info-helper"></div></div><hr>`;
             k += infoHTML;
         }
         storyBodyEle.innerHTML = k;
