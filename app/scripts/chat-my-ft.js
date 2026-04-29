@@ -543,13 +543,14 @@ function isItemFollowed(item, interests, vectorHighScoreIds) {
         if (key === '') {continue;}
         const display = info.display;
         const type = info.type;
+        const preferenceKey = info.preferenceKey;
         const interestUpperCase = key.toUpperCase();
         if (upperCaseAnnotations.has(interestUpperCase)) {
-            return {followed: true, annotation: key, display: display, type: type};
+            return {followed: true, annotation: key, display: display, type: type, preferenceKey: preferenceKey};
         }
         // MARK: - If the FT editorial forget to add proper meta, check the title and subheading
         if (description.indexOf(interestUpperCase) >= 0) {
-            return {followed: true, annotation: key, display: display, type: type};
+            return {followed: true, annotation: key, display: display, type: type, preferenceKey: preferenceKey};
         }
     }
 
@@ -559,7 +560,8 @@ function isItemFollowed(item, interests, vectorHighScoreIds) {
         const key = info.key;
         const display = info.display;
         const type = info.type;
-        const followInfo = {followed: true, annotation: key, display: display, type: type};
+        const preferenceKey = info.preferenceKey;
+        const followInfo = {followed: true, annotation: key, display: display, type: type, preferenceKey: preferenceKey};
         return followInfo;
     }
     return {followed: false};
@@ -593,8 +595,7 @@ async function getHighScoreIdsFromVectorDB(content) {
             if (!id || !score) {continue;}
             const existingScore = dict[id]?.score ?? 0;
             if (score >= existingScore) {
-                dict[id] = myTopic;
-                dict[id].score = score;
+                dict[id] = {...myTopic, score: score, preferenceKey: myCustomInterestsKey};
             }            
         }
     }
@@ -699,6 +700,55 @@ function renderSuggestion(ele, suggestions) {
 }
 
 
+function getInterestButtonsByName(name, action) {
+
+    return Array.from(document.querySelectorAll('[data-name]')).filter(ele => {
+        if (ele.getAttribute('data-name') !== name) {return false;}
+        if (action && ele.getAttribute('data-action') !== action) {return false;}
+        return true;
+    });
+
+}
+
+function updateCustomInterestButtons(name, followed) {
+
+    const buttons = getInterestButtonsByName(name).filter(ele => ele.classList.contains('myft-follow') && ele.getAttribute('data-type') === customTopicType);
+    for (const button of buttons) {
+        button.innerHTML = followed ? localize('Unfollow') : localize('Follow');
+        button.classList.toggle('tick', followed);
+        button.classList.toggle('plus', !followed);
+        button.setAttribute('data-action', followed ? 'remove-custom-interest' : 'add-custom-interest-direct');
+        button.setAttribute('data-source', followed ? 'Followed' : 'Follow');
+        button.setAttribute('data-target', followed ? localize('Followed') : localize('Follow'));
+    }
+
+}
+
+async function addCustomInterestFromButton(ele) {
+
+    const uplimit = 5;
+    const name = ele.getAttribute('data-name') || '';
+    if (name === '') {return;}
+    const display = ele.getAttribute('data-display') || name;
+    let myPreference = getMyPreference();
+    let myInterests = (myPreference[myCustomInterestsKey] || []).filter(x => typeof x === 'object');
+    const myInterestsKeys = myInterests.map(x => x.key || '').filter(x => x !== '');
+    if (myInterestsKeys.indexOf(name) >= 0) {
+        updateCustomInterestButtons(name, true);
+        return;
+    }
+    if (myInterests.length >= uplimit) {
+        alert(localize('Reached uplimit'));
+        return;
+    }
+    myInterests.push({key: name, type: customTopicType, display: display});
+    myPreference[myCustomInterestsKey] = myInterests;
+    savePreference(myPreference);
+    updateCustomInterestButtons(name, true);
+    updateAnnotationsContainer(myPreference);
+
+}
+
 
 function followAnnotation(name, instruction = 'toggle') {
 
@@ -708,7 +758,7 @@ function followAnnotation(name, instruction = 'toggle') {
     let myInterestsKeys = myInterests.map(x=>x.key || '').filter(x=>x !== '');
 
     // MARK: - There might be duplicated buttons with the same names
-    let allButtons = document.querySelectorAll(`[data-action="add-interest"][data-name="${name}"]`);
+    let allButtons = getInterestButtonsByName(name, 'add-interest');
     for (let button of allButtons) {
         const type = button.getAttribute('data-type') || 'Topics';
         const display = button.getAttribute('data-display') ?? button.closest('.input-container')?.querySelector('.input-name')?.innerText ?? localize(name);
@@ -943,12 +993,13 @@ delegate.on('click', '[data-action="add-custom-interest"]', async (event) => {
     };
     const newElement = createNewElement();
     container.parentNode.insertBefore(newElement, container.nextSibling);
+    updateCustomInterestButtons(name, true);
     updateAnnotationsContainer(myPreference);
 
 });
 
 
-delegate.on('click', '[data-action="remove-custom-interest"]', async (event) => {
+delegate.on('click', '[data-action="remove-custom-interest"]', (event) => {
 
     let myPreference = getMyPreference();
     let myInterests = myPreference[myCustomInterestsKey] || [];
@@ -957,14 +1008,22 @@ delegate.on('click', '[data-action="remove-custom-interest"]', async (event) => 
     myInterests = myInterests.filter(x=>x.key !== name);
     myPreference[myCustomInterestsKey] = myInterests;
     savePreference(myPreference);
-    const allEles = document.querySelectorAll(`.input-container [data-name="${name}"]`);
+    const allEles = getInterestButtonsByName(name).filter(x => x.closest('.input-container'));
     for (const ele of allEles) {
         const container = ele.closest('.input-container');
         if (container) {
             container.remove();
         }
     }
+    updateCustomInterestButtons(name, false);
     updateAnnotationsContainer(myPreference);
+    return false;
+
+});
+
+delegate.on('click', '[data-action="add-custom-interest-direct"]', async (event) => {
+
+    await addCustomInterestFromButton(event.target);
 
 });
 
@@ -973,6 +1032,12 @@ delegate.on('click', '[data-action="add-interest"]', async (event) => {
 
     const ele = event.target;
     const name = ele.getAttribute('data-name');
+    if (ele.getAttribute('data-type') === customTopicType) {
+        if (ele.classList.contains('plus')) {
+            await addCustomInterestFromButton(ele);
+        }
+        return;
+    }
     followAnnotation(name);
 
 });

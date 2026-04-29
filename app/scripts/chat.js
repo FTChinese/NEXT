@@ -705,7 +705,7 @@ async function showContent(ftid, language, shouldScrollIntoView = true, shouldLo
           if (visualHeading === '' && content.mainImage && content.mainImage.members && content.mainImage.members.length > 0) {
               visualHeading = content.mainImage.members[0].binaryUrl;
               if (location.host === 'ftcoffer.herokuapp.com') {
-                visualHeading = `https://images.ft.com/v3/images/raw/${encodeURIComponent(visualHeading)}?fit=scale-down&source=next&width=1920`;
+                visualHeading = `https://images.ft.com/v3/image/raw/${encodeURIComponent(visualHeading)}?fit=scale-down&source=next&width=1920`;
               } else {
                 visualHeading = `https://d1sh1cgb4xvhl.cloudfront.net/unsafe/1920x0/${encodeURIComponent(visualHeading)}`;
               }
@@ -1794,7 +1794,7 @@ async function showFTPage(content, language, reply) {
         for (const item of items) {
           const key = item.key;
           if (!key) {continue;}
-          myInterestsDict[key] = item;
+          myInterestsDict[key] = {...item, preferenceKey: interestKey};
         }
       }
       const newResult = document.createElement('DIV');
@@ -1833,11 +1833,13 @@ async function showFTPage(content, language, reply) {
           let termName = item.metadata?.primaryTheme?.term?.name;
           let follow = item.follow;
           if (follow) {
-            // console.log(`follow: ${JSON.stringify(myInterestsDict[follow])}`);
-            const fallback = myInterestsDict[follow]?.display;
-            const name = myInterestsDict[follow]?.key;
-            const field = myInterestsDict[follow]?.type;
-            const buttonHTML = `<button class="myft-follow tick" data-action="add-interest" data-name="${name}" data-type="${field}" data-display="${fallback}" data-source="Followed" data-target="${localize('Followed')}">${localize('Followed')}</button>`;
+            const followInfo = item.followInfo || myInterestsDict[follow] || {};
+            const fallback = followInfo.display;
+            const name = followInfo.key || follow;
+            const field = followInfo.type;
+            const isCustomInterest = followInfo.preferenceKey === myCustomInterestsKey || field === customTopicType;
+            const action = isCustomInterest ? 'remove-custom-interest' : 'add-interest';
+            const buttonHTML = `<button class="myft-follow tick" data-action="${action}" data-name="${name}" data-type="${field}" data-display="${fallback}" data-source="Followed" data-target="${localize('Followed')}">${localize('Unfollow')}</button>`;
             primaryTheme = `<span class="primary-theme">${localize(follow, fallback)}</span>${buttonHTML}`;
           } else if (termName && !themes.has(termName) && !/[\(\)（）]/.test(termName)) {
             // console.log(`themes: `);
@@ -1958,14 +1960,14 @@ function showImagesForExpandedGroups() {
     const imageHeight = Math.round(imageWidth * 9 / 16);
     let src = `https://d1sh1cgb4xvhl.cloudfront.net/unsafe/${imageWidth}x${imageHeight}/${encodeURIComponent(url)}`;
     if (location.host === 'ftcoffer.herokuapp.com') {
-      src = `https://images.ft.com/v3/images/raw/${encodeURIComponent(url)}?fit=scale-down&source=next&width=${imageWidth}&height=${imageHeight}`;
+      src = `https://images.ft.com/v3/image/raw/${encodeURIComponent(url)}?fit=scale-down&source=next&width=${imageWidth}&height=${imageHeight}`;
     }
     figure.innerHTML = `<img src="${src}">`;
     figure.classList.remove('loading');
   }
 
   // if (location.host === 'ftcoffer.herokuapp.com') {
-  //   visualHeading = `https://images.ft.com/v3/images/raw/${encodeURIComponent(visualHeading)}?fit=scale-down&source=next&width=1920`;
+  //   visualHeading = `https://images.ft.com/v3/image/raw/${encodeURIComponent(visualHeading)}?fit=scale-down&source=next&width=1920`;
   // } else {
   //   visualHeading = `https://d1sh1cgb4xvhl.cloudfront.net/unsafe/1920x0/${encodeURIComponent(visualHeading)}`;
   // }

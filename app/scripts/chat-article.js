@@ -531,7 +531,7 @@ function imagesToHtml(embed) {
             isSmallImage = false;
         }
         const actualWidth = pixelWidth * 2;
-        let imageUrl = `https://images.ft.com/v3/images/raw/${encodeURIComponent(image.binaryUrl)}`;
+        let imageUrl = `https://images.ft.com/v3/image/raw/${encodeURIComponent(image.binaryUrl)}`;
         deskTopImage = `<img src="${imageUrl}?source=next&amp;width=${actualWidth}">`;
         if (image.format === 'desktop' || image.minDisplayWidth === '980px') {
             html += `<source media="screen and (min-width: 980px)" srcset="${imageUrl}?source=next&amp;width=${actualWidth}">`;
@@ -627,7 +627,7 @@ async function handleFTContent(contentData) {
         for (const image of images) {
             const src = image.src;
             if (!src || src === '') {continue;}
-            const imageUrl = `https://images.ft.com/v3/images/raw/${encodeURIComponent(src)}?source=next&amp;width=2400`;
+            const imageUrl = `https://images.ft.com/v3/image/raw/${encodeURIComponent(src)}?source=next&amp;width=2400`;
             image.src = imageUrl;
             const description = image.getAttribute('longdesc') || '';
             image.outerHTML = `<picture>${image.outerHTML}${description}</picture>`;
@@ -1004,9 +1004,13 @@ function reorderFTResults(results, vectorHighScoreIds) {
     // console.log(`There are ${Object.keys(vectorHighScoreIds)} vector matches! `);
 
     const myPreference = getMyPreference();
-    const myAnnotationInterests = new Set(myPreference[myInterestsKey] || []);
-    const myCustomInterests = new Set(myPreference[myCustomInterestsKey] || []);
-    const myInterests = new Set([...myAnnotationInterests, ...myCustomInterests]);
+    const myAnnotationInterests = (myPreference[myInterestsKey] || [])
+        .filter(x => typeof x === 'object')
+        .map(x => ({...x, preferenceKey: myInterestsKey}));
+    const myCustomInterests = (myPreference[myCustomInterestsKey] || [])
+        .filter(x => typeof x === 'object')
+        .map(x => ({...x, preferenceKey: myCustomInterestsKey}));
+    const myInterests = myAnnotationInterests.concat(myCustomInterests);
       
     // MARK: Handle Read Articles Preference
     const readArticle = myPreference[readArticlesKey] || 'collapse';
@@ -1033,6 +1037,7 @@ function reorderFTResults(results, vectorHighScoreIds) {
         const isFollowed = isFollowedInfo.followed;
         if (isFollowed) {
             item.follow = isFollowedInfo.annotation;
+            item.followInfo = isFollowedInfo;
         }
         if (isArticleRead && collapseReadArticles) {
             reads.push(item);
