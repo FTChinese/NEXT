@@ -85,6 +85,14 @@
 								<a class="action-icon icon-x P-hide" href="<%$twitterUrl%>" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><path d="M21.647 18.469 28.932 10h-1.726l-6.326 7.353L15.827 10H10l7.64 11.12L10 30h1.726l6.68-7.765L23.744 30h5.827l-7.924-11.531Zm-2.365 2.748-.774-1.107-6.16-8.81H15l4.971 7.11.774 1.107 6.462 9.242h-2.652l-5.273-7.541"></path></svg></a>
 								<a class="action-icon icon-facebook P-hide" href="<%$facebookUrl%>" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path d="M643.9 342h-48.2c-37.8 0-45.1 18-45.1 44.3v58.1h90.1l-11.7 91h-78.4V769h-94V535.5H378v-91h78.6v-67.1c0-77.9 47.6-120.3 117.1-120.3 33.3 0 61.9 2.5 70.2 3.6V342z"></path></svg></a>
 								<%$languageOptions%>
+								<%assign var="chatFTCFtId" value=$story.ftid|default:$ftid%>
+								<%if $chatFTCFtId != ""%>
+									<%assign var="chatFTCLanguage" value="zh-CN"%>
+									<%if $page_action == "en"%>
+										<%assign var="chatFTCLanguage" value="English"%>
+									<%/if%>
+									<a class="icon-right icon-action icon-chatftc" href="/powertranslate/chat.html#ftid=<%$chatFTCFtId%>&language=<%$chatFTCLanguage%>&action=read" target="_blank" rel="noopener" title="问ChatFTC" aria-label="问ChatFTC"></a>
+								<%/if%>
 								<%$buyButton%>
 								<%if $itemType == "story" || $itemType == "premium" || $itemType == "interactive" || ($itemType == "video" && $smarty.get.showFav == "on")%>
 									<div class="icon-right icon-save">
