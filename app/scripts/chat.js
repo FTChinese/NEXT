@@ -4,7 +4,8 @@ const switchIntention = document.getElementById('switch-intention');
 const chatContent = document.getElementById('chat-content');
 const chatSumit = document.getElementById('chat-submit');
 const isPowerTranslate = location.href.indexOf('powertranslate') >= 0 || window.isUsingHandleBars === true;
-const isFrontendTest = location.href.indexOf('localhost') >= 0 && window.isUsingHandleBars !== true;
+const isLocalhost = ['localhost', '127.0.0.1', '::1'].indexOf(location.hostname) >= 0;
+const isFrontendTest = window.isFrontendTest === true || (isLocalhost && location.href.indexOf('frontendTest=1') >= 0 && window.isUsingHandleBars !== true);
 const isInNativeApp = location.href.indexOf('webview=ftcapp') >= 0;
 const discussArticleOnly = location.href.indexOf('ftid=') >= 0 && location.href.indexOf('action=read') < 0;
 const showGreeting = !/action=(read|search|news-quiz)/gi.test(location.href);
@@ -19,6 +20,10 @@ var previousIntentDections = [];
 var botStatus = 'waiting';
 var intention;
 var articles = {};
+var chatCitationStore = {};
+var chatCitationGroupIndex = 0;
+var activeCitationPopoverMode = '';
+var citationHoverCloseTimer;
 const publicVapidKey = 'BCbyPnt30RUDSelV6n1jJk8jHzR9cT7ajJPXLRq7tohhQ8D6TVb1h3ENUOJGdPxJgbbg8zPaDNJzOXIUfkWk67M';
 let registration;
 const readArticlesKey = 'Read Articles';
@@ -59,6 +64,45 @@ chatSumit.addEventListener('click', function(event){
 
 chatContent.addEventListener('scroll', function() {
   checkScrollyTellingForChat();
+});
+
+document.addEventListener('click', function(event) {
+  const target = getEventElement(event);
+  if (target && target.closest && target.closest('.chat-citation-popover-close')) {
+    event.preventDefault();
+    closeCitationPopover();
+    return;
+  }
+  if (target && target.closest && (target.closest('.chat-citation-popover') || target.closest('.chat-citation-bubble'))) {
+    return;
+  }
+  closeCitationPopover();
+});
+
+delegate.on('click', '.chat-citation-bubble', (event, button) => {
+  event.preventDefault();
+  logCitationDebug('click', getCitationButtonDebugInfo(button));
+  showCitationPopover(button, 'click');
+});
+
+delegate.on('mouseover', '.chat-citation-bubble', (event, button) => {
+  if (activeCitationPopoverMode === 'click') {
+    return;
+  }
+  clearCitationHoverCloseTimer();
+  showCitationPopover(button, 'hover');
+});
+
+delegate.on('mouseout', '.chat-citation-bubble', (event, button) => {
+  scheduleHoverCitationClose(event, button);
+});
+
+delegate.on('mouseover', '.chat-citation-popover', () => {
+  clearCitationHoverCloseTimer();
+});
+
+delegate.on('mouseout', '.chat-citation-popover', (event, popover) => {
+  scheduleHoverCitationClose(event, popover);
 });
 
 delegate.on('click', '[data-action="talk"]', async (event) => {
@@ -909,6 +953,222 @@ function showBotResponse(placeholder, shouldScrollIntoView = true) {
   botResponse.scrollIntoView(scrollOptions);
 }
 
+function escapeHTML(value) {
+  return `${value || ''}`
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function getCitationSourceId(citation) {
+  return citation?.source_id || citation?.sourceId || '';
+}
+
+function buildCitationMap(citations = []) {
+  const citationMap = {};
+  if (!Array.isArray(citations)) {
+    return citationMap;
+  }
+  let fallbackIndex = 1;
+  for (const citation of citations) {
+    const sourceId = getCitationSourceId(citation);
+    if (sourceId === '') {
+      continue;
+    }
+    const index = citation?.index || fallbackIndex;
+    citationMap[sourceId] = {
+      ...citation,
+      source_id: sourceId,
+      index
+    };
+    fallbackIndex += 1;
+  }
+  return citationMap;
+}
+
+function registerCitationGroup(citations = []) {
+  const citationMap = buildCitationMap(citations);
+  const sourceIds = Object.keys(citationMap);
+  const citationGroup = {
+    citationMap,
+    citationKeys: {}
+  };
+  if (sourceIds.length === 0) {
+    return citationGroup;
+  }
+  chatCitationGroupIndex += 1;
+  const groupId = `cg${chatCitationGroupIndex}`;
+  let sourceIndex = 0;
+  for (const sourceId of sourceIds) {
+    sourceIndex += 1;
+    const citationKey = `${groupId}c${sourceIndex}`;
+    citationGroup.citationKeys[sourceId] = citationKey;
+    chatCitationStore[citationKey] = citationMap[sourceId];
+  }
+  return citationGroup;
+}
+
+function renderInlineCitationMarkers(text = '', citations = []) {
+  if (typeof text !== 'string' || text === '') {
+    return text;
+  }
+  const citationGroup = registerCitationGroup(citations);
+  const citationMap = citationGroup.citationMap;
+  return text.replace(/\{\{cite:([A-Za-z0-9_-]+)\}\}/g, (raw, sourceId) => {
+    const citation = citationMap[sourceId];
+    if (!citation) {
+      return '';
+    }
+    const label = escapeHTML(citation.index);
+    const citationKey = escapeHTML(citationGroup.citationKeys[sourceId] || '');
+    const title = escapeHTML(citation.title || citation.quote || citation.excerpt || '');
+    return `<button type="button" class="chat-citation-bubble" data-citation-key="${citationKey}" aria-label="Citation ${label}" aria-haspopup="dialog" aria-expanded="false" title="${title}">${label}</button>`;
+  });
+}
+
+function logCitationDebug(action, detail) {
+  if (!isLocalhost) {
+    return;
+  }
+  console.log(`[ChatCitation][frontend][${action}]`, detail);
+}
+
+function getCitationButtonDebugInfo(button) {
+  const citationKey = button ? button.getAttribute('data-citation-key') || '' : '';
+  return {
+    key: citationKey,
+    found: !!chatCitationStore[citationKey],
+    store_size: Object.keys(chatCitationStore).length,
+    store_keys_sample: Object.keys(chatCitationStore).slice(0, 6),
+    outer_html: button ? button.outerHTML : ''
+  };
+}
+
+function getEventElement(event) {
+  if (!event || !event.target) {
+    return null;
+  }
+  if (event.target.nodeType === 3) {
+    return event.target.parentElement;
+  }
+  return event.target;
+}
+
+function getElementFromNode(node) {
+  if (!node) {
+    return null;
+  }
+  if (node.nodeType === 3) {
+    return node.parentElement;
+  }
+  return node;
+}
+
+function isCitationSurfaceElement(element) {
+  if (!element || !element.closest) {
+    return false;
+  }
+  return !!(element.closest('.chat-citation-bubble') || element.closest('.chat-citation-popover'));
+}
+
+function isMovingWithinCitationSurface(event, currentElement) {
+  const relatedElement = getElementFromNode(event?.relatedTarget);
+  if (!relatedElement) {
+    return false;
+  }
+  if (currentElement && currentElement.contains && currentElement.contains(relatedElement)) {
+    return true;
+  }
+  return isCitationSurfaceElement(relatedElement);
+}
+
+function clearCitationHoverCloseTimer() {
+  if (!citationHoverCloseTimer) {
+    return;
+  }
+  clearTimeout(citationHoverCloseTimer);
+  citationHoverCloseTimer = null;
+}
+
+function scheduleHoverCitationClose(event, currentElement) {
+  if (activeCitationPopoverMode !== 'hover') {
+    return;
+  }
+  if (isMovingWithinCitationSurface(event, currentElement)) {
+    return;
+  }
+  clearCitationHoverCloseTimer();
+  citationHoverCloseTimer = setTimeout(function() {
+    if (activeCitationPopoverMode === 'hover') {
+      closeCitationPopover();
+    }
+  }, 120);
+}
+
+function closeCitationPopover() {
+  clearCitationHoverCloseTimer();
+  activeCitationPopoverMode = '';
+  const popovers = document.querySelectorAll('.chat-citation-popover');
+  for (const popover of popovers) {
+    popover.remove();
+  }
+  const buttons = document.querySelectorAll('.chat-citation-bubble[aria-expanded="true"]');
+  for (const button of buttons) {
+    button.setAttribute('aria-expanded', 'false');
+  }
+}
+
+function showCitationPopover(button, trigger = 'unknown') {
+  if (trigger === 'hover' && activeCitationPopoverMode === 'click') {
+    return;
+  }
+  if (!button) {
+    logCitationDebug('popover', {
+      trigger,
+      error: 'missing button'
+    });
+    return;
+  }
+  const citationKey = button.getAttribute('data-citation-key') || '';
+  const citation = chatCitationStore[citationKey];
+  logCitationDebug('popover', {
+    trigger,
+    key: citationKey,
+    found: !!citation,
+    store_size: Object.keys(chatCitationStore).length,
+    store_keys_sample: Object.keys(chatCitationStore).slice(0, 6)
+  });
+  if (!citation) {
+    return;
+  }
+  const popoverMode = trigger === 'click' ? 'click' : 'hover';
+  closeCitationPopover();
+  activeCitationPopoverMode = popoverMode;
+  button.setAttribute('aria-expanded', 'true');
+  const language = preferredLanguage || 'English';
+  const quote = citation.quote || citation.excerpt || '';
+  const title = citation.title || citation.title_zh || citation.title_en || 'FT source';
+  const url = getCitationUrl(citation, language);
+  const popover = document.createElement('div');
+  popover.className = 'chat-citation-popover';
+  popover.setAttribute('data-citation-mode', popoverMode);
+  popover.innerHTML = [
+    '<button type="button" class="chat-citation-popover-close" aria-label="Close"></button>',
+    `<a class="chat-citation-popover-title" target="_blank" rel="noopener noreferrer" href="${escapeHTML(url)}">${escapeHTML(title)}</a>`,
+    quote ? `<p>${escapeHTML(quote)}</p>` : ''
+  ].join('');
+  document.body.appendChild(popover);
+  const rect = button.getBoundingClientRect();
+  const popoverWidth = Math.min(340, Math.max(260, window.innerWidth - 24));
+  const left = Math.min(Math.max(12, rect.left), window.innerWidth - popoverWidth - 12);
+  const top = Math.min(rect.bottom + 8, window.innerHeight - 160);
+  popover.style.width = `${popoverWidth}px`;
+  popover.style.left = `${left}px`;
+  popover.style.top = `${Math.max(12, top)}px`;
+}
+
 function showResultInChat(result, shouldScrollIntoView = true, isFullGrid = false) {
   updateBotStatus('waiting');
   const newResult = document.createElement('DIV');
@@ -916,7 +1176,8 @@ function showResultInChat(result, shouldScrollIntoView = true, isFullGrid = fals
   newResult.className = `chat-talk chat-talk-agent${fullGridClassName}`;
   // MARK: - Converting the HTML on the frontend
   if (!result || !result.text || typeof result.text !== 'string') {return;}
-  const resultHTML = result.skipMarkdown === true ? result.text : markdownConvert(result.text);
+  const resultText = renderInlineCitationMarkers(result.text, result.citations || []);
+  const resultHTML = result.skipMarkdown === true ? resultText : markdownConvert(resultText);
   newResult.innerHTML = `<div class="chat-talk-inner">${resultHTML}</div>`;
   chatContent.appendChild(newResult);
   if (newResult.querySelector('h1, .story-header-container')) {
@@ -1033,6 +1294,8 @@ async function talk() {
       max_tokens: 300,
       intentions: intentions,
       key: window.intention, // Pass the window intention for fast detection
+      citation_schema_version: '2026-04-29-citations-v1',
+      local_debug: isLocalhost,
         // Deprecating: - Migrating to Pinecone for context
       // context: context // Send context such as article text so that the chat bot can respond more accurately
   };
@@ -1049,6 +1312,14 @@ async function talk() {
   }
 
   if (result.status === 'success' && result.text) {
+      if (isLocalhost) {
+        console.log('[ChatCitation] result', {
+          intention: result.intention,
+          sources: Array.isArray(result.sources) ? result.sources.length : 0,
+          citations: Array.isArray(result.citations) ? result.citations.length : 0,
+          hasCitationMarker: /\{\{cite:/.test(result.text)
+        });
+      }
       showResultInChat(result);
       // MARK: - Only keep the latest 5 conversations and 4 intentions
       previousConversations = previousConversations.slice(-5);
@@ -1063,7 +1334,7 @@ async function talk() {
       updateStatus(result.intention);
       // MARK: - Check if the resultHTML has some prompt or request for the system
       await handleResultPrompt(result.text);
-      await handleResultSources(result.sources);
+      await handleResultSources(result.sources, result.citations);
       await nextAction(result.intention);
   } else if (result.message) {
       updateStatus('Error');
@@ -1938,10 +2209,9 @@ function showPaywallMessage(results) {
   console.log('handlePermissionErrors: ');
   console.log(JSON.stringify(results));
   const tierToBuy = results?.tierToBuy;
-  const currentTier = results?.currentTier;
   if (tierToBuy) {
-    const subscrption = localize(`${tierToBuy} subscription`);
-    const paywallHTML = `You are currently a ${currentTier}. You need to buy <a href="/subscription">${subscrption}</a> to access this feature. `;
+    const tierName = localize(tierToBuy);
+    const paywallHTML = localize('promptUpgrade').replace('[tierToBuy]', tierName);
     showResultInChat({text: paywallHTML}, false, false);
   } else {
     const errorMessage = results?.message ?? localize('unknown error! ');
@@ -1991,8 +2261,74 @@ async function handleResultPrompt(resultHTML) {
   }
 }
 
-async function handleResultSources(sources) {
+function getCitationUrl(citation, language) {
+  const ftid = citation?.ftid || '';
+  if (ftid !== '') {
+    return `./chat.html#ftid=${encodeURIComponent(ftid)}&language=${encodeURIComponent(language)}&action=read`;
+  }
+  return citation?.url || '#';
+}
+
+function getStructuredCitations(citations = []) {
+  if (!Array.isArray(citations)) {
+    return [];
+  }
+  const result = [];
+  const seen = new Set();
+  for (const citation of citations) {
+    const sourceId = getCitationSourceId(citation);
+    if (sourceId === '' || seen.has(sourceId)) {
+      continue;
+    }
+    seen.add(sourceId);
+    result.push({
+      ...citation,
+      source_id: sourceId
+    });
+  }
+  result.sort((a, b) => {
+    const aIndex = Number(a?.index || 0);
+    const bIndex = Number(b?.index || 0);
+    return aIndex - bIndex;
+  });
+  return result;
+}
+
+function buildStructuredCitationsHTML(citations = [], language = 'English') {
+  const structuredCitations = getStructuredCitations(citations);
+  if (structuredCitations.length === 0) {
+    return '';
+  }
+
+  const links = [];
+  const seen = new Set();
+  for (const citation of structuredCitations) {
+    const groupKey = citation?.ftid || getCitationSourceId(citation);
+    if (seen.has(groupKey)) {
+      continue;
+    }
+    seen.add(groupKey);
+    links.push({
+      title: citation?.title || citation?.title_zh || citation?.title_en || 'FT source',
+      url: getCitationUrl(citation, language)
+    });
+  }
+
+  let html = '<ul class="chat-citations chat-citation-links">';
+  for (const link of links) {
+    html += `<li><a target="_blank" rel="noopener noreferrer" href="${escapeHTML(link.url)}">${escapeHTML(link.title)}</a></li>`;
+  }
+  html += '</ul>';
+  return html;
+}
+
+async function handleResultSources(sources, citations) {
   const language = preferredLanguage || 'English';
+  const structuredCitationsHTML = buildStructuredCitationsHTML(citations, language);
+  if (structuredCitationsHTML !== '') {
+    showResultInChat({text: structuredCitationsHTML, skipMarkdown: true}, false);
+    return;
+  }
   if (!sources || sources.length === 0) {return;}
   const keyword = sources.map(ftid=>`id: "${ftid}"`).join(' OR ');
   const searchResult = await getFTAPISearchResult(keyword, language);

@@ -245,6 +245,12 @@ try {
         if (discountCode !== '') {
             hrefLink += '&from=' + discountCode;
         }
+        if (window.gRequiredSubscriptionTier === 'premium') {
+            hrefLink += '&requiredTier=premium&sourceType=story';
+            if (window.FTStoryid) {
+                hrefLink += '&sourceContent=' + encodeURIComponent(window.FTStoryid);
+            }
+        }
         subscribeNow.href = hrefLink;
         subscribeNow.onclick = function(){
             gtag('event', 'select_content', {

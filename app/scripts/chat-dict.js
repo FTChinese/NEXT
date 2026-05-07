@@ -2023,18 +2023,18 @@ let statusDictOriginal = {
     ru: '<p>Вы можете настраивать содержание FT, которое вы следите, вводя ключевые слова, такие как темы, типы, люди, регионы, колонки, авторы и т. д., чтобы не пропустить никакой важной информации.</p><p>Даже если интересующая вас тема не имеет прямой метки в FT, вы можете следить за ней, вводя ее, и наш семантический поиск на базе ИИ поможет вам обнаружить наиболее актуальный и релевантный контент.</p>'
   },
   'Introduction': {
-    en: 'Welcome to your personal finance and business news assistant! My goal is to help you get the most value out of your subscription by providing customized recommendations and insights. ',
-    es: '¡Bienvenido a tu asistente personal de finanzas y noticias empresariales! Mi objetivo es ayudarte a obtener el mayor valor de tu suscripción mediante recomendaciones e ideas personalizadas.',
-    fr: 'Bienvenue à votre assistant personnel pour les actualités financières et commerciales ! Mon objectif est de vous aider à tirer le meilleur parti de votre abonnement en vous fournissant des recommandations et des informations personnalisées.',
-    de: 'Willkommen bei Ihrem persönlichen Finanz- und Wirtschaftsnachrichtenassistenten! Mein Ziel ist es, Ihnen durch maßgeschneiderte Empfehlungen und Einblicke den größten Nutzen aus Ihrem Abonnement zu verschaffen.',
-    ja: 'ファイナンシャル•タイムズのパーソナル•ファイナンス＆ビジネスニュース•アシスタントへようこそ！私の目標は、カスタマイズされた推奨事項と洞察力を提供することで、あなたのサブスクリプションから最大の価値を得ることをお手伝いすることです。',
-    ko: '개인 맞춤형 금융 및 비즈니스 뉴스 어시스턴트에 오신 것을 환영합니다! 나의 목표는 맞춤형 추천 및 인사이트를 제공하여 구독에서 최대 가치를 끌어내는 것입니다.',
-    pt: 'Bem-vindo ao seu assistente pessoal de finanças e notícias empresariais! Meu objetivo é ajudá-lo a obter o máximo valor da sua assinatura, fornecendo recomendações e insights personalizados.',
-    it: 'Benvenuto nel tuo assistente personale per le notizie finanziarie e commerciali! Il mio obiettivo è aiutarti a ottenere il massimo valore dalla tua sottoscrizione fornendo raccomandazioni e informazioni personalizzate.',
-    'zh-TW': '歡迎使用專屬於您的財經新聞助理！我的目標是透過提供量身定制的建議和深度分析，協助您充分利用您的訂閱。',
-    'zh-HK': '歡迎使用專屬於您的財經新聞助理！我的目標是透過提供量身定制的建議和深度分析，協助您充分利用您的訂閱。',
-    zh: '欢迎使用专属于您的财经新闻助理！我的目标是通过提供量身定制的推荐和深度分析，协助您充分利用您的订阅。',
-    ru: 'Добро пожаловать в вашего персонального помощника по финансовым и бизнес-новостям! Моя цель - помочь вам получить максимальную пользу от вашей подписки, предоставляя настраиваемые рекомендации и аналитику.'
+    en: 'Welcome to ChatFTC, your personal FT assistant. You can ask me to summarise FT articles, explain context, follow topics you care about and continue the discussion, helping you get more value from your premium subscription.',
+    es: 'Bienvenido a ChatFTC, tu asistente personal de FT. Puedes pedirme que resuma artículos de FT, explique el contexto, siga los temas que te interesan y continúe la conversación para ayudarte a sacar más valor de tu suscripción premium.',
+    fr: 'Bienvenue dans ChatFTC, votre assistant FT personnel. Vous pouvez me demander de résumer des articles du FT, d’expliquer le contexte, de suivre les sujets qui vous intéressent et de poursuivre la discussion afin de tirer davantage de valeur de votre abonnement premium.',
+    de: 'Willkommen bei ChatFTC, Ihrem persönlichen FT-Assistenten. Sie können mich bitten, FT-Artikel zusammenzufassen, Hintergründe zu erklären, Themen zu verfolgen, die Sie interessieren, und die Diskussion fortzusetzen, damit Sie mehr Wert aus Ihrem Premium-Abonnement ziehen.',
+    ja: 'ChatFTCへようこそ。FTのパーソナルアシスタントとして、FT記事の要約、背景の解説、関心のあるトピックの追跡、さらに深い議論をお手伝いし、プレミアム購読の価値をより高めます。',
+    ko: 'ChatFTC에 오신 것을 환영합니다. 개인 FT 어시스턴트로서 FT 기사 요약, 배경 설명, 관심 주제 추적, 이어지는 토론을 도와 프리미엄 구독의 가치를 더 잘 활용할 수 있게 합니다.',
+    pt: 'Bem-vindo ao ChatFTC, seu assistente pessoal do FT. Você pode me pedir para resumir artigos do FT, explicar contextos, acompanhar temas do seu interesse e continuar a discussão, ajudando você a obter mais valor da sua assinatura premium.',
+    it: 'Benvenuto in ChatFTC, il tuo assistente personale FT. Puoi chiedermi di riassumere articoli del FT, spiegare il contesto, seguire i temi che ti interessano e continuare la discussione, aiutandoti a ottenere più valore dal tuo abbonamento premium.',
+    'zh-TW': '歡迎使用ChatFTC，專屬於您的FT助理。您可以讓我總結FT文章、解釋背景、追蹤您關注的話題，並繼續延伸討論，幫助您更充分使用高端訂閱權益。',
+    'zh-HK': '歡迎使用ChatFTC，專屬於您的FT助理。您可以讓我總結FT文章、解釋背景、追蹤您關注的話題，並繼續延伸討論，幫助您更充分使用高端訂閱權益。',
+    zh: '欢迎使用ChatFTC，专属于您的FT助理。您可以让我总结FT文章、解释背景、追踪您关注的话题，并继续延展讨论，帮助您更充分使用高端订阅权益。',
+    ru: 'Добро пожаловать в ChatFTC, ваш персональный помощник FT. Вы можете попросить меня кратко изложить статьи FT, объяснить контекст, отслеживать интересующие вас темы и продолжить обсуждение, чтобы получить больше пользы от премиум-подписки.'
   },
   "premium": {
     "zh": "高端",
@@ -5067,8 +5067,8 @@ Genres: {
     "ru": "Не удалось создать сеанс оформления заказа. Сервер ответил со статусом [status]."
   },
   "promptUpgrade": {
-    "zh": "请<a href=\"/subscription\">升级到[tierToBuy]订阅</a>以使用此功能。",
-    "en": "Please <a href=\"/subscription\">upgrade to [tierToBuy] subscription</a> to access this feature.",
+    "zh": "ChatFTC是高端会员权益。请<a href=\"/subscription\">升级到[tierToBuy]订阅</a>后使用。",
+    "en": "ChatFTC is a premium member benefit. Please <a href=\"/subscription\">upgrade to [tierToBuy] subscription</a> to use it.",
     "es": "Por favor, <a href=\"/subscription\">actualiza a la suscripción [tierToBuy]</a> para acceder a esta función.",
     "fr": "Veuillez <a href=\"/subscription\">passer à l'abonnement [tierToBuy]</a> pour accéder à cette fonctionnalité.",
     "de": "Bitte <a href=\"/subscription\">auf das [tierToBuy]-Abonnement upgraden</a>, um auf diese Funktion zuzugreifen.",
@@ -5076,8 +5076,8 @@ Genres: {
     "ko": "이 기능을 사용하려면 <a href=\"/subscription\">[tierToBuy] 구독으로 업그레이드</a>하세요.",
     "pt": "Por favor, <a href=\"/subscription\">faça upgrade para a assinatura [tierToBuy]</a> para acessar este recurso.",
     "it": "Per favore, <a href=\"/subscription\">aggiorna all'abbonamento [tierToBuy]</a> per accedere a questa funzionalità.",
-    "zh-TW": "請<a href=\"/subscription\">升級至[tierToBuy]訂閱</a>以使用此功能。",
-    "zh-HK": "請<a href=\"/subscription\">升級至[tierToBuy]訂閱</a>以使用此功能。",
+    "zh-TW": "ChatFTC是高端會員權益。請<a href=\"/subscription\">升級至[tierToBuy]訂閱</a>後使用。",
+    "zh-HK": "ChatFTC是高端會員權益。請<a href=\"/subscription\">升級至[tierToBuy]訂閱</a>後使用。",
     "ru": "Пожалуйста, <a href=\"/subscription\">обновите подписку до [tierToBuy]</a>, чтобы получить доступ к этой функции."
   },
   "checkoutFailedTryAgain": {

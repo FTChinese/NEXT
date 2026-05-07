@@ -567,6 +567,87 @@ a[data-action], a[data-key] {
     }
 }
 
+.chat-citation-bubble {
+    -webkit-appearance: none;
+    appearance: none;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.25em;
+    height: 1.25em;
+    min-width: 1.25em;
+    min-height: 1.25em;
+    max-width: 1.25em;
+    max-height: 1.25em;
+    margin: 0 0.12em;
+    border: 0;
+    border-radius: 999px;
+    background-color: #e6ded5;
+    color: $darkGrey;
+    font-size: 0.72em;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+    vertical-align: 0.12em;
+    padding: 0;
+    cursor: pointer;
+    &:hover, &:focus {
+        border: 0;
+        background-color: $darkGrey;
+        color: white;
+    }
+}
+
+.chat-citation-links {
+    margin-top: math.div($defaultPadding, 2);
+    li {
+        margin-bottom: math.div($defaultPadding, 4);
+    }
+    a {
+        font-size: 0.9em;
+    }
+}
+
+.chat-citation-popover {
+    position: fixed;
+    z-index: 9999;
+    box-sizing: border-box;
+    padding: math.div($defaultPadding, 2) $defaultPadding math.div($defaultPadding, 2) math.div($defaultPadding, 2);
+    border: 1px solid $whiteBorderFT;
+    background-color: #fff8f0;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.18);
+    color: $darkGrey;
+    font-size: 16px;
+    line-height: 1.35;
+    p {
+        margin: math.div($defaultPadding, 4) 0 0 0;
+        padding: 0;
+        color: $darkGrey;
+        font-size: 0.92em;
+    }
+}
+
+.chat-citation-popover-title {
+    display: inline;
+    color: black;
+    font-weight: 600;
+}
+
+.chat-citation-popover-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 28px;
+    height: 28px;
+    border: 0;
+    background-color: transparent;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: 18px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 -960 960 960"><path d="m256-213-43-43 224-224-224-224 43-43 224 224 224-224 43 43-224 224 224 224-43 43-224-224-224 224Z"/></svg>');
+}
+
 [data-purpose] {
     // display: none;
     background-color: $bannerBG;

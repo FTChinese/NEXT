@@ -23,6 +23,24 @@ const coerceBool = (v) => (
   String(v) === '1' || v === 1 || v === true || String(v).toLowerCase() === 'true'
 );
 
+function buildSubscriptionLinkForContentPaywall(info) {
+  const queryParts = [];
+  const isPremiumContent = parseInt(info?.access_tier, 10) === 2;
+  if (!isPremiumContent) {
+    return '/subscription';
+  }
+
+  queryParts.push('requiredTier=premium');
+  queryParts.push('sourceType=story');
+
+  const sourceContent = `${info?.ftid || info?.id || info?.storyid || info?.content_id || ''}`.trim();
+  if (/^\d{6,12}$/.test(sourceContent)) {
+    queryParts.push('sourceContent=' + encodeURIComponent(sourceContent));
+  }
+
+  return '/subscription?' + queryParts.join('&');
+}
+
 function getTimeStamp(info, isEn = true) {
   if (!info?.pubdate || !info?.fileupdatetime) {return '';}
 
@@ -986,10 +1004,12 @@ async function renderContentPageBody(info, appDetailEle, langSel, langValue) {
       messages.login = `如您已经是高端会员，${loginMsg}`;
     }
 
+    const subscriptionLink = buildSubscriptionLinkForContentPaywall(info);
+
     finalBody = `<div class="subscribe-lock-container"><div class="lock-block">
         <div class="lock-content">${messages.lock}</div>
         <div class="lock-content">${messages.login}</div>
-        <div class="subscribe-btn"><a href="/subscription">${messages.upgrade}►</a></div>
+        <div class="subscribe-btn"><a href="${esc(subscriptionLink)}">${messages.upgrade}►</a></div>
     </div></div>`;
   }
 

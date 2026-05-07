@@ -74,7 +74,8 @@ async function createChatFromOpenAI(data) {
                                 status: 'success', 
                                 text: cachedResult[0].message.content, 
                                 intention: cachedResult[0].message.intention || 'Other',
-                                sources: cachedResult[0].message.sources || []
+                                sources: cachedResult[0].message.sources || [],
+                                citations: cachedResult[0].message.citations || []
                             };
                         }
                     }
@@ -196,7 +197,8 @@ async function createChatFromOpenAI(data) {
             const text = message.content.trim();
             const intention = message.intention || 'Other';
             const sources = message.sources || [];
-            const result = {status: 'success', text: text, intention: intention, sources: sources};
+            const citations = message.citations || [];
+            const result = {status: 'success', text: text, intention: intention, sources: sources, citations: citations};
             return result;
         } else if (typeof results === 'object' && results.status === 'rateLimit' ) {
             const minutes = Math.ceil((results.remainingTime || 0) / 60000);

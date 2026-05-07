@@ -44,6 +44,13 @@
     <%/if%>
 <%/foreach%>
 
+<script type="text/javascript">
+    window.gRequiredSubscriptionTier = '';
+    <%if $productTitle == "" && preg_match("/Premium/is",$privilegeType)%>
+    window.gRequiredSubscriptionTier = 'premium';
+    window.gRequiredSubscriptionSourceType = 'story';
+    <%/if%>
+</script>
 
 <%php%>
     $subscriptionType = 'free';
