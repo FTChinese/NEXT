@@ -1246,18 +1246,19 @@ function getShortcutOptions(prompt) {
   return null;
 }
 
-async function talk() {
+async function talk(promptOverride = '', displayPromptOverride = '') {
   // console.log(`Talk sent! Hiding the .chat-topic-intention`);
   const ele = document.querySelector('.chat-topic-intention');
   hideEle(ele);
-  const prompt = userInput.value.replace(/^\s+|\s+$/g, '');
+  const promptSource = promptOverride || userInput.value;
+  const prompt = promptSource.replace(/^\s+|\s+$/g, '');
   if (prompt === '') {return;}
   if (botStatus === 'pending') {return;}
   if (!chatContent.querySelector('.chat-talk')) {
       chatContent.innerHTML = '';
   }
   updateBotStatus('pending');
-  showUserPrompt(prompt);
+  showUserPrompt(displayPromptOverride || prompt);
   hidePreviousActions();
   userInput.value = '';
   userInput.style.height = 'auto';
@@ -2558,6 +2559,44 @@ async function setConfigurations() {
   
 }
 
+function getArticleStarterInfo(starter, language) {
+  const normalizedStarter = `${starter || ''}`.toLowerCase();
+  const languageKey = /^en|english/i.test(language || '') ? 'en' : 'zh';
+  const starters = {
+    summary: {
+      zh: {
+        label: '总结本文',
+        prompt: '请总结本文。请先列出3到5个要点，再用一小段话说明这篇文章为什么重要。'
+      },
+      en: {
+        label: 'Summarise this article',
+        prompt: 'Please summarise this article. Start with 3 to 5 key points, then briefly explain why it matters.'
+      }
+    },
+    background: {
+      zh: {
+        label: '解释背景',
+        prompt: '请解释本文的背景。请说明主要人物、机构和事件脉络，并指出理解这篇文章需要知道的关键背景。'
+      },
+      en: {
+        label: 'Explain the background',
+        prompt: 'Please explain the background to this article. Cover the main people, institutions, and sequence of events, then point out the key context readers need to understand it.'
+      }
+    },
+    discussion: null
+  };
+  const starterInfo = starters[normalizedStarter];
+  if (!starterInfo) {return null;}
+  return starterInfo[languageKey] ?? starterInfo.en ?? null;
+}
+
+async function runArticleStarter(starter, language) {
+  const starterInfo = getArticleStarterInfo(starter, language);
+  if (!starterInfo) {return;}
+  // MARK: The article has already been loaded and currentFTId has been set, so talk() can reuse the normal DiscussArticle flow with ftid context.
+  await talk(starterInfo.prompt, starterInfo.label);
+}
+
 
 async function waitForAccessToken() {
   return;
@@ -2608,11 +2647,14 @@ async function setGuardRails() {
     showBackArrow();
     await waitForAccessToken();
     await showContent(ftid, preferredLanguage);
-    if (action && action !== '') {
+    if (action && action !== '' && action !== 'read') {
       const element = document.querySelector(`[data-action="${action}"]`);
       if (element) {
         await handleActionClick(element);
       }
+    }
+    if (!action || action === 'read') {
+      await runArticleStarter(paramDict.starter, preferredLanguage);
     }
   } else if (action === 'survey' && surveyName) {
     // MARK: - Wait for the showSurvey function to be loaded
