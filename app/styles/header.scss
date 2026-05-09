@@ -87,24 +87,67 @@
 
 
 
+$chatFTCHeaderIconDark: "data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' width='24' viewBox='0 0 24 24'%3E%3Cpath fill='%2333302e' d='m19 9-1.25-2.75L15 5l2.75-1.25L19 1l1.25 2.75L23 5l-2.75 1.25Zm0 14-1.25-2.75L15 19l2.75-1.25L19 15l1.25 2.75L23 19l-2.75 1.25ZM9 20l-2.5-5.5L1 12l5.5-2.5L9 4l2.5 5.5L17 12l-5.5 2.5Zm0-4.85L10 13l2.15-1L10 11 9 8.85 8 11l-2.15 1L8 13Z'/%3E%3C/svg%3E";
+$chatFTCHeaderIconLight: "data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' width='24' viewBox='0 0 24 24'%3E%3Cpath fill='%23ffffff' d='m19 9-1.25-2.75L15 5l2.75-1.25L19 1l1.25 2.75L23 5l-2.75 1.25Zm0 14-1.25-2.75L15 19l2.75-1.25L19 15l1.25 2.75L23 19l-2.75 1.25ZM9 20l-2.5-5.5L1 12l5.5-2.5L9 4l2.5 5.5L17 12l-5.5 2.5Zm0-4.85L10 13l2.15-1L10 11 9 8.85 8 11l-2.15 1L8 13Z'/%3E%3C/svg%3E";
+
 .header-left {
 	left: $defaultPadding;
 	width: 90px;
 }
 .header-left-ai-icon {
 	left: $defaultPadding + 90px;
-	width: 55px;
-	display: block;
-	background-image: url("https://d1sh1cgb4xvhl.cloudfront.net/unsafe/picture/9/000229089_piclink.png");
+	width: 92px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 5px;
+	height: 30px;
+	top: 0;
+	bottom: 0;
+	margin: auto;
+	box-sizing: border-box;
+	padding: 0 9px;
+	border: 1px solid var(--_o3-button-primary-neutral-border, #f2dfce);
+	border-radius: 3px;
+	background-color: var(--_o3-button-primary-neutral-background, #f2dfce);
+	color: var(--_o3-button-primary-neutral-color, #33302e);
+	font-size: 13px;
+	font-weight: 700;
+	line-height: 28px;
 	background-repeat: no-repeat;
-	background-position: 50%;
-	background-size: auto 32px;
 	cursor: pointer;
-	transition: opacity 0.15s ease-out;
+	text-decoration: none;
+	transition: background-color 0.15s ease-out, border-color 0.15s ease-out, opacity 0.15s ease-out;
+
+	&:before {
+		content: '';
+		display: block;
+		width: 18px;
+		height: 18px;
+		background-image: url($chatFTCHeaderIconDark);
+		background-repeat: no-repeat;
+		background-position: 50%;
+		background-size: 18px 18px;
+	}
+
+	&:after {
+		content: 'ChatFTC';
+		display: block;
+	}
 
 	&:hover,
-	&:focus-visible {
-		opacity: 0.78;
+	&:focus-visible,
+	&:active,
+	&[aria-selected=true],
+	&[aria-current],
+	&[aria-pressed=true] {
+		background-color: var(--_o3-button-primary-neutral-active-background, #262a33);
+		border-color: var(--_o3-button-primary-neutral-active-border, #262a33);
+		color: var(--_o3-button-primary-neutral-active-color, #ffffff);
+
+		&:before {
+			background-image: url($chatFTCHeaderIconLight);
+		}
 	}
 }
 .header-left-ai-icon-mobile {
@@ -115,10 +158,10 @@
 	height: 100%;
 	width: $navHeight;
 	// background-color: green;
-	background-image: url("https://d1sh1cgb4xvhl.cloudfront.net/unsafe/picture/9/000229089_piclink.png");
+	background-image: url($chatFTCHeaderIconLight);
 	background-repeat: no-repeat;
 	background-position: 50%;
-	background-size: auto 28px;
+	background-size: 26px 26px;
 	cursor: pointer;
 	transition: opacity 0.15s ease-out;
 

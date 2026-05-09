@@ -1,4 +1,4 @@
-/* global getMyPreference, convertChinese, runLoadImages, markReadContent */
+/* global getMyPreference, savePreference, convertChinese, runLoadImages, markReadContent, GetCookie */
 /* exported renderRecommendationForWebAppHome */
 
 // === Attribute Mapping ===
@@ -27,9 +27,28 @@ const CONTENT_CLASS_SCORE_MAP = {
   'Deep dive': 1.6
 };
 
+const TAG_DISPLAY_FALLBACKS = {
+  Crossword: '填字游戏',
+  'Deep dive': '深度解读',
+  Explainer: '解读',
+  Feature: '特写',
+  Letter: '读者来信',
+  News: '新闻',
+  'News in-depth': '深度报道',
+  Opinion: '观点',
+  'The Big Read': 'FT大视野',
+  'The Long View': '长线观点'
+};
+
 const attrToKeyMap = Object.fromEntries(attributeMap);
 
 let followsSet = new Set();
+
+const HOME_PAGE_RECOMMENDATION_CONTAINER_ID = 'home-page-recommendation-container';
+const HOME_PAGE_RECOMMENDATION_LIMIT = 24;
+// Keep raw recommendation objects out of DOM attributes. They include long annotations
+// and scoring metadata, but are only needed in memory when users tweak ranking settings.
+const recommendationItemsByContainer = new WeakMap();
 
 // === Recommendation Weights ===
 const recommendationWeights = {
@@ -48,6 +67,7 @@ if (!/^\/app/.test(top.location.pathname)) {
   console.log('recommending...');
   runRecommendationForDoms();
   displayRecommendationInContentPageLazy();
+  displayHomePageRecommendation();
 }
 
 
@@ -96,10 +116,26 @@ function runRecommendationForDoms() {
 }
 
 function displayRecommendationInContentPageLazy(targetDom) {
+  displayRecommendationLazy({
+    targetDom,
+    containerSelector: '.list-recommendation',
+    limit: 6,
+    filterCurrentContent: true
+  });
+}
 
-  let containers = document.querySelectorAll('.list-recommendation');
+function displayRecommendationLazy(options = {}) {
+  const targetDom = options?.targetDom;
+  const containerSelector = options?.containerSelector ?? '.list-recommendation';
+  const limit = options?.limit ?? 6;
+  const filterCurrentContent = options?.filterCurrentContent ?? true;
+  const isInWebApp = options?.isInWebApp ?? false;
+  const rootMargin = options?.rootMargin ?? '500px';
+  const onEmpty = options?.onEmpty;
+
+  let containers = document.querySelectorAll(containerSelector);
   if (targetDom) {
-    containers = targetDom.querySelectorAll('.list-recommendation');
+    containers = targetDom.querySelectorAll(containerSelector);
   }
   if (containers.length === 0) {return;}
 
@@ -110,28 +146,37 @@ function displayRecommendationInContentPageLazy(targetDom) {
     for (const entry of entries) {
       if (!entry.isIntersecting) {continue;}
       try {
-        const source = getRecommendationSource();
+        const source = getRecommendationSource(options);
         let items = await fetchRecommendations(source);
-        items = filterOutCurrentContent(items);
-        items = selectRecommendations(items, { limit: 6 });
+        if (filterCurrentContent) {
+          items = filterOutCurrentContent(items);
+        }
+        items = selectRecommendations(items, { limit });
 
-        // ① Cache computed items on the container so we can re-score without refetching
-        entry.target.dataset.recommendationItems = JSON.stringify(items);
+        if (items.length === 0) {
+          if (typeof onEmpty === 'function') {
+            onEmpty(entry.target);
+          }
+          observer.unobserve(entry.target);
+          continue;
+        }
 
-        // ② Render
-        const html = await buildRecommendationHTML(items, window.preferredLanguage ?? 'zh-CN');
+        rememberRecommendationItems(entry.target, items);
+
+        const html = await buildRecommendationHTML(items, window.preferredLanguage ?? 'zh-CN', isInWebApp);
         entry.target.innerHTML = html;
 
-        // ✅ Optional: show explanation reasons (safe to remove)
         appendRecommendationReasons(entry.target, items, window.preferredLanguage ?? 'zh-CN');
-
         showCustomisation(entry.target);
+        if (options?.insertTitleForNextBlock) {
+          insertTitleForNextHomeBlock();
+        }
 
-        // Stop observing after loading
         observer.unobserve(entry.target);
 
-        // these functions are in the main.js, it should have been available
-        runLoadImages();
+        if (typeof runLoadImages === 'function') {
+          runLoadImages();
+        }
         if (typeof markReadContent === 'function') {
           markReadContent(entry.target);
         }
@@ -139,19 +184,104 @@ function displayRecommendationInContentPageLazy(targetDom) {
         console.error('Error fetching recommendations:', error);
       }
     }
-  }, { rootMargin: '500px' });
+  }, { rootMargin });
 
-  // Observe each recommendation container
   for (const container of containers) {
     observer.observe(container);
   }
 }
 
+function displayHomePageRecommendation() {
+  const container = document.getElementById(HOME_PAGE_RECOMMENDATION_CONTAINER_ID);
+  if (!container) {return;}
+  if (!shouldShowHomePageRecommendation()) {
+    container.hidden = true;
+    container.innerHTML = '';
+    return;
+  }
+
+  container.hidden = false;
+  container.innerHTML = `
+    <div class="block-container no-side home-page-recommendation-block">
+      <div class="block-inner">
+        <div class="content-container"><div class="content-inner">
+          <div class="list-container"><div class="list-inner">
+            <h2 class="list-title"><a class="list-link">我的FT</a></h2>
+            <div class="card-grid list-recommendation home-page-recommendation-list"></div>
+          </div></div>
+        </div></div>
+        <div class="clearfloat"></div>
+      </div>
+    </div>`;
+
+  displayRecommendationLazy({
+    targetDom: container,
+    containerSelector: '.home-page-recommendation-list',
+    limit: HOME_PAGE_RECOMMENDATION_LIMIT,
+    source: 'all',
+    filterCurrentContent: false,
+    insertTitleForNextBlock: true,
+    onEmpty: () => {
+      container.hidden = true;
+      container.innerHTML = '';
+    }
+  });
+}
+
+function insertTitleForNextHomeBlock() {
+  const container = document.getElementById(HOME_PAGE_RECOMMENDATION_CONTAINER_ID);
+  const nextBlock = container?.nextElementSibling;
+  const listInner = nextBlock?.querySelector('.list-inner');
+  if (!listInner || listInner.querySelector(':scope > .list-title')) {return;}
+
+  const title = document.createElement('h2');
+  title.className = 'list-title';
+  title.innerHTML = '<a class="list-link">今日焦点</a>';
+  listInner.insertBefore(title, listInner.firstChild);
+}
+
+function shouldShowHomePageRecommendation() {
+  if (!isPremiumUser()) {return false;}
+  const preference = getPreference();
+  const showAITranslation =
+    preference?.['Article Translation Preference'] === 'both' ||
+    preference?.recommendationWeights?.showAITranslation === true;
+  return preference?.['Home Page Preference'] === 'customized' &&
+    showAITranslation;
+}
+
 
 // === Shared helpers for recommendation rendering ===
-function getRecommendationSource() {
-  const showAITranslation = getMyPreference()?.recommendationWeights?.showAITranslation ?? false;
+function getRecommendationSource(options = {}) {
+  if (options?.source) {return options.source;}
+  const preference = getPreference();
+  const showAITranslation =
+    preference?.['Article Translation Preference'] === 'both' ||
+    preference?.recommendationWeights?.showAITranslation === true;
   return showAITranslation ? 'all' : 'ftchinese';
+}
+
+function getPreference() {
+  if (typeof getMyPreference !== 'function') {return {};}
+  return getMyPreference() ?? {};
+}
+
+function savePreferenceSafely(preference) {
+  try {
+    if (typeof savePreference === 'function') {
+      savePreference(preference);
+      return;
+    }
+    localStorage.setItem('preference', JSON.stringify(preference));
+  } catch (err) {
+    console.error('Failed to save preference:', err);
+  }
+}
+
+function isPremiumUser() {
+  if (window.gUserType === 'VIP') {return true;}
+  if (typeof GetCookie !== 'function') {return false;}
+  return GetCookie('paywall') === 'premium' || GetCookie('subscription_type') === 'premium';
 }
 
 async function fetchRecommendations(source = 'ftchinese') {
@@ -194,8 +324,8 @@ async function buildRecommendationHTML(items = [], preferredLanguage = 'zh-CN', 
     const id = item?.id ?? '';
     const ftid = item?.ftid ?? '';
     const keywords = item?.keywords ?? '';
-    const cheadline = await convertChinese(item?.cheadline ?? '', preferredLanguage);
-    const clongleadbody = await convertChinese(item?.clongleadbody ?? '', preferredLanguage);
+    const cheadline = await convertRecommendationText(item?.cheadline ?? '', preferredLanguage);
+    const clongleadbody = await convertRecommendationText(item?.clongleadbody ?? '', preferredLanguage);
     let lockClass = '';
     const tier = item?.tier ?? 'free';
     if (tier === 'premium') {
@@ -216,6 +346,7 @@ async function buildRecommendationHTML(items = [], preferredLanguage = 'zh-CN', 
     const leadHTML = isInWebApp ? leadBodyHTML : `<a ${linkHTML} target="_blank" class="item-lead-link">${leadBodyHTML}</a>`;
     const cardArticleUrlAttr = isInWebApp ? '' : ` data-article-url="${articlePath}"`;
     const ftTypeAttr = ftType ? ` data-ft-type="${ftType}"` : '';
+    const scoreAttrs = buildRecommendationScoreAttrs(item);
     const imageUrl = item.pictures?.main ?? '';
 
     let imageHTML = '';
@@ -236,7 +367,9 @@ async function buildRecommendationHTML(items = [], preferredLanguage = 'zh-CN', 
 
     let themeHTML = '';
     if (mainTag) {
-      const isFollowed = followsSet?.has(mainTag);
+      const escapedMainTag = escapeAttributeValue(mainTag);
+      const tagHref = `/tag/${encodeURIComponent(mainTag)}`;
+      const isFollowed = isRecommendationTagFollowed(item, mainTag);
 
       // minimal i18n for the button label
       const pl = (preferredLanguage || 'zh-CN').toLowerCase();
@@ -250,13 +383,13 @@ async function buildRecommendationHTML(items = [], preferredLanguage = 'zh-CN', 
       const preferenceAttrs = getFollowPreferenceAttrs(item, mainTag, preferredLanguage);
 
       themeHTML = `<div class="item-tag">
-        <a href="/tag/${mainTag}">${mainTag}</a>
-        <button class="myft-follow ${followClass}" data-tag="${mainTag}" data-type="tag"${preferenceAttrs}>${followText}</button>
+        <a href="${tagHref}">${escapedMainTag}</a>
+        <button class="myft-follow ${followClass}" data-tag="${escapedMainTag}" data-type="tag"${preferenceAttrs}>${followText}</button>
       </div>`;
     }
 
 
-    html += `<div class="item-container ${imageClass} item-container-app" data-id="${id}" data-type="${type}" data-sub-type="${subtype}" data-keywords="${keywords}" data-update="${update}" data-ft-id="${ftid}"${ftTypeAttr}${cardArticleUrlAttr}>
+    html += `<div class="item-container ${imageClass} item-container-app" data-id="${id}" data-type="${type}" data-sub-type="${subtype}" data-keywords="${keywords}" data-update="${update}" data-ft-id="${ftid}"${ftTypeAttr}${cardArticleUrlAttr}${scoreAttrs}>
       <div class="item-inner">
         <div class="item-headline-lead">
           <h2 class="item-headline">
@@ -271,6 +404,71 @@ async function buildRecommendationHTML(items = [], preferredLanguage = 'zh-CN', 
     </div>`;
   }
   return html;
+}
+
+function buildRecommendationScoreAttrs(item) {
+  const scoreAttrs = [
+    ['data-score', item?.finalScore, 4],
+    ['data-editorial-score', item?.editorialScore, 4],
+    ['data-popularity-score', item?.popularityScore, 4],
+    ['data-relevance-score', item?.relevanceScore, 4],
+    ['data-relevance-raw', item?.relevanceRaw, 4],
+    ['data-read-minus-score', item?.readMinusScore, 4],
+    ['data-unseen-bonus-score', item?.unSeenItemBonus, 4],
+    ['data-decay-factor', item?.decayFactor, 4],
+    ['data-content-class-score', CONTENT_CLASS_SCORE_MAP[item?.contentClass] ?? undefined, 2]
+  ];
+
+  let html = scoreAttrs.map(([name, value, precision]) => {
+    const score = parseFloat(value);
+    if (!Number.isFinite(score)) {return '';}
+    return ` ${name}="${score.toFixed(precision)}"`;
+  }).join('');
+
+  if (item?.contentClass) {
+    html += ` data-content-class="${escapeAttributeValue(item.contentClass)}"`;
+  }
+  if (Array.isArray(item?.matchedKeys) && item.matchedKeys.length > 0) {
+    html += ` data-matched-keys="${escapeAttributeValue(item.matchedKeys.join(', '))}"`;
+  }
+  if (Array.isArray(item?.relevanceMatches) && item.relevanceMatches.length > 0) {
+    html += ` data-relevance-matches="${escapeAttributeValue(item.relevanceMatches.map(formatRelevanceMatch).join('; '))}"`;
+  }
+  if (item?.regionMinScoreApplied === true) {
+    html += ` data-region-min-score-applied="true"`;
+  }
+  return html;
+}
+
+function formatRelevanceMatch(match) {
+  const key = match?.key ?? '';
+  const display = match?.display ?? '';
+  const label = display && display !== key ? `${display}(${key})` : key;
+  const points = parseFloat(match?.points);
+  const pointText = Number.isFinite(points) ? `+${points.toFixed(1)}` : '';
+  return `${match?.source ?? 'match'}:${label}${pointText}`;
+}
+
+function escapeAttributeValue(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+function rememberRecommendationItems(container, items) {
+  if (!container || !Array.isArray(items)) {return;}
+  recommendationItemsByContainer.set(container, items);
+}
+
+function getRememberedRecommendationItems(container) {
+  return recommendationItemsByContainer.get(container) || [];
+}
+
+async function convertRecommendationText(text, preferredLanguage) {
+  if (typeof convertChinese !== 'function') {return text;}
+  return convertChinese(text, preferredLanguage);
 }
 
 /**
@@ -311,7 +509,7 @@ function getFollowPreferenceAttrs(item, mainTag, preferredLanguage = 'zh-CN') {
   const field = annotation.field || mapAnnotationField(annotation);
   if (!field) {return '';}
 
-  let display = annotation.display || annotation.translation || '';
+  let display = getAnnotationDisplay(annotation);
   if (!display) {
     display = mainTag || key;
   }
@@ -320,7 +518,7 @@ function getFollowPreferenceAttrs(item, mainTag, preferredLanguage = 'zh-CN') {
     display = key;
   }
 
-  return ` data-key="${key}" data-field="${field}" data-display="${display}"`;
+  return ` data-key="${escapeAttributeValue(key)}" data-field="${escapeAttributeValue(field)}" data-display="${escapeAttributeValue(display)}"`;
 }
 
 function findAnnotationForTag(item, mainTag) {
@@ -336,7 +534,7 @@ function findAnnotationForTag(item, mainTag) {
   for (const annotation of annotations) {
     const prefLabel = annotation?.prefLabel || '';
     if (!prefLabel) {continue;}
-    const display = annotation.display || annotation.translation || '';
+    const display = getAnnotationDisplay(annotation);
     const normalizedDisplay = normalizeAnnotationValue(display);
     if (normalizedDisplay && normalizedDisplay === normalizedTag) {
       if (/hasDisplayTag/i.test(annotation.predicate || '')) {
@@ -350,6 +548,35 @@ function findAnnotationForTag(item, mainTag) {
   }
 
   return displayMatch || prefMatch;
+}
+
+function getAnnotationDisplay(annotation) {
+  if (!annotation) {return '';}
+  return annotation.display || annotation.translation || getFallbackTagDisplay(annotation.prefLabel);
+}
+
+function getFallbackTagDisplay(key) {
+  return TAG_DISPLAY_FALLBACKS[key] || '';
+}
+
+function isRecommendationTagFollowed(item, tag) {
+  if (!tag) {return false;}
+  if (followsSet.has(tag)) {return true;}
+  const annotation = findAnnotationForTag(item, tag);
+  if (!annotation) {return false;}
+
+  const candidates = [
+    annotation.prefLabel,
+    annotation.display,
+    annotation.translation,
+    getFallbackTagDisplay(annotation.prefLabel)
+  ];
+
+  for (const candidate of candidates) {
+    if (candidate && followsSet.has(candidate)) {return true;}
+  }
+
+  return false;
 }
 
 function normalizeAnnotationValue(value) {
@@ -401,6 +628,7 @@ async function renderRecommendationForWebAppHome(targetDom) {
 
     // ✅ Optional: show explanation reasons (safe to remove)
     const recList = container.querySelector('.list-recommendation');
+    rememberRecommendationItems(recList, items);
     appendRecommendationReasons(recList, items, window.preferredLanguage ?? 'zh-CN');
 
     runLoadImages();
@@ -797,15 +1025,17 @@ function calculateRelevanceScores(items) {
     let hasMainMatch = false;
     let hasSecondaryMatch = false;
     let matchedKeys = [];
+    let relevanceMatches = [];
 
-    const mainTags = item.annotationsMain?.split(',').map(t => t.trim()).filter(Boolean) || [];
-    const secondaryTags = item.annotationsSecondary?.split(',').map(t => t.trim()).filter(Boolean) || [];
-    const keywords = item.keywords?.split(',').map(t => t.trim()).filter(Boolean) || [];
+    const mainTags = splitUniqueTags(item.annotationsMain);
+    const secondaryTags = splitUniqueTags(item.annotationsSecondary);
+    const keywords = splitUniqueTags(item.keywords);
 
     for (const tag of mainTags) {
       if (followsSet.has(tag)) {
         score += WEIGHTS.main;
         hasMainMatch = true;
+        addRelevanceMatch(item, relevanceMatches, matchedKeys, 'main', tag, WEIGHTS.main);
       }
     }
 
@@ -813,24 +1043,39 @@ function calculateRelevanceScores(items) {
       if (followsSet.has(tag)) {
         score += WEIGHTS.secondary;
         hasSecondaryMatch = true;
+        addRelevanceMatch(item, relevanceMatches, matchedKeys, 'secondary', tag, WEIGHTS.secondary);
       }
     }
 
     for (const [i, tag] of keywords.entries()) {
       if (followsSet.has(tag)) {
-        score += i === 0 ? WEIGHTS.keywordPrimary : WEIGHTS.keywordOther;
-        matchedKeys.push(tag);
+        const points = i === 0 ? WEIGHTS.keywordPrimary : WEIGHTS.keywordOther;
+        score += points;
+        addRelevanceMatch(item, relevanceMatches, matchedKeys, i === 0 ? 'keywordPrimary' : 'keywordOther', tag, points);
       }
     }
 
     if (hasMainMatch) {
       score += BASE_MATCH_BOOST.main;
+      relevanceMatches.push({
+        source: 'mainBoost',
+        key: 'base',
+        display: 'main match boost',
+        points: BASE_MATCH_BOOST.main
+      });
     } else if (hasSecondaryMatch) {
       score += BASE_MATCH_BOOST.secondary;
+      relevanceMatches.push({
+        source: 'secondaryBoost',
+        key: 'base',
+        display: 'secondary match boost',
+        points: BASE_MATCH_BOOST.secondary
+      });
     }
 
     item.relevanceRaw = score;
     item.matchedKeys = matchedKeys;
+    item.relevanceMatches = relevanceMatches;
   }
 
   // Normalize to [0.5, 1.0] or 0 if no match
@@ -895,9 +1140,9 @@ function calculateRelevanceScores(items) {
 
   for (const item of items) {
     const tags = [
-      ...(item.annotationsMain?.split(',') ?? []),
-      ...(item.annotationsSecondary?.split(',') ?? [])
-    ].map(t => t.trim()).filter(Boolean);
+      ...splitUniqueTags(item.annotationsMain),
+      ...splitUniqueTags(item.annotationsSecondary)
+    ];
 
     let maxRegionMin = 0;
 
@@ -919,8 +1164,21 @@ function calculateRelevanceScores(items) {
 
 
 // === Score Utilities ===
+function addRelevanceMatch(item, relevanceMatches, matchedKeys, source, key, points) {
+  const display = getRelevanceMatchDisplay(item, key);
+  relevanceMatches.push({ source, key, display, points });
+  if (display && !matchedKeys.includes(display)) {
+    matchedKeys.push(display);
+  }
+}
+
+function getRelevanceMatchDisplay(item, key) {
+  const annotation = findAnnotationForTag(item, key);
+  return getAnnotationDisplay(annotation) || getFallbackTagDisplay(key) || key;
+}
+
 function detectContentClass(annotationsMain = '', subtype = '', ftType = '') {
-  const tags = annotationsMain.split(',').map(t => t.trim());
+  const tags = splitUniqueTags(annotationsMain);
   if (ftType === 'LiveBlogPackage' || ftType === 'LiveBlogPost') {return ftType;}
   if (subtype === 'LiveBlogPackage') {return subtype;}
   if (tags.includes('News')) {return 'News';}
@@ -929,6 +1187,23 @@ function detectContentClass(annotationsMain = '', subtype = '', ftType = '') {
   if (tags.includes('Letter')) {return 'Letter';}
   if (tags.includes('Feature')) {return 'Feature';}
   return 'Other';
+}
+
+function splitUniqueTags(value = '') {
+  if (!value || typeof value !== 'string') {return [];}
+  const tags = [];
+  const seen = new Set();
+
+  for (const rawTag of value.split(',')) {
+    const tag = rawTag.trim();
+    if (!tag) {continue;}
+    const key = normalizeAnnotationValue(tag).toUpperCase();
+    if (seen.has(key)) {continue;}
+    seen.add(key);
+    tags.push(tag);
+  }
+
+  return tags;
 }
 
 function getDecayFactor(ageMs, halfLifeMs) {
@@ -1034,6 +1309,7 @@ delegate.on('click', '.reorder-description a', function (event) {
       tierPenalty: '没有权限的内容靠后',
       showAITranslation: '显示AI翻译的内容',
       freshnessBonus: '新内容提升优先级',
+      customHomePage: '自定义主页',
       save: '保存设置'
     },
     'zh-HK': {
@@ -1045,6 +1321,7 @@ delegate.on('click', '.reorder-description a', function (event) {
       tierPenalty: '無閱讀權限內容排後',
       showAITranslation: '顯示AI翻譯的內容',
       freshnessBonus: '新內容提升優先級',
+      customHomePage: '自訂首頁',
       save: '儲存設定'
     },
     'zh-TW': {
@@ -1056,6 +1333,7 @@ delegate.on('click', '.reorder-description a', function (event) {
       tierPenalty: '無閱讀權限的內容往後排',
       showAITranslation: '顯示AI翻譯的內容',
       freshnessBonus: '新內容優先顯示',
+      customHomePage: '自訂首頁',
       save: '儲存設定'
     }
   };
@@ -1069,8 +1347,17 @@ delegate.on('click', '.reorder-description a', function (event) {
     { key: 'readPenalty', label: t.readPenalty, type: 'checkbox' },
     { key: 'tierPenalty', label: t.tierPenalty, type: 'checkbox' },
     { key: 'showAITranslation', label: t.showAITranslation, type: 'checkbox' },
-    { key: 'freshnessBonus', label: t.freshnessBonus, type: 'checkbox' }
+    { key: 'freshnessBonus', label: t.freshnessBonus, type: 'checkbox' },
+    {
+      key: 'homePagePreference',
+      label: t.customHomePage,
+      type: 'checkbox',
+      preferenceKey: 'Home Page Preference',
+      checkedValue: 'customized',
+      uncheckedValue: 'default'
+    }
   ];
+  const currentPreference = getPreference();
 
   // Remove existing
   document.querySelectorAll('.reorder-controls').forEach(e => e.remove());
@@ -1122,7 +1409,14 @@ delegate.on('click', '.reorder-description a', function (event) {
       const input = document.createElement('input');
       input.type = 'checkbox';
       input.name = opt.key;
-      input.checked = !!recommendationWeights[opt.key];
+      if (opt.preferenceKey) {
+        input.checked = currentPreference?.[opt.preferenceKey] === opt.checkedValue;
+        input.dataset.preferenceKey = opt.preferenceKey;
+        input.dataset.checkedValue = opt.checkedValue;
+        input.dataset.uncheckedValue = opt.uncheckedValue;
+      } else {
+        input.checked = !!recommendationWeights[opt.key];
+      }
       input.className = 'reorder-toggle';
 
       label.appendChild(input);
@@ -1157,6 +1451,13 @@ delegate.on('click', '.reorder-description a', function (event) {
 delegate.on('click', '[data-action="reorderItems"]', function () {
   // 1. Collect updated values
   const newWeights = {};
+  let preference = {};
+  try {
+    preference = getMyPreference();
+  } catch (err) {
+    console.warn('Failed to read existing preference. Creating new one.', err);
+    preference = {};
+  }
 
   document.querySelectorAll('.reorder-slider').forEach(input => {
     const key = input.name;
@@ -1167,18 +1468,15 @@ delegate.on('click', '[data-action="reorderItems"]', function () {
   });
 
   document.querySelectorAll('.reorder-toggle').forEach(input => {
+    if (input.dataset.preferenceKey) {
+      preference[input.dataset.preferenceKey] = input.checked ?
+        input.dataset.checkedValue :
+        input.dataset.uncheckedValue;
+      return;
+    }
     const key = input.name;
     newWeights[key] = !!input.checked;
   });
-
-  // 2. Get existing preference
-  let preference = {};
-  try {
-    preference = getMyPreference();
-  } catch (err) {
-    console.warn('Failed to read existing preference. Creating new one.', err);
-    preference = {};
-  }
 
   // 3. Merge weights and save
   preference.recommendationWeights = {
@@ -1186,14 +1484,11 @@ delegate.on('click', '[data-action="reorderItems"]', function () {
     ...newWeights
   };
 
-  try {
-    localStorage.setItem('preference', JSON.stringify(preference));
-  } catch (err) {
-    console.error('Failed to save updated weights to localStorage', err);
-  }
+  savePreferenceSafely(preference);
 
   // 4a. Recalculate + reorder
   runRecommendationForDoms();
+  displayHomePageRecommendation();
 
   // 4b. ALSO refresh any lazy recommendation containers that already rendered
   (async () => {
@@ -1201,15 +1496,14 @@ delegate.on('click', '[data-action="reorderItems"]', function () {
     const containers = document.querySelectorAll('.list-recommendation');
 
     for (const container of containers) {
-      const json = container.dataset.recommendationItems;
-      if (!json) {continue;} // not loaded yet
-
-      let items;
-      try { items = JSON.parse(json); } catch { continue; }
+      const items = getRememberedRecommendationItems(container);
       if (!Array.isArray(items) || items.length === 0) {continue;}
 
       // Re-score with new weights and re-render
-      let recalced = calculateScores(items).sort((a, b) => b.finalScore - a.finalScore).slice(0, 6);
+      const limit = container.classList.contains('home-page-recommendation-list') ?
+        HOME_PAGE_RECOMMENDATION_LIMIT :
+        6;
+      let recalced = calculateScores(items).sort((a, b) => b.finalScore - a.finalScore).slice(0, limit);
 
       // ✅ Reuse the same template renderer to keep UI consistent
       const html = await buildRecommendationHTML(recalced, preferredLanguage, false);
