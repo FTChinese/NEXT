@@ -1,5 +1,5 @@
 
-/* global appTypeMap, createStackedDetailView, setFontSize, setTranslatePreference */
+/* global appTypeMap, createStackedDetailView, setFontSize, setTranslatePreference, getAppSettingPremiumGate, buildAppSettingPremiumGateHTML */
 
 delegate.on('click', '.settings-item', async function () {
   try {
@@ -28,17 +28,18 @@ delegate.on('click', '.settings-item', async function () {
     const list = contentEl.querySelector('.settings-option-list');
     if (!list) { return; }
 
-  list.addEventListener('click', async (evt) => {
-    const optionEl = evt.target.closest('.settings-option');
-    if (!optionEl) { return; }
-    const value = optionEl.getAttribute('data-value') ?? '';
-    const display = optionEl.getAttribute('data-display') ?? value;
+    list.addEventListener('click', async (evt) => {
+      const optionEl = evt.target.closest('.settings-option');
+      if (!optionEl) { return; }
+      const value = optionEl.getAttribute('data-value') ?? '';
+      const display = optionEl.getAttribute('data-display') ?? value;
 
-    await applySettingSelection(info, value);
-    applySettingToTargets(info, value);
+      await applySettingSelection(info, value);
+      applySettingToTargets(info, value);
 
-    updateSelectedOptionUI(list, optionEl);
-    updateSummaryLabel(trigger, display);
+      updateSelectedOptionUI(list, optionEl);
+      updateSummaryLabel(trigger, display);
+      updateSettingPremiumGateUI(trigger, info, value);
 
       if (typeof destroyDetailView === 'function') {
         destroyDetailView(detailView);
@@ -130,7 +131,12 @@ function buildOptionsHTML(info, options = [], currentValue = '') {
     const display = opt?.display ?? value;
     const selected = value === currentValue;
     const selectedClass = selected ? ' selected' : '';
-    return `<li class="settings-option${selectedClass}" data-value="${escapeHTML(value)}" data-display="${escapeHTML(display)}">${escapeHTML(display)}</li>`;
+    const gate = getSettingPremiumGate(info, value);
+    const gateClass = gate ? ' is-premium-gated' : '';
+    const premiumHint = typeof buildAppSettingPremiumGateHTML === 'function' ?
+      buildAppSettingPremiumGateHTML(gate) :
+      '';
+    return `<li class="settings-option${selectedClass}${gateClass}" data-value="${escapeHTML(value)}" data-display="${escapeHTML(display)}"><span class="settings-option-main">${escapeHTML(display)}${premiumHint}</span></li>`;
   }).join('');
 
   const heading = escapeHTML(info?.headline ?? '设置');
@@ -182,8 +188,27 @@ function updateSelectedOptionUI(listEl, selectedEl) {
 
 function updateSummaryLabel(trigger, displayText) {
   if (!trigger) { return; }
-  const span = trigger.querySelector('span') || trigger.appendChild(document.createElement('span'));
+  const span = trigger.querySelector('.settings-summary') || trigger.appendChild(document.createElement('span'));
+  span.className = 'settings-summary';
   span.textContent = displayText;
+}
+
+function updateSettingPremiumGateUI(trigger, info, value) {
+  if (!trigger) { return; }
+  const gate = getSettingPremiumGate(info, value);
+  trigger.classList.toggle('is-premium-gated-active', Boolean(gate));
+
+  const oldHints = trigger.querySelectorAll('.settings-premium-badge, .settings-premium-note');
+  oldHints.forEach((hint) => hint.remove());
+
+  if (gate && typeof buildAppSettingPremiumGateHTML === 'function') {
+    trigger.insertAdjacentHTML('beforeend', buildAppSettingPremiumGateHTML(gate));
+  }
+}
+
+function getSettingPremiumGate(info, value) {
+  if (typeof getAppSettingPremiumGate !== 'function') { return null; }
+  return getAppSettingPremiumGate(info, value);
 }
 
 // Apply any settings that target the DOM immediately on load (e.g., bodyClassList for font size)

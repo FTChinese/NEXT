@@ -636,7 +636,8 @@ $app-detail-border: rgba(0, 0, 0, 0.08) !default;
   padding: $defaultPadding * 0.5 0;
   border-top: 1px solid $borderColor;
   position: relative;
-  span {
+  > span,
+  > .settings-summary {
     color: $lightGrey;
     display: block;
     float: right;
@@ -653,6 +654,34 @@ $app-detail-border: rgba(0, 0, 0, 0.08) !default;
   &:first-child {
     border-top-width: 0;
   }
+
+  &.is-premium-gated-active {
+    color: $lightGrey;
+  }
+}
+
+.settings-premium-badge {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 1px 6px;
+  border: 1px solid $borderColor;
+  border-radius: 3px;
+  color: $lightGrey;
+  font-size: 12px;
+  line-height: 1.4;
+  font-weight: 400;
+  vertical-align: middle;
+}
+
+.settings-premium-note {
+  clear: both;
+  display: block;
+  margin-top: 4px;
+  padding-right: $defaultPadding;
+  color: $lightGrey;
+  font-size: 13px;
+  line-height: 1.45;
+  font-weight: 400;
 }
 
 .settings-item.settings-toggle {
@@ -773,6 +802,15 @@ $app-detail-border: rgba(0, 0, 0, 0.08) !default;
     background: rgba($darkGreen, 0.08);
     font-weight: 600;
   }
+
+  &.is-premium-gated {
+    align-items: flex-start;
+  }
+}
+
+.settings-option-main {
+  display: block;
+  flex: 1;
 }
 
 

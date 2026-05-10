@@ -1,5 +1,5 @@
 /* global getMyPreference, savePreference, convertChinese, runLoadImages, markReadContent, GetCookie */
-/* exported renderRecommendationForWebAppHome */
+/* exported renderRecommendationForWebAppHome, renderHomePageRecommendationNow, shouldShowHomePageRecommendation, getPremiumPreferenceGate */
 
 // === Attribute Mapping ===
 const attributeMap = [
@@ -43,9 +43,27 @@ const TAG_DISPLAY_FALLBACKS = {
 const attrToKeyMap = Object.fromEntries(attributeMap);
 
 let followsSet = new Set();
+let followedInterestIndex = createFollowedInterestIndex();
 
 const HOME_PAGE_RECOMMENDATION_CONTAINER_ID = 'home-page-recommendation-container';
 const HOME_PAGE_RECOMMENDATION_LIMIT = 24;
+const PREMIUM_ONLY_PREFERENCE_VALUES = {
+  'Home Page Preference': 'customized'
+};
+const FT_EXCLUSIVE_CURATION_TEXTS = {
+  zh: {
+    title: 'FT全球臻享',
+    description: '更及时获取更多FT全球内容，包括AI翻译加速上线的深度报道、分析和观点，并按你的关注和阅读偏好调整排序。<a href="#">点击这里自定义</a>'
+  },
+  'zh-HK': {
+    title: 'FT全球臻享',
+    description: '更及時獲取更多FT全球內容，包括AI翻譯加速上線的深度報道、分析和觀點，並按你的關注和閱讀偏好調整排序。<a href="#">點擊這裡自定義</a>'
+  },
+  'zh-TW': {
+    title: 'FT全球臻享',
+    description: '更即時取得更多FT全球內容，包括AI翻譯加速上線的深度報導、分析和觀點，並按你的關注和閱讀偏好調整排序。<a href="#">點擊這裡自訂</a>'
+  }
+};
 // Keep raw recommendation objects out of DOM attributes. They include long annotations
 // and scoring metadata, but are only needed in memory when users tweak ranking settings.
 const recommendationItemsByContainer = new WeakMap();
@@ -67,7 +85,9 @@ if (!/^\/app/.test(top.location.pathname)) {
   console.log('recommending...');
   runRecommendationForDoms();
   displayRecommendationInContentPageLazy();
-  displayHomePageRecommendation();
+  if (!isNativeAppWebView()) {
+    displayHomePageRecommendation();
+  }
 }
 
 
@@ -139,21 +159,18 @@ function displayRecommendationLazy(options = {}) {
   }
   if (containers.length === 0) {return;}
 
-  updateFollows();
-  updateWeights();
-
   const observer = new IntersectionObserver(async (entries) => {
     for (const entry of entries) {
       if (!entry.isIntersecting) {continue;}
       try {
-        const source = getRecommendationSource(options);
-        let items = await fetchRecommendations(source);
-        if (filterCurrentContent) {
-          items = filterOutCurrentContent(items);
-        }
-        items = selectRecommendations(items, { limit });
+        const result = await renderRecommendationsIntoContainer(entry.target, {
+          ...options,
+          limit,
+          filterCurrentContent,
+          isInWebApp
+        });
 
-        if (items.length === 0) {
+        if (result?.status === 'empty') {
           if (typeof onEmpty === 'function') {
             onEmpty(entry.target);
           }
@@ -161,25 +178,7 @@ function displayRecommendationLazy(options = {}) {
           continue;
         }
 
-        rememberRecommendationItems(entry.target, items);
-
-        const html = await buildRecommendationHTML(items, window.preferredLanguage ?? 'zh-CN', isInWebApp);
-        entry.target.innerHTML = html;
-
-        appendRecommendationReasons(entry.target, items, window.preferredLanguage ?? 'zh-CN');
-        showCustomisation(entry.target);
-        if (options?.insertTitleForNextBlock) {
-          insertTitleForNextHomeBlock();
-        }
-
         observer.unobserve(entry.target);
-
-        if (typeof runLoadImages === 'function') {
-          runLoadImages();
-        }
-        if (typeof markReadContent === 'function') {
-          markReadContent(entry.target);
-        }
       } catch (error) {
         console.error('Error fetching recommendations:', error);
       }
@@ -195,24 +194,12 @@ function displayHomePageRecommendation() {
   const container = document.getElementById(HOME_PAGE_RECOMMENDATION_CONTAINER_ID);
   if (!container) {return;}
   if (!shouldShowHomePageRecommendation()) {
-    container.hidden = true;
-    container.innerHTML = '';
+    hideHomePageRecommendation(container);
     return;
   }
 
   container.hidden = false;
-  container.innerHTML = `
-    <div class="block-container no-side home-page-recommendation-block">
-      <div class="block-inner">
-        <div class="content-container"><div class="content-inner">
-          <div class="list-container"><div class="list-inner">
-            <h2 class="list-title"><a class="list-link">我的FT</a></h2>
-            <div class="card-grid list-recommendation home-page-recommendation-list"></div>
-          </div></div>
-        </div></div>
-        <div class="clearfloat"></div>
-      </div>
-    </div>`;
+  container.innerHTML = buildHomePageRecommendationShellHTML();
 
   displayRecommendationLazy({
     targetDom: container,
@@ -221,11 +208,89 @@ function displayHomePageRecommendation() {
     source: 'all',
     filterCurrentContent: false,
     insertTitleForNextBlock: true,
-    onEmpty: () => {
-      container.hidden = true;
-      container.innerHTML = '';
-    }
+    onEmpty: () => hideHomePageRecommendation(container)
   });
+}
+
+async function renderHomePageRecommendationNow(options = {}) {
+  const container = options?.targetDom || document.getElementById(HOME_PAGE_RECOMMENDATION_CONTAINER_ID);
+  if (!container) {return {status: 'missing'};}
+  if (!shouldShowHomePageRecommendation()) {
+    hideHomePageRecommendation(container);
+    return {status: 'skipped'};
+  }
+
+  const renderState = {cancelled: false};
+  let timeoutId;
+  let controller;
+  let timeoutPromise = null;
+  try {
+    if (options?.timeoutMs > 0) {
+      if (typeof AbortController === 'function') {
+        controller = new AbortController();
+      }
+      timeoutPromise = new Promise(resolve => {
+        timeoutId = setTimeout(() => {
+          renderState.cancelled = true;
+          controller?.abort();
+          resolve({status: 'timeout'});
+        }, options.timeoutMs);
+      });
+    }
+
+    container.hidden = false;
+    container.innerHTML = buildHomePageRecommendationShellHTML();
+
+    const list = container.querySelector('.home-page-recommendation-list');
+    const renderPromise = renderRecommendationsIntoContainer(list, {
+      ...options,
+      limit: options?.limit ?? HOME_PAGE_RECOMMENDATION_LIMIT,
+      source: options?.source ?? 'all',
+      filterCurrentContent: false,
+      insertTitleForNextBlock: true,
+      signal: controller?.signal,
+      renderState
+    });
+    const result = timeoutPromise ? await Promise.race([renderPromise, timeoutPromise]) : await renderPromise;
+
+    if (result?.status === 'empty' || result?.status === 'cancelled' || result?.status === 'timeout') {
+      hideHomePageRecommendation(container);
+    }
+    return result;
+  } catch (err) {
+    if (err?.name === 'AbortError' || renderState.cancelled) {
+      hideHomePageRecommendation(container);
+      return {status: 'timeout'};
+    }
+    console.error('render homepage recommendation error:', err);
+    hideHomePageRecommendation(container);
+    return {status: 'failed'};
+  } finally {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+  }
+}
+
+function buildHomePageRecommendationShellHTML() {
+  return `
+    <div class="block-container no-side home-page-recommendation-block">
+      <div class="block-inner">
+        <div class="content-container"><div class="content-inner">
+          <div class="list-container"><div class="list-inner">
+            ${buildFTExclusiveCurationIntroHTML()}
+            <div class="card-grid list-recommendation home-page-recommendation-list"></div>
+          </div></div>
+        </div></div>
+        <div class="clearfloat"></div>
+      </div>
+    </div>`;
+}
+
+function hideHomePageRecommendation(container) {
+  if (!container) {return;}
+  container.hidden = true;
+  container.innerHTML = '';
 }
 
 function insertTitleForNextHomeBlock() {
@@ -250,6 +315,30 @@ function shouldShowHomePageRecommendation() {
     showAITranslation;
 }
 
+function getChineseLanguageKey(preferredLanguage = window.preferredLanguage || 'zh-CN') {
+  const normalized = preferredLanguage.toLowerCase();
+  if (normalized.startsWith('zh-tw')) {
+    return 'zh-TW';
+  }
+  if (normalized.startsWith('zh-hk') || normalized.startsWith('zh-mo')) {
+    return 'zh-HK';
+  }
+  return 'zh';
+}
+
+function getFTExclusiveCurationText() {
+  const langKey = getChineseLanguageKey();
+  return FT_EXCLUSIVE_CURATION_TEXTS[langKey] || FT_EXCLUSIVE_CURATION_TEXTS.zh;
+}
+
+function buildFTExclusiveCurationIntroHTML() {
+  const text = getFTExclusiveCurationText();
+  return `
+    <div class="home-page-recommendation-intro">
+      <h2 class="list-title"><a class="list-link">${text.title}</a></h2>
+    </div>`;
+}
+
 
 // === Shared helpers for recommendation rendering ===
 function getRecommendationSource(options = {}) {
@@ -259,6 +348,11 @@ function getRecommendationSource(options = {}) {
     preference?.['Article Translation Preference'] === 'both' ||
     preference?.recommendationWeights?.showAITranslation === true;
   return showAITranslation ? 'all' : 'ftchinese';
+}
+
+function isNativeAppWebView() {
+  const search = window.location.search || '';
+  return /(?:^|[?&])(?:webview=ftcapp|to=iosapp|android=)/.test(search);
 }
 
 function getPreference() {
@@ -279,12 +373,96 @@ function savePreferenceSafely(preference) {
 }
 
 function isPremiumUser() {
-  if (window.gUserType === 'VIP') {return true;}
-  if (typeof GetCookie !== 'function') {return false;}
-  return GetCookie('paywall') === 'premium' || GetCookie('subscription_type') === 'premium';
+  return getCurrentSubscriptionTier() === 'premium';
 }
 
-async function fetchRecommendations(source = 'ftchinese') {
+function getCurrentSubscriptionTier() {
+  if (window.gUserType === 'VIP') {return 'premium';}
+  if (window.gUserType === 'Subscriber') {return 'standard';}
+  const nativeTier = getNativeSubscriptionTier();
+  if (nativeTier) {return nativeTier;}
+  if (typeof GetCookie !== 'function') {return '';}
+  const subscriptionType = GetCookie('subscription_type');
+  if (subscriptionType === 'premium' || subscriptionType === 'standard') {
+    return subscriptionType;
+  }
+  const paywall = GetCookie('paywall');
+  if (paywall === 'premium') {return 'premium';}
+  if (paywall === 'standard' || paywall === 'subscriber') {return 'standard';}
+  return '';
+}
+
+function getNativeSubscriptionTier() {
+  const androidTier = window.androidUserInfo?.membership?.webPrivilegeTier;
+  if (androidTier === 'premium') {return 'premium';}
+  if (androidTier === 'standard') {return 'standard';}
+
+  if (Array.isArray(window.gPrivileges)) {
+    if (window.gPrivileges.includes('EditorChoice')) {return 'premium';}
+    if (window.gPrivileges.includes('premium')) {return 'standard';}
+  }
+  return '';
+}
+
+function getPremiumPreferenceGate(preferenceKey, value, labels = {}) {
+  const premiumOnlyValue = PREMIUM_ONLY_PREFERENCE_VALUES[preferenceKey];
+  if (!premiumOnlyValue || value !== premiumOnlyValue || isPremiumUser()) {
+    return null;
+  }
+  return {
+    badge: labels.premiumOnlyBadge || '高端专享',
+    note: labels.premiumOnlyHomePageNotice || '当前为标准会员，此设置将在升级为高端会员后生效。'
+  };
+}
+
+async function renderRecommendationsIntoContainer(container, options = {}) {
+  if (!container) {return {status: 'missing'};}
+
+  const renderState = options?.renderState;
+  const isCancelled = () => renderState?.cancelled === true;
+  if (isCancelled()) {return {status: 'cancelled'};}
+
+  updateFollows();
+  updateWeights();
+
+  const limit = options?.limit ?? 6;
+  const filterCurrentContent = options?.filterCurrentContent ?? true;
+  const isInWebApp = options?.isInWebApp ?? false;
+  const source = getRecommendationSource(options);
+
+  let items = await fetchRecommendations(source, {signal: options?.signal});
+  if (isCancelled()) {return {status: 'cancelled'};}
+  if (filterCurrentContent) {
+    items = filterOutCurrentContent(items);
+  }
+  items = selectRecommendations(items, {limit});
+
+  if (items.length === 0) {
+    return {status: 'empty', count: 0, items};
+  }
+
+  const html = await buildRecommendationHTML(items, window.preferredLanguage ?? 'zh-CN', isInWebApp);
+  if (isCancelled()) {return {status: 'cancelled'};}
+
+  rememberRecommendationItems(container, items);
+  container.innerHTML = html;
+  appendRecommendationReasons(container, items, window.preferredLanguage ?? 'zh-CN');
+  showCustomisation(container);
+  if (options?.insertTitleForNextBlock) {
+    insertTitleForNextHomeBlock();
+  }
+
+  if (typeof runLoadImages === 'function') {
+    runLoadImages();
+  }
+  if (typeof markReadContent === 'function') {
+    markReadContent(container);
+  }
+
+  return {status: 'rendered', count: items.length, items};
+}
+
+async function fetchRecommendations(source = 'ftchinese', options = {}) {
   let url = '/recommend';
   let method = 'POST';
   let body = JSON.stringify({ source });
@@ -295,6 +473,7 @@ async function fetchRecommendations(source = 'ftchinese') {
   }
   const response = await fetch(url, {
     method,
+    signal: options?.signal,
     headers: {
       'Content-Type': 'application/json',
     },
@@ -369,7 +548,7 @@ async function buildRecommendationHTML(items = [], preferredLanguage = 'zh-CN', 
     if (mainTag) {
       const escapedMainTag = escapeAttributeValue(mainTag);
       const tagHref = `/tag/${encodeURIComponent(mainTag)}`;
-      const isFollowed = isRecommendationTagFollowed(item, mainTag);
+      const isFollowed = isRecommendationTagFollowed(item, mainTag) || isMatchedRecommendationTag(item, mainTag);
 
       // minimal i18n for the button label
       const pl = (preferredLanguage || 'zh-CN').toLowerCase();
@@ -434,6 +613,15 @@ function buildRecommendationScoreAttrs(item) {
   if (Array.isArray(item?.relevanceMatches) && item.relevanceMatches.length > 0) {
     html += ` data-relevance-matches="${escapeAttributeValue(item.relevanceMatches.map(formatRelevanceMatch).join('; '))}"`;
   }
+  if (item?.relevanceMatchStrength) {
+    html += ` data-relevance-strength="${escapeAttributeValue(item.relevanceMatchStrength)}"`;
+  }
+  if (Number.isFinite(parseFloat(item?.relevanceScoreBeforeWeakCap))) {
+    html += ` data-relevance-score-before-cap="${parseFloat(item.relevanceScoreBeforeWeakCap).toFixed(4)}"`;
+  }
+  if (item?.weakRelevanceCapApplied === true) {
+    html += ` data-weak-relevance-cap-applied="true"`;
+  }
   if (item?.regionMinScoreApplied === true) {
     html += ` data-region-min-score-applied="true"`;
   }
@@ -446,7 +634,9 @@ function formatRelevanceMatch(match) {
   const label = display && display !== key ? `${display}(${key})` : key;
   const points = parseFloat(match?.points);
   const pointText = Number.isFinite(points) ? `+${points.toFixed(1)}` : '';
-  return `${match?.source ?? 'match'}:${label}${pointText}`;
+  const followSources = Array.isArray(match?.followSources) ? match.followSources.filter(Boolean) : [];
+  const followText = followSources.length > 0 ? `[follow=${followSources.join(',')}]` : '';
+  return `${match?.source ?? 'match'}:${label}${pointText}${followText}`;
 }
 
 function escapeAttributeValue(value) {
@@ -502,14 +692,14 @@ delegate.on('click', '.list-recommendation .item-container-app', function (event
 });
 
 function getFollowPreferenceAttrs(item, mainTag, preferredLanguage = 'zh-CN') {
-  const annotation = findAnnotationForTag(item, mainTag);
-  if (!annotation || !annotation.prefLabel) {return '';}
+  const followedInterest = getFollowedInterestForTag(item, mainTag);
+  const annotation = followedInterest?.annotation || findAnnotationForTag(item, mainTag);
 
-  const key = annotation.prefLabel;
-  const field = annotation.field || mapAnnotationField(annotation);
+  const key = annotation?.prefLabel || followedInterest?.key || mainTag;
+  const field = annotation?.field || mapAnnotationField(annotation) || followedInterest?.field;
   if (!field) {return '';}
 
-  let display = getAnnotationDisplay(annotation);
+  let display = getAnnotationDisplay(annotation) || followedInterest?.display || '';
   if (!display) {
     display = mainTag || key;
   }
@@ -560,23 +750,236 @@ function getFallbackTagDisplay(key) {
 }
 
 function isRecommendationTagFollowed(item, tag) {
-  if (!tag) {return false;}
-  if (followsSet.has(tag)) {return true;}
-  const annotation = findAnnotationForTag(item, tag);
-  if (!annotation) {return false;}
+  return !!getFollowedInterestForTag(item, tag);
+}
 
-  const candidates = [
-    annotation.prefLabel,
-    annotation.display,
-    annotation.translation,
-    getFallbackTagDisplay(annotation.prefLabel)
-  ];
+function isMatchedRecommendationTag(item, tag) {
+  if (!item || !tag || !Array.isArray(item.matchedKeys) || !Array.isArray(item.relevanceMatches)) {
+    return false;
+  }
+  if (!item.matchedKeys.includes(tag)) {return false;}
 
-  for (const candidate of candidates) {
-    if (candidate && followsSet.has(candidate)) {return true;}
+  for (const match of item.relevanceMatches) {
+    if (String(match?.source ?? '').endsWith('Boost')) {continue;}
+    if (match?.display !== tag) {continue;}
+    const followSources = Array.isArray(match?.followSources) ? match.followSources.filter(Boolean) : [];
+    if (followSources.length > 0) {return true;}
   }
 
   return false;
+}
+
+function createFollowedInterestIndex() {
+  return {
+    byAlias: new Map(),
+    entries: new Map()
+  };
+}
+
+function addFollowedInterest({ key = '', display = '', field = '', aliases = [], source = '' } = {}) {
+  const cleanKey = normalizeAnnotationValue(key);
+  const cleanDisplay = normalizeAnnotationValue(display);
+  const fallbackDisplay = normalizeAnnotationValue(getFallbackTagDisplay(cleanKey));
+  const cleanField = normalizeInterestField(field);
+  const aliasList = Array.isArray(aliases) ? aliases : [aliases];
+  const cleanAliases = [cleanKey, cleanDisplay, fallbackDisplay, ...aliasList]
+    .map(value => normalizeAnnotationValue(value))
+    .filter(Boolean);
+
+  if (cleanAliases.length === 0) {return null;}
+
+  let interest = null;
+  for (const alias of cleanAliases) {
+    interest = getFollowedInterestByAlias(alias);
+    if (interest) {break;}
+  }
+
+  if (!interest) {
+    const canonicalKey = cleanKey || cleanAliases[0];
+    interest = {
+      key: canonicalKey,
+      display: cleanDisplay || fallbackDisplay || getFallbackTagDisplay(canonicalKey) || canonicalKey,
+      field: cleanField,
+      aliases: new Set(),
+      sources: new Set()
+    };
+    followedInterestIndex.entries.set(canonicalKey, interest);
+  }
+
+  if (cleanDisplay && (!interest.display || interest.display === interest.key)) {
+    interest.display = cleanDisplay;
+  }
+  if (!interest.field && cleanField) {
+    interest.field = cleanField;
+  }
+  if (source) {
+    interest.sources.add(source);
+  }
+
+  for (const alias of cleanAliases) {
+    addAliasToFollowedInterest(interest, alias);
+  }
+
+  return interest;
+}
+
+function getFollowedInterestForTag(item, tag) {
+  const annotation = findAnnotationForTag(item, tag);
+  const aliases = getInterestAliasesForTag(annotation, tag);
+  const matches = [];
+  const seen = new Set();
+
+  for (const alias of aliases) {
+    const interest = getFollowedInterestByAlias(alias);
+    if (!interest) {continue;}
+    const key = getInterestScoreKey(interest);
+    if (seen.has(key)) {continue;}
+    seen.add(key);
+    matches.push(interest);
+  }
+
+  if (matches.length === 0) {return null;}
+
+  const interest = mergeFollowedInterests(matches, annotation, tag);
+  return {
+    key: interest.key,
+    display: interest.display,
+    field: interest.field,
+    aliases: interest.aliases,
+    sources: interest.sources,
+    annotation
+  };
+}
+
+function getInterestAliasesForTag(annotation, tag) {
+  return [
+    tag,
+    annotation?.prefLabel,
+    annotation?.display,
+    annotation?.translation,
+    getFallbackTagDisplay(annotation?.prefLabel)
+  ].map(value => normalizeAnnotationValue(value)).filter(Boolean);
+}
+
+function getFollowedInterestByAlias(alias) {
+  const normalized = normalizeInterestAlias(alias);
+  return normalized ? followedInterestIndex.byAlias.get(normalized) : null;
+}
+
+function addAliasToFollowedInterest(interest, alias) {
+  const cleanAlias = normalizeAnnotationValue(alias);
+  const normalizedAlias = normalizeInterestAlias(cleanAlias);
+  if (!interest || !normalizedAlias) {return;}
+  interest.aliases.add(cleanAlias);
+  followedInterestIndex.byAlias.set(normalizedAlias, interest);
+}
+
+function mergeFollowedInterests(interests, annotation, tag) {
+  let target = chooseFollowedInterest(interests, annotation) || interests[0];
+  if (!target) {return null;}
+
+  for (const interest of interests) {
+    if (!interest || interest === target) {continue;}
+    for (const alias of interest.aliases) {
+      addAliasToFollowedInterest(target, alias);
+    }
+    for (const source of interest.sources) {
+      target.sources.add(source);
+    }
+    if (!target.display && interest.display) {
+      target.display = interest.display;
+    }
+    if (!target.field && interest.field) {
+      target.field = interest.field;
+    }
+    followedInterestIndex.entries.delete(interest.key);
+  }
+
+  const canonicalKey = annotation?.prefLabel || target.key;
+  updateFollowedInterestKey(target, canonicalKey);
+
+  const annotationDisplay = getAnnotationDisplay(annotation);
+  if (annotationDisplay) {
+    target.display = annotationDisplay;
+  } else if (!target.display) {
+    target.display = normalizeAnnotationValue(tag) || target.key;
+  }
+
+  const annotationField = mapAnnotationField(annotation);
+  if (annotationField) {
+    target.field = annotationField;
+  }
+
+  for (const alias of getInterestAliasesForTag(annotation, tag)) {
+    addAliasToFollowedInterest(target, alias);
+  }
+
+  return target;
+}
+
+function chooseFollowedInterest(interests, annotation) {
+  const annotationKey = normalizeInterestAlias(annotation?.prefLabel);
+  if (annotationKey) {
+    for (const interest of interests) {
+      if (normalizeInterestAlias(interest?.key) === annotationKey) {
+        return interest;
+      }
+    }
+  }
+  return interests[0] || null;
+}
+
+function updateFollowedInterestKey(interest, key) {
+  const cleanKey = normalizeAnnotationValue(key);
+  if (!interest || !cleanKey || interest.key === cleanKey) {return;}
+  followedInterestIndex.entries.delete(interest.key);
+  interest.key = cleanKey;
+  followedInterestIndex.entries.set(cleanKey, interest);
+  addAliasToFollowedInterest(interest, cleanKey);
+}
+
+function getInterestScoreKey(interest) {
+  return normalizeInterestAlias(interest?.key || interest?.display || '');
+}
+
+function normalizeInterestAlias(value) {
+  return normalizeAnnotationValue(value).toUpperCase();
+}
+
+function normalizeInterestField(field) {
+  const rawField = normalizeAnnotationValue(field);
+  const key = rawField.toLowerCase();
+  const fieldMap = {
+    area: 'regions',
+    areas: 'regions',
+    author: 'byline',
+    authors: 'byline',
+    brand: 'brand',
+    brands: 'brand',
+    byline: 'byline',
+    customtopic: 'topics',
+    genre: 'genres',
+    genres: 'genres',
+    organisation: 'organisations',
+    organisations: 'organisations',
+    organization: 'organisations',
+    organizations: 'organisations',
+    region: 'regions',
+    regions: 'regions',
+    topic: 'topics',
+    topics: 'topics'
+  };
+  return fieldMap[key] || rawField;
+}
+
+function mapLegacyFollowField(category) {
+  const categoryMap = {
+    area: 'regions',
+    author: 'byline',
+    authors: 'byline',
+    topic: 'topics'
+  };
+  return categoryMap[category] || '';
 }
 
 function normalizeAnnotationValue(value) {
@@ -618,7 +1021,7 @@ async function renderRecommendationForWebAppHome(targetDom) {
 
     const html = await buildRecommendationHTML(items, window.preferredLanguage ?? 'zh-CN', true);
     const container = document.createElement('div');
-    container.innerHTML = `<div class="block-container"><div class="block-inner"><div class="list-container"><div class="list-inner customisation-container"></div></div><div class="list-container"><div class="list-inner list-recommendation card-grid">${html}</div></div></div></div>`;
+    container.innerHTML = `<div class="block-container home-page-recommendation-block"><div class="block-inner"><div class="list-container"><div class="list-inner">${buildFTExclusiveCurationIntroHTML()}</div></div><div class="list-container"><div class="list-inner customisation-container"></div></div><div class="list-container"><div class="list-inner list-recommendation card-grid">${html}</div></div></div></div>`;
 
     targetDom.innerHTML = '';
     targetDom.appendChild(container);
@@ -647,6 +1050,18 @@ function showCustomisation(list) {
     return;
   }
 
+  const isHomePageRecommendation =
+    list.classList.contains('home-page-recommendation-list') ||
+    list.classList.contains('customisation-container');
+
+  if (isHomePageRecommendation) {
+    const note = document.createElement('p');
+    note.className = 'home-page-recommendation-description reorder-description';
+    note.innerHTML = getFTExclusiveCurationText().description;
+    list.parentNode.insertBefore(note, list);
+    return;
+  }
+
   const wrapper = document.createElement('div');
   wrapper.className = 'items reorder-description';
 
@@ -659,14 +1074,7 @@ function showCustomisation(list) {
   const lead = document.createElement('div');
   lead.className = 'item-lead';
 
-  const preferredLanguage = (window.preferredLanguage || 'zh-CN').toLowerCase();
-
-  let langKey = 'zh';
-  if (preferredLanguage.startsWith('zh-tw')) {
-    langKey = 'zh-TW';
-  } else if (preferredLanguage.startsWith('zh-hk') || preferredLanguage.startsWith('zh-mo')) {
-    langKey = 'zh-HK';
-  }
+  const langKey = getChineseLanguageKey();
 
   const texts = {
     'zh-TW': `本列表已根據您的關注偏好、編輯推薦、內容熱度等因素重新排序。<a href="#">點擊這裡自訂</a>`,
@@ -937,6 +1345,7 @@ function calculateScores(items) {
 function updateFollows() {
   // ✅ Reset to avoid stale or ever-growing follows in this module
   followsSet = new Set();
+  followedInterestIndex = createFollowedInterestIndex();
 
   const myFTFollows = localStorage.getItem('my-ft-follow-ftc');
   const preference = localStorage.getItem('preference');
@@ -949,7 +1358,17 @@ function updateFollows() {
         const list = parsedFollow[category];
         if (Array.isArray(list)) {
           for (const value of list) {
-            if (value) {followsSet.add(value);}
+            const key = typeof value === 'string' ? value : value?.key;
+            const display = typeof value === 'object' ? value.display : '';
+            if (!key) {continue;}
+            followsSet.add(key);
+            addFollowedInterest({
+              key,
+              display: display || getFallbackTagDisplay(key),
+              field: mapLegacyFollowField(category),
+              aliases: [key, display],
+              source: 'legacyTag'
+            });
           }
         }
       }
@@ -966,9 +1385,19 @@ function updateFollows() {
         ...(parsedPreference['My Custom Interests'] || [])
       ];
       for (const interest of interestSources) {
-        if (interest?.key) {
-          followsSet.add(interest.key);
-        }
+        const key = typeof interest === 'string' ? interest : interest?.key;
+        if (!key) {continue;}
+        followsSet.add(key);
+        const source = parsedPreference['My Custom Interests']?.includes(interest) ?
+          'myFTCustomPreference' :
+          'myFTPreference';
+        addFollowedInterest({
+          key,
+          display: typeof interest === 'object' ? interest.display : '',
+          field: typeof interest === 'object' ? (interest.field || interest.type) : '',
+          aliases: typeof interest === 'object' ? [interest.key, interest.display] : [interest],
+          source
+        });
       }
     }
   } catch (err) {
@@ -1020,38 +1449,57 @@ function calculateRelevanceScores(items) {
     secondary: 0.2
   };
 
+  const RELEVANCE_SCORE_BANDS = {
+    strong: { min: 0.65, max: 1 },
+    weak: { min: 0.5, max: 0.6 }
+  };
+
   for (const item of items) {
     let score = 0;
     let hasMainMatch = false;
     let hasSecondaryMatch = false;
+    let hasKeywordMatch = false;
     let matchedKeys = [];
     let relevanceMatches = [];
+    const mainInterestKeys = new Set();
+    const secondaryInterestKeys = new Set();
+    const keywordInterestKeys = new Set();
 
     const mainTags = splitUniqueTags(item.annotationsMain);
     const secondaryTags = splitUniqueTags(item.annotationsSecondary);
     const keywords = splitUniqueTags(item.keywords);
 
     for (const tag of mainTags) {
-      if (followsSet.has(tag)) {
+      const followedInterest = getFollowedInterestForTag(item, tag);
+      const interestKey = getInterestScoreKey(followedInterest);
+      if (followedInterest && !mainInterestKeys.has(interestKey)) {
+        mainInterestKeys.add(interestKey);
         score += WEIGHTS.main;
         hasMainMatch = true;
-        addRelevanceMatch(item, relevanceMatches, matchedKeys, 'main', tag, WEIGHTS.main);
+        addRelevanceMatch(item, relevanceMatches, matchedKeys, 'main', tag, WEIGHTS.main, followedInterest);
       }
     }
 
     for (const tag of secondaryTags) {
-      if (followsSet.has(tag)) {
+      const followedInterest = getFollowedInterestForTag(item, tag);
+      const interestKey = getInterestScoreKey(followedInterest);
+      if (followedInterest && !secondaryInterestKeys.has(interestKey)) {
+        secondaryInterestKeys.add(interestKey);
         score += WEIGHTS.secondary;
         hasSecondaryMatch = true;
-        addRelevanceMatch(item, relevanceMatches, matchedKeys, 'secondary', tag, WEIGHTS.secondary);
+        addRelevanceMatch(item, relevanceMatches, matchedKeys, 'secondary', tag, WEIGHTS.secondary, followedInterest);
       }
     }
 
     for (const [i, tag] of keywords.entries()) {
-      if (followsSet.has(tag)) {
+      const followedInterest = getFollowedInterestForTag(item, tag);
+      const interestKey = getInterestScoreKey(followedInterest);
+      if (followedInterest && !keywordInterestKeys.has(interestKey)) {
+        keywordInterestKeys.add(interestKey);
+        hasKeywordMatch = true;
         const points = i === 0 ? WEIGHTS.keywordPrimary : WEIGHTS.keywordOther;
         score += points;
-        addRelevanceMatch(item, relevanceMatches, matchedKeys, i === 0 ? 'keywordPrimary' : 'keywordOther', tag, points);
+        addRelevanceMatch(item, relevanceMatches, matchedKeys, i === 0 ? 'keywordPrimary' : 'keywordOther', tag, points, followedInterest);
       }
     }
 
@@ -1076,31 +1524,34 @@ function calculateRelevanceScores(items) {
     item.relevanceRaw = score;
     item.matchedKeys = matchedKeys;
     item.relevanceMatches = relevanceMatches;
+    item.relevanceMatchStrength = hasMainMatch ? 'strong' : (hasSecondaryMatch || hasKeywordMatch ? 'weak' : 'none');
   }
 
-  // Normalize to [0.5, 1.0] or 0 if no match
-  let max = -Infinity;
-  let min = Infinity;
+  // Normalize strong and weak matches into separate bands, so weak matches can
+  // compare with each other but cannot outrank a main-tag match by relevance.
+  const rawRanges = {
+    strong: { min: Infinity, max: -Infinity },
+    weak: { min: Infinity, max: -Infinity }
+  };
 
   for (const item of items) {
     const r = item.relevanceRaw;
     if (r > 0) {
-      max = Math.max(max, r);
-      min = Math.min(min, r);
+      const strength = item.relevanceMatchStrength === 'strong' ? 'strong' : 'weak';
+      rawRanges[strength].max = Math.max(rawRanges[strength].max, r);
+      rawRanges[strength].min = Math.min(rawRanges[strength].min, r);
     }
   }
-
-  const MIN_SCORE = 0.5;
-  const MAX_SCORE = 1.0;
 
   for (const item of items) {
     const r = item.relevanceRaw || 0;
     if (r === 0) {
       item.relevanceScore = 0;
-    } else if (max !== min) {
-      item.relevanceScore = MIN_SCORE + (MAX_SCORE - MIN_SCORE) * ((r - min) / (max - min));
     } else {
-      item.relevanceScore = MAX_SCORE;
+      const strength = item.relevanceMatchStrength === 'strong' ? 'strong' : 'weak';
+      const band = RELEVANCE_SCORE_BANDS[strength];
+      const range = rawRanges[strength];
+      item.relevanceScore = normalizeRelevanceRawScore(r, range.min, range.max, band.min, band.max);
     }
   }
 
@@ -1157,6 +1608,12 @@ function calculateRelevanceScores(items) {
       item.relevanceScore = maxRegionMin;
       item.regionMinScoreApplied = true; // optional debug flag
     }
+
+    if (item.relevanceMatchStrength === 'weak' && item.relevanceScore > RELEVANCE_SCORE_BANDS.weak.max) {
+      item.relevanceScoreBeforeWeakCap = item.relevanceScore;
+      item.relevanceScore = RELEVANCE_SCORE_BANDS.weak.max;
+      item.weakRelevanceCapApplied = true;
+    }
   }
 
   return items;
@@ -1164,17 +1621,29 @@ function calculateRelevanceScores(items) {
 
 
 // === Score Utilities ===
-function addRelevanceMatch(item, relevanceMatches, matchedKeys, source, key, points) {
-  const display = getRelevanceMatchDisplay(item, key);
-  relevanceMatches.push({ source, key, display, points });
+function normalizeRelevanceRawScore(rawScore, minRawScore, maxRawScore, minScore, maxScore) {
+  const score = parseFloat(rawScore) || 0;
+  if (score <= 0) {return 0;}
+  if (!Number.isFinite(minRawScore) || !Number.isFinite(maxRawScore) || minRawScore === maxRawScore) {
+    return maxScore;
+  }
+  return minScore + (maxScore - minScore) * ((score - minRawScore) / (maxRawScore - minRawScore));
+}
+
+function addRelevanceMatch(item, relevanceMatches, matchedKeys, source, key, points, followedInterest) {
+  const annotation = followedInterest?.annotation || findAnnotationForTag(item, key);
+  const matchKey = annotation?.prefLabel || followedInterest?.key || key;
+  const display = getRelevanceMatchDisplay(item, key, followedInterest);
+  const followSources = followedInterest ? Array.from(followedInterest.sources).sort() : [];
+  relevanceMatches.push({ source, key: matchKey, display, points, followSources });
   if (display && !matchedKeys.includes(display)) {
     matchedKeys.push(display);
   }
 }
 
-function getRelevanceMatchDisplay(item, key) {
-  const annotation = findAnnotationForTag(item, key);
-  return getAnnotationDisplay(annotation) || getFallbackTagDisplay(key) || key;
+function getRelevanceMatchDisplay(item, key, followedInterest) {
+  const annotation = followedInterest?.annotation || findAnnotationForTag(item, key);
+  return getAnnotationDisplay(annotation) || followedInterest?.display || getFallbackTagDisplay(key) || key;
 }
 
 function detectContentClass(annotationsMain = '', subtype = '', ftType = '') {
@@ -1309,7 +1778,9 @@ delegate.on('click', '.reorder-description a', function (event) {
       tierPenalty: '没有权限的内容靠后',
       showAITranslation: '显示AI翻译的内容',
       freshnessBonus: '新内容提升优先级',
-      customHomePage: '自定义主页',
+      customHomePage: '在首页显示FT全球臻享',
+      premiumOnlyBadge: '高端专享',
+      premiumOnlyHomePageNotice: '当前为标准会员，此设置将在升级为高端会员后生效。',
       save: '保存设置'
     },
     'zh-HK': {
@@ -1321,7 +1792,9 @@ delegate.on('click', '.reorder-description a', function (event) {
       tierPenalty: '無閱讀權限內容排後',
       showAITranslation: '顯示AI翻譯的內容',
       freshnessBonus: '新內容提升優先級',
-      customHomePage: '自訂首頁',
+      customHomePage: '在首頁顯示FT全球臻享',
+      premiumOnlyBadge: '高端專享',
+      premiumOnlyHomePageNotice: '當前為標準會員，此設定將在升級為高端會員後生效。',
       save: '儲存設定'
     },
     'zh-TW': {
@@ -1333,7 +1806,9 @@ delegate.on('click', '.reorder-description a', function (event) {
       tierPenalty: '無閱讀權限的內容往後排',
       showAITranslation: '顯示AI翻譯的內容',
       freshnessBonus: '新內容優先顯示',
-      customHomePage: '自訂首頁',
+      customHomePage: '在首頁顯示FT全球臻享',
+      premiumOnlyBadge: '高端專享',
+      premiumOnlyHomePageNotice: '目前為標準會員，此設定將在升級為高端會員後生效。',
       save: '儲存設定'
     }
   };
@@ -1420,8 +1895,13 @@ delegate.on('click', '.reorder-description a', function (event) {
       input.className = 'reorder-toggle';
 
       label.appendChild(input);
-      label.append(` ${opt.label}`);
+      label.append(' ');
+      const labelText = document.createElement('span');
+      labelText.className = 'reorder-toggle-text';
+      labelText.textContent = opt.label;
+      label.appendChild(labelText);
       row.appendChild(label);
+      syncReorderPremiumPreferenceHint(row, label, input, opt, t);
     }
 
     box.appendChild(row);
@@ -1446,6 +1926,47 @@ delegate.on('click', '.reorder-description a', function (event) {
     desc.parentNode.insertBefore(wrapper, desc.nextSibling);
   }
 });
+
+function syncReorderPremiumPreferenceHint(row, label, input, opt, labels) {
+  if (!opt?.preferenceKey || !opt?.checkedValue || !opt?.uncheckedValue) {return;}
+
+  const updateHint = () => {
+    const selectedValue = input.checked ? opt.checkedValue : opt.uncheckedValue;
+    const gate = getPremiumPreferenceGate(opt.preferenceKey, selectedValue, labels);
+    const existingBadge = label.querySelector('.reorder-premium-badge');
+    const existingNote = row.querySelector('.reorder-premium-note');
+
+    if (!gate) {
+      row.classList.remove('reorder-row-premium-gated');
+      if (existingBadge) {existingBadge.remove();}
+      if (existingNote) {existingNote.remove();}
+      return;
+    }
+
+    row.classList.add('reorder-row-premium-gated');
+
+    if (!existingBadge) {
+      const badge = document.createElement('span');
+      badge.className = 'reorder-premium-badge';
+      badge.textContent = gate.badge;
+      label.appendChild(badge);
+    } else {
+      existingBadge.textContent = gate.badge;
+    }
+
+    if (!existingNote) {
+      const note = document.createElement('div');
+      note.className = 'reorder-premium-note';
+      note.textContent = gate.note;
+      row.appendChild(note);
+    } else {
+      existingNote.textContent = gate.note;
+    }
+  };
+
+  updateHint();
+  input.addEventListener('change', updateHint);
+}
 
 
 delegate.on('click', '[data-action="reorderItems"]', function () {

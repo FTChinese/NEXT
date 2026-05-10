@@ -1,5 +1,5 @@
 /* exported isStandalone, subscribeWebPush */
-/* global renderRecommendationForWebAppHome */
+/* global renderRecommendationForWebAppHome, shouldShowHomePageRecommendation, getPremiumPreferenceGate */
 
 const jsVersion = 'v2';
 const APP_PAGE_CACHE_NAME = 'v98'; // keep in sync with app-service-worker.js
@@ -469,13 +469,14 @@ const appTypeMap = {
         },
         {
           id: 'home-page-preference',
-          headline: '首页',
+          headline: '在首页显示FT全球臻享',
           type: 'setting',
           options: [
-            { name: 'default', display: '默认' },
-            { name: 'customized', display: '自定义' }
+            { name: 'default', display: '不显示' },
+            { name: 'customized', display: '显示' }
           ],
-          preferenceKey: 'Home Page Preference'
+          preferenceKey: 'Home Page Preference',
+          premiumOnlyValue: 'customized'
         },
         {
           id: 'translation-preference',
@@ -753,9 +754,8 @@ async function renderChannel(channel) {
         }
 
         let showRecommendation = false;
-        if (channel?.screenName === 'homepage') {
-          const myPreference = getMyPreference();
-          showRecommendation = myPreference?.['Home Page Preference'] === 'customized';
+        if (channel?.screenName === 'homepage' && typeof shouldShowHomePageRecommendation === 'function') {
+          showRecommendation = shouldShowHomePageRecommendation();
         }
 
         if (showRecommendation) {
@@ -816,7 +816,10 @@ function generateHTMLFromData(sections) {
       } else if (options.length > 0) {
         const currentValue = myPreference?.[preferenceKey] ?? GetCookie(cookieName) ?? options?.filter(x => x.is_default)?.[0]?.name ?? options?.[0].name ?? '';
         const defaultDisplay = options?.filter(x => x.name === currentValue)?.[0].display;
-        itemsHTML += `<li class="settings-item" data-id="${id}" data-type="${type}" data-section-index=${sectionIndex} data-item-index=${itemIndex}>${headline}<span>${defaultDisplay}</span></li>`;
+        const gate = getAppSettingPremiumGate(item, currentValue);
+        const gateClass = gate ? ' is-premium-gated-active' : '';
+        const premiumHint = buildAppSettingPremiumGateHTML(gate);
+        itemsHTML += `<li class="settings-item${gateClass}" data-id="${id}" data-type="${type}" data-section-index=${sectionIndex} data-item-index=${itemIndex}>${headline}<span class="settings-summary">${defaultDisplay}</span>${premiumHint}</li>`;
       } else {
         itemsHTML += `<a class="settings-item" data-id="${id}" data-type="${type}">${headline}</a>`;
       }
@@ -826,6 +829,29 @@ function generateHTMLFromData(sections) {
   }
 
   return `<div class="settings-container">${html}</div>`;
+}
+
+function getAppSettingPremiumGate(info, value) {
+  if (typeof getPremiumPreferenceGate !== 'function') {return null;}
+  if (info?.premiumOnlyValue && value !== info.premiumOnlyValue) {return null;}
+  return getPremiumPreferenceGate(info?.preferenceKey, value, {
+    premiumOnlyBadge: '高端专享',
+    premiumOnlyHomePageNotice: '当前为标准会员，此设置将在升级为高端会员后生效。'
+  });
+}
+
+function buildAppSettingPremiumGateHTML(gate) {
+  if (!gate) {return '';}
+  return `<b class="settings-premium-badge">${escapeAppSettingHTML(gate.badge)}</b><small class="settings-premium-note">${escapeAppSettingHTML(gate.note)}</small>`;
+}
+
+function escapeAppSettingHTML(value = '') {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
 
