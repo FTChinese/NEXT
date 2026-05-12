@@ -1032,8 +1032,8 @@ delegate.on('click', '.list-recommendation .item-container-app', function (event
   if (event?.defaultPrevented) {
     return;
   }
-  // Web app shell has its own click routing in app-nav.js; avoid double handling.
-  if (isWebAppShell()) {
+  // Web app shell and native app list pages have their own click routing; avoid double handling.
+  if (isWebAppShell() || isNativeAppWebView()) {
     return;
   }
   // Let native anchor/button behavior fire first so iOS/Android webviews see a true link activation.
