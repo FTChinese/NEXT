@@ -819,12 +819,45 @@ function isHidden(el) {
     return (el.offsetParent === null);
 }
 
-function openLink(theLink) {
+function hasIOSNativeLinkBridge() {
+  return typeof webkit === 'object' &&
+    webkit.messageHandlers &&
+    webkit.messageHandlers.link &&
+    typeof webkit.messageHandlers.link.postMessage === 'function';
+}
+
+function hasAndroidNativeLinkBridge() {
+  return typeof Android === 'object' && typeof Android.link === 'function';
+}
+
+function normalizeNativeLink(theLink) {
   try {
-    webkit.messageHandlers.link.postMessage(theLink);
+    if (typeof URL !== 'function') {return theLink;}
+    return new URL(theLink, window.location.href).href;
   } catch(error) {
-    document.location = theLink;
+    return theLink;
   }
+}
+
+function openLink(theLink) {
+  var nativeLink = normalizeNativeLink(theLink);
+
+  if (hasIOSNativeLinkBridge()) {
+    try {
+      webkit.messageHandlers.link.postMessage(nativeLink);
+      return;
+    } catch(error) {}
+  }
+
+  if (hasAndroidNativeLinkBridge()) {
+    try {
+      if (Android.link(nativeLink) === true) {
+        return;
+      }
+    } catch(error) {}
+  }
+
+  document.location = theLink;
 }
 
 function trackInternalPromos() {

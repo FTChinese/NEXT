@@ -1,4 +1,4 @@
-/* global getMyPreference, savePreference, convertChinese, runLoadImages, markReadContent, GetCookie */
+/* global getMyPreference, savePreference, convertChinese, runLoadImages, markReadContent, GetCookie, Android, webkit, AbortController, Blob */
 /* exported renderRecommendationForWebAppHome, renderHomePageRecommendationNow, shouldShowHomePageRecommendation, getPremiumPreferenceGate */
 
 // === Attribute Mapping ===
@@ -47,26 +47,48 @@ let followedInterestIndex = createFollowedInterestIndex();
 
 const HOME_PAGE_RECOMMENDATION_CONTAINER_ID = 'home-page-recommendation-container';
 const HOME_PAGE_RECOMMENDATION_LIMIT = 24;
+const NATIVE_HOME_PAGE_RECOMMENDATION_TIMEOUT_MS = 30000;
+const HOME_PAGE_RECOMMENDATION_TRACK_ENDPOINT = '/track_ft_global_curation';
+const HOME_PAGE_RECOMMENDATION_TRACK_THROTTLE_MS = 2000;
 const PREMIUM_ONLY_PREFERENCE_VALUES = {
   'Home Page Preference': 'customized'
 };
 const FT_EXCLUSIVE_CURATION_TEXTS = {
   zh: {
     title: 'FT全球臻享',
-    description: '更及时获取更多FT全球内容，包括AI翻译加速上线的深度报道、分析和观点，并按你的关注和阅读偏好调整排序。<a href="#">点击这里自定义</a>'
+    description: '更及时获取更多FT全球内容，包括AI翻译加速上线的深度报道、分析和观点，并按你的关注和阅读偏好调整排序。<a href="#">点击这里自定义</a>',
+    loading: '正在加载FT全球臻享',
+    empty: '暂时没有新的FT全球臻享内容，请稍后刷新。',
+    timeout: 'FT全球臻享加载较慢，请点击重试。',
+    failed: 'FT全球臻享暂时无法加载，请点击重试。',
+    retry: '点击这里重试'
   },
   'zh-HK': {
     title: 'FT全球臻享',
-    description: '更及時獲取更多FT全球內容，包括AI翻譯加速上線的深度報道、分析和觀點，並按你的關注和閱讀偏好調整排序。<a href="#">點擊這裡自定義</a>'
+    description: '更及時獲取更多FT全球內容，包括AI翻譯加速上線的深度報道、分析和觀點，並按你的關注和閱讀偏好調整排序。<a href="#">點擊這裡自定義</a>',
+    loading: '正在載入FT全球臻享',
+    empty: '暫時沒有新的FT全球臻享內容，請稍後刷新。',
+    timeout: 'FT全球臻享載入較慢，請點擊重試。',
+    failed: 'FT全球臻享暫時無法載入，請點擊重試。',
+    retry: '點擊這裡重試'
   },
   'zh-TW': {
     title: 'FT全球臻享',
-    description: '更即時取得更多FT全球內容，包括AI翻譯加速上線的深度報導、分析和觀點，並按你的關注和閱讀偏好調整排序。<a href="#">點擊這裡自訂</a>'
+    description: '更即時取得更多FT全球內容，包括AI翻譯加速上線的深度報導、分析和觀點，並按你的關注和閱讀偏好調整排序。<a href="#">點擊這裡自訂</a>',
+    loading: '正在載入FT全球臻享',
+    empty: '暫時沒有新的FT全球臻享內容，請稍後重新整理。',
+    timeout: 'FT全球臻享載入較慢，請點擊重試。',
+    failed: 'FT全球臻享暫時無法載入，請點擊重試。',
+    retry: '點擊這裡重試'
   }
 };
 // Keep raw recommendation objects out of DOM attributes. They include long annotations
 // and scoring metadata, but are only needed in memory when users tweak ranking settings.
 const recommendationItemsByContainer = new WeakMap();
+const homePageRecommendationRenderPromises = new WeakMap();
+const homePageRecommendationTrackedShells = new WeakSet();
+const homePageRecommendationTrackedTerminalStatuses = new WeakMap();
+const homePageRecommendationTrackThrottle = new Map();
 
 // === Recommendation Weights ===
 const recommendationWeights = {
@@ -81,7 +103,7 @@ const recommendationWeights = {
 
 
 // === Kickstart only for web page ===
-if (!/^\/app/.test(top.location.pathname)) {
+if (!isWebAppShell()) {
   console.log('recommending...');
   runRecommendationForDoms();
   displayRecommendationInContentPageLazy();
@@ -140,7 +162,8 @@ function displayRecommendationInContentPageLazy(targetDom) {
     targetDom,
     containerSelector: '.list-recommendation',
     limit: 6,
-    filterCurrentContent: true
+    filterCurrentContent: true,
+    isInWebApp: isWebAppShell()
   });
 }
 
@@ -152,6 +175,8 @@ function displayRecommendationLazy(options = {}) {
   const isInWebApp = options?.isInWebApp ?? false;
   const rootMargin = options?.rootMargin ?? '500px';
   const onEmpty = options?.onEmpty;
+  const onRendered = options?.onRendered;
+  const onError = options?.onError;
 
   let containers = document.querySelectorAll(containerSelector);
   if (targetDom) {
@@ -172,15 +197,22 @@ function displayRecommendationLazy(options = {}) {
 
         if (result?.status === 'empty') {
           if (typeof onEmpty === 'function') {
-            onEmpty(entry.target);
+            onEmpty(entry.target, result);
           }
           observer.unobserve(entry.target);
           continue;
         }
 
+        if (typeof onRendered === 'function') {
+          onRendered(entry.target, result);
+        }
         observer.unobserve(entry.target);
       } catch (error) {
         console.error('Error fetching recommendations:', error);
+        if (typeof onError === 'function') {
+          onError(entry.target, error);
+        }
+        observer.unobserve(entry.target);
       }
     }
   }, { rootMargin });
@@ -199,7 +231,9 @@ function displayHomePageRecommendation() {
   }
 
   container.hidden = false;
+  markHomePageRecommendationStatus(container, {status: 'loading'});
   container.innerHTML = buildHomePageRecommendationShellHTML();
+  trackHomePageRecommendationShellShown(container);
 
   displayRecommendationLazy({
     targetDom: container,
@@ -208,7 +242,12 @@ function displayHomePageRecommendation() {
     source: 'all',
     filterCurrentContent: false,
     insertTitleForNextBlock: true,
-    onEmpty: () => hideHomePageRecommendation(container)
+    onRendered: (_list, result) => showHomePageRecommendationTerminalStatus(container, result),
+    onEmpty: (_list, result) => showHomePageRecommendationTerminalStatus(container, result),
+    onError: (_list, error) => {
+      console.error('homepage recommendation lazy render error:', error);
+      showHomePageRecommendationTerminalStatus(container, {status: 'failed'});
+    }
   });
 }
 
@@ -216,10 +255,27 @@ async function renderHomePageRecommendationNow(options = {}) {
   const container = options?.targetDom || document.getElementById(HOME_PAGE_RECOMMENDATION_CONTAINER_ID);
   if (!container) {return {status: 'missing'};}
   if (!shouldShowHomePageRecommendation()) {
+    markHomePageRecommendationStatus(container, {status: 'skipped'});
     hideHomePageRecommendation(container);
     return {status: 'skipped'};
   }
 
+  const activeRender = homePageRecommendationRenderPromises.get(container);
+  if (activeRender) {
+    return activeRender;
+  }
+  const renderPromise = performHomePageRecommendationRender(container, options);
+  homePageRecommendationRenderPromises.set(container, renderPromise);
+  try {
+    return await renderPromise;
+  } finally {
+    if (homePageRecommendationRenderPromises.get(container) === renderPromise) {
+      homePageRecommendationRenderPromises.delete(container);
+    }
+  }
+}
+
+async function performHomePageRecommendationRender(container, options = {}) {
   const renderState = {cancelled: false};
   let timeoutId;
   let controller;
@@ -239,7 +295,9 @@ async function renderHomePageRecommendationNow(options = {}) {
     }
 
     container.hidden = false;
+    markHomePageRecommendationStatus(container, {status: 'loading'});
     container.innerHTML = buildHomePageRecommendationShellHTML();
+    trackHomePageRecommendationShellShown(container);
 
     const list = container.querySelector('.home-page-recommendation-list');
     const renderPromise = renderRecommendationsIntoContainer(list, {
@@ -253,22 +311,50 @@ async function renderHomePageRecommendationNow(options = {}) {
     });
     const result = timeoutPromise ? await Promise.race([renderPromise, timeoutPromise]) : await renderPromise;
 
-    if (result?.status === 'empty' || result?.status === 'cancelled' || result?.status === 'timeout') {
-      hideHomePageRecommendation(container);
-    }
+    markHomePageRecommendationStatus(container, result);
+    showHomePageRecommendationTerminalStatus(container, result);
     return result;
   } catch (err) {
     if (err?.name === 'AbortError' || renderState.cancelled) {
-      hideHomePageRecommendation(container);
+      markHomePageRecommendationStatus(container, {status: 'timeout'});
+      showHomePageRecommendationTerminalStatus(container, {status: 'timeout'});
       return {status: 'timeout'};
     }
     console.error('render homepage recommendation error:', err);
-    hideHomePageRecommendation(container);
+    markHomePageRecommendationStatus(container, {status: 'failed'});
+    showHomePageRecommendationTerminalStatus(container, {status: 'failed'});
     return {status: 'failed'};
   } finally {
     if (timeoutId) {
       clearTimeout(timeoutId);
     }
+  }
+}
+
+function showHomePageRecommendationTerminalStatus(container, result = {}) {
+  if (!container) {return;}
+  markHomePageRecommendationStatus(container, result);
+  trackHomePageRecommendationTerminalStatus(container, result);
+  const status = result?.status || 'unknown';
+  if (status === 'rendered') {
+    updateHomePageRecommendationNotice(container, 'rendered');
+    return;
+  }
+  if (status === 'empty' || status === 'timeout' || status === 'failed' || status === 'cancelled') {
+    updateHomePageRecommendationNotice(container, status === 'cancelled' ? 'timeout' : status);
+    insertTitleForNextHomeBlock();
+  }
+}
+
+function markHomePageRecommendationStatus(container, result = {}) {
+  if (!container) {return;}
+  const status = result?.status || 'unknown';
+  container.setAttribute('data-render-status', status);
+  if (status === 'loading') {
+    container.setAttribute('data-render-start-ms', `${Date.now()}`);
+  }
+  if (typeof result?.count === 'number') {
+    container.setAttribute('data-render-count', `${result.count}`);
   }
 }
 
@@ -279,7 +365,8 @@ function buildHomePageRecommendationShellHTML() {
         <div class="content-container"><div class="content-inner">
           <div class="list-container"><div class="list-inner">
             ${buildFTExclusiveCurationIntroHTML()}
-            <div class="card-grid list-recommendation home-page-recommendation-list"></div>
+            ${buildFTExclusiveCurationDescriptionHTML()}
+            <div class="card-grid list-recommendation home-page-recommendation-list">${buildHomePageRecommendationNoticeHTML('loading')}</div>
           </div></div>
         </div></div>
         <div class="clearfloat"></div>
@@ -287,10 +374,243 @@ function buildHomePageRecommendationShellHTML() {
     </div>`;
 }
 
+function buildHomePageRecommendationNoticeHTML(status = 'loading') {
+  const text = getFTExclusiveCurationText();
+  const isRetriable = status === 'timeout' || status === 'failed';
+  return `
+    <div class="home-page-recommendation-status ${getHomePageRecommendationStatusClass(status)}" role="status" aria-live="polite">
+      <span class="home-page-recommendation-spinner" aria-hidden="true"></span>
+      <span class="home-page-recommendation-status-text">${text[status] || text.failed}</span>
+      <button class="home-page-recommendation-retry" type="button"${isRetriable ? '' : ' hidden'}>${text.retry}</button>
+    </div>`;
+}
+
+function updateHomePageRecommendationNotice(container, status) {
+  const list = container?.querySelector('.home-page-recommendation-list');
+  if (!list) {return;}
+  if (status === 'rendered') {
+    list.querySelector('.home-page-recommendation-status')?.remove();
+    return;
+  }
+  let notice = list.querySelector('.home-page-recommendation-status');
+  if (!notice) {
+    list.innerHTML = buildHomePageRecommendationNoticeHTML(status);
+    return;
+  }
+  const text = notice.querySelector('.home-page-recommendation-status-text');
+  const retry = notice.querySelector('.home-page-recommendation-retry');
+  notice.classList.remove('is-loading', 'is-empty', 'is-error');
+
+  notice.hidden = false;
+  if (retry) {
+    retry.disabled = false;
+    retry.hidden = !(status === 'timeout' || status === 'failed');
+  }
+  notice.classList.add(getHomePageRecommendationStatusClass(status));
+  if (text) {
+    text.textContent = getFTExclusiveCurationText()[status] || getFTExclusiveCurationText().failed;
+  }
+}
+
+function getHomePageRecommendationStatusClass(status) {
+  if (status === 'loading') {return 'is-loading';}
+  if (status === 'empty') {return 'is-empty';}
+  return 'is-error';
+}
+
+function retryHomePageRecommendation(container) {
+  if (!container) {return Promise.resolve({status: 'missing'});}
+  if (homePageRecommendationRenderPromises.has(container)) {
+    return homePageRecommendationRenderPromises.get(container);
+  }
+  const options = {
+    targetDom: container,
+    limit: HOME_PAGE_RECOMMENDATION_LIMIT,
+    source: 'all'
+  };
+  if (isNativeAppWebView()) {
+    options.timeoutMs = NATIVE_HOME_PAGE_RECOMMENDATION_TIMEOUT_MS;
+  }
+  return renderHomePageRecommendationNow(options).then(result => {
+    if (isNativeAppWebView()) {
+      const status = result?.status || 'unknown';
+      container.setAttribute('data-native-render-status', status);
+      if (typeof result?.count === 'number') {
+        container.setAttribute('data-native-render-count', `${result.count}`);
+      }
+    }
+    return result;
+  });
+}
+
 function hideHomePageRecommendation(container) {
   if (!container) {return;}
   container.hidden = true;
   container.innerHTML = '';
+}
+
+function getHomePageRecommendationTrackPlatform() {
+  if (typeof Android === 'object' && typeof Android.link === 'function') {
+    return 'android';
+  }
+  if (typeof webkit === 'object' && webkit.messageHandlers) {
+    return 'ios';
+  }
+  if (isNativeAppWebView()) {
+    return 'native';
+  }
+  if (isWebAppShell()) {
+    return 'webapp';
+  }
+  return 'web';
+}
+
+function shouldThrottleHomePageRecommendationTrack(eventName, data = {}, throttleMs = HOME_PAGE_RECOMMENDATION_TRACK_THROTTLE_MS) {
+  const key = [
+    eventName,
+    data.status || '',
+    data.itemId || ''
+  ].join(':');
+  const now = Date.now();
+  const last = homePageRecommendationTrackThrottle.get(key) || 0;
+  if (now - last < throttleMs) {
+    return true;
+  }
+  homePageRecommendationTrackThrottle.set(key, now);
+  if (homePageRecommendationTrackThrottle.size > 100) {
+    const firstKey = homePageRecommendationTrackThrottle.keys().next().value;
+    homePageRecommendationTrackThrottle.delete(firstKey);
+  }
+  return false;
+}
+
+function postHomePageRecommendationTrack(payload) {
+  const body = JSON.stringify(payload);
+  if (typeof navigator === 'object' && typeof navigator.sendBeacon === 'function' && typeof Blob === 'function') {
+    try {
+      const blob = new Blob([body], {type: 'application/json'});
+      if (navigator.sendBeacon(HOME_PAGE_RECOMMENDATION_TRACK_ENDPOINT, blob)) {
+        return;
+      }
+    } catch (err) {
+      // Fall through to fetch below.
+    }
+  }
+
+  if (typeof fetch !== 'function') {
+    return;
+  }
+  fetch(HOME_PAGE_RECOMMENDATION_TRACK_ENDPOINT, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    credentials: 'same-origin',
+    keepalive: true,
+    body
+  }).catch(() => {});
+}
+
+function trackHomePageRecommendationEvent(eventName, data = {}, options = {}) {
+  if (!eventName) {return;}
+  if (shouldThrottleHomePageRecommendationTrack(eventName, data, options.throttleMs)) {
+    return;
+  }
+  const payload = {
+    eventName,
+    platform: getHomePageRecommendationTrackPlatform(),
+    url: window.location.href,
+    path: window.location.pathname,
+    ...data
+  };
+  postHomePageRecommendationTrack(payload);
+}
+
+function getHomePageRecommendationDurationMs(container) {
+  const startedAt = parseInt(container?.getAttribute('data-render-start-ms') || '', 10);
+  if (!Number.isFinite(startedAt) || startedAt <= 0) {
+    return undefined;
+  }
+  return Math.max(0, Date.now() - startedAt);
+}
+
+function trackHomePageRecommendationShellShown(container) {
+  if (!container || homePageRecommendationTrackedShells.has(container)) {
+    return;
+  }
+  homePageRecommendationTrackedShells.add(container);
+  trackHomePageRecommendationEvent('ft_global_curation_shell_shown', {status: 'shown'});
+}
+
+function trackHomePageRecommendationTerminalStatus(container, result = {}) {
+  if (!container) {return;}
+  const status = result?.status || 'unknown';
+  const eventNameMap = {
+    rendered: 'ft_global_curation_render_success',
+    empty: 'ft_global_curation_empty',
+    timeout: 'ft_global_curation_timeout',
+    failed: 'ft_global_curation_failed',
+    cancelled: 'ft_global_curation_timeout'
+  };
+  const eventName = eventNameMap[status];
+  if (!eventName) {return;}
+
+  const count = typeof result?.count === 'number' ? result.count : undefined;
+  const trackedKey = `${status}:${count ?? ''}`;
+  if (homePageRecommendationTrackedTerminalStatuses.get(container) === trackedKey) {
+    return;
+  }
+  homePageRecommendationTrackedTerminalStatuses.set(container, trackedKey);
+  trackHomePageRecommendationEvent(eventName, {
+    status,
+    resultCount: count,
+    durationMs: getHomePageRecommendationDurationMs(container)
+  });
+}
+
+function getRecommendationItemTier(item) {
+  const url = item?.getAttribute('data-article-url') || '';
+  const tierMatch = url.match(/[?&]tier=([^&]+)/);
+  if (tierMatch) {
+    return tierMatch[1];
+  }
+  const link = item?.querySelector('.item-headline-link');
+  if (link?.classList.contains('vip')) {
+    return 'premium';
+  }
+  if (link?.classList.contains('locked')) {
+    return 'standard';
+  }
+  return '';
+}
+
+function getRecommendationItemTrackData(item) {
+  if (!item) {return {};}
+  const itemType = item.getAttribute('data-type') || '';
+  const articleUrl = item.getAttribute('data-article-url') || '';
+  const data = {
+    itemId: item.getAttribute('data-ft-id') || item.getAttribute('data-id') || '',
+    itemType,
+    itemSubtype: item.getAttribute('data-sub-type') || '',
+    contentClass: item.getAttribute('data-content-class') || '',
+    tier: getRecommendationItemTier(item),
+    isAITranslation: itemType === 'content' || /^\/content\//.test(articleUrl)
+  };
+  const score = parseFloat(item.getAttribute('data-score') || '');
+  const relevanceScore = parseFloat(item.getAttribute('data-relevance-score') || '');
+  if (Number.isFinite(score)) {
+    data.score = score;
+  }
+  if (Number.isFinite(relevanceScore)) {
+    data.relevanceScore = relevanceScore;
+  }
+  return data;
+}
+
+function trackHomePageRecommendationItemClick(item) {
+  trackHomePageRecommendationEvent(
+    'ft_global_curation_item_click',
+    getRecommendationItemTrackData(item),
+    {throttleMs: 500}
+  );
 }
 
 function insertTitleForNextHomeBlock() {
@@ -308,11 +628,7 @@ function insertTitleForNextHomeBlock() {
 function shouldShowHomePageRecommendation() {
   if (!isPremiumUser()) {return false;}
   const preference = getPreference();
-  const showAITranslation =
-    preference?.['Article Translation Preference'] === 'both' ||
-    preference?.recommendationWeights?.showAITranslation === true;
-  return preference?.['Home Page Preference'] === 'customized' &&
-    showAITranslation;
+  return preference?.['Home Page Preference'] === 'customized';
 }
 
 function getChineseLanguageKey(preferredLanguage = window.preferredLanguage || 'zh-CN') {
@@ -339,6 +655,10 @@ function buildFTExclusiveCurationIntroHTML() {
     </div>`;
 }
 
+function buildFTExclusiveCurationDescriptionHTML() {
+  return `<p class="home-page-recommendation-description reorder-description">${getFTExclusiveCurationText().description}</p>`;
+}
+
 
 // === Shared helpers for recommendation rendering ===
 function getRecommendationSource(options = {}) {
@@ -350,9 +670,32 @@ function getRecommendationSource(options = {}) {
   return showAITranslation ? 'all' : 'ftchinese';
 }
 
+function getTopPathname() {
+  try {
+    return top.location.pathname || '';
+  } catch (err) {
+    return window.location.pathname || '';
+  }
+}
+
+function isWebAppShell() {
+  return /^\/app(?:\/|$)/.test(getTopPathname());
+}
+
+function hasNativeAppLinkBridge() {
+  const hasIOSBridge = typeof webkit === 'object' &&
+    webkit.messageHandlers &&
+    webkit.messageHandlers.link &&
+    typeof webkit.messageHandlers.link.postMessage === 'function';
+  const hasAndroidBridge = typeof Android === 'object' && typeof Android.link === 'function';
+  return hasIOSBridge || hasAndroidBridge;
+}
+
 function isNativeAppWebView() {
   const search = window.location.search || '';
-  return /(?:^|[?&])(?:webview=ftcapp|to=iosapp|android=)/.test(search);
+  return /(?:^|[?&])(?:webview=ftcapp|to=iosapp|android=)/.test(search) ||
+    hasNativeAppLinkBridge() ||
+    typeof window.androidUserInfo === 'object';
 }
 
 function getPreference() {
@@ -393,8 +736,11 @@ function getCurrentSubscriptionTier() {
 }
 
 function getNativeSubscriptionTier() {
-  const androidTier = window.androidUserInfo?.membership?.webPrivilegeTier;
-  if (androidTier === 'premium') {return 'premium';}
+  const androidMembership = window.androidUserInfo?.membership;
+  if (androidMembership?.vip === true) {return 'premium';}
+
+  const androidTier = androidMembership?.webPrivilegeTier || androidMembership?.tier;
+  if (androidTier === 'premium' || androidTier === 'vip') {return 'premium';}
   if (androidTier === 'standard') {return 'standard';}
 
   if (Array.isArray(window.gPrivileges)) {
@@ -406,12 +752,14 @@ function getNativeSubscriptionTier() {
 
 function getPremiumPreferenceGate(preferenceKey, value, labels = {}) {
   const premiumOnlyValue = PREMIUM_ONLY_PREFERENCE_VALUES[preferenceKey];
-  if (!premiumOnlyValue || value !== premiumOnlyValue || isPremiumUser()) {
+  if (!premiumOnlyValue || value !== premiumOnlyValue) {
     return null;
   }
+  const entitled = isPremiumUser();
   return {
     badge: labels.premiumOnlyBadge || '高端专享',
-    note: labels.premiumOnlyHomePageNotice || '当前为标准会员，此设置将在升级为高端会员后生效。'
+    note: entitled ? '' : labels.premiumOnlyHomePageNotice || '当前为标准会员，此设置将在升级为高端会员后生效。',
+    entitled
   };
 }
 
@@ -666,12 +1014,26 @@ async function convertRecommendationText(text, preferredLanguage) {
  * On touch devices many taps land on image/lead/card whitespace instead of the headline text anchor.
  * We treat the card body as a navigation hit area while preserving dedicated controls (tag/follow).
  */
+delegate.on('click', '.home-page-recommendation-list a[href]', function () {
+  const item = this.closest('.item-container-app');
+  if (item) {
+    trackHomePageRecommendationItemClick(item);
+  }
+});
+
+delegate.on('click', '.home-page-recommendation-list .item-container-app', function (event) {
+  if (event?.target?.closest('a[href], button')) {
+    return;
+  }
+  trackHomePageRecommendationItemClick(this);
+});
+
 delegate.on('click', '.list-recommendation .item-container-app', function (event) {
   if (event?.defaultPrevented) {
     return;
   }
   // Web app shell has its own click routing in app-nav.js; avoid double handling.
-  if (/^\/app/.test(top.location.pathname)) {
+  if (isWebAppShell()) {
     return;
   }
   // Let native anchor/button behavior fire first so iOS/Android webviews see a true link activation.
@@ -689,6 +1051,24 @@ delegate.on('click', '.list-recommendation .item-container-app', function (event
     return;
   }
   window.location.href = href;
+});
+
+delegate.on('click', '.home-page-recommendation-retry', function (event) {
+  event.preventDefault();
+  const container = this.closest(`#${HOME_PAGE_RECOMMENDATION_CONTAINER_ID}`);
+  if (!container || homePageRecommendationRenderPromises.has(container)) {
+    return;
+  }
+  this.disabled = true;
+  this.hidden = true;
+  trackHomePageRecommendationEvent('ft_global_curation_retry', {
+    status: container.getAttribute('data-render-status') || 'retry'
+  });
+  retryHomePageRecommendation(container).then(() => {
+    this.disabled = false;
+  }, () => {
+    this.disabled = false;
+  });
 });
 
 function getFollowPreferenceAttrs(item, mainTag, preferredLanguage = 'zh-CN') {
@@ -1938,20 +2318,29 @@ function syncReorderPremiumPreferenceHint(row, label, input, opt, labels) {
 
     if (!gate) {
       row.classList.remove('reorder-row-premium-gated');
+      row.classList.remove('reorder-row-premium-entitled');
       if (existingBadge) {existingBadge.remove();}
       if (existingNote) {existingNote.remove();}
       return;
     }
 
-    row.classList.add('reorder-row-premium-gated');
+    row.classList.toggle('reorder-row-premium-gated', !gate.entitled);
+    row.classList.toggle('reorder-row-premium-entitled', gate.entitled);
+    const badgeClass = `reorder-premium-badge${gate.entitled ? ' is-entitled' : ''}`;
 
     if (!existingBadge) {
       const badge = document.createElement('span');
-      badge.className = 'reorder-premium-badge';
+      badge.className = badgeClass;
       badge.textContent = gate.badge;
       label.appendChild(badge);
     } else {
+      existingBadge.className = badgeClass;
       existingBadge.textContent = gate.badge;
+    }
+
+    if (!gate.note) {
+      if (existingNote) {existingNote.remove();}
+      return;
     }
 
     if (!existingNote) {
@@ -1979,6 +2368,7 @@ delegate.on('click', '[data-action="reorderItems"]', function () {
     console.warn('Failed to read existing preference. Creating new one.', err);
     preference = {};
   }
+  const previousHomePagePreference = preference?.['Home Page Preference'] || '';
 
   document.querySelectorAll('.reorder-slider').forEach(input => {
     const key = input.name;
@@ -2006,6 +2396,14 @@ delegate.on('click', '[data-action="reorderItems"]', function () {
   };
 
   savePreferenceSafely(preference);
+  const nextHomePagePreference = preference?.['Home Page Preference'] || '';
+  if (previousHomePagePreference !== nextHomePagePreference) {
+    if (nextHomePagePreference === 'customized') {
+      trackHomePageRecommendationEvent('ft_global_curation_preference_enabled', {status: 'enabled'});
+    } else if (previousHomePagePreference === 'customized') {
+      trackHomePageRecommendationEvent('ft_global_curation_preference_disabled', {status: 'disabled'});
+    }
+  }
 
   // 4a. Recalculate + reorder
   runRecommendationForDoms();
@@ -2026,11 +2424,11 @@ delegate.on('click', '[data-action="reorderItems"]', function () {
         6;
       let recalced = calculateScores(items).sort((a, b) => b.finalScore - a.finalScore).slice(0, limit);
 
-      // ✅ Reuse the same template renderer to keep UI consistent
-      const html = await buildRecommendationHTML(recalced, preferredLanguage, false);
+      // Reuse the same template renderer to keep UI consistent.
+      const html = await buildRecommendationHTML(recalced, preferredLanguage, isWebAppShell());
       container.innerHTML = html;
 
-      // ✅ Optional: show explanation reasons (safe to remove)
+      // Optional: show explanation reasons (safe to remove).
       appendRecommendationReasons(container, recalced, preferredLanguage);
 
       runLoadImages();

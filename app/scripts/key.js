@@ -54,21 +54,84 @@ function guid() {
     s4() + '-' + s4() + s4() + s4();
 }
 
+function getAndroidMembership() {
+    if (!window.androidUserInfo || !window.androidUserInfo.membership) {
+        return null;
+    }
+
+    return window.androidUserInfo.membership;
+}
+
+function getAndroidMembershipPaywall() {
+    var membership = getAndroidMembership();
+    if (!membership) {
+        return null;
+    }
+
+    if (membership.vip === true) {
+        return 'premium';
+    }
+    if (membership.webPrivilegeTier === 'premium') {
+        return 'premium';
+    }
+    if (membership.webPrivilegeTier === 'standard') {
+        return 'subscriber';
+    }
+    if (membership.tier === 'premium' || membership.tier === 'vip') {
+        return 'premium';
+    }
+    if (membership.tier === 'standard') {
+        return 'subscriber';
+    }
+
+    return null;
+}
+
+function getSubscriberTypeFromPaywall(paywall) {
+    if (paywall === 'premium') {
+        return 'VIP';
+    }
+    if (paywall === 'standard' || paywall === 'subscriber') {
+        return 'Subscriber';
+    }
+
+    return null;
+}
+
+function isAndroidMembershipExpired(membership) {
+    if (!membership || membership.vip === true || typeof membership.expireDate !== 'string') {
+        return false;
+    }
+
+    var androidExpireDateStamp = new Date(membership.expireDate).getTime() + 24 * 60 * 60 * 1000;
+    return new Date().getTime() > androidExpireDateStamp;
+}
+
+function getAndroidSubscriberType() {
+    var membership = getAndroidMembership();
+    var subscriberType = getSubscriberTypeFromPaywall(getAndroidMembershipPaywall());
+    if (!subscriberType) {
+        return null;
+    }
+    if (isAndroidMembershipExpired(membership)) {
+        return 'Churned' + subscriberType;
+    }
+
+    return subscriberType;
+}
+
 function updateSubscriberStatus() {
     var paywall = null;
     var nowTimeStamp = new Date().getTime()/1000;
     // MARK: - On Android Native App, use window.androidUserInfo for subscription information
     if (window.androidUserInfo) {
-        if (window.androidUserInfo.membership && window.androidUserInfo.membership.tier) {
-            paywall = (window.androidUserInfo.membership.tier === 'premium') ? 'premium' : 'subscriber';
-            var androidExpireDate = window.androidUserInfo.membership.expireDate;
-            if (typeof androidExpireDate === 'string' && !window.androidUserInfo.membership.vip) {
-                var androidExpireDateStamp = new Date(androidExpireDate).getTime() + 24 * 60 * 60 * 1000;
-                if (nowTimeStamp > androidExpireDateStamp) {
-                    var churnedUserType = (paywall === 'premium') ? 'VIP' : 'Subscriber';
-                    return 'Churned' + churnedUserType;
-                }
-            }
+        var androidSubscriberType = getAndroidSubscriberType();
+        if (androidSubscriberType && androidSubscriberType.indexOf('Churned') === 0) {
+            return androidSubscriberType;
+        }
+        paywall = getAndroidMembershipPaywall();
+        if (paywall === 'subscriber') {
+            paywall = 'standard';
         }
     }
     if (window._IS_NODEJS_SITE) {
@@ -299,16 +362,9 @@ function trackerNew() {
         userId = window.androidUserInfo.id || userId;
         username = window.androidUserInfo.userName || username;
         vtype = 'member';
-        if (window.androidUserInfo.membership && window.androidUserInfo.membership.tier) {
-            vtype = (window.androidUserInfo.membership.tier === 'premium') ? 'VIP' : 'Subscriber';
-            var androidExpireDate = window.androidUserInfo.membership.expireDate;
-            if (typeof androidExpireDate === 'string' && !window.androidUserInfo.membership.vip) {
-                var androidExpireDateStamp = new Date(androidExpireDate).getTime() + 24 * 60 * 60 * 1000;
-                var nowTimeStamp = new Date().getTime();
-                if (nowTimeStamp > androidExpireDateStamp) {
-                    vtype = 'Churned' + vtype;
-                }
-            }
+        var androidSubscriberType = getAndroidSubscriberType();
+        if (androidSubscriberType) {
+            vtype = androidSubscriberType;
         }
     }
     gUserType = vtype;

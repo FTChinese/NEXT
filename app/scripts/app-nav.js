@@ -817,7 +817,7 @@ function generateHTMLFromData(sections) {
         const currentValue = myPreference?.[preferenceKey] ?? GetCookie(cookieName) ?? options?.filter(x => x.is_default)?.[0]?.name ?? options?.[0].name ?? '';
         const defaultDisplay = options?.filter(x => x.name === currentValue)?.[0].display;
         const gate = getAppSettingPremiumGate(item, currentValue);
-        const gateClass = gate ? ' is-premium-gated-active' : '';
+        const gateClass = getAppSettingPremiumGateClass(gate);
         const premiumHint = buildAppSettingPremiumGateHTML(gate);
         itemsHTML += `<li class="settings-item${gateClass}" data-id="${id}" data-type="${type}" data-section-index=${sectionIndex} data-item-index=${itemIndex}>${headline}<span class="settings-summary">${defaultDisplay}</span>${premiumHint}</li>`;
       } else {
@@ -842,7 +842,14 @@ function getAppSettingPremiumGate(info, value) {
 
 function buildAppSettingPremiumGateHTML(gate) {
   if (!gate) {return '';}
-  return `<b class="settings-premium-badge">${escapeAppSettingHTML(gate.badge)}</b><small class="settings-premium-note">${escapeAppSettingHTML(gate.note)}</small>`;
+  const badgeClass = `settings-premium-badge${gate.entitled ? ' is-entitled' : ''}`;
+  const note = gate.note ? `<small class="settings-premium-note">${escapeAppSettingHTML(gate.note)}</small>` : '';
+  return `<b class="${badgeClass}">${escapeAppSettingHTML(gate.badge)}</b>${note}`;
+}
+
+function getAppSettingPremiumGateClass(gate) {
+  if (!gate) {return '';}
+  return gate.entitled ? ' is-premium-entitled-active' : ' is-premium-gated-active';
 }
 
 function escapeAppSettingHTML(value = '') {

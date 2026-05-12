@@ -457,6 +457,12 @@ input[type=submit], select {
   font-weight: 400;
 }
 
+.reorder-premium-badge.is-entitled {
+  border-color: rgba(38, 116, 122, 0.45);
+  color: $darkGreen;
+  background-color: rgba(38, 116, 122, 0.08);
+}
+
 .reorder-premium-note {
   margin: 4px 0 0 34px;
   color: $lighterGrey;
@@ -479,6 +485,59 @@ input[type=submit], select {
 
   a {
     font-weight: bold;
+  }
+}
+
+.home-page-recommendation-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  grid-column: 1 / -1;
+  min-height: 96px;
+  margin: 0 $defaultPadding*0.5 $defaultPadding;
+  color: $leadColor;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.home-page-recommendation-status.is-error {
+  color: $lighterGrey;
+}
+
+.home-page-recommendation-spinner {
+  display: none;
+  width: 14px;
+  height: 14px;
+  box-sizing: border-box;
+  border: 2px solid rgba(38, 116, 122, 0.22);
+  border-top-color: $darkGreen;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+
+.home-page-recommendation-status.is-loading .home-page-recommendation-spinner {
+  display: inline-block;
+  animation: homeRecommendationSpin 800ms linear infinite;
+}
+
+.home-page-recommendation-retry {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: $darkGreen;
+  font: inherit;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.home-page-recommendation-retry:hover,
+.home-page-recommendation-retry:active {
+  color: $darkGrey;
+}
+
+@keyframes homeRecommendationSpin {
+  to {
+    transform: rotate(360deg);
   }
 }
 

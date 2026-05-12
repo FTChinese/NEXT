@@ -196,7 +196,8 @@ function updateSummaryLabel(trigger, displayText) {
 function updateSettingPremiumGateUI(trigger, info, value) {
   if (!trigger) { return; }
   const gate = getSettingPremiumGate(info, value);
-  trigger.classList.toggle('is-premium-gated-active', Boolean(gate));
+  trigger.classList.toggle('is-premium-gated-active', Boolean(gate && !gate.entitled));
+  trigger.classList.toggle('is-premium-entitled-active', Boolean(gate?.entitled));
 
   const oldHints = trigger.querySelectorAll('.settings-premium-badge, .settings-premium-note');
   oldHints.forEach((hint) => hint.remove());
