@@ -1,4 +1,4 @@
-/* global getMyPreference, savePreference, convertChinese, runLoadImages, markReadContent, GetCookie, Android, webkit, AbortController, Blob */
+/* global getMyPreference, savePreference, convertChinese, runLoadImages, markReadContent, updateHeadlineLocks, GetCookie, Android, webkit, AbortController, Blob */
 /* exported renderRecommendationForWebAppHome, renderHomePageRecommendationNow, shouldShowHomePageRecommendation, getPremiumPreferenceGate */
 
 // === Attribute Mapping ===
@@ -50,13 +50,21 @@ const HOME_PAGE_RECOMMENDATION_LIMIT = 24;
 const NATIVE_HOME_PAGE_RECOMMENDATION_TIMEOUT_MS = 30000;
 const HOME_PAGE_RECOMMENDATION_TRACK_ENDPOINT = '/track_ft_global_curation';
 const HOME_PAGE_RECOMMENDATION_TRACK_THROTTLE_MS = 2000;
+const HOME_PAGE_PREFERENCE_KEY = 'Home Page Preference';
+const ARTICLE_TRANSLATION_PREFERENCE_KEY = 'Article Translation Preference';
+const CUSTOM_HOME_PAGE_PREFERENCE_VALUE = 'customized';
+const BOTH_TRANSLATION_PREFERENCE_VALUE = 'both';
+const HUMAN_TRANSLATION_PREFERENCE_VALUE = 'human';
+const RECOMMENDATION_SOURCE_ALL = 'all';
+const RECOMMENDATION_SOURCE_FTCHINESE = 'ftchinese';
 const PREMIUM_ONLY_PREFERENCE_VALUES = {
-  'Home Page Preference': 'customized'
+  [HOME_PAGE_PREFERENCE_KEY]: CUSTOM_HOME_PAGE_PREFERENCE_VALUE
 };
 const FT_EXCLUSIVE_CURATION_TEXTS = {
   zh: {
     title: 'FT全球臻享',
     description: '更及时获取更多FT全球内容，包括AI翻译加速上线的深度报道、分析和观点，并按你的关注和阅读偏好调整排序。<a href="#">点击这里自定义</a>',
+    humanOnlyDescription: '当前仅显示FT中文网已上线内容，并按你的关注和阅读偏好调整排序。开启AI翻译后，可更及时获取更多FT全球深度报道、分析和观点。<a href="#">点击这里自定义</a>',
     loading: '正在加载FT全球臻享',
     empty: '暂时没有新的FT全球臻享内容，请稍后刷新。',
     timeout: 'FT全球臻享加载较慢，请点击重试。',
@@ -66,6 +74,7 @@ const FT_EXCLUSIVE_CURATION_TEXTS = {
   'zh-HK': {
     title: 'FT全球臻享',
     description: '更及時獲取更多FT全球內容，包括AI翻譯加速上線的深度報道、分析和觀點，並按你的關注和閱讀偏好調整排序。<a href="#">點擊這裡自定義</a>',
+    humanOnlyDescription: '當前僅顯示FT中文網已上線內容，並按你的關注和閱讀偏好調整排序。開啟AI翻譯後，可更及時獲取更多FT全球深度報道、分析和觀點。<a href="#">點擊這裡自定義</a>',
     loading: '正在載入FT全球臻享',
     empty: '暫時沒有新的FT全球臻享內容，請稍後刷新。',
     timeout: 'FT全球臻享載入較慢，請點擊重試。',
@@ -75,6 +84,7 @@ const FT_EXCLUSIVE_CURATION_TEXTS = {
   'zh-TW': {
     title: 'FT全球臻享',
     description: '更即時取得更多FT全球內容，包括AI翻譯加速上線的深度報導、分析和觀點，並按你的關注和閱讀偏好調整排序。<a href="#">點擊這裡自訂</a>',
+    humanOnlyDescription: '目前僅顯示FT中文網已上線內容，並按你的關注和閱讀偏好調整排序。開啟AI翻譯後，可更即時取得更多FT全球深度報導、分析和觀點。<a href="#">點擊這裡自訂</a>',
     loading: '正在載入FT全球臻享',
     empty: '暫時沒有新的FT全球臻享內容，請稍後重新整理。',
     timeout: 'FT全球臻享載入較慢，請點擊重試。',
@@ -97,7 +107,6 @@ const recommendationWeights = {
   relevance: 30,
   readPenalty: true,
   tierPenalty: false,
-  showAITranslation: false,
   freshnessBonus: true
 };
 
@@ -239,7 +248,6 @@ function displayHomePageRecommendation() {
     targetDom: container,
     containerSelector: '.home-page-recommendation-list',
     limit: HOME_PAGE_RECOMMENDATION_LIMIT,
-    source: 'all',
     filterCurrentContent: false,
     insertTitleForNextBlock: true,
     onRendered: (_list, result) => showHomePageRecommendationTerminalStatus(container, result),
@@ -303,7 +311,6 @@ async function performHomePageRecommendationRender(container, options = {}) {
     const renderPromise = renderRecommendationsIntoContainer(list, {
       ...options,
       limit: options?.limit ?? HOME_PAGE_RECOMMENDATION_LIMIT,
-      source: options?.source ?? 'all',
       filterCurrentContent: false,
       insertTitleForNextBlock: true,
       signal: controller?.signal,
@@ -425,8 +432,7 @@ function retryHomePageRecommendation(container) {
   }
   const options = {
     targetDom: container,
-    limit: HOME_PAGE_RECOMMENDATION_LIMIT,
-    source: 'all'
+    limit: HOME_PAGE_RECOMMENDATION_LIMIT
   };
   if (isNativeAppWebView()) {
     options.timeoutMs = NATIVE_HOME_PAGE_RECOMMENDATION_TIMEOUT_MS;
@@ -567,11 +573,8 @@ function trackHomePageRecommendationTerminalStatus(container, result = {}) {
 }
 
 function getRecommendationItemTier(item) {
-  const url = item?.getAttribute('data-article-url') || '';
-  const tierMatch = url.match(/[?&]tier=([^&]+)/);
-  if (tierMatch) {
-    return tierMatch[1];
-  }
+  const tier = item?.getAttribute('data-tier') || '';
+  if (tier) {return tier;}
   const link = item?.querySelector('.item-headline-link');
   if (link?.classList.contains('vip')) {
     return 'premium';
@@ -626,9 +629,10 @@ function insertTitleForNextHomeBlock() {
 }
 
 function shouldShowHomePageRecommendation() {
+  // Visibility gate: only premium users who explicitly enable the custom home page
+  // should see the FT全球臻享 block. This does not decide the content pool.
   if (!isPremiumUser()) {return false;}
-  const preference = getPreference();
-  return preference?.['Home Page Preference'] === 'customized';
+  return isCustomHomePageEnabled();
 }
 
 function getChineseLanguageKey(preferredLanguage = window.preferredLanguage || 'zh-CN') {
@@ -656,18 +660,29 @@ function buildFTExclusiveCurationIntroHTML() {
 }
 
 function buildFTExclusiveCurationDescriptionHTML() {
-  return `<p class="home-page-recommendation-description reorder-description">${getFTExclusiveCurationText().description}</p>`;
+  const text = getFTExclusiveCurationText();
+  const description = shouldUseAITranslationContentPool() ?
+    text.description :
+    text.humanOnlyDescription;
+  return `<p class="home-page-recommendation-description reorder-description">${description}</p>`;
 }
 
 
 // === Shared helpers for recommendation rendering ===
-function getRecommendationSource(options = {}) {
-  if (options?.source) {return options.source;}
-  const preference = getPreference();
-  const showAITranslation =
-    preference?.['Article Translation Preference'] === 'both' ||
-    preference?.recommendationWeights?.showAITranslation === true;
-  return showAITranslation ? 'all' : 'ftchinese';
+function isCustomHomePageEnabled(preference = getPreference()) {
+  return preference?.[HOME_PAGE_PREFERENCE_KEY] === CUSTOM_HOME_PAGE_PREFERENCE_VALUE;
+}
+
+function shouldUseAITranslationContentPool(preference = getPreference()) {
+  return preference?.[ARTICLE_TRANSLATION_PREFERENCE_KEY] === BOTH_TRANSLATION_PREFERENCE_VALUE;
+}
+
+function getRecommendationSource() {
+  // Content-pool gate: this applies to every recommendation surface, including
+  // the FT全球臻享 home block and story-page recommendations.
+  return shouldUseAITranslationContentPool() ?
+    RECOMMENDATION_SOURCE_ALL :
+    RECOMMENDATION_SOURCE_FTCHINESE;
 }
 
 function getTopPathname() {
@@ -706,7 +721,12 @@ function getPreference() {
 function savePreferenceSafely(preference) {
   try {
     if (typeof savePreference === 'function') {
-      savePreference(preference);
+      const result = savePreference(preference, {immediate: true});
+      if (result && typeof result.catch === 'function') {
+        result.catch(err => {
+          console.error('Failed to save preference:', err);
+        });
+      }
       return;
     }
     localStorage.setItem('preference', JSON.stringify(preference));
@@ -763,6 +783,12 @@ function getPremiumPreferenceGate(preferenceKey, value, labels = {}) {
   };
 }
 
+function refreshHeadlineLocksIfAvailable() {
+  if (typeof updateHeadlineLocks === 'function') {
+    updateHeadlineLocks();
+  }
+}
+
 async function renderRecommendationsIntoContainer(container, options = {}) {
   if (!container) {return {status: 'missing'};}
 
@@ -776,7 +802,7 @@ async function renderRecommendationsIntoContainer(container, options = {}) {
   const limit = options?.limit ?? 6;
   const filterCurrentContent = options?.filterCurrentContent ?? true;
   const isInWebApp = options?.isInWebApp ?? false;
-  const source = getRecommendationSource(options);
+  const source = getRecommendationSource();
 
   let items = await fetchRecommendations(source, {signal: options?.signal});
   if (isCancelled()) {return {status: 'cancelled'};}
@@ -806,11 +832,12 @@ async function renderRecommendationsIntoContainer(container, options = {}) {
   if (typeof markReadContent === 'function') {
     markReadContent(container);
   }
+  refreshHeadlineLocksIfAvailable();
 
   return {status: 'rendered', count: items.length, items};
 }
 
-async function fetchRecommendations(source = 'ftchinese', options = {}) {
+async function fetchRecommendations(source = RECOMMENDATION_SOURCE_FTCHINESE, options = {}) {
   let url = '/recommend';
   let method = 'POST';
   let body = JSON.stringify({ source });
@@ -872,6 +899,7 @@ async function buildRecommendationHTML(items = [], preferredLanguage = 'zh-CN', 
     const leadBodyHTML = `<div class="item-lead">${clongleadbody}</div>`;
     const leadHTML = isInWebApp ? leadBodyHTML : `<a ${linkHTML} target="_blank" class="item-lead-link">${leadBodyHTML}</a>`;
     const cardArticleUrlAttr = isInWebApp ? '' : ` data-article-url="${articlePath}"`;
+    const tierAttr = ` data-tier="${tier}"`;
     const ftTypeAttr = ftType ? ` data-ft-type="${ftType}"` : '';
     const scoreAttrs = buildRecommendationScoreAttrs(item);
     const imageUrl = item.pictures?.main ?? '';
@@ -916,7 +944,7 @@ async function buildRecommendationHTML(items = [], preferredLanguage = 'zh-CN', 
     }
 
 
-    html += `<div class="item-container ${imageClass} item-container-app" data-id="${id}" data-type="${type}" data-sub-type="${subtype}" data-keywords="${keywords}" data-update="${update}" data-ft-id="${ftid}"${ftTypeAttr}${cardArticleUrlAttr}${scoreAttrs}>
+    html += `<div class="item-container ${imageClass} item-container-app" data-id="${id}" data-type="${type}" data-sub-type="${subtype}" data-keywords="${keywords}" data-update="${update}" data-ft-id="${ftid}"${ftTypeAttr}${cardArticleUrlAttr}${tierAttr}${scoreAttrs}>
       <div class="item-inner">
         <div class="item-headline-lead">
           <h2 class="item-headline">
@@ -1036,7 +1064,7 @@ delegate.on('click', '.list-recommendation .item-container-app', function (event
   if (isWebAppShell() || isNativeAppWebView()) {
     return;
   }
-  // Let native anchor/button behavior fire first so iOS/Android webviews see a true link activation.
+  // Let regular anchor/button behavior fire first.
   if (event?.target?.closest('a[href], button')) {
     return;
   }
@@ -2201,14 +2229,21 @@ delegate.on('click', '.reorder-description a', function (event) {
     { key: 'relevance', label: t.relevance, type: 'range', min: 0, max: 100, step: 0.1 },
     { key: 'readPenalty', label: t.readPenalty, type: 'checkbox' },
     { key: 'tierPenalty', label: t.tierPenalty, type: 'checkbox' },
-    { key: 'showAITranslation', label: t.showAITranslation, type: 'checkbox' },
+    {
+      key: 'articleTranslationPreference',
+      label: t.showAITranslation,
+      type: 'checkbox',
+      preferenceKey: ARTICLE_TRANSLATION_PREFERENCE_KEY,
+      checkedValue: BOTH_TRANSLATION_PREFERENCE_VALUE,
+      uncheckedValue: HUMAN_TRANSLATION_PREFERENCE_VALUE
+    },
     { key: 'freshnessBonus', label: t.freshnessBonus, type: 'checkbox' },
     {
       key: 'homePagePreference',
       label: t.customHomePage,
       type: 'checkbox',
-      preferenceKey: 'Home Page Preference',
-      checkedValue: 'customized',
+      preferenceKey: HOME_PAGE_PREFERENCE_KEY,
+      checkedValue: CUSTOM_HOME_PAGE_PREFERENCE_VALUE,
       uncheckedValue: 'default'
     }
   ];
@@ -2287,6 +2322,8 @@ delegate.on('click', '.reorder-description a', function (event) {
     box.appendChild(row);
   });
 
+  syncHomePagePreferenceTranslationOptIn(box);
+
   const buttonRow = document.createElement('div');
   buttonRow.className = 'reorder-row';
   const button = document.createElement('button');
@@ -2357,10 +2394,32 @@ function syncReorderPremiumPreferenceHint(row, label, input, opt, labels) {
   input.addEventListener('change', updateHint);
 }
 
+function getPreferenceToggle(container, preferenceKey) {
+  const inputs = container.querySelectorAll('.reorder-toggle');
+  for (const input of inputs) {
+    if (input.dataset.preferenceKey === preferenceKey) {
+      return input;
+    }
+  }
+  return null;
+}
+
+function syncHomePagePreferenceTranslationOptIn(container) {
+  const homePageInput = getPreferenceToggle(container, HOME_PAGE_PREFERENCE_KEY);
+  const translationInput = getPreferenceToggle(container, ARTICLE_TRANSLATION_PREFERENCE_KEY);
+  if (!homePageInput || !translationInput) {return;}
+
+  homePageInput.addEventListener('change', () => {
+    if (!homePageInput.checked || translationInput.checked) {return;}
+    translationInput.checked = true;
+  });
+}
+
 
 delegate.on('click', '[data-action="reorderItems"]', function () {
   // 1. Collect updated values
   const newWeights = {};
+  const controls = this.closest('.reorder-controls') || document;
   let preference = {};
   try {
     preference = getMyPreference();
@@ -2368,9 +2427,9 @@ delegate.on('click', '[data-action="reorderItems"]', function () {
     console.warn('Failed to read existing preference. Creating new one.', err);
     preference = {};
   }
-  const previousHomePagePreference = preference?.['Home Page Preference'] || '';
+  const previousHomePagePreference = preference?.[HOME_PAGE_PREFERENCE_KEY] || '';
 
-  document.querySelectorAll('.reorder-slider').forEach(input => {
+  controls.querySelectorAll('.reorder-slider').forEach(input => {
     const key = input.name;
     const val = parseFloat(input.value);
     if (key && !isNaN(val)) {
@@ -2378,7 +2437,7 @@ delegate.on('click', '[data-action="reorderItems"]', function () {
     }
   });
 
-  document.querySelectorAll('.reorder-toggle').forEach(input => {
+  controls.querySelectorAll('.reorder-toggle').forEach(input => {
     if (input.dataset.preferenceKey) {
       preference[input.dataset.preferenceKey] = input.checked ?
         input.dataset.checkedValue :
@@ -2390,17 +2449,19 @@ delegate.on('click', '[data-action="reorderItems"]', function () {
   });
 
   // 3. Merge weights and save
+  const previousWeights = {...preference.recommendationWeights};
+  delete previousWeights.showAITranslation;
   preference.recommendationWeights = {
-    ...preference.recommendationWeights,
+    ...previousWeights,
     ...newWeights
   };
 
   savePreferenceSafely(preference);
-  const nextHomePagePreference = preference?.['Home Page Preference'] || '';
+  const nextHomePagePreference = preference?.[HOME_PAGE_PREFERENCE_KEY] || '';
   if (previousHomePagePreference !== nextHomePagePreference) {
-    if (nextHomePagePreference === 'customized') {
+    if (nextHomePagePreference === CUSTOM_HOME_PAGE_PREFERENCE_VALUE) {
       trackHomePageRecommendationEvent('ft_global_curation_preference_enabled', {status: 'enabled'});
-    } else if (previousHomePagePreference === 'customized') {
+    } else if (previousHomePagePreference === CUSTOM_HOME_PAGE_PREFERENCE_VALUE) {
       trackHomePageRecommendationEvent('ft_global_curation_preference_disabled', {status: 'disabled'});
     }
   }
@@ -2435,6 +2496,7 @@ delegate.on('click', '[data-action="reorderItems"]', function () {
       if (typeof markReadContent === 'function') {
         markReadContent(container);
       }
+      refreshHeadlineLocksIfAvailable();
     }
   })();
 

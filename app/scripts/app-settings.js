@@ -162,7 +162,7 @@ async function applySettingSelection(info, value) {
       const myPreference = getMyPreference() || {};
       myPreference[preferenceKey] = value;
       if (typeof savePreference === 'function') {
-        await savePreference(myPreference);
+        await savePreference(myPreference, {immediate: true});
       } else if (typeof saveMyPreferenceByKey === 'function') {
         saveMyPreferenceByKey(preferenceKey, value);
       }

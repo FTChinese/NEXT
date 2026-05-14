@@ -1,4 +1,5 @@
-/* exported populars, clearAllPreferences, getAnnotaionsInfo, isItemFollowed, getHighScoreIdsFromVectorDB, shouldShowInduction, showInduction */
+/* exported populars, getAnnotaionsInfo, isItemFollowed, getHighScoreIdsFromVectorDB, shouldShowInduction, showInduction, updateNavigation */
+/* global checkPreferencesFromServer */
 const delegate = new Delegate(document.body);
 
 const myInterestsKey = 'My Interests';
@@ -229,96 +230,6 @@ function debounce(func, delay) {
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(() => func.apply(context, args), delay);
     };
-
-}
-
-// MARK: - debounce the syncPreferencesWithServer to avoid firing large amount of network requests in a short time
-const debouncedSyncPreferences = debounce(syncPreferencesWithServer, 5000);
-
-async function savePreference(myPreference) {
-    let p = JSON.parse(JSON.stringify(myPreference));
-    p = deepSanitizeFrontend(p);
-    p.time = new Date();
-    localStorage.setItem('preference', JSON.stringify(p));
-    updateNavigation().catch(error => {
-        console.error('Failed to updateNavigation: ', error);
-    });
-    debouncedSyncPreferences(p);
-}
-
-
-async function syncPreferencesWithServer(preference) {
-    console.log(`syncPreferencesWithServer running...`);
-    // const token = GetCookie('accessToken');
-    // if (!token) {return;}
-    try {
-        await fetch('/save_preference', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                // 'Authorization': `Bearer ${token}` // Assuming the JWT is stored in a secure cookie
-            },
-            body: JSON.stringify(preference)
-        });
-    } catch (error) {
-        console.error('Failed to sync preferences with the server: ', error);
-    }
-}
-
-async function clearAllPreferences() {
-
-    try {
-        localStorage.removeItem('preference');
-        // const token = GetCookie('accessToken');
-        // if (!token) {return;}
-        await fetch('/delete_preference', {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-                // 'Authorization': `Bearer ${token}` // Assuming the JWT is stored in a secure cookie
-            }
-        });
-    } catch(err) {
-        console.error('clearAllPreferences error: ');
-        console.log(err);
-    }
-
-}
-
-
-//TODO: - This should be very robust because it starts at the very beginning of the web page/app life cycle. 
-async function checkPreferencesFromServer() {
-
-    try {
-        // const token = GetCookie('accessToken');
-        // // MARK: - If there's no access token, no need to check further return now. 
-        // if (!token) {return;}
-        const response = await fetch('/check_preference', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                // 'Authorization': `Bearer ${token}` // Assuming the JWT is stored in a secure cookie
-            }
-        });
-        if (!response.ok) {return;}
-        const results = await response.json();
-        if (results?.status !== 'OK' || !results?.preference) {return;}
-        const serverPreference = results?.preference;
-        const localPreference = getMyPreference();
-        const defaultTime = '2000-01-01 00:00:00';
-        const serverTime = new Date(serverPreference?.time ?? defaultTime).getTime();
-        const localTime = new Date(localPreference?.time ?? defaultTime).getTime();
-        if (serverTime > localTime) {
-            localStorage.setItem('preference', JSON.stringify(serverPreference));
-            // MARK: - This is a good time to update the left-side navigation
-            await updateNavigation();
-        } else if (serverTime < localTime) {
-            await syncPreferencesWithServer(localPreference);
-        }
-    } catch(err) {
-        console.error('checkPreferencesFromServer error: ');
-        console.log(err);
-    }
 
 }
 

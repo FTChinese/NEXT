@@ -334,20 +334,17 @@ function updatePreference(preference) {
         if (!preference || typeof preference !== 'object') {
             return;
         }
-        let p = JSON.parse(JSON.stringify(preference));
-        if (typeof deepSanitizeFrontend === 'function') {
-            p = deepSanitizeFrontend(p);
+        if (typeof savePreference === 'function') {
+            savePreference(preference);
+            return;
         }
-        p.time = new Date();
-        localStorage.setItem('preference', JSON.stringify(p));
-        if (hasLoggedIn()) {
-            fetch('/save_preference', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(p)
-            }).catch(err => {
-                console.error('Failed to sync preferences with the server: ', err);
-            });
+        if (typeof localStorage === 'object') {
+            let p = JSON.parse(JSON.stringify(preference));
+            if (typeof deepSanitizeFrontend === 'function') {
+                p = deepSanitizeFrontend(p);
+            }
+            p.time = new Date();
+            localStorage.setItem('preference', JSON.stringify(p));
         }
     } catch (err) {
         console.error('Update preference error: ', err);
