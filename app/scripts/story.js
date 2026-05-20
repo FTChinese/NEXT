@@ -74,6 +74,80 @@ function handleLinks() {
     } catch(ignore){}
 }
 
+function normalizeBilingualReference(value) {
+    return (value || '')
+        .replace(/\u00a0/g, ' ')
+        .replace(/[‘’]/g, '\'')
+        .replace(/[“”]/g, '"')
+        .replace(/[‐‑‒–—]/g, '-')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .toLowerCase();
+}
+
+function normalizeLooseBilingualReference(value) {
+    return normalizeBilingualReference(value)
+        .replace(/&/g, 'and')
+        .replace(/[^a-z0-9]/g, '');
+}
+
+function isBilingualAcronymReference(value) {
+    var compact = (value || '').replace(/[^A-Za-z0-9]/g, '');
+    var letters = (value || '').replace(/[^A-Za-z]/g, '');
+    return compact.length >= 2 && compact.length <= 10 && /[A-Za-z]/.test(compact) && letters !== '' && letters === letters.toUpperCase();
+}
+
+function shouldHideBilingualReference(reference, englishText) {
+    var value = (reference || '').trim();
+    if (!/[A-Za-z]/.test(value) || /[\u3400-\u9fff\uf900-\ufaff]/.test(value)) {
+        return false;
+    }
+    if (isBilingualAcronymReference(value)) {
+        return true;
+    }
+    var normalizedReference = normalizeBilingualReference(value);
+    var normalizedEnglish = normalizeBilingualReference(englishText);
+    if (normalizedReference.length >= 4 && normalizedEnglish.indexOf(normalizedReference) >= 0) {
+        return true;
+    }
+    var looseReference = normalizeLooseBilingualReference(value);
+    var looseEnglish = normalizeLooseBilingualReference(englishText);
+    return looseReference.length >= 4 && looseEnglish.indexOf(looseReference) >= 0;
+}
+
+function cleanBilingualTextReferences(text, englishText) {
+    return (text || '').replace(/[\s\u00a0]*[（(]([^()（）]{1,80})[）)]/g, function(match, reference) {
+        return shouldHideBilingualReference(reference, englishText) ? '' : match;
+    });
+}
+
+function cleanBilingualChineseElement(element, englishText) {
+    if (!element) { return; }
+    for (var i = 0; i < element.childNodes.length; i++) {
+        var node = element.childNodes[i];
+        if (node.nodeType === 3) {
+            node.nodeValue = cleanBilingualTextReferences(node.nodeValue, englishText);
+        } else if (node.nodeType === 1 && !/^(script|style)$/i.test(node.nodeName)) {
+            cleanBilingualChineseElement(node, englishText);
+        }
+    }
+}
+
+function cleanBilingualChineseReferencesOnPage() {
+    try {
+        var isBilingualPage = (document.body && document.body.classList && document.body.classList.contains('ce')) ||
+            (document.documentElement && document.documentElement.classList && document.documentElement.classList.contains('ce'));
+        if (!isBilingualPage) { return; }
+        var chineseBlocks = document.querySelectorAll('#story-body-container .rightp');
+        for (var i = 0; i < chineseBlocks.length; i++) {
+            var chineseBlock = chineseBlocks[i];
+            var englishBlock = chineseBlock.previousElementSibling;
+            if (!englishBlock || !englishBlock.classList || !englishBlock.classList.contains('leftp')) { continue; }
+            cleanBilingualChineseElement(chineseBlock, englishBlock.textContent || '');
+        }
+    } catch (ignore) {}
+}
+
 function getHashParam(param) {
     var hash = window.location.hash || '';
     if (hash.charAt(0) === '#') {
@@ -227,6 +301,7 @@ async function checkSavedContent() {
 
 try {
     handleLinks();
+    cleanBilingualChineseReferencesOnPage();
     initHsbcSelectCopyButton();
     checkFontSize();
     changeFontSize();

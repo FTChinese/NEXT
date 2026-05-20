@@ -68,6 +68,24 @@ const origamiModules = [
   
 ];
 
+function getChatAssetVersion() {
+  const paths = [
+    'app/scripts/chat.js',
+    'app/scripts/chat-article.js',
+    'app/scripts/chat-service-worker.js'
+  ];
+  let version = 0;
+  for (const filePath of paths) {
+    try {
+      const stats = fs.statSync(filePath);
+      version = Math.max(version, Math.floor(stats.mtimeMs));
+    } catch (err) {
+      console.log(`Cannot stat ${filePath}: ${err.message}`);
+    }
+  }
+  return version || Date.now();
+}
+
 // fetch contents from `origamiModules.source` and write to `origamiModules.dest`.
 gulp.task('origami', () => {
   const now = Date.now();
@@ -254,6 +272,7 @@ gulp.task('html', gulp.series('styles', () => {
       normalizeUrl: false,
       discardUnused: false
     })))
+    .pipe($.if('chat.html', $.replace('scripts/main-chat.js', `scripts/main-chat.js?v=${getChatAssetVersion()}`)))
     .pipe($.if('*.html', $.htmlmin({collapseWhitespace: true})))
     .pipe(gulp.dest('dist'));
 }));

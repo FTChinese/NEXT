@@ -450,6 +450,71 @@ async function getArticleFromFTAPI(id, language) {
   }
 }
 
+function normalizeBilingualReference(value) {
+  return (value || '')
+    .replace(/\u00a0/g, ' ')
+    .replace(/[‘’]/g, '\'')
+    .replace(/[“”]/g, '"')
+    .replace(/[‐‑‒–—]/g, '-')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase();
+}
+
+function normalizeLooseBilingualReference(value) {
+  return normalizeBilingualReference(value)
+    .replace(/&/g, 'and')
+    .replace(/[^a-z0-9]/g, '');
+}
+
+function isBilingualAcronymReference(value) {
+  const compact = (value || '').replace(/[^A-Za-z0-9]/g, '');
+  const letters = (value || '').replace(/[^A-Za-z]/g, '');
+  return compact.length >= 2 && compact.length <= 10 && /[A-Za-z]/.test(compact) && letters !== '' && letters === letters.toUpperCase();
+}
+
+function shouldHideBilingualReference(reference, englishText) {
+  const value = (reference || '').trim();
+  if (!/[A-Za-z]/.test(value) || /[\u3400-\u9fff\uf900-\ufaff]/.test(value)) {
+    return false;
+  }
+  if (isBilingualAcronymReference(value)) {
+    return true;
+  }
+  const normalizedReference = normalizeBilingualReference(value);
+  const normalizedEnglish = normalizeBilingualReference(englishText);
+  if (normalizedReference.length >= 4 && normalizedEnglish.indexOf(normalizedReference) >= 0) {
+    return true;
+  }
+  const looseReference = normalizeLooseBilingualReference(value);
+  const looseEnglish = normalizeLooseBilingualReference(englishText);
+  return looseReference.length >= 4 && looseEnglish.indexOf(looseReference) >= 0;
+}
+
+function cleanBilingualTextReferences(text, englishText) {
+  return (text || '').replace(/[\s\u00a0]*[（(]([^()（）]{1,80})[）)]/g, (match, reference) => (
+    shouldHideBilingualReference(reference, englishText) ? '' : match
+  ));
+}
+
+function cleanBilingualChineseElement(element, englishText) {
+  if (!element) { return; }
+  for (const node of element.childNodes) {
+    if (node.nodeType === 3) {
+      node.nodeValue = cleanBilingualTextReferences(node.nodeValue, englishText);
+    } else if (node.nodeType === 1 && !/^(script|style)$/i.test(node.nodeName)) {
+      cleanBilingualChineseElement(node, englishText);
+    }
+  }
+}
+
+function cleanBilingualChineseHtml(html, englishText) {
+  const wrapper = document.createElement('DIV');
+  wrapper.innerHTML = html || '';
+  cleanBilingualChineseElement(wrapper, englishText || '');
+  return wrapper.innerHTML;
+}
+
 function convertToBilingualLayout(original, translation, source='') {
   let originalDiv = document.createElement('DIV');
   originalDiv.innerHTML = original;
@@ -475,7 +540,8 @@ function convertToBilingualLayout(original, translation, source='') {
       html += `<p>${left}</p><div class="clearfloat"></div>`;
     } else {
       const contentEditable = (source === 'ai') ? ' contenteditable="true"' : '';
-      html += `<div><div class="leftp">${left}</div><div id="${id}" class="rightp"${contentEditable}>${right}</div></div><div class="clearfloat"></div>`;
+      const displayRight = (source === 'ai') ? right : cleanBilingualChineseHtml(right, left);
+      html += `<div><div class="leftp">${left}</div><div id="${id}" class="rightp"${contentEditable}>${displayRight}</div></div><div class="clearfloat"></div>`;
     }
   }
   return html;
@@ -924,6 +990,7 @@ function handleFlourishEmbeds(html) {
 }
 
 function showActions(actions) {
+  if (!actions || actions === '') {return;}
   let chatTalkerInners = document.querySelectorAll('.chat-talk-agent .chat-talk-inner');
   if (chatTalkerInners.length === 0) {return;}
   let chatTalkInner = chatTalkerInners[chatTalkerInners.length - 1];
@@ -1246,6 +1313,43 @@ function getShortcutOptions(prompt) {
   return null;
 }
 
+function normalizeArticleFTId(ftid) {
+  if (typeof ftid !== 'string') {return '';}
+  return ftid.trim();
+}
+
+function getCurrentArticleFTId() {
+  if (typeof currentFTId === 'string' && currentFTId !== '') {
+    return normalizeArticleFTId(currentFTId);
+  }
+  const hashFTId = normalizeArticleFTId(paramDict?.ftid);
+  if (hashFTId !== '') {
+    return hashFTId;
+  }
+  const article = document.querySelector('.article-container[data-id]');
+  return normalizeArticleFTId(article?.getAttribute('data-id') || '');
+}
+
+function isArticleReadLaunch() {
+  const ftid = normalizeArticleFTId(paramDict?.ftid);
+  if (ftid === '') {return false;}
+  const action = `${paramDict?.action || ''}`.toLowerCase();
+  return action === '' || action === 'read';
+}
+
+function shouldSendArticleContext() {
+  return window.intention === 'DiscussArticle' || intention === 'DiscussArticle' || isArticleReadLaunch();
+}
+
+function setArticleDiscussionContext(ftid) {
+  const articleFTId = normalizeArticleFTId(ftid);
+  if (articleFTId === '') {return '';}
+  currentFTId = articleFTId;
+  window.intention = 'DiscussArticle';
+  intention = 'DiscussArticle';
+  return articleFTId;
+}
+
 async function talk(promptOverride = '', displayPromptOverride = '') {
   // console.log(`Talk sent! Hiding the .chat-topic-intention`);
   const ele = document.querySelector('.chat-topic-intention');
@@ -1300,6 +1404,12 @@ async function talk(promptOverride = '', displayPromptOverride = '') {
         // Deprecating: - Migrating to Pinecone for context
       // context: context // Send context such as article text so that the chat bot can respond more accurately
   };
+  const articleFTId = getCurrentArticleFTId();
+  if (shouldSendArticleContext() && articleFTId !== '') {
+    data.key = 'DiscussArticle';
+    data.ftid = setArticleDiscussionContext(articleFTId);
+    data.article_context_schema_version = '2026-05-15-ftapi-fallback-v1';
+  }
   // MARK: - If the user is dicussing one article, pass the article id
   if ('DiscussArticle' === window.intention && typeof currentFTId === 'string') {
     data.ftid = currentFTId;
@@ -1649,8 +1759,10 @@ async function setIntention(newIntention, language, reply, isFullGrid = false, s
   userInput.removeAttribute('placeholder');
   if (newIntention === 'CleanSlate') {
     window.intention = undefined;
+    intention = undefined;
   } else {
     window.intention = newIntention;
+    intention = newIntention;
   }
   updateStatus(newIntention);
   // MARK: - Show this only when there's a reply
@@ -2356,15 +2468,33 @@ function getRandomPrompt(purpose) {
   return prompt;
 }
 
+function getContentDiscoveryActions(language) {
+  const startDate = new Date('2026-04-13T00:00:00+08:00').getTime();
+  const endDate = new Date('2026-04-26T23:59:59+08:00').getTime();
+  const now = new Date().getTime();
+  const showPromotion = now >= startDate && now <= endDate;
+  const promotion = showPromotion ? `<a target="_blank" href="/m/corp/preview.html?pageid=2026Aprsub&to=all&ccode=2C2026Aprchatftclp">${localize('PromotionActionButton')}</a>` : '';
+  return `
+    <div class="chat-item-actions chat-content-discovery-actions">
+      <a data-purpose="show-ft-page" data-lang="${language}" data-content='home' data-reply="${localize('FindingMyFT')}" data-reply-action="set-preference">${localize('Top News For Me')}</a>
+      <a data-purpose="show-ft-page" data-lang="${language}" data-content='most-popular' data-reply="${localize('Finding')}">${localize('Most Popular')}</a>
+      <a data-purpose="news-quiz" data-lang="${language}" data-content='quiz' data-reply="${localize('PrepareingQuiz')}">${localize('NewsQuiz')}</a>
+      <a data-purpose="set-preference" data-lang="${language}" data-content="all" data-reply="${localize('Set Your Preferences')}">${localize('Setting')}</a>
+      ${promotion}
+    </div>
+  `;
+}
+
 function getActionOptions() {
   const language = preferredLanguage;
-  console.log(`getActionOptions with intention: ${intention}`);
+  const currentIntention = window.intention || intention;
+  console.log(`getActionOptions with intention: ${currentIntention}`);
   let result = '';
-  if (intention === 'DiscussArticle') {
+  if (currentIntention === 'DiscussArticle') {
     result = moveStoryActions();
-  } else if (['CustomerService'].indexOf(intention) >= 0) {
+  } else if (['CustomerService'].indexOf(currentIntention) >= 0) {
     result = '';
-  } else if (['SearchFTAPI'].indexOf(intention) >= 0) {
+  } else if (['SearchFTAPI'].indexOf(currentIntention) >= 0) {
     result = `
     <div class="chat-item-actions">
       <a data-purpose="search-ft-api" data-lang="${language}" data-content="regions: China" data-reply="${localize('Finding')}">${localize('China News')}</a>
@@ -2380,40 +2510,26 @@ function getActionOptions() {
       <a data-purpose="search-ft-api" data-lang="${language}" data-content='PODCASTS' data-reply="${localize('Finding')}">${localize('Podcasts')}</a>
     </div>
     `;
-  } else if (intention === undefined || intention === '') {
-
-    const startDate = new Date('2026-04-13T00:00:00+08:00').getTime();
-    const endDate = new Date('2026-04-26T23:59:59+08:00').getTime();
-    const now = new Date().getTime();
-    const showPromotion = now >= startDate && now <= endDate;
-    const promotion = showPromotion ? `<a target="_blank" href="/m/corp/preview.html?pageid=2026Aprsub&to=all&ccode=2C2026Aprchatftclp">${localize('PromotionActionButton')}</a>` : '';
-    result = `
-      <div class="chat-item-actions">
-        <a data-purpose="show-ft-page" data-lang="${language}" data-content='home' data-reply="${localize('FindingMyFT')}" data-reply-action="set-preference">${localize('Top News For Me')}</a>
-        <a data-purpose="show-ft-page" data-lang="${language}" data-content='most-popular' data-reply="${localize('Finding')}">${localize('Most Popular')}</a>
-        <a data-purpose="news-quiz" data-lang="${language}" data-content='quiz' data-reply="${localize('PrepareingQuiz')}">${localize('NewsQuiz')}</a>
-        <a data-purpose="set-preference" data-lang="${language}" data-content="all" data-reply="${localize('Set Your Preferences')}">${localize('Setting')}</a>
-        ${promotion}
-      </div>
-    `;
+  } else if (currentIntention === 'DiscussContent' || currentIntention === undefined || currentIntention === '') {
+    result = getContentDiscoveryActions(language);
     // <a data-purpose="set-intention" data-lang="${language}" data-content="SearchFTAPI" data-reply="${localize('Find More')}">${localize('Search')}</a>
     // <a data-purpose="set-intention" data-lang="${language}" data-content="CustomerService" data-reply="${localize('Offer Help')}">${localize('CustomerService')}</a>
     
-  } else if (intention === 'DailyEnglish') {
+  } else if (currentIntention === 'DailyEnglish') {
     result = `
       <div class="chat-item-actions">
         <a data-purpose="show-ft-page" data-lang="en" data-content='home' data-reply="Checking Top News for You..." data-reply-action="set-preference">What's news for me? </a>
         <a data-purpose="show-ft-page" data-lang="en" data-content='most-popular' data-reply="Checking Most Popular News for You...">What are the most popular stories on the FT? </a>
       </div>
     `;
-  } else if (intention === 'VideoAudio') {
+  } else if (currentIntention === 'VideoAudio') {
     result = `
     <div class="chat-item-actions">
       <a data-purpose="search-ft-api" data-lang="${language}" data-content='VIDEOS' data-reply="${localize('Finding')}">${localize('Videos')}</a>
       <a data-purpose="search-ft-api" data-lang="${language}" data-content='PODCASTS' data-reply="${localize('Finding')}">${localize('Podcasts')}</a>
     </div>
     `;
-  } else if (intention === 'FTAcademy') {
+  } else if (currentIntention === 'FTAcademy') {
     result = `
     <div class="chat-item-actions">
       <a data-purpose="news-quiz" data-lang="${language}" data-content='quiz' data-reply="${localize('PrepareingQuiz')}">${localize('NewsQuiz')}</a>
@@ -2494,12 +2610,8 @@ function setTranslatePreference() {
 async function setConfigurations() {
 
   // MARK: Update from the hash parameters
-  const hashParams = window.location.hash.replace(/^#/g, '').split('&');
-  for (const hashString of hashParams) {
-    const hashPair = hashString.split('=');
-    if (hashPair.length < 2) {continue;}
-    const key = hashPair[0];
-    const value = hashPair[1];
+  const hashParams = new URLSearchParams(window.location.hash.replace(/^#/g, ''));
+  for (const [key, value] of hashParams.entries()) {
     paramDict[key] = value.replace(/\?/g, '');
   }
   setPreferredLanguage();
@@ -2590,10 +2702,11 @@ function getArticleStarterInfo(starter, language) {
   return starterInfo[languageKey] ?? starterInfo.en ?? null;
 }
 
-async function runArticleStarter(starter, language) {
+async function runArticleStarter(starter, language, ftid) {
   const starterInfo = getArticleStarterInfo(starter, language);
   if (!starterInfo) {return;}
-  // MARK: The article has already been loaded and currentFTId has been set, so talk() can reuse the normal DiscussArticle flow with ftid context.
+  const articleFTId = normalizeArticleFTId(ftid || getCurrentArticleFTId());
+  setArticleDiscussionContext(articleFTId);
   await talk(starterInfo.prompt, starterInfo.label);
 }
 
@@ -2654,7 +2767,7 @@ async function setGuardRails() {
       }
     }
     if (!action || action === 'read') {
-      await runArticleStarter(paramDict.starter, preferredLanguage);
+      await runArticleStarter(paramDict.starter, preferredLanguage, ftid);
     }
   } else if (action === 'survey' && surveyName) {
     // MARK: - Wait for the showSurvey function to be loaded

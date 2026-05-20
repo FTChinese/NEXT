@@ -106,7 +106,7 @@ $chatFTCHeaderIconLight: "data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://
 	bottom: 0;
 	margin: auto;
 	box-sizing: border-box;
-	padding: 0 9px;
+	padding: 0 9px 0 9px;
 	border: 1px solid var(--_o3-button-primary-neutral-border, #f2dfce);
 	border-radius: 3px;
 	background-color: var(--_o3-button-primary-neutral-background, #f2dfce);
@@ -122,6 +122,7 @@ $chatFTCHeaderIconLight: "data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://
 	&:before {
 		content: '';
 		display: block;
+		flex: 0 0 18px;
 		width: 18px;
 		height: 18px;
 		background-image: url($chatFTCHeaderIconDark);
@@ -133,6 +134,8 @@ $chatFTCHeaderIconLight: "data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://
 	&:after {
 		content: 'ChatFTC';
 		display: block;
+		flex: 0 0 auto;
+		white-space: nowrap;
 	}
 
 	&:hover,
@@ -147,6 +150,33 @@ $chatFTCHeaderIconLight: "data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://
 
 		&:before {
 			background-image: url($chatFTCHeaderIconLight);
+		}
+	}
+}
+
+@if $headerColor == white or $headerColor == #fff or $headerColor == #FFF {
+	.header-left-ai-icon {
+		border-color: rgba(255, 255, 255, 0.78);
+		background-color: rgba(255, 255, 255, 0.12);
+		color: $headerColor;
+
+		&:before {
+			background-image: url($chatFTCHeaderIconLight);
+		}
+
+		&:hover,
+		&:focus-visible,
+		&:active,
+		&[aria-selected=true],
+		&[aria-current],
+		&[aria-pressed=true] {
+			background-color: rgba(255, 255, 255, 0.94);
+			border-color: rgba(255, 255, 255, 0.94);
+			color: $headerTint;
+
+			&:before {
+				background-image: url($chatFTCHeaderIconDark);
+			}
 		}
 	}
 }

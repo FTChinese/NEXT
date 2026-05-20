@@ -23,15 +23,51 @@ const CONTENT_CLASS_SCORE_MAP = {
   Opinion: 0.8,
   News: 1.0,
   Other: 0.5,
+  Correction: 0.05,
+  Crossword: 0.05,
+  FTSchools: 0.05,
   Letter: 0.1,
   'Deep dive': 1.6
 };
 
+const LOW_PRIORITY_CONTENT_FORMATS = [
+  {
+    contentClass: 'Crossword',
+    penalty: 0.5,
+    signals: ['Crossword', 'Puzzles and games', '填字游戏'],
+    headlinePattern: /填字游戏|crossword/i
+  },
+  {
+    contentClass: 'FTSchools',
+    penalty: 0.5,
+    signals: ['FT Schools', 'FT Schools geography', 'FT Schools economics', 'FT学校']
+  },
+  {
+    contentClass: 'Letter',
+    penalty: 0.4,
+    signals: ['Letter', '读者来信']
+  },
+  {
+    contentClass: 'Correction',
+    penalty: 0.4,
+    signals: ['Correction', '更正'],
+    headlinePattern: /^更正[:：]|^Correction[:：]?/i
+  }
+];
+
+const LOW_PRIORITY_CONTENT_FORMAT_MAP = Object.fromEntries(
+  LOW_PRIORITY_CONTENT_FORMATS.map(format => [format.contentClass, format])
+);
+
 const TAG_DISPLAY_FALLBACKS = {
+  Correction: '更正',
   Crossword: '填字游戏',
   'Deep dive': '深度解读',
   Explainer: '解读',
   Feature: '特写',
+  'FT Schools': 'FT学校',
+  'FT Schools economics': 'FT学校',
+  'FT Schools geography': 'FT学校',
   Letter: '读者来信',
   News: '新闻',
   'News in-depth': '深度报道',
@@ -969,6 +1005,7 @@ function buildRecommendationScoreAttrs(item) {
     ['data-relevance-score', item?.relevanceScore, 4],
     ['data-relevance-raw', item?.relevanceRaw, 4],
     ['data-read-minus-score', item?.readMinusScore, 4],
+    ['data-format-penalty', item?.formatPenalty, 4],
     ['data-unseen-bonus-score', item?.unSeenItemBonus, 4],
     ['data-decay-factor', item?.decayFactor, 4],
     ['data-content-class-score', CONTENT_CLASS_SCORE_MAP[item?.contentClass] ?? undefined, 2]
@@ -1669,6 +1706,9 @@ function calculateScores(items) {
     News: 6,
     Feature: 12,
     Opinion: 12,
+    Correction: 12,
+    Crossword: 12,
+    FTSchools: 12,
     'Deep dive': 48,
     Other: 12
   };
@@ -1688,7 +1728,7 @@ function calculateScores(items) {
   for (const item of items) {
     const updateTimestamp = item.updateTimestamp || (now - 3 * 24 * 60 * 60 * 1000);
     const ageMs = now - updateTimestamp;
-    const contentClass = detectContentClass(item.annotationsMain, item.subtype, item.ft_type);
+    const contentClass = detectContentClass(item);
 
     const halfLifeMs = (CONTENT_CLASS_HALFLIFE_IN_HOURS[contentClass] || CONTENT_CLASS_HALFLIFE_IN_HOURS.Other) * 60 * 60 * 1000;
 
@@ -1720,6 +1760,8 @@ function calculateScores(items) {
     const read = readIds.has(ftid) || readIds.has(itemTypeId) || readIds.has(id);
     const readMinusScore = read ? (recommendationWeights.readPenalty ? 1 : 0) : 0;
     item.readMinusScore = readMinusScore;
+    const formatPenalty = getLowPriorityContentFormatPenalty(item, contentClass);
+    item.formatPenalty = formatPenalty;
 
     let tierPenalty = 0;
     const contentTier = item.tier;
@@ -1732,10 +1774,11 @@ function calculateScores(items) {
       }
     }
 
-    const unSeenItemBonus = updateTimestamp > lastVisitTs ? (recommendationWeights.freshnessBonus ? 1 : 0) : 0;
+    const freshnessBonusEligible = isFreshnessBonusEligibleForContentClass(item, contentClass);
+    const unSeenItemBonus = updateTimestamp > lastVisitTs && freshnessBonusEligible ? (recommendationWeights.freshnessBonus ? 1 : 0) : 0;
     item.unSeenItemBonus = unSeenItemBonus;
 
-    item.finalScore = parseFloat(finalScore.toFixed(4)) - readMinusScore - tierPenalty + unSeenItemBonus;
+    item.finalScore = parseFloat(finalScore.toFixed(4)) - readMinusScore - tierPenalty - formatPenalty + unSeenItemBonus;
 
 
     // if (contentClass === 'LiveBlogPost') {
@@ -2054,16 +2097,111 @@ function getRelevanceMatchDisplay(item, key, followedInterest) {
   return getAnnotationDisplay(annotation) || followedInterest?.display || getFallbackTagDisplay(key) || key;
 }
 
-function detectContentClass(annotationsMain = '', subtype = '', ftType = '') {
+function detectContentClass(item = {}) {
+  const annotationsMain = item?.annotationsMain ?? '';
+  const subtype = item?.subtype ?? '';
+  const ftType = item?.ft_type ?? '';
   const tags = splitUniqueTags(annotationsMain);
   if (ftType === 'LiveBlogPackage' || ftType === 'LiveBlogPost') {return ftType;}
   if (subtype === 'LiveBlogPackage') {return subtype;}
+  const lowPriorityContentClass = detectLowPriorityContentClass(item);
+  if (lowPriorityContentClass) {return lowPriorityContentClass;}
   if (tags.includes('News')) {return 'News';}
   if (tags.includes('Deep dive')) {return 'Deep dive';}
   if (tags.includes('Opinion')) {return 'Opinion';}
   if (tags.includes('Letter')) {return 'Letter';}
   if (tags.includes('Feature')) {return 'Feature';}
   return 'Other';
+}
+
+function detectLowPriorityContentClass(item = {}) {
+  for (const format of LOW_PRIORITY_CONTENT_FORMATS) {
+    if (matchesLowPriorityContentFormat(item, format)) {
+      return format.contentClass;
+    }
+  }
+  return '';
+}
+
+function matchesLowPriorityContentFormat(item, format) {
+  const signalSet = getRecommendationSignalSet(item);
+  for (const signal of format.signals || []) {
+    if (signalSet.has(normalizeAnnotationValue(signal).toUpperCase())) {
+      return true;
+    }
+  }
+
+  const headline = `${item?.cheadline ?? ''} ${item?.eheadline ?? ''}`.trim();
+  return !!(headline && format.headlinePattern && format.headlinePattern.test(headline));
+}
+
+function getRecommendationSignalSet(item = {}) {
+  const signalSet = new Set();
+  const tagFields = [
+    item?.annotationsMain,
+    item?.annotationsSecondary,
+    item?.keywords
+  ];
+
+  for (const value of tagFields) {
+    for (const tag of splitUniqueTags(value)) {
+      addRecommendationSignal(signalSet, tag);
+    }
+  }
+
+  if (Array.isArray(item?.annotations)) {
+    for (const annotation of item.annotations) {
+      addRecommendationSignal(signalSet, annotation?.prefLabel);
+      addRecommendationSignal(signalSet, annotation?.translation);
+      addRecommendationSignal(signalSet, annotation?.display);
+    }
+  }
+
+  return signalSet;
+}
+
+function addRecommendationSignal(signalSet, value) {
+  const signal = normalizeAnnotationValue(value);
+  if (signal) {
+    signalSet.add(signal.toUpperCase());
+  }
+}
+
+function getLowPriorityContentFormatPenalty(item, contentClass) {
+  const format = LOW_PRIORITY_CONTENT_FORMAT_MAP[contentClass];
+  if (!format || hasExplicitLowPriorityFormatInterest(item, format)) {return 0;}
+  return format.penalty;
+}
+
+function isFreshnessBonusEligibleForContentClass(item, contentClass) {
+  const format = LOW_PRIORITY_CONTENT_FORMAT_MAP[contentClass];
+  if (!format) {return true;}
+  return hasExplicitLowPriorityFormatInterest(item, format);
+}
+
+function hasExplicitLowPriorityFormatInterest(item, format) {
+  if (!Array.isArray(item?.relevanceMatches)) {return false;}
+  const formatSignals = new Set((format.signals || [])
+    .map(signal => normalizeAnnotationValue(signal).toUpperCase())
+    .filter(Boolean));
+
+  for (const match of item.relevanceMatches) {
+    if (String(match?.source ?? '').endsWith('Boost')) {continue;}
+    const followSources = Array.isArray(match?.followSources) ? match.followSources.filter(Boolean) : [];
+    if (followSources.length === 0) {continue;}
+
+    const matchSignals = [
+      match?.key,
+      match?.display
+    ];
+
+    for (const signal of matchSignals) {
+      if (formatSignals.has(normalizeAnnotationValue(signal).toUpperCase())) {
+        return true;
+      }
+    }
+  }
+  return false;
 }
 
 function splitUniqueTags(value = '') {
@@ -2137,6 +2275,7 @@ function reorderListWithScores(list, items) {
     node.setAttribute('data-popularity-score', (item.popularityScore ?? 0).toFixed(4));
     node.setAttribute('data-relevance-score', (item.relevanceScore ?? 0).toFixed(4));
     node.setAttribute('data-read-minus-score', (item.readMinusScore ?? 0).toFixed(4));
+    node.setAttribute('data-format-penalty', (item.formatPenalty ?? 0).toFixed(4));
     node.setAttribute('data-unseen-bonus-score', (item.unSeenItemBonus ?? 0).toFixed(4));
     node.setAttribute('data-content-class-score', (CONTENT_CLASS_SCORE_MAP[item.contentClass] ?? 0).toFixed(2));
   }

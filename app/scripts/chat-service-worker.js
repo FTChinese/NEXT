@@ -1,19 +1,41 @@
 /* jshint ignore:start */
 
 
-const cacheName = 'v2916';
+const cacheName = 'v2924';
 console.log(`CACHE_NAME: ${cacheName}`);
 const domain = 'https://ftcoffer.herokuapp.com';
 const startUrl = '/powertranslate/chat.html';
+const mainChatScriptPath = '/powertranslate/scripts/main-chat.js';
 const URLS = [
     startUrl,
     '/powertranslate/styles/main-chat.css',
-    '/powertranslate/scripts/main-chat.js'
+    mainChatScriptPath
 ];
+
+async function fetchAndUpdateCache(request) {
+    const response = await fetch(request);
+    const cache = await caches.open(cacheName);
+    await cache.put(request, response.clone());
+    return response;
+}
+
+function shouldUseNetworkFirst(request) {
+    try {
+        const url = new URL(request.url);
+        if (url.origin !== self.location.origin) {return false;}
+        return url.pathname === startUrl || url.pathname === mainChatScriptPath;
+    } catch (err) {
+        return false;
+    }
+}
 
 // Respond with cached resources
 self.addEventListener('fetch',  e => {
     // console.log(`service worker: fetching at ${cacheName}`);
+    if (shouldUseNetworkFirst(e.request)) {
+        e.respondWith(fetchAndUpdateCache(e.request).catch(() => caches.match(e.request)));
+        return;
+    }
     e.respondWith(
         caches.match(e.request).then( (request) => {
             return request || fetch(e.request);
@@ -48,7 +70,7 @@ self.addEventListener('activate', e => {
                     }
                 })
             );
-        })
+        }).then(() => self.clients.claim())
     );
 });
 
