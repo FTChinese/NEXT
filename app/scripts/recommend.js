@@ -25,6 +25,8 @@ const CONTENT_CLASS_SCORE_MAP = {
   Other: 0.5,
   Correction: 0.05,
   Crossword: 0.05,
+  EndpointsNews: 0.2,
+  FTAVFurtherReading: 0.2,
   FTSchools: 0.05,
   Letter: 0.1,
   'Deep dive': 1.6
@@ -52,6 +54,17 @@ const LOW_PRIORITY_CONTENT_FORMATS = [
     penalty: 0.4,
     signals: ['Correction', '更正'],
     headlinePattern: /^更正[:：]|^Correction[:：]?/i
+  },
+  {
+    contentClass: 'EndpointsNews',
+    penalty: 0.6,
+    signals: ['Endpoints News']
+  },
+  {
+    contentClass: 'FTAVFurtherReading',
+    penalty: 0.6,
+    signals: ['FTAV', 'FTAV延伸阅读', 'FTAV的进一步阅读', 'FTAV’s further reading', 'FTAV\'s further reading'],
+    headlinePattern: /FTAV\s*(?:延伸阅读|的进一步阅读)|FTAV(?:'|’)?s\s+further\s+reading/i
   }
 ];
 
@@ -63,8 +76,10 @@ const TAG_DISPLAY_FALLBACKS = {
   Correction: '更正',
   Crossword: '填字游戏',
   'Deep dive': '深度解读',
+  EndpointsNews: 'Endpoints News',
   Explainer: '解读',
   Feature: '特写',
+  FTAVFurtherReading: 'FTAV延伸阅读',
   'FT Schools': 'FT学校',
   'FT Schools economics': 'FT学校',
   'FT Schools geography': 'FT学校',
@@ -921,7 +936,7 @@ async function buildRecommendationHTML(items = [], preferredLanguage = 'zh-CN', 
     if (tier === 'premium') {
       lockClass = ' vip locked';
     } else if (tier === 'standard') {
-      lockClass = ' locked';
+      lockClass = ' standard locked';
     }
 
     const subtype = item?.subtype ?? '';
