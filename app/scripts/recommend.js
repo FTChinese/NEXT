@@ -1781,7 +1781,7 @@ function calculateScores(items) {
     let tierPenalty = 0;
     const contentTier = item.tier;
     if (contentTier) {
-      const userTier = GetCookie('subscription_type');
+      const userTier = getCurrentSubscriptionTier();
       if (userTier === 'standard') {
         tierPenalty = contentTier === 'premium' ? 1 : 0;
       } else if (userTier !== 'premium') {
