@@ -1,5 +1,5 @@
 /* global getMyPreference, savePreference, convertChinese, runLoadImages, markReadContent, updateHeadlineLocks, GetCookie, Android, webkit, AbortController, Blob */
-/* exported renderRecommendationForWebAppHome, renderHomePageRecommendationNow, shouldShowHomePageRecommendation, getPremiumPreferenceGate */
+/* exported renderRecommendationForWebAppHome, renderHomePageRecommendationNow, renderFTGlobalCurationEntry, shouldShowHomePageRecommendation, getFTGlobalCurationEntryState, syncPreferenceForFTGlobalCurationOptIn, getPremiumPreferenceGate */
 
 // === Attribute Mapping ===
 const attributeMap = [
@@ -108,6 +108,12 @@ const BOTH_TRANSLATION_PREFERENCE_VALUE = 'both';
 const HUMAN_TRANSLATION_PREFERENCE_VALUE = 'human';
 const RECOMMENDATION_SOURCE_ALL = 'all';
 const RECOMMENDATION_SOURCE_FTCHINESE = 'ftchinese';
+const FT_GLOBAL_CURATION_STATE_ENABLED = 'enabled';
+const FT_GLOBAL_CURATION_STATE_ELIGIBLE = 'eligible';
+const FT_GLOBAL_CURATION_STATE_GATED = 'gated';
+const FT_GLOBAL_CURATION_STATE_HIDDEN = 'hidden';
+const FT_GLOBAL_CURATION_ENTRY_DISMISS_DAYS = 30;
+const FT_GLOBAL_CURATION_ENTRY_DISMISS_KEY_PREFIX = 'ft-global-curation-entry-dismissed-until';
 const PREMIUM_ONLY_PREFERENCE_VALUES = {
   [HOME_PAGE_PREFERENCE_KEY]: CUSTOM_HOME_PAGE_PREFERENCE_VALUE
 };
@@ -116,6 +122,11 @@ const FT_EXCLUSIVE_CURATION_TEXTS = {
     title: 'FT全球臻享',
     description: '更及时获取更多FT全球内容，包括AI翻译加速上线的深度报道、分析和观点，并按你的关注和阅读偏好调整排序。<a href="#">点击这里自定义</a>',
     humanOnlyDescription: '当前仅显示FT中文网已上线内容，并按你的关注和阅读偏好调整排序。开启AI翻译后，可更及时获取更多FT全球深度报道、分析和观点。<a href="#">点击这里自定义</a>',
+    entryDescription: '高端会员可在首页开启FT全球臻享，更及时获取更多FT全球内容，并按你的关注和阅读偏好排序。',
+    entryAction: '开启',
+    entryDismiss: '关闭',
+    entrySaving: '正在开启...',
+    entryFailed: '暂时无法保存设置，请稍后重试。',
     loading: '正在加载FT全球臻享',
     empty: '暂时没有新的FT全球臻享内容，请稍后刷新。',
     timeout: 'FT全球臻享加载较慢，请点击重试。',
@@ -126,6 +137,11 @@ const FT_EXCLUSIVE_CURATION_TEXTS = {
     title: 'FT全球臻享',
     description: '更及時獲取更多FT全球內容，包括AI翻譯加速上線的深度報道、分析和觀點，並按你的關注和閱讀偏好調整排序。<a href="#">點擊這裡自定義</a>',
     humanOnlyDescription: '當前僅顯示FT中文網已上線內容，並按你的關注和閱讀偏好調整排序。開啟AI翻譯後，可更及時獲取更多FT全球深度報道、分析和觀點。<a href="#">點擊這裡自定義</a>',
+    entryDescription: '高端會員可在首頁開啟FT全球臻享，更及時獲取更多FT全球內容，並按你的關注和閱讀偏好排序。',
+    entryAction: '開啟',
+    entryDismiss: '關閉',
+    entrySaving: '正在開啟...',
+    entryFailed: '暫時無法儲存設定，請稍後重試。',
     loading: '正在載入FT全球臻享',
     empty: '暫時沒有新的FT全球臻享內容，請稍後刷新。',
     timeout: 'FT全球臻享載入較慢，請點擊重試。',
@@ -136,6 +152,11 @@ const FT_EXCLUSIVE_CURATION_TEXTS = {
     title: 'FT全球臻享',
     description: '更即時取得更多FT全球內容，包括AI翻譯加速上線的深度報導、分析和觀點，並按你的關注和閱讀偏好調整排序。<a href="#">點擊這裡自訂</a>',
     humanOnlyDescription: '目前僅顯示FT中文網已上線內容，並按你的關注和閱讀偏好調整排序。開啟AI翻譯後，可更即時取得更多FT全球深度報導、分析和觀點。<a href="#">點擊這裡自訂</a>',
+    entryDescription: '高端會員可在首頁開啟FT全球臻享，更即時取得更多FT全球內容，並按你的關注和閱讀偏好排序。',
+    entryAction: '開啟',
+    entryDismiss: '關閉',
+    entrySaving: '正在開啟...',
+    entryFailed: '暫時無法儲存設定，請稍後重試。',
     loading: '正在載入FT全球臻享',
     empty: '暫時沒有新的FT全球臻享內容，請稍後重新整理。',
     timeout: 'FT全球臻享載入較慢，請點擊重試。',
@@ -285,7 +306,14 @@ function displayRecommendationLazy(options = {}) {
 function displayHomePageRecommendation() {
   const container = document.getElementById(HOME_PAGE_RECOMMENDATION_CONTAINER_ID);
   if (!container) {return;}
-  if (!shouldShowHomePageRecommendation()) {
+  const entryState = getFTGlobalCurationEntryState();
+  if (entryState === FT_GLOBAL_CURATION_STATE_ELIGIBLE) {
+    if (!showFTGlobalCurationEntryInContainer(container, {entryPoint: 'web_home_prompt'})) {
+      hideHomePageRecommendation(container);
+    }
+    return;
+  }
+  if (entryState !== FT_GLOBAL_CURATION_STATE_ENABLED) {
     hideHomePageRecommendation(container);
     return;
   }
@@ -313,7 +341,18 @@ function displayHomePageRecommendation() {
 async function renderHomePageRecommendationNow(options = {}) {
   const container = options?.targetDom || document.getElementById(HOME_PAGE_RECOMMENDATION_CONTAINER_ID);
   if (!container) {return {status: 'missing'};}
-  if (!shouldShowHomePageRecommendation()) {
+  const entryState = getFTGlobalCurationEntryState();
+  if (entryState === FT_GLOBAL_CURATION_STATE_ELIGIBLE) {
+    if (!showFTGlobalCurationEntryInContainer(container, {
+      entryPoint: options?.entryPoint || 'native_home_prompt'
+    })) {
+      markHomePageRecommendationStatus(container, {status: 'entry_dismissed'});
+      hideHomePageRecommendation(container);
+      return {status: 'entry_dismissed'};
+    }
+    return {status: 'entry'};
+  }
+  if (entryState !== FT_GLOBAL_CURATION_STATE_ENABLED) {
     markHomePageRecommendationStatus(container, {status: 'skipped'});
     hideHomePageRecommendation(container);
     return {status: 'skipped'};
@@ -430,6 +469,143 @@ function buildHomePageRecommendationShellHTML() {
         <div class="clearfloat"></div>
       </div>
     </div>`;
+}
+
+function buildFTGlobalCurationEntryHTML(entryPoint = 'home_prompt') {
+  const text = getFTExclusiveCurationText();
+  return `
+    <div class="block-container no-side home-page-recommendation-entry-block" data-entry-point="${escapeAttributeValue(entryPoint)}">
+      <div class="block-inner">
+        <div class="content-container"><div class="content-inner">
+          <div class="ft-global-curation-entry-banner" role="region" aria-label="${escapeAttributeValue(text.title)}">
+            <p class="ft-global-curation-entry-copy">${escapeAttributeValue(text.entryDescription)}</p>
+            <div class="ft-global-curation-entry-actions">
+              <button class="button button-primary ft-global-curation-entry-enable" type="button">${escapeAttributeValue(text.entryAction)}</button>
+              <button class="ft-global-curation-entry-dismiss" type="button" aria-label="${escapeAttributeValue(text.entryDismiss)}">${escapeAttributeValue(text.entryDismiss)}</button>
+            </div>
+            <p class="ft-global-curation-entry-error" hidden></p>
+          </div>
+        </div></div>
+        <div class="clearfloat"></div>
+      </div>
+    </div>`;
+}
+
+function showFTGlobalCurationEntryInContainer(container, options = {}) {
+  if (!container) {return false;}
+  if (
+    getFTGlobalCurationEntryState() !== FT_GLOBAL_CURATION_STATE_ELIGIBLE ||
+    isFTGlobalCurationEntryDismissed()
+  ) {
+    return false;
+  }
+  container.hidden = false;
+  container.setAttribute('data-render-status', 'entry');
+  container.innerHTML = buildFTGlobalCurationEntryHTML(options?.entryPoint || 'home_prompt');
+  return true;
+}
+
+function renderFTGlobalCurationEntry(targetDom, options = {}) {
+  if (
+    getFTGlobalCurationEntryState() !== FT_GLOBAL_CURATION_STATE_ELIGIBLE ||
+    isFTGlobalCurationEntryDismissed()
+  ) {
+    return false;
+  }
+  const root = targetDom || document;
+  const slot = root?.id === HOME_PAGE_RECOMMENDATION_CONTAINER_ID ?
+    root :
+    root?.querySelector?.(`#${HOME_PAGE_RECOMMENDATION_CONTAINER_ID}`);
+  if (slot) {
+    return showFTGlobalCurationEntryInContainer(slot, options);
+  }
+  if (!targetDom || options?.fallback !== 'prepend') {
+    return false;
+  }
+
+  const entrySlot = document.createElement('div');
+  entrySlot.id = HOME_PAGE_RECOMMENDATION_CONTAINER_ID;
+  targetDom.insertBefore(entrySlot, targetDom.firstChild);
+  return showFTGlobalCurationEntryInContainer(entrySlot, options);
+}
+
+function getFTGlobalCurationEntryDismissKey() {
+  const userKey = window.userId || window.username || 'anonymous';
+  return `${FT_GLOBAL_CURATION_ENTRY_DISMISS_KEY_PREFIX}:${userKey}`;
+}
+
+function isFTGlobalCurationEntryDismissed() {
+  if (typeof localStorage !== 'object') {return false;}
+  try {
+    const dismissedUntil = parseInt(localStorage.getItem(getFTGlobalCurationEntryDismissKey()) || '', 10);
+    return Number.isFinite(dismissedUntil) && dismissedUntil > Date.now();
+  } catch (err) {
+    return false;
+  }
+}
+
+function dismissFTGlobalCurationEntry(container) {
+  if (typeof localStorage === 'object') {
+    try {
+      const dismissedUntil = Date.now() + FT_GLOBAL_CURATION_ENTRY_DISMISS_DAYS * 24 * 60 * 60 * 1000;
+      localStorage.setItem(getFTGlobalCurationEntryDismissKey(), `${dismissedUntil}`);
+    } catch (err) {
+      console.warn('Failed to save FT global curation entry dismissal:', err);
+    }
+  }
+  hideHomePageRecommendation(container);
+}
+
+async function enableFTGlobalCurationFromEntry(button) {
+  const container = button?.closest?.(`#${HOME_PAGE_RECOMMENDATION_CONTAINER_ID}`);
+  if (!container || button.disabled) {return;}
+
+  const text = getFTExclusiveCurationText();
+  const error = container.querySelector('.ft-global-curation-entry-error');
+  const previousLabel = button.textContent;
+  let preference = {};
+  try {
+    preference = getPreference();
+  } catch (err) {
+    preference = {};
+  }
+
+  const previousHomePagePreference = preference?.[HOME_PAGE_PREFERENCE_KEY] || '';
+  preference[HOME_PAGE_PREFERENCE_KEY] = CUSTOM_HOME_PAGE_PREFERENCE_VALUE;
+  syncPreferenceForFTGlobalCurationOptIn(preference, HOME_PAGE_PREFERENCE_KEY, CUSTOM_HOME_PAGE_PREFERENCE_VALUE);
+
+  if (error) {
+    error.hidden = true;
+    error.textContent = '';
+  }
+  button.disabled = true;
+  button.textContent = text.entrySaving;
+
+  try {
+    await savePreferenceNow(preference);
+    if (previousHomePagePreference !== CUSTOM_HOME_PAGE_PREFERENCE_VALUE) {
+      trackHomePageRecommendationEvent('ft_global_curation_preference_enabled', {
+        status: 'enabled',
+        source: container.querySelector('.home-page-recommendation-entry-block')?.getAttribute('data-entry-point') || 'entry_banner'
+      });
+    }
+    if (typeof localStorage === 'object') {
+      try {
+        localStorage.removeItem(getFTGlobalCurationEntryDismissKey());
+      } catch (err) {
+        console.warn('Failed to clear FT global curation entry dismissal:', err);
+      }
+    }
+    retryHomePageRecommendation(container);
+  } catch (err) {
+    console.error('Failed to enable FT global curation:', err);
+    button.disabled = false;
+    button.textContent = previousLabel || text.entryAction;
+    if (error) {
+      error.textContent = text.entryFailed;
+      error.hidden = false;
+    }
+  }
 }
 
 function buildHomePageRecommendationNoticeHTML(status = 'loading') {
@@ -682,8 +858,20 @@ function insertTitleForNextHomeBlock() {
 function shouldShowHomePageRecommendation() {
   // Visibility gate: only premium users who explicitly enable the custom home page
   // should see the FT全球臻享 block. This does not decide the content pool.
-  if (!isPremiumUser()) {return false;}
-  return isCustomHomePageEnabled();
+  return getFTGlobalCurationEntryState() === FT_GLOBAL_CURATION_STATE_ENABLED;
+}
+
+function getFTGlobalCurationEntryState(preference = getPreference()) {
+  const subscriptionTier = getCurrentSubscriptionTier();
+  if (subscriptionTier === 'premium') {
+    return isCustomHomePageEnabled(preference) ?
+      FT_GLOBAL_CURATION_STATE_ENABLED :
+      FT_GLOBAL_CURATION_STATE_ELIGIBLE;
+  }
+  if (subscriptionTier === 'standard' && isCustomHomePageEnabled(preference)) {
+    return FT_GLOBAL_CURATION_STATE_GATED;
+  }
+  return FT_GLOBAL_CURATION_STATE_HIDDEN;
 }
 
 function getChineseLanguageKey(preferredLanguage = window.preferredLanguage || 'zh-CN') {
@@ -711,11 +899,14 @@ function buildFTExclusiveCurationIntroHTML() {
 }
 
 function buildFTExclusiveCurationDescriptionHTML() {
+  return `<p class="home-page-recommendation-description reorder-description">${getFTExclusiveCurationDescription()}</p>`;
+}
+
+function getFTExclusiveCurationDescription() {
   const text = getFTExclusiveCurationText();
-  const description = shouldUseAITranslationContentPool() ?
+  return shouldUseAITranslationContentPool() ?
     text.description :
     text.humanOnlyDescription;
-  return `<p class="home-page-recommendation-description reorder-description">${description}</p>`;
 }
 
 
@@ -726,6 +917,16 @@ function isCustomHomePageEnabled(preference = getPreference()) {
 
 function shouldUseAITranslationContentPool(preference = getPreference()) {
   return preference?.[ARTICLE_TRANSLATION_PREFERENCE_KEY] === BOTH_TRANSLATION_PREFERENCE_VALUE;
+}
+
+function syncPreferenceForFTGlobalCurationOptIn(preference, preferenceKey, value) {
+  if (!preference || preferenceKey !== HOME_PAGE_PREFERENCE_KEY || value !== CUSTOM_HOME_PAGE_PREFERENCE_VALUE) {
+    return preference;
+  }
+  if (preference[ARTICLE_TRANSLATION_PREFERENCE_KEY] !== BOTH_TRANSLATION_PREFERENCE_VALUE) {
+    preference[ARTICLE_TRANSLATION_PREFERENCE_KEY] = BOTH_TRANSLATION_PREFERENCE_VALUE;
+  }
+  return preference;
 }
 
 function getRecommendationSource() {
@@ -769,20 +970,28 @@ function getPreference() {
   return getMyPreference() ?? {};
 }
 
-function savePreferenceSafely(preference) {
+async function savePreferenceNow(preference) {
   try {
     if (typeof savePreference === 'function') {
-      const result = savePreference(preference, {immediate: true});
-      if (result && typeof result.catch === 'function') {
-        result.catch(err => {
-          console.error('Failed to save preference:', err);
-        });
-      }
-      return;
+      return await savePreference(preference, {immediate: true});
     }
     localStorage.setItem('preference', JSON.stringify(preference));
+    return preference;
   } catch (err) {
     console.error('Failed to save preference:', err);
+    throw err;
+  }
+}
+
+function savePreferenceSafely(preference) {
+  try {
+    const result = savePreferenceNow(preference);
+    if (result && typeof result.catch === 'function') {
+      result.catch(() => {});
+    }
+    return result;
+  } catch (err) {
+    return null;
   }
 }
 
@@ -1151,6 +1360,17 @@ delegate.on('click', '.home-page-recommendation-retry', function (event) {
   });
 });
 
+delegate.on('click', '.ft-global-curation-entry-enable', function (event) {
+  event.preventDefault();
+  enableFTGlobalCurationFromEntry(this);
+});
+
+delegate.on('click', '.ft-global-curation-entry-dismiss', function (event) {
+  event.preventDefault();
+  const container = this.closest(`#${HOME_PAGE_RECOMMENDATION_CONTAINER_ID}`);
+  dismissFTGlobalCurationEntry(container);
+});
+
 function getFollowPreferenceAttrs(item, mainTag, preferredLanguage = 'zh-CN') {
   const followedInterest = getFollowedInterestForTag(item, mainTag);
   const annotation = followedInterest?.annotation || findAnnotationForTag(item, mainTag);
@@ -1517,7 +1737,7 @@ function showCustomisation(list) {
   if (isHomePageRecommendation) {
     const note = document.createElement('p');
     note.className = 'home-page-recommendation-description reorder-description';
-    note.innerHTML = getFTExclusiveCurationText().description;
+    note.innerHTML = getFTExclusiveCurationDescription();
     list.parentNode.insertBefore(note, list);
     return;
   }
@@ -2316,9 +2536,7 @@ function reorderListWithScores(list, items) {
 }
 
 
-delegate.on('click', '.reorder-description a', function (event) {
-  event.preventDefault();
-
+function openRecommendationSettings(trigger) {
   updateFollows();
   updateWeights();
 
@@ -2492,10 +2710,15 @@ delegate.on('click', '.reorder-description a', function (event) {
   container.appendChild(inner);
   wrapper.appendChild(container);
 
-  const desc = this.closest('.reorder-description'); // scope to clicked banner
+  const desc = trigger?.closest?.('.reorder-description'); // scope to clicked banner
   if (desc) {
     desc.parentNode.insertBefore(wrapper, desc.nextSibling);
   }
+}
+
+delegate.on('click', '.reorder-description a', function (event) {
+  event.preventDefault();
+  openRecommendationSettings(this);
 });
 
 function syncReorderPremiumPreferenceHint(row, label, input, opt, labels) {
@@ -2601,6 +2824,11 @@ delegate.on('click', '[data-action="reorderItems"]', function () {
     const key = input.name;
     newWeights[key] = !!input.checked;
   });
+  syncPreferenceForFTGlobalCurationOptIn(
+    preference,
+    HOME_PAGE_PREFERENCE_KEY,
+    preference?.[HOME_PAGE_PREFERENCE_KEY]
+  );
 
   // 3. Merge weights and save
   const previousWeights = {...preference.recommendationWeights};

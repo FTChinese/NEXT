@@ -1,5 +1,5 @@
 /* exported isStandalone, subscribeWebPush */
-/* global renderRecommendationForWebAppHome, shouldShowHomePageRecommendation, getPremiumPreferenceGate */
+/* global renderRecommendationForWebAppHome, renderFTGlobalCurationEntry, shouldShowHomePageRecommendation, getPremiumPreferenceGate */
 
 const jsVersion = 'v2';
 const APP_PAGE_CACHE_NAME = 'v98'; // keep in sync with app-service-worker.js
@@ -763,6 +763,12 @@ async function renderChannel(channel) {
             closeLaunchScreenSafely();
         } else if (listapi) {
             await fetchHtmlWithCacheSWR(listapi, targetDom);
+            if (channel?.screenName === 'homepage' && typeof renderFTGlobalCurationEntry === 'function') {
+                renderFTGlobalCurationEntry(targetDom, {
+                    entryPoint: 'webapp_home_prompt',
+                    fallback: 'prepend'
+                });
+            }
             closeLaunchScreenSafely();
         } else if (iframeUrl) {
             targetDom.innerHTML = '';

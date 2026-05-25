@@ -1,5 +1,5 @@
 
-/* global appTypeMap, createStackedDetailView, setFontSize, setTranslatePreference, getAppSettingPremiumGate, buildAppSettingPremiumGateHTML */
+/* global appTypeMap, createStackedDetailView, setFontSize, setTranslatePreference, syncPreferenceForFTGlobalCurationOptIn, getAppSettingPremiumGate, buildAppSettingPremiumGateHTML */
 
 delegate.on('click', '.settings-item', async function () {
   try {
@@ -158,13 +158,23 @@ async function applySettingSelection(info, value) {
     }
 
     const preferenceKey = info.preferenceKey || (info.id === 'font-setting' ? 'Font Size' : '');
+    let syncedArticleTranslationPreference = false;
     if (preferenceKey) {
       const myPreference = getMyPreference() || {};
+      const previousArticleTranslationPreference = myPreference['Article Translation Preference'];
       myPreference[preferenceKey] = value;
+      if (typeof syncPreferenceForFTGlobalCurationOptIn === 'function') {
+        syncPreferenceForFTGlobalCurationOptIn(myPreference, preferenceKey, value);
+        syncedArticleTranslationPreference =
+          myPreference['Article Translation Preference'] !== previousArticleTranslationPreference;
+      }
       if (typeof savePreference === 'function') {
         await savePreference(myPreference, {immediate: true});
       } else if (typeof saveMyPreferenceByKey === 'function') {
         saveMyPreferenceByKey(preferenceKey, value);
+        if (preferenceKey === 'Home Page Preference' && value === 'customized') {
+          saveMyPreferenceByKey('Article Translation Preference', 'both');
+        }
       }
     }
 
@@ -172,7 +182,10 @@ async function applySettingSelection(info, value) {
     if (info.id === 'font-setting' && typeof setFontSize === 'function') {
       setFontSize();
     }
-    if (info.preferenceKey === 'Article Translation Preference' && typeof setTranslatePreference === 'function') {
+    if (
+      (info.preferenceKey === 'Article Translation Preference' || syncedArticleTranslationPreference) &&
+      typeof setTranslatePreference === 'function'
+    ) {
       setTranslatePreference();
     }
   } catch (err) {
