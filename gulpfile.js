@@ -482,8 +482,6 @@ gulp.task('copy:ftcoffer', async () => {
 
   streams.push(copySourceToDestination(['app/scripts/*.json'], `${dest}/scripts`));
 
-  streams.push(copySourceToDestination(['app/api/page/chat_voice.json'], `${dest}/api/page`));
-
   // Read file content into a string
   const serviceWorkerPaths = ['app/scripts/chat-service-worker.js', 'app/scripts/app-service-worker.js'];
   for (const serviceWorkerPath of serviceWorkerPaths) {
