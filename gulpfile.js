@@ -276,6 +276,7 @@ gulp.task('html', gulp.series('styles', () => {
         console.log(err.line);
       }
     })
+    .pipe($.if('*.css', $.replace(/\/\*# sourceMappingURL=.*\*\//g, '')))
     .pipe($.if('*.css', $.cssnano({
       // MARK: - Always set autoprefixer to false because cssnano will remove useful css lines. Just handle prefix by yourself. 
       autoprefixer: false,

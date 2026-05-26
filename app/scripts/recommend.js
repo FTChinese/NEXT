@@ -118,7 +118,7 @@ const FT_GLOBAL_CURATION_FOLLOW_PROMPT_MIN_FOLLOWS = 3;
 const FT_GLOBAL_CURATION_FOLLOW_PROMPT_LIMIT = 6;
 const FT_GLOBAL_CURATION_FOLLOW_PROMPT_DISMISS_DAYS = 30;
 const FT_GLOBAL_CURATION_FOLLOW_PROMPT_DISMISS_KEY_PREFIX = 'ft-global-curation-follow-prompt-dismissed-until';
-const FT_GLOBAL_CURATION_FOLLOW_PROMPT_FIELDS = new Set(['topics', 'regions']);
+const FT_GLOBAL_CURATION_FOLLOW_PROMPT_FIELDS = new Set(['topics', 'regions', 'organisations']);
 const FT_GLOBAL_CURATION_GENERIC_FOLLOW_TAGS = new Set([
   'CORRECTION',
   'CROSSWORD',
@@ -138,6 +138,46 @@ const FT_GLOBAL_CURATION_NARROW_FOLLOW_PATTERNS = [
   /(^|\s)COMPAN(Y|IES)(\s|$)/i,
   /公司/
 ];
+// Cold-start chips borrow the broad, durable follow topics from Chatbot settings.
+// They should not surface article-specific companies, authors, columns, or formats.
+const FT_GLOBAL_CURATION_COLD_START_FOLLOW_TOPIC_ALIASES = [
+  'China', '中国',
+  'Hong Kong', '香港',
+  'Taiwan', '台湾',
+  'Singapore', '新加坡',
+  'Japan', '日本',
+  'United States', '美国',
+  'United Kingdom', '英国',
+  'India', '印度',
+  'Europe', '欧洲',
+  'Asia', '亚洲', '亚太',
+  'Middle East', '中东',
+  'Markets', '市场',
+  'Economy', '经济',
+  'Technology Sector', 'Technology sector', '科技行业', '科技产业',
+  'Politics', '政治',
+  'Investments', '投资',
+  'Management', '管理',
+  'Personal Finance', '个人理财',
+  'Education', '教育',
+  'Life & Arts', '生活时尚', '生活与艺术',
+  'Work & Careers', '职场',
+  'Property', '房地产',
+  'Science', '科学',
+  'Books', '书评', '图书',
+  'Artificial intelligence', '人工智能',
+  'Electric vehicles', '电动汽车',
+  'Climate change', '气候变化',
+  'Federal Reserve', '美联储',
+  'Chinese economy', '中国经济',
+  'Chinese business & finance', '中国商业与金融',
+  'Chinese politics & policy', '中国政治与政策',
+  'Semiconductors', '半导体',
+  'Cryptocurrencies', '加密货币'
+];
+const FT_GLOBAL_CURATION_COLD_START_FOLLOW_TOPIC_SET = new Set(
+  FT_GLOBAL_CURATION_COLD_START_FOLLOW_TOPIC_ALIASES.map(normalizeInterestAlias)
+);
 const PREMIUM_ONLY_PREFERENCE_VALUES = {
   [HOME_PAGE_PREFERENCE_KEY]: CUSTOM_HOME_PAGE_PREFERENCE_VALUE
 };
@@ -1991,6 +2031,7 @@ function isBroadFTGlobalCurationFollowCandidate(candidate) {
   if (!candidate || candidate.isFollowed) {return false;}
   const field = normalizeInterestField(candidate.field);
   if (!FT_GLOBAL_CURATION_FOLLOW_PROMPT_FIELDS.has(field)) {return false;}
+  if (!isColdStartFTGlobalCurationFollowCandidate(candidate)) {return false;}
   const signals = [
     candidate.key,
     candidate.display,
@@ -1999,6 +2040,15 @@ function isBroadFTGlobalCurationFollowCandidate(candidate) {
   return signals.some(signal => {
     return FT_GLOBAL_CURATION_NARROW_FOLLOW_PATTERNS.some(pattern => pattern.test(signal));
   }) === false;
+}
+
+function isColdStartFTGlobalCurationFollowCandidate(candidate) {
+  const signals = [
+    candidate.key,
+    candidate.display,
+    candidate.tag
+  ].map(normalizeInterestAlias).filter(Boolean);
+  return signals.some(signal => FT_GLOBAL_CURATION_COLD_START_FOLLOW_TOPIC_SET.has(signal));
 }
 
 function getFTGlobalCurationFollowCandidateScore(candidate, item, itemIndex, tagIndex) {
