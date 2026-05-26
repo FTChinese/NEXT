@@ -1640,7 +1640,11 @@ function getFollowedAnnotations(myPreference, infos) {
   let followedAnnotations = '';
 
   for (const x of allItems) {
-    followedAnnotations += `<div class="input-container for-click" draggable="true"><div class="input-name show-reorder-button-leading">${localize(x.display)}</div><button class="myft-follow tick" data-action="${x.action}" data-name="${x.key}" data-type="${x.type}">${localize('Unfollow')}</button></div>`;
+    const display = escapeHTML(localize(x.display));
+    const action = escapeHTML(x.action);
+    const key = escapeHTML(decodeHTMLEntitiesFrontend(x.key));
+    const type = escapeHTML(decodeHTMLEntitiesFrontend(x.type));
+    followedAnnotations += `<div class="input-container for-click" draggable="true"><div class="input-name show-reorder-button-leading">${display}</div><button class="myft-follow tick" data-action="${action}" data-name="${key}" data-type="${type}">${localize('Unfollow')}</button></div>`;
   }
 
   if (followedAnnotations === '') {
@@ -1804,11 +1808,11 @@ async function newsQuiz(content, language, reply, id) {
     // console.log(quizInfo);
     if (quizInfo.status === 'success' && quizInfo.results) {
       let html = '';
-      const startDate = new Date('2026-04-13T00:00:00+08:00').getTime();
-      const endDate = new Date('2026-04-26T23:59:59+08:00').getTime();
+      const startDate = new Date('2026-06-05T00:00:00+08:00').getTime();
+      const endDate = new Date('2026-06-18T23:59:59+08:00').getTime();
       const now = new Date().getTime();
       const showPromotion = now >= startDate && now <= endDate;
-      const promoInfo = showPromotion ? `<a class="quiz-promotion-text-link" href="/m/corp/preview.html?pageid=2026Aprsub&to=all&ccode=2C2026Aprchatftclp" target="_blank">现在订阅，限时75折</a>`: '<a class="quiz-promotion-text-link" href="/subscription?ccode=2C2024chatftcquiz" target="_blank">立即订阅，每天仅需1元</a>';
+      const promoInfo = showPromotion ? `<a class="quiz-promotion-text-link" href="https://www.ftchinese.com/m/corp/preview.html?pageid=2026Junsub&to=all&ccode=2C2026Junchatftclp" target="_blank">限时优惠75折</a>`: '<a class="quiz-promotion-text-link" href="/subscription?ccode=2C2024chatftcquiz" target="_blank">立即订阅，每天仅需1元</a>';
       for (const [index, quiz] of quizInfo.results.entries()) {
           const answer = quiz.answer || '';
           const explanation = quiz.explanation || '';
@@ -2278,12 +2282,12 @@ async function showFTPage(content, language, reply) {
         html += newHTML;
 
 
-        if (index > 0) {continue;}
-        const startDate = new Date('2026-04-13T00:00:00+08:00').getTime();
-        const endDate = new Date('2026-04-26T23:59:59+08:00').getTime();
+        if (index >= results.length - 1) {continue;}
+        const startDate = new Date('2026-06-05T00:00:00+08:00').getTime();
+        const endDate = new Date('2026-06-18T23:59:59+08:00').getTime();
         const now = new Date().getTime();
         const showPromotion = now >= startDate && now <= endDate;
-        const promotion = showPromotion ? `<a href="/m/corp/preview.html?pageid=2026Aprsub&to=all&ccode=2C2026Aprchatftclp" target="_blank"><img class="promotion" src="https://d33mkcasurz97s.cloudfront.net/ads/gam/1mp48n.jpg" width="300" height="250"></a>` : '';
+        const promotion = showPromotion ? `<a href="https://www.ftchinese.com/m/corp/preview.html?pageid=2026Junsub&to=all&ccode=2C2026Junchatftclp" target="_blank"><img class="promotion" src="https://d33mkcasurz97s.cloudfront.net/ads/gam/1i1yqc.jpg" width="300" height="250"></a>` : '';
         html += promotion;
         
           
@@ -2469,11 +2473,11 @@ function getRandomPrompt(purpose) {
 }
 
 function getContentDiscoveryActions(language) {
-  const startDate = new Date('2026-04-13T00:00:00+08:00').getTime();
-  const endDate = new Date('2026-04-26T23:59:59+08:00').getTime();
+  const startDate = new Date('2026-06-05T00:00:00+08:00').getTime();
+  const endDate = new Date('2026-06-18T23:59:59+08:00').getTime();
   const now = new Date().getTime();
   const showPromotion = now >= startDate && now <= endDate;
-  const promotion = showPromotion ? `<a target="_blank" href="/m/corp/preview.html?pageid=2026Aprsub&to=all&ccode=2C2026Aprchatftclp">${localize('PromotionActionButton')}</a>` : '';
+  const promotion = showPromotion ? `<a target="_blank" href="https://www.ftchinese.com/m/corp/preview.html?pageid=2026Junsub&to=all&ccode=2C2026Junchatftclp">${localize('PromotionActionButton')}</a>` : '';
   return `
     <div class="chat-item-actions chat-content-discovery-actions">
       <a data-purpose="show-ft-page" data-lang="${language}" data-content='home' data-reply="${localize('FindingMyFT')}" data-reply-action="set-preference">${localize('Top News For Me')}</a>

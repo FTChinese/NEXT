@@ -1,3 +1,4 @@
+/* global isMyFTInterestPreferenceMode, clearLegacyMyFTFollowStorage, checkPreferencesFromServer */
 // Global Constants
 const key = 'my-ft-follow';
 const keyForLocal = 'my-ft-follow-ftc';
@@ -7,6 +8,62 @@ const last_sync_time_key = 'last_sync_time';
 const webPushPromptCooldownKey = 'ftc:webpushPromptNextAt';
 const webPushPromptAcceptedKey = 'ftc:webpushPromptAccepted';
 const webPushPromptCooldownMs = 30 * 24 * 60 * 60 * 1000;
+
+function decodeHTMLEntitiesForMyFT(value) {
+    if (typeof value !== 'string' || value.indexOf('&') === -1) {
+        return value;
+    }
+    if (typeof window !== 'undefined' && typeof window.decodeHTMLEntitiesFrontend === 'function') {
+        return window.decodeHTMLEntitiesFrontend(value);
+    }
+    if (typeof document === 'object' && document.createElement) {
+        const textarea = document.createElement('textarea');
+        textarea.innerHTML = value;
+        return textarea.value;
+    }
+    return value
+        .replace(/&amp;/g, '&')
+        .replace(/&quot;/g, '"')
+        .replace(/&#39;|&#x27;/g, '\'')
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>');
+}
+
+function normalizeFollowValue(value) {
+    value = decodeHTMLEntitiesForMyFT(value);
+    if (typeof value !== 'string') {
+        return value;
+    }
+    if (value.indexOf('%') === -1) {
+        return value;
+    }
+    try {
+        return decodeURIComponent(value);
+    } catch (ignore) {
+        return value;
+    }
+}
+
+function getLegacyFollowCategoriesForField(field) {
+    const normalizedField = normalizeFollowValue(field || '').toLowerCase();
+    const fieldMap = {
+        byline: ['author'],
+        genre: ['genre'],
+        genres: ['genre'],
+        industry: ['industry'],
+        industries: ['industry'],
+        region: ['area'],
+        regions: ['area'],
+        organisation: ['organisation', 'organisations', 'organization', 'organizations'],
+        organisations: ['organisation', 'organisations', 'organization', 'organizations'],
+        organization: ['organisation', 'organisations', 'organization', 'organizations'],
+        organizations: ['organisation', 'organisations', 'organization', 'organizations'],
+        topic: ['topic'],
+        topics: ['topic', 'industry']
+    };
+    return fieldMap[normalizedField] || [];
+}
+
 const ftAnnotationsMap = {
     genre: {
         'News': 'news',
@@ -133,6 +190,341 @@ const ftAnnotationsMap = {
 };
 // follow and unfollow topic
 
+function getMappedFollowFromPreference(prefKey, prefField, prefDisplay) {
+    const key = normalizeFollowValue(prefKey);
+    if (!key) {
+        return null;
+    }
+
+    const preferredCategories = getLegacyFollowCategoriesForField(prefField);
+    const categories = preferredCategories.concat(Object.keys(ftAnnotationsMap).filter(category => preferredCategories.indexOf(category) === -1));
+
+    for (const category of categories) {
+        const mapping = ftAnnotationsMap[category];
+        if (!mapping || !Object.prototype.hasOwnProperty.call(mapping, key)) {
+            continue;
+        }
+        const mappedValue = normalizeFollowValue(mapping[key]);
+        if (mappedValue) {
+            return {type: category, name: mappedValue};
+        }
+    }
+
+    const normalizedField = normalizeFollowValue(prefField || '').toLowerCase();
+    const display = normalizeFollowValue(prefDisplay) || key;
+    if (normalizedField === 'byline') {
+        return {type: 'author', name: display};
+    }
+
+    return {type: 'tag', name: display};
+}
+
+function getUniqueFollowRecords(records) {
+    const seen = new Set();
+    return records
+        .filter(record => record && record.type && record.name)
+        .filter(record => {
+            const key = `${record.type}\u0000${record.name}`;
+            if (seen.has(key)) {
+                return false;
+            }
+            seen.add(key);
+            return true;
+        });
+}
+
+function getFollowRecordVariantsFromPreference(prefKey, prefField, prefDisplay) {
+    const key = normalizeFollowValue(prefKey);
+    const field = normalizeFollowValue(prefField || '').toLowerCase();
+    const display = normalizeFollowValue(prefDisplay) || key;
+    const records = [];
+
+    function addRecord(type, name) {
+        if (type && name) {
+            records.push({type, name});
+        }
+    }
+
+    if (!key && !display) {
+        return [];
+    }
+
+    if (field === 'byline') {
+        addRecord('author', display);
+        addRecord('author', key);
+        addRecord('authors', display);
+        addRecord('authors', key);
+        return getUniqueFollowRecords(records);
+    }
+
+    addRecord('tag', display);
+    addRecord('tag', key);
+
+    const legacyCategories = getLegacyFollowCategoriesForField(field);
+    for (const category of legacyCategories) {
+        addRecord(category, key);
+        addRecord(category, display);
+    }
+
+    return getUniqueFollowRecords(records);
+}
+
+function hasFollowRecord(collection, record) {
+    if (!collection || !record || !record.type || !record.name || !Array.isArray(collection[record.type])) {
+        return false;
+    }
+    return collection[record.type].some(value => getFollowValueAliases(value).includes(record.name));
+}
+
+function getFollowValueAliases(value) {
+    if (typeof value === 'string') {
+        const normalizedValue = normalizeFollowValue(value);
+        return normalizedValue ? [normalizedValue] : [];
+    }
+    if (!value || typeof value !== 'object') {
+        return [];
+    }
+    return [value.key, value.name, value.display]
+        .map(normalizeFollowValue)
+        .filter(Boolean);
+}
+
+function isButtonFollowedInCollection(btn, collection) {
+    const dataType = normalizeFollowValue(btn.getAttribute('data-type') || 'tag');
+    const dataTag = normalizeFollowValue(btn.getAttribute('data-tag') || '');
+    const prefKey = normalizeFollowValue(btn.getAttribute('data-key'));
+    const prefField = normalizeFollowValue(btn.getAttribute('data-field'));
+    const prefDisplay = normalizeFollowValue(btn.getAttribute('data-display'));
+    const canonicalFollowRecord = getMappedFollowFromPreference(prefKey, prefField, prefDisplay);
+    const records = getUniqueFollowRecords([
+        {type: dataType, name: dataTag},
+        canonicalFollowRecord,
+        ...getFollowRecordVariantsFromPreference(prefKey, prefField, prefDisplay)
+    ]);
+
+    return records.some(record => hasFollowRecord(collection, record));
+}
+
+function updateFollowRecordCollection(collection, records, shouldFollow) {
+    if (!collection || typeof collection !== 'object') {
+        collection = {};
+    }
+    const aliases = new Set(records.map(record => record?.name).filter(Boolean));
+    if (!shouldFollow && aliases.size > 0) {
+        for (const category of Object.keys(collection)) {
+            if (!Array.isArray(collection[category])) {
+                continue;
+            }
+            collection[category] = collection[category].filter(value => !getFollowValueAliases(value).some(alias => aliases.has(alias)));
+        }
+    }
+    for (const record of records) {
+        if (!Array.isArray(collection[record.type])) {
+            if (!shouldFollow) {
+                continue;
+            }
+            collection[record.type] = [];
+        }
+        const values = new Set(collection[record.type].map(normalizeFollowValue));
+        if (shouldFollow) {
+            values.add(record.name);
+        } else {
+            values.delete(record.name);
+        }
+        collection[record.type] = [...values];
+    }
+    return collection;
+}
+
+function updateStoredFollowCollection(storageKey, records, shouldFollow) {
+    try {
+        let collection = {};
+        const stored = localStorage.getItem(storageKey);
+        if (stored) {
+            collection = JSON.parse(stored) || {};
+        }
+        collection = updateFollowRecordCollection(collection, records, shouldFollow);
+        localStorage.setItem(storageKey, JSON.stringify(collection));
+        return collection;
+    } catch (err) {
+        console.error('Update stored follow collection error: ', err);
+        return {};
+    }
+}
+
+function isMyFTPreferenceModeForFollow() {
+    try {
+        if (typeof isMyFTInterestPreferenceMode === 'function') {
+            return isMyFTInterestPreferenceMode();
+        }
+        const preference = JSON.parse(localStorage.getItem(keyForpreference) || '{}') || {};
+        return preference.myft_interest_preference_mode === true || Number(preference.myft_interest_schema_version || 0) > 0;
+    } catch (ignore) {
+        return false;
+    }
+}
+
+function clearLegacyFollowStorageForPreferenceMode() {
+    if (typeof clearLegacyMyFTFollowStorage === 'function') {
+        clearLegacyMyFTFollowStorage();
+        return;
+    }
+    try {
+        localStorage.removeItem(key);
+        localStorage.removeItem(keyForLocal);
+        localStorage.removeItem(last_sync_time_key);
+    } catch (ignore) {}
+}
+
+function getMyFTPreferenceSchemaVersionForFollow(preference) {
+    const version = Number(preference?.myft_interest_schema_version || 0);
+    return Number.isFinite(version) ? version : 0;
+}
+
+async function checkPreferenceModeFromServerForFollow() {
+    if (typeof checkPreferencesFromServer === 'function') {
+        await checkPreferencesFromServer();
+        if (isMyFTPreferenceModeForFollow()) {
+            return true;
+        }
+    }
+    if (typeof fetch !== 'function') {
+        return false;
+    }
+    try {
+        const response = await fetch('/check_preference', {
+            method: 'GET',
+            credentials: 'same-origin',
+            headers: {'Content-Type': 'application/json'}
+        });
+        if (!response.ok) {
+            return false;
+        }
+        const results = await response.json();
+        const serverPreference = results?.preference;
+        if (results?.status !== 'OK' || !serverPreference || serverPreference.myft_interest_preference_mode !== true) {
+            return false;
+        }
+        const localPreference = (typeof getMyPreference === 'function') ? getMyPreference() : (JSON.parse(localStorage.getItem(keyForpreference) || '{}') || {});
+        const serverVersion = getMyFTPreferenceSchemaVersionForFollow(serverPreference);
+        const localVersion = getMyFTPreferenceSchemaVersionForFollow(localPreference);
+        if (serverVersion >= localVersion) {
+            localStorage.setItem(keyForpreference, JSON.stringify(serverPreference));
+            clearLegacyFollowStorageForPreferenceMode();
+            return true;
+        }
+    } catch (err) {
+        console.error('Failed to check MyFT preference mode:', err);
+    }
+    return false;
+}
+
+function getPreferenceItemFromFollowButton(btn) {
+    const dataTag = normalizeFollowValue(btn.getAttribute('data-tag') || '');
+    const prefKey = normalizeFollowValue(btn.getAttribute('data-key'));
+    const prefField = normalizeFollowValue(btn.getAttribute('data-field'));
+    const prefDisplay = normalizeFollowValue(btn.getAttribute('data-display'));
+    const preferenceSource = getPreferenceSourceFromFollowButton(btn, prefField);
+    if (prefKey && prefField && prefDisplay) {
+        return {
+            key: prefKey,
+            display: prefDisplay,
+            type: prefField,
+            source: preferenceSource
+        };
+    }
+    if (!dataTag) {
+        return null;
+    }
+    return {
+        key: dataTag,
+        display: dataTag,
+        type: 'tag',
+        source: preferenceSource
+    };
+}
+
+function getPreferenceSourceFromFollowButton(btn, prefField) {
+    const normalizedField = normalizeFollowValue(prefField || '').toLowerCase();
+    if (normalizedField && normalizedField !== 'tag') {
+        return 'ft_annotation';
+    }
+    const dataSource = normalizeFollowValue(btn.getAttribute('data-source') || '').toLowerCase();
+    if (dataSource) {
+        return dataSource;
+    }
+    return 'ftc_tag';
+}
+
+function itemMatchesFollowPreference(item, preferenceItem, aliases) {
+    if (!item || typeof item !== 'object' || !preferenceItem) {
+        return false;
+    }
+    const itemAliases = [
+        normalizeFollowValue(item.key),
+        normalizeFollowValue(item.display)
+    ].filter(Boolean);
+    if (itemAliases.some(alias => aliases.has(alias))) {
+        return true;
+    }
+    return normalizeFollowValue(item.key) === normalizeFollowValue(preferenceItem.key) &&
+        normalizeFollowValue(item.type) === normalizeFollowValue(preferenceItem.type);
+}
+
+function updateLocalPreferenceFollow(btn, shouldFollow) {
+    const preferenceItem = getPreferenceItemFromFollowButton(btn);
+    if (!preferenceItem) {
+        return;
+    }
+    try {
+        const preferenceJSON = (typeof getMyPreference === 'function') ? getMyPreference() : (JSON.parse(localStorage.getItem('preference') || '{}') || {});
+        let myInterests = Array.isArray(preferenceJSON[keyForMyInterests]) ? preferenceJSON[keyForMyInterests] : [];
+        myInterests = myInterests.filter(x => x && typeof x === 'object');
+        const aliases = new Set([
+            normalizeFollowValue(preferenceItem.key),
+            normalizeFollowValue(preferenceItem.display),
+            normalizeFollowValue(btn.getAttribute('data-tag') || '')
+        ].filter(Boolean));
+        myInterests = myInterests.filter(item => !itemMatchesFollowPreference(item, preferenceItem, aliases));
+        if (shouldFollow) {
+            myInterests.unshift(preferenceItem);
+        }
+        preferenceJSON[keyForMyInterests] = myInterests;
+        updatePreference(preferenceJSON, {immediate: true});
+    } catch (err) {
+        console.error('MyFT preference update error: ', err);
+    }
+}
+
+function buildFollowRequestPayload(btn, records, action, canonicalFollowRecord) {
+    const uniqueRecords = getUniqueFollowRecords(records);
+    const dataTag = normalizeFollowValue(btn.getAttribute('data-tag') || '');
+    const dataType = normalizeFollowValue(btn.getAttribute('data-type') || 'tag');
+    const prefKey = normalizeFollowValue(btn.getAttribute('data-key'));
+    const prefField = normalizeFollowValue(btn.getAttribute('data-field'));
+    const prefDisplay = normalizeFollowValue(btn.getAttribute('data-display'));
+    const preferenceSource = getPreferenceSourceFromFollowButton(btn, prefField);
+    const aliases = [...new Set([
+        dataTag,
+        prefKey,
+        prefDisplay,
+        ...uniqueRecords.map(record => record.name)
+    ].map(normalizeFollowValue).filter(Boolean))];
+    return {
+        action,
+        type: canonicalFollowRecord?.type || dataType,
+        name: canonicalFollowRecord?.name || dataTag,
+        tag: dataTag,
+        dataType,
+        key: prefKey,
+        field: prefField,
+        display: prefDisplay || dataTag,
+        source: preferenceSource,
+        aliases,
+        records: uniqueRecords
+    };
+}
+
 // click events
 try {
     if (typeof delegate === 'undefined') { 
@@ -142,57 +534,40 @@ try {
     delegate.on('click', '.myft-follow', async function () {
         const isFollowed = !this.classList.contains('plus');
 
-        const dataTag = this.getAttribute('data-tag') || '';
-        const dataType = this.getAttribute('data-type') || 'tag';
+        const dataTag = normalizeFollowValue(this.getAttribute('data-tag') || '');
+        const dataType = normalizeFollowValue(this.getAttribute('data-type') || 'tag');
         if (!dataTag) {
             alert('亲爱的读者，我们无法识别您关注的标签，请您刷新页面重新试试。');
             return;
         }
-
-        // Update local storage immediately
-        const savedFollowList = localStorage.getItem(key);
-        let savedFollowListJSON = JSON.parse(savedFollowList) || {};
-
-        if (!Array.isArray(savedFollowListJSON[dataType])) {
-            savedFollowListJSON[dataType] = [];
-        }
-
-        const savedTagsSet = new Set(savedFollowListJSON[dataType]);
-
-        if (isFollowed) {
-            savedTagsSet.delete(dataTag);
-        } else {
-            savedTagsSet.add(dataTag);
-        }
-
-        savedFollowListJSON[dataType] = [...savedTagsSet];
-        localStorage.setItem(key, JSON.stringify(savedFollowListJSON));
+        this.setAttribute('data-tag', dataTag);
+        this.setAttribute('data-type', dataType);
 
         // Keep preference-based follows in sync when canonical annotation data is available
-        const prefKey = this.getAttribute('data-key');
-        const prefField = this.getAttribute('data-field');
-        const prefDisplay = this.getAttribute('data-display');
-        if (prefKey && prefField && prefDisplay) {
-            try {
-                const preferenceJSONString = localStorage.getItem('preference') || '{}';
-                const preferenceJSON = JSON.parse(preferenceJSONString) || {};
-                let myInterests = Array.isArray(preferenceJSON[keyForMyInterests]) ? preferenceJSON[keyForMyInterests] : [];
-                myInterests = myInterests.filter(x => x && typeof x === 'object');
-                const index = myInterests.findIndex(x => x.key === prefKey);
+        const prefKey = normalizeFollowValue(this.getAttribute('data-key'));
+        const prefField = normalizeFollowValue(this.getAttribute('data-field'));
+        const prefDisplay = normalizeFollowValue(this.getAttribute('data-display'));
+        const primaryFollowRecord = {type: dataType, name: dataTag};
+        const canonicalFollowRecord = getMappedFollowFromPreference(prefKey, prefField, prefDisplay) || primaryFollowRecord;
+        const followRecordVariants = getUniqueFollowRecords([
+            primaryFollowRecord,
+            canonicalFollowRecord,
+            ...getFollowRecordVariantsFromPreference(prefKey, prefField, prefDisplay)
+        ]);
+        const followRecordsToRemove = followRecordVariants;
+        const followRecordsToAdd = getUniqueFollowRecords([canonicalFollowRecord]);
+        const preferenceMode = isMyFTPreferenceModeForFollow();
 
-                if (isFollowed) {
-                    if (index > -1) {
-                        myInterests.splice(index, 1);
-                    }
-                } else if (index === -1) {
-                    myInterests.push({ key: prefKey, display: prefDisplay, type: prefField });
-                }
+        if (preferenceMode) {
+            clearLegacyFollowStorageForPreferenceMode();
+        } else {
+            // Update local storage immediately. Remove both visible and canonical records, but add the canonical one.
+            updateStoredFollowCollection(key, isFollowed ? followRecordsToRemove : followRecordsToAdd, !isFollowed);
+            updateStoredFollowCollection(keyForLocal, isFollowed ? followRecordsToRemove : followRecordsToAdd, !isFollowed);
+        }
 
-                preferenceJSON[keyForMyInterests] = myInterests;
-                updatePreference(preferenceJSON);
-            } catch (err) {
-                console.error('MyFT preference update error: ', err);
-            }
+        if (preferenceMode || (prefKey && prefField && prefDisplay)) {
+            updateLocalPreferenceFollow(this, !isFollowed);
         }
 
         // Optimistically update UI immediately
@@ -212,23 +587,16 @@ try {
             try {
                 const action = isFollowed ? 'unfollow' : 'follow';
                 const url = `/myft_follow`;
-                const payload = { type: dataType, name: dataTag, action };
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                if (!response.ok) {
-                    console.warn('Server failed to process follow/unfollow action:', await response.text());
-                }
+                const serverFollowRecords = isFollowed ? followRecordsToRemove : followRecordsToAdd;
+                const payload = buildFollowRequestPayload(this, serverFollowRecords, action, canonicalFollowRecord);
+                await sendFollowRecordsToServer(payload, url);
             } catch (err) {
                 console.error(`MyFT follow error: `, err);
             }
         }
 
         // Sync follows after the update
-        await checkFollow();
+        await checkFollow({forceSync: true, skipLocalSync: true});
     });
 
 } catch (ignore) {}
@@ -329,13 +697,13 @@ function hasLoggedIn() {
     return typeof GetCookie('subscription_type') === 'string';
 }
 
-function updatePreference(preference) {
+function updatePreference(preference, options) {
     try {
         if (!preference || typeof preference !== 'object') {
             return;
         }
         if (typeof savePreference === 'function') {
-            savePreference(preference);
+            savePreference(preference, options);
             return;
         }
         if (typeof localStorage === 'object') {
@@ -348,6 +716,26 @@ function updatePreference(preference) {
         }
     } catch (err) {
         console.error('Update preference error: ', err);
+    }
+}
+
+async function sendFollowRecordsToServer(records, url) {
+    const endpoint = url || '/myft_follow';
+    const payload = Array.isArray(records) ? {
+        action: 'follow',
+        type: records[0]?.type,
+        name: records[0]?.name,
+        records: getUniqueFollowRecords(records)
+    } : records;
+    const response = await fetch(endpoint, {
+        method: 'POST',
+        keepalive: true,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+        console.warn('Server failed to process follow/unfollow action:', await response.text());
     }
 }
 
@@ -367,6 +755,10 @@ function timeToSync() {
 
 async function syncLocalFollowsWithServer() {
     try {
+        if (isMyFTPreferenceModeForFollow()) {
+            clearLegacyFollowStorageForPreferenceMode();
+            return;
+        }
         const savedFollowList = localStorage.getItem(key);
         const savedFollowListJSON = JSON.parse(savedFollowList) || {};
 
@@ -397,8 +789,20 @@ function updateSavedFollows(savedFollows, myInterests) {
     // console.log('saved follows: ', JSON.stringify(savedFollows));
     // console.log('my interests: ', JSON.stringify(myInterests));
 
+    if (!Array.isArray(myInterests)) {
+        return savedFollows;
+    }
+
+    for (const type of ['tag', 'author', 'authors']) {
+        if (!Array.isArray(savedFollows[type])) {
+            savedFollows[type] = [];
+        }
+    }
+
     for (const interest of myInterests) {
-        const { key, display, type } = interest;
+        const key = normalizeFollowValue(interest.key);
+        const display = normalizeFollowValue(interest.display);
+        const type = normalizeFollowValue(interest.type);
         let categoryMatch = null;
         let mappedValue = null;
 
@@ -446,7 +850,7 @@ function updateSavedFollows(savedFollows, myInterests) {
             savedFollows[key] = terms.map(term => {
                 try {
                     // Only decode if it looks like it contains encoded characters (%)
-                    return term.includes('%') ? decodeURIComponent(term) : term;
+                    return normalizeFollowValue(term);
                 } catch (e) {
                     return term; // Fallback to original if decoding fails
                 }
@@ -458,7 +862,15 @@ function updateSavedFollows(savedFollows, myInterests) {
     return savedFollows;
 }
 
-async function checkFollow() {
+async function checkFollow(options) {
+    const opts = options || {};
+    if (opts.skipPreferenceCheck !== true && hasLoggedIn() && isMyFTPreferenceModeForFollow() !== true) {
+        await checkPreferenceModeFromServerForFollow();
+    }
+    const preferenceMode = isMyFTPreferenceModeForFollow();
+    if (preferenceMode) {
+        clearLegacyFollowStorageForPreferenceMode();
+    }
     
     const savedFollowListJSONString = localStorage.getItem(key) || '{}';
     let savedFollows = {};
@@ -471,7 +883,7 @@ async function checkFollow() {
     const preferenceJSONString = localStorage.getItem(keyForpreference) || '';
     let myInterests = {};
     try {
-        const preferenceJSON = JSON.parse(preferenceJSONString) || {};
+        const preferenceJSON = (typeof getMyPreference === 'function') ? getMyPreference() : (JSON.parse(preferenceJSONString) || {});
         // console.log(`preferenceJSON:`, preferenceJSON);
         myInterests = preferenceJSON?.[keyForMyInterests];
         // console.log(`my interests:`, myInterests);
@@ -480,10 +892,12 @@ async function checkFollow() {
 
     // const myPreferenceString = localStorage.getItem('preference');
 
-    if (hasLoggedIn() && timeToSync()) {
+    if (hasLoggedIn() && (opts.forceSync === true || timeToSync())) {
         try {
             // console.log(`syncLocalFollowsWithServer...`);
-            await syncLocalFollowsWithServer(); // Ensure local follows are synced first.
+            if (opts.skipLocalSync !== true && preferenceMode !== true) {
+                await syncLocalFollowsWithServer(); // Ensure local follows are synced first.
+            }
             const response = await fetch('/get_myft_follows');
             if (response.ok) {
                 const serverData = await response.json();
@@ -492,7 +906,9 @@ async function checkFollow() {
                     savedFollows = serverData; // Only use valid server data
 
                     // console.log('Using server follow data:', savedFollowListJSON);
-                    localStorage.setItem(keyForLocal, JSON.stringify(savedFollows));
+                    if (preferenceMode !== true) {
+                        localStorage.setItem(keyForLocal, JSON.stringify(savedFollows));
+                    }
                 }
             } else {
                 console.warn('Failed to fetch follows from server, falling back to local storage.');
@@ -510,19 +926,17 @@ async function checkFollow() {
     // console.log(`saved follows final: `, JSON.stringify(savedFollows, null, 2));
 
     for (const btn of followButtons) {
-        const dataType = btn.getAttribute('data-type');
-        let dataTag = btn.getAttribute('data-tag');
-
-        if (dataTag.includes('%')) {
-            dataTag = decodeURIComponent(dataTag);
-            btn.setAttribute('data-tag', dataTag);
-        }
-
-        if (!Array.isArray(savedFollows[dataType])) {
+        const rawDataTag = btn.getAttribute('data-tag');
+        if (!rawDataTag) {
             continue;
         }
+        const dataType = normalizeFollowValue(btn.getAttribute('data-type') || 'tag');
+        const dataTag = normalizeFollowValue(rawDataTag);
+        btn.setAttribute('data-tag', dataTag);
+        btn.setAttribute('data-type', dataType);
 
-        if (savedFollows[dataType].includes(dataTag)) {
+        const savedValues = Array.isArray(savedFollows[dataType]) ? savedFollows[dataType].map(normalizeFollowValue) : [];
+        if (savedValues.includes(dataTag) || isButtonFollowedInCollection(btn, savedFollows)) {
             btn.innerHTML = '已关注';
             btn.classList.remove('plus');
             btn.classList.add('tick');

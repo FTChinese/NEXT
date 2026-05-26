@@ -581,6 +581,74 @@ input[type=submit], select {
   line-height: 1.4;
 }
 
+.ft-global-curation-follow-prompt {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: -4px $defaultPadding*0.5 $defaultPadding;
+  padding: 8px 10px;
+  border: 1px solid rgba(168, 142, 96, 0.28);
+  background: rgba(255, 249, 245, 0.72);
+  color: $leadColor;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.ft-global-curation-follow-prompt-label {
+  flex: 0 1 auto;
+}
+
+.ft-global-curation-follow-prompt-chips {
+  display: inline-flex;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.ft-global-curation-follow-prompt .ft-global-curation-follow-chip.myft-follow {
+  min-height: 26px;
+  margin: 0;
+  border-color: rgba(168, 142, 96, 0.72);
+  color: #8f7448;
+  background: rgba(255, 255, 255, 0.55);
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.ft-global-curation-follow-prompt .ft-global-curation-follow-chip.myft-follow.tick {
+  border-color: $darkGreen;
+  color: #fff;
+  background: $darkGreen;
+}
+
+.ft-global-curation-follow-prompt .ft-global-curation-follow-chip.myft-follow.plus:before {
+  filter: sepia(45%) saturate(395%) hue-rotate(3deg) brightness(82%);
+}
+
+.ft-global-curation-follow-prompt .ft-global-curation-follow-chip.myft-follow.tick:before {
+  filter: none;
+}
+
+.ft-global-curation-follow-prompt-dismiss {
+  flex: 0 0 auto;
+  margin-left: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: $lighterGrey;
+  font: inherit;
+  font-size: 13px;
+  line-height: 24px;
+  cursor: pointer;
+}
+
+.ft-global-curation-follow-prompt-dismiss:hover,
+.ft-global-curation-follow-prompt-dismiss:active {
+  color: $darkGrey;
+}
+
 .home-page-recommendation-status {
   display: flex;
   align-items: center;
@@ -667,6 +735,21 @@ input[type=submit], select {
 
   .ft-global-curation-entry-dismiss::before {
     content: none;
+  }
+
+  .ft-global-curation-follow-prompt {
+    align-items: flex-start;
+    margin-top: 0;
+    padding: 8px;
+  }
+
+  .ft-global-curation-follow-prompt-label,
+  .ft-global-curation-follow-prompt-chips {
+    flex-basis: 100%;
+  }
+
+  .ft-global-curation-follow-prompt-dismiss {
+    margin-left: 0;
   }
 }
 

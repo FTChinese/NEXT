@@ -1,5 +1,10 @@
-/* exported getMyPreference, savePreference, saveMyPreferenceByKey, syncPreferencesWithServer, checkPreferencesFromServer, clearAllPreferences, deepSanitizeFrontend */
+/* exported getMyPreference, savePreference, saveMyPreferenceByKey, syncPreferencesWithServer, checkPreferencesFromServer, clearAllPreferences, deepSanitizeFrontend, decodeHTMLEntitiesFrontend, isMyFTInterestPreferenceMode, clearLegacyMyFTFollowStorage */
 /* global updateNavigation */
+
+const preferenceInterestKeys = ['My Interests', 'My Custom Interests'];
+const myFTInterestSchemaVersionKey = 'myft_interest_schema_version';
+const myFTInterestPreferenceModeKey = 'myft_interest_preference_mode';
+const legacyMyFTFollowStorageKeys = ['my-ft-follow', 'my-ft-follow-ftc', 'last_sync_time'];
 
 function isSuspiciousValue(value) {
     if (typeof value !== 'string') {
@@ -11,6 +16,93 @@ function isSuspiciousValue(value) {
         /javascript\s*:/.test(lower) ||
         /onerror=/.test(lower)
     );
+}
+
+function decodeHTMLEntitiesFrontend(value) {
+    if (typeof value !== 'string' || value.indexOf('&') === -1) {
+        return value;
+    }
+
+    if (typeof document === 'object' && document.createElement) {
+        const textarea = document.createElement('textarea');
+        textarea.innerHTML = value;
+        return textarea.value;
+    }
+
+    return value
+        .replace(/&amp;/g, '&')
+        .replace(/&quot;/g, '"')
+        .replace(/&#39;|&#x27;/g, '\'')
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>');
+}
+
+function normalizeInterestItem(item) {
+    if (!item || typeof item !== 'object') {
+        return item;
+    }
+    const normalizedItem = {...item};
+    for (const key of ['key', 'display', 'type']) {
+        if (typeof normalizedItem[key] === 'string') {
+            normalizedItem[key] = decodeHTMLEntitiesFrontend(normalizedItem[key]);
+        }
+    }
+    return normalizedItem;
+}
+
+function normalizePreferenceEntities(preference) {
+    if (!preference || typeof preference !== 'object') {
+        return {};
+    }
+    for (const preferenceKey of preferenceInterestKeys) {
+        if (!Array.isArray(preference[preferenceKey])) {
+            continue;
+        }
+        const seen = new Set();
+        preference[preferenceKey] = preference[preferenceKey]
+            .map(normalizeInterestItem)
+            .filter(item => {
+                if (!item || typeof item !== 'object') {
+                    return true;
+                }
+                const name = item.key || '';
+                if (name === '') {
+                    return true;
+                }
+                const itemKey = `${item.type || ''}\u0000${name}`;
+                if (seen.has(itemKey)) {
+                    return false;
+                }
+                seen.add(itemKey);
+                return true;
+            });
+    }
+    return preference;
+}
+
+function getMyFTInterestSchemaVersion(preference) {
+    const version = Number(preference?.[myFTInterestSchemaVersionKey] || 0);
+    return Number.isFinite(version) ? version : 0;
+}
+
+function isMyFTInterestPreferenceMode(preference) {
+    if (!preference || typeof preference !== 'object') {
+        preference = getMyPreference();
+    }
+    return preference?.[myFTInterestPreferenceModeKey] === true || getMyFTInterestSchemaVersion(preference) > 0;
+}
+
+function clearLegacyMyFTFollowStorage() {
+    if (typeof localStorage !== 'object') {
+        return;
+    }
+    try {
+        for (const storageKey of legacyMyFTFollowStorageKeys) {
+            localStorage.removeItem(storageKey);
+        }
+    } catch (err) {
+        console.warn('Failed to clear legacy MyFT follow storage:', err);
+    }
 }
 
 function deepSanitizeFrontend(obj) {
@@ -43,6 +135,7 @@ function getMyPreference() {
   if (myPreferenceString && myPreferenceString !== '') {
     try {
       myPreference = JSON.parse(myPreferenceString);
+      myPreference = normalizePreferenceEntities(myPreference);
       myPreference = deepSanitizeFrontend(myPreference);
     } catch(ignore) {}
   }
@@ -104,6 +197,7 @@ async function syncPreferencesWithServer(preference) {
   try {
     const response = await fetch('/save_preference', {
       method: 'POST',
+      keepalive: true,
       credentials: 'same-origin',
       headers: {
         'Content-Type': 'application/json'
@@ -128,6 +222,7 @@ const debouncedSyncPreferences = debouncePreferenceSync(syncPreferencesWithServe
 async function savePreference(myPreference, options) {
   const opts = options || {};
   let preference = clonePreference(myPreference);
+  preference = normalizePreferenceEntities(preference);
   preference = deepSanitizeFrontend(preference);
   preference.time = new Date();
 
@@ -197,21 +292,33 @@ async function checkPreferencesFromServer() {
       return false;
     }
 
-    const serverPreference = deepSanitizeFrontend(results.preference);
+    const serverPreference = deepSanitizeFrontend(normalizePreferenceEntities(results.preference));
     const localPreference = getMyPreference();
     const defaultTime = '2000-01-01 00:00:00';
     const serverTime = new Date(serverPreference?.time ?? defaultTime).getTime();
     const localTime = new Date(localPreference?.time ?? defaultTime).getTime();
+    const serverSchemaVersion = getMyFTInterestSchemaVersion(serverPreference);
+    const localSchemaVersion = getMyFTInterestSchemaVersion(localPreference);
 
-    if (serverTime > localTime) {
+    if (serverSchemaVersion > localSchemaVersion || serverTime > localTime) {
       writePreferenceToLocalStorage(serverPreference);
+      if (isMyFTInterestPreferenceMode(serverPreference)) {
+        clearLegacyMyFTFollowStorage();
+      }
       notifyPreferenceUpdated();
       return true;
     }
 
     if (serverTime < localTime) {
       await syncPreferencesWithServer(localPreference);
+      if (isMyFTInterestPreferenceMode(localPreference)) {
+        clearLegacyMyFTFollowStorage();
+      }
       return true;
+    }
+
+    if (isMyFTInterestPreferenceMode(serverPreference)) {
+      clearLegacyMyFTFollowStorage();
     }
 
     return true;

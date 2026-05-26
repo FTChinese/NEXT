@@ -1,4 +1,4 @@
-/* global getMyPreference, savePreference, convertChinese, runLoadImages, markReadContent, updateHeadlineLocks, GetCookie, Android, webkit, AbortController, Blob */
+/* global getMyPreference, savePreference, convertChinese, runLoadImages, markReadContent, updateHeadlineLocks, GetCookie, Android, webkit, AbortController, Blob, isMyFTInterestPreferenceMode */
 /* exported renderRecommendationForWebAppHome, renderHomePageRecommendationNow, renderFTGlobalCurationEntry, shouldShowHomePageRecommendation, getFTGlobalCurationEntryState, syncPreferenceForFTGlobalCurationOptIn, getPremiumPreferenceGate */
 
 // === Attribute Mapping ===
@@ -114,6 +114,25 @@ const FT_GLOBAL_CURATION_STATE_GATED = 'gated';
 const FT_GLOBAL_CURATION_STATE_HIDDEN = 'hidden';
 const FT_GLOBAL_CURATION_ENTRY_DISMISS_DAYS = 30;
 const FT_GLOBAL_CURATION_ENTRY_DISMISS_KEY_PREFIX = 'ft-global-curation-entry-dismissed-until';
+const FT_GLOBAL_CURATION_FOLLOW_PROMPT_MIN_FOLLOWS = 3;
+const FT_GLOBAL_CURATION_FOLLOW_PROMPT_LIMIT = 6;
+const FT_GLOBAL_CURATION_FOLLOW_PROMPT_DISMISS_DAYS = 30;
+const FT_GLOBAL_CURATION_FOLLOW_PROMPT_DISMISS_KEY_PREFIX = 'ft-global-curation-follow-prompt-dismissed-until';
+const FT_GLOBAL_CURATION_GENERIC_FOLLOW_TAGS = new Set([
+  'CORRECTION',
+  'CROSSWORD',
+  'FEATURE',
+  'FTAVFURTHERREADING',
+  'LETTER',
+  'NEWS',
+  'OPINION',
+  '更正',
+  '填字游戏',
+  '特写',
+  '读者来信',
+  '新闻',
+  '观点'
+]);
 const PREMIUM_ONLY_PREFERENCE_VALUES = {
   [HOME_PAGE_PREFERENCE_KEY]: CUSTOM_HOME_PAGE_PREFERENCE_VALUE
 };
@@ -131,7 +150,11 @@ const FT_EXCLUSIVE_CURATION_TEXTS = {
     empty: '暂时没有新的FT全球臻享内容，请稍后刷新。',
     timeout: 'FT全球臻享加载较慢，请点击重试。',
     failed: 'FT全球臻享暂时无法加载，请点击重试。',
-    retry: '点击这里重试'
+    retry: '点击这里重试',
+    followPrompt: '关注几个话题，FT全球臻享会更贴近你的兴趣：',
+    followPromptFollow: '关注',
+    followPromptFollowing: '已关注',
+    followPromptDismiss: '关闭'
   },
   'zh-HK': {
     title: 'FT全球臻享',
@@ -146,7 +169,11 @@ const FT_EXCLUSIVE_CURATION_TEXTS = {
     empty: '暫時沒有新的FT全球臻享內容，請稍後刷新。',
     timeout: 'FT全球臻享載入較慢，請點擊重試。',
     failed: 'FT全球臻享暫時無法載入，請點擊重試。',
-    retry: '點擊這裡重試'
+    retry: '點擊這裡重試',
+    followPrompt: '關注幾個話題，FT全球臻享會更貼近你的興趣：',
+    followPromptFollow: '關注',
+    followPromptFollowing: '已關注',
+    followPromptDismiss: '關閉'
   },
   'zh-TW': {
     title: 'FT全球臻享',
@@ -161,7 +188,11 @@ const FT_EXCLUSIVE_CURATION_TEXTS = {
     empty: '暫時沒有新的FT全球臻享內容，請稍後重新整理。',
     timeout: 'FT全球臻享載入較慢，請點擊重試。',
     failed: 'FT全球臻享暫時無法載入，請點擊重試。',
-    retry: '點擊這裡重試'
+    retry: '點擊這裡重試',
+    followPrompt: '關注幾個話題，FT全球臻享會更貼近你的興趣：',
+    followPromptFollow: '關注',
+    followPromptFollowing: '已關注',
+    followPromptDismiss: '關閉'
   }
 };
 // Keep raw recommendation objects out of DOM attributes. They include long annotations
@@ -1082,6 +1113,7 @@ async function renderRecommendationsIntoContainer(container, options = {}) {
   container.innerHTML = html;
   appendRecommendationReasons(container, items, window.preferredLanguage ?? 'zh-CN');
   showCustomisation(container);
+  renderFTGlobalCurationFollowPrompt(container, items);
   if (options?.insertTitleForNextBlock) {
     insertTitleForNextHomeBlock();
   }
@@ -1371,6 +1403,31 @@ delegate.on('click', '.ft-global-curation-entry-dismiss', function (event) {
   dismissFTGlobalCurationEntry(container);
 });
 
+delegate.on('click', '.ft-global-curation-follow-prompt-dismiss', function (event) {
+  event.preventDefault();
+  const prompt = this.closest('.ft-global-curation-follow-prompt');
+  dismissFTGlobalCurationFollowPrompt(prompt);
+  trackHomePageRecommendationEvent('ft_global_curation_follow_prompt_dismissed', {
+    status: 'dismissed'
+  });
+});
+
+delegate.on('click', '.ft-global-curation-follow-chip', function () {
+  const action = this.classList.contains('plus') ? 'follow' : 'unfollow';
+  const prompt = this.closest('.ft-global-curation-follow-prompt');
+  const list = prompt?.parentNode?.querySelector('.list-recommendation');
+  trackHomePageRecommendationEvent('ft_global_curation_follow_prompt_click', {
+    status: action,
+    tag: this.getAttribute('data-key') || this.getAttribute('data-tag') || ''
+  }, {throttleMs: 500});
+
+  setTimeout(() => {
+    updateFollows();
+    if (!list) {return;}
+    renderFTGlobalCurationFollowPrompt(list, getRememberedRecommendationItems(list));
+  }, 0);
+});
+
 function getFollowPreferenceAttrs(item, mainTag, preferredLanguage = 'zh-CN') {
   const followedInterest = getFollowedInterestForTag(item, mainTag);
   const annotation = followedInterest?.annotation || findAnnotationForTag(item, mainTag);
@@ -1657,6 +1714,10 @@ function mapLegacyFollowField(category) {
     area: 'regions',
     author: 'byline',
     authors: 'byline',
+    organisation: 'organisations',
+    organisations: 'organisations',
+    organization: 'organisations',
+    organizations: 'organisations',
     topic: 'topics'
   };
   return categoryMap[category] || '';
@@ -1713,6 +1774,7 @@ async function renderRecommendationForWebAppHome(targetDom) {
     const recList = container.querySelector('.list-recommendation');
     rememberRecommendationItems(recList, items);
     appendRecommendationReasons(recList, items, window.preferredLanguage ?? 'zh-CN');
+    renderFTGlobalCurationFollowPrompt(recList, items);
 
     runLoadImages();
     if (typeof markReadContent === 'function') {
@@ -1769,6 +1831,165 @@ function showCustomisation(list) {
   wrapper.appendChild(container);
 
   list.parentNode.insertBefore(wrapper, list);
+}
+
+function getFTGlobalCurationFollowPromptDismissKey() {
+  const userKey = window.userId || window.username || 'anonymous';
+  return `${FT_GLOBAL_CURATION_FOLLOW_PROMPT_DISMISS_KEY_PREFIX}:${userKey}`;
+}
+
+function isFTGlobalCurationFollowPromptDismissed() {
+  if (typeof localStorage !== 'object') {return false;}
+  try {
+    const dismissedUntil = parseInt(localStorage.getItem(getFTGlobalCurationFollowPromptDismissKey()) || '', 10);
+    return Number.isFinite(dismissedUntil) && dismissedUntil > Date.now();
+  } catch (err) {
+    return false;
+  }
+}
+
+function dismissFTGlobalCurationFollowPrompt(prompt) {
+  if (typeof localStorage === 'object') {
+    try {
+      const dismissedUntil = Date.now() + FT_GLOBAL_CURATION_FOLLOW_PROMPT_DISMISS_DAYS * 24 * 60 * 60 * 1000;
+      localStorage.setItem(getFTGlobalCurationFollowPromptDismissKey(), `${dismissedUntil}`);
+    } catch (err) {
+      console.warn('Failed to save FT global curation follow prompt dismissal:', err);
+    }
+  }
+  prompt?.remove();
+}
+
+function renderFTGlobalCurationFollowPrompt(list, items = []) {
+  if (!isFTGlobalCurationRecommendationList(list)) {return;}
+  const parent = list?.parentNode;
+  if (!parent) {return;}
+
+  const existingPrompt = getDirectFTGlobalCurationFollowPrompt(parent);
+  const shouldKeepExistingPrompt = !!existingPrompt && !isFTGlobalCurationFollowPromptDismissed();
+  const html = buildFTGlobalCurationFollowPromptHTML(items, {force: shouldKeepExistingPrompt});
+
+  if (!html) {
+    existingPrompt?.remove();
+    return;
+  }
+
+  if (existingPrompt) {
+    existingPrompt.outerHTML = html;
+  } else {
+    list.insertAdjacentHTML('beforebegin', html);
+  }
+
+  trackHomePageRecommendationEvent('ft_global_curation_follow_prompt_shown', {
+    status: 'shown',
+    candidateCount: getFTGlobalCurationFollowCandidates(items).length
+  }, {throttleMs: 60 * 60 * 1000});
+}
+
+function isFTGlobalCurationRecommendationList(list) {
+  if (!list) {return false;}
+  return list.classList?.contains('home-page-recommendation-list') ||
+    !!list.closest?.('.home-page-recommendation-block');
+}
+
+function getDirectFTGlobalCurationFollowPrompt(parent) {
+  if (!parent?.children) {return null;}
+  for (let i = 0; i < parent.children.length; i += 1) {
+    const child = parent.children[i];
+    if (child.classList?.contains('ft-global-curation-follow-prompt')) {
+      return child;
+    }
+  }
+  return null;
+}
+
+function buildFTGlobalCurationFollowPromptHTML(items = [], options = {}) {
+  if (!Array.isArray(items) || items.length === 0) {return '';}
+  if (isFTGlobalCurationFollowPromptDismissed()) {return '';}
+
+  updateFollows();
+  const followedCount = followedInterestIndex.entries.size;
+  const candidates = getFTGlobalCurationFollowCandidates(items);
+  const hasNewCandidate = candidates.some(candidate => !candidate.isFollowed);
+  if (candidates.length === 0 || (!options?.force && (!hasNewCandidate || followedCount >= FT_GLOBAL_CURATION_FOLLOW_PROMPT_MIN_FOLLOWS))) {
+    return '';
+  }
+
+  const text = getFTExclusiveCurationText();
+  const buttons = candidates.map(candidate => {
+    const isFollowed = candidate.isFollowed;
+    const followClass = isFollowed ? 'tick' : 'plus';
+    const label = isFollowed ? text.followPromptFollowing : text.followPromptFollow;
+    const attrs = buildFollowPreferenceAttrsFromCandidate(candidate);
+    return `<button class="myft-follow ${followClass} ft-global-curation-follow-chip" type="button" data-tag="${escapeAttributeValue(candidate.display)}" data-type="tag"${attrs}>${escapeAttributeValue(label)}</button>`;
+  }).join('');
+
+  return `
+    <div class="ft-global-curation-follow-prompt" role="note" data-candidate-count="${candidates.length}">
+      <span class="ft-global-curation-follow-prompt-label">${escapeAttributeValue(text.followPrompt)}</span>
+      <span class="ft-global-curation-follow-prompt-chips">${buttons}</span>
+      <button class="ft-global-curation-follow-prompt-dismiss" type="button">${escapeAttributeValue(text.followPromptDismiss)}</button>
+    </div>`;
+}
+
+function getFTGlobalCurationFollowCandidates(items = []) {
+  const candidates = [];
+  const seen = new Set();
+
+  for (const item of items) {
+    const tags = [
+      ...splitUniqueTags(item?.annotationsMain),
+      ...splitUniqueTags(item?.annotationsSecondary),
+      ...splitUniqueTags(item?.keywords).slice(0, 4)
+    ];
+
+    for (const tag of tags) {
+      const candidate = getFTGlobalCurationFollowCandidate(item, tag);
+      if (!candidate) {continue;}
+      const key = normalizeInterestAlias(candidate.key || candidate.display || candidate.tag);
+      if (!key || seen.has(key)) {continue;}
+      seen.add(key);
+      candidates.push(candidate);
+      if (candidates.length >= FT_GLOBAL_CURATION_FOLLOW_PROMPT_LIMIT) {
+        return candidates;
+      }
+    }
+  }
+
+  return candidates;
+}
+
+function getFTGlobalCurationFollowCandidate(item, tag) {
+  const annotation = findAnnotationForTag(item, tag);
+  const key = normalizeAnnotationValue(annotation?.prefLabel || tag);
+  const field = normalizeInterestField(annotation?.field || mapAnnotationField(annotation));
+  const display = normalizeAnnotationValue(getAnnotationDisplay(annotation) || getFallbackTagDisplay(key) || tag);
+  if (!key || !display || isGenericFTGlobalCurationFollowCandidate(key, display, field)) {
+    return null;
+  }
+
+  return {
+    tag,
+    key,
+    field,
+    display,
+    isFollowed: !!getFollowedInterestForTag(item, tag)
+  };
+}
+
+function isGenericFTGlobalCurationFollowCandidate(key, display, field) {
+  if (field === 'genres') {return true;}
+  const normalizedSignals = [
+    key,
+    display,
+    getFallbackTagDisplay(key)
+  ].map(value => normalizeAnnotationValue(value).toUpperCase()).filter(Boolean);
+  return normalizedSignals.some(signal => FT_GLOBAL_CURATION_GENERIC_FOLLOW_TAGS.has(signal));
+}
+
+function buildFollowPreferenceAttrsFromCandidate(candidate) {
+  if (!candidate?.key || !candidate?.field || !candidate?.display) {return '';}
+  return ` data-key="${escapeAttributeValue(candidate.key)}" data-field="${escapeAttributeValue(candidate.field)}" data-display="${escapeAttributeValue(candidate.display)}"`;
 }
 
 
@@ -2035,11 +2256,24 @@ function updateFollows() {
 
   const myFTFollows = localStorage.getItem('my-ft-follow-ftc');
   const preference = localStorage.getItem('preference');
+  let parsedPreference = null;
+  let preferenceMode = false;
 
   try {
-    if (myFTFollows) {
+    if (preference) {
+      parsedPreference = JSON.parse(preference);
+      preferenceMode = (typeof isMyFTInterestPreferenceMode === 'function') ?
+        isMyFTInterestPreferenceMode(parsedPreference) :
+        (parsedPreference?.myft_interest_preference_mode === true || Number(parsedPreference?.myft_interest_schema_version || 0) > 0);
+    }
+  } catch (err) {
+    console.warn('Failed to parse preference:', err);
+  }
+
+  try {
+    if (myFTFollows && preferenceMode !== true) {
       const parsedFollow = JSON.parse(myFTFollows);
-      const tagCategories = ['tag', 'topic', 'area', 'author', 'authors'];
+      const tagCategories = ['tag', 'topic', 'area', 'author', 'authors', 'organisation', 'organisations', 'organization', 'organizations'];
       for (const category of tagCategories) {
         const list = parsedFollow[category];
         if (Array.isArray(list)) {
@@ -2064,8 +2298,7 @@ function updateFollows() {
   }
 
   try {
-    if (preference) {
-      const parsedPreference = JSON.parse(preference);
+    if (parsedPreference) {
       const interestSources = [
         ...(parsedPreference['My Interests'] || []),
         ...(parsedPreference['My Custom Interests'] || [])
@@ -2073,13 +2306,14 @@ function updateFollows() {
       for (const interest of interestSources) {
         const key = typeof interest === 'string' ? interest : interest?.key;
         if (!key) {continue;}
+        const display = typeof interest === 'object' ? interest.display : '';
         followsSet.add(key);
         const source = parsedPreference['My Custom Interests']?.includes(interest) ?
           'myFTCustomPreference' :
           'myFTPreference';
         addFollowedInterest({
           key,
-          display: typeof interest === 'object' ? interest.display : '',
+          display,
           field: typeof interest === 'object' ? (interest.field || interest.type) : '',
           aliases: typeof interest === 'object' ? [interest.key, interest.display] : [interest],
           source
@@ -2873,6 +3107,7 @@ delegate.on('click', '[data-action="reorderItems"]', function () {
 
       // Optional: show explanation reasons (safe to remove).
       appendRecommendationReasons(container, recalced, preferredLanguage);
+      renderFTGlobalCurationFollowPrompt(container, recalced);
 
       runLoadImages();
       if (typeof markReadContent === 'function') {

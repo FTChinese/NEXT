@@ -2079,8 +2079,8 @@ let statusDictOriginal = {
     "ru": "С 30 октября по 12 ноября 2024 года мы приглашаем вас на бесплатный пробный период, предлагая индивидуальные рекомендации по контенту и глубокий анализ, специально адаптированные для премиум-участников, чтобы помочь вам максимально использовать вашу подписку."
   },
   "PromotionActionButton": {
-    "zh": "现在订阅，享75折优惠",
-    "en": "Subscribe now and enjoy a 25% discount",
+    "zh": "75折订阅",
+    "en": "Subscribe at 25% off",
     "es": "Suscríbete ahora y disfruta de un 25% de descuento",
     "fr": "Abonnez-vous maintenant et bénéficiez de 25% de réduction",
     "de": "Abonnieren Sie jetzt und genießen Sie 25% Rabatt",
@@ -2088,8 +2088,8 @@ let statusDictOriginal = {
     "ko": "지금 구독하고 25% 할인 받으세요",
     "pt": "Assine agora e aproveite um desconto de 25%",
     "it": "Abbonati ora e goditi il 25% di sconto",
-    "zh-TW": "現在訂閱，享75折優惠",
-    "zh-HK": "現在訂閱，享75折優惠",
+    "zh-TW": "75折訂閱",
+    "zh-HK": "75折訂閱",
     "ru": "Подпишитесь сейчас и получите скидку 25%"
   },
   'IntroductionFTAcademy': {
