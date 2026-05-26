@@ -336,6 +336,93 @@ a[data-action], a[data-key] {
             outline-color: transparent;
         }
     }
+    &.voice-enabled {
+        padding-right: $navHeight * 2;
+    }
+}
+.chat-voice-input {
+    display: none;
+    position: absolute;
+    right: $navHeight;
+    top: 0;
+    width: $navHeight;
+    height: $navHeight;
+    background-color: transparent;
+    background-position: 50% 50%;
+    background-size: 24px 24px;
+    background-repeat: no-repeat;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48"><path d="M480-420q-50 0-85-35t-35-85v-240q0-50 35-85t85-35q50 0 85 35t35 85v240q0 50-35 85t-85 35Zm0-240Zm-30 500v-126q-104-11-172-89t-68-185h60q0 87 61.5 148.5T480-350q87 0 148.5-61.5T690-560h60q0 107-68 185t-172 89v126h-60Zm30-320q25 0 42.5-17.5T540-540v-240q0-25-17.5-42.5T480-840q-25 0-42.5 17.5T420-780v240q0 25 17.5 42.5T480-480Z"/></svg>');
+    .voice-enabled & {
+        display: block;
+    }
+    &.hide {
+        display: none;
+    }
+    &.recording {
+        background-color: #cc0000;
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48" fill="white"><path d="M320-320v-320h320v320H320Z"/></svg>');
+        animation: voicePulse 1s ease-in-out infinite;
+    }
+    &.processing {
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48"><path d="M207.858-432Q188-432 174-446.142q-14-14.141-14-34Q160-500 174.142-514q14.141-14 34-14Q228-528 242-513.858q14 14.141 14 34Q256-460 241.858-446q-14.141 14-34 14Zm272 0Q460-432 446-446.142q-14-14.141-14-34Q432-500 446.142-514q14.141-14 34-14Q500-528 514-513.858q14 14.141 14 34Q528-460 513.858-446q-14.141 14-34 14Zm272 0Q732-432 718-446.142q-14-14.141-14-34Q704-500 718.142-514q14.141-14 34-14Q772-528 786-513.858q14 14.141 14 34Q800-460 785.858-446q-14.141 14-34 14Z"/></svg>');
+    }
+}
+.chat-voice-status {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: calc(100% + 8px);
+    box-sizing: border-box;
+    min-height: 32px;
+    padding: 6px 10px;
+    background-color: $darkGrey;
+    color: white;
+    font-size: 14px;
+    line-height: 18px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    &.on {
+        display: flex;
+    }
+}
+.chat-voice-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background-color: #cc0000;
+    flex: 0 0 9px;
+    .voice-processing & {
+        background-color: $teal;
+    }
+}
+.chat-voice-status-text {
+    white-space: nowrap;
+}
+.chat-voice-progress {
+    display: block;
+    flex: 1;
+    height: 4px;
+    background-color: rgba(255, 255, 255, 0.25);
+    span {
+        display: block;
+        height: 100%;
+        width: 0;
+        background-color: white;
+        transition: width 0.2s linear;
+    }
+}
+@keyframes voicePulse {
+    0% {
+        box-shadow: inset 0 0 0 0 rgba(255, 255, 255, 0.45);
+    }
+    50% {
+        box-shadow: inset 0 0 0 6px rgba(255, 255, 255, 0.15);
+    }
+    100% {
+        box-shadow: inset 0 0 0 0 rgba(255, 255, 255, 0.45);
+    }
 }
 .chat-submit {
     position: absolute;

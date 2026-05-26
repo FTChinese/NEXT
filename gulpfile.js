@@ -71,6 +71,7 @@ const origamiModules = [
 function getChatAssetVersion() {
   const paths = [
     'app/scripts/chat.js',
+    'app/scripts/chat-voice.js',
     'app/scripts/chat-article.js',
     'app/scripts/chat-service-worker.js'
   ];
