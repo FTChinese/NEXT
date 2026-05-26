@@ -118,62 +118,22 @@ const FT_GLOBAL_CURATION_FOLLOW_PROMPT_MIN_FOLLOWS = 3;
 const FT_GLOBAL_CURATION_FOLLOW_PROMPT_LIMIT = 6;
 const FT_GLOBAL_CURATION_FOLLOW_PROMPT_DISMISS_DAYS = 30;
 const FT_GLOBAL_CURATION_FOLLOW_PROMPT_DISMISS_KEY_PREFIX = 'ft-global-curation-follow-prompt-dismissed-until';
-const FT_GLOBAL_CURATION_FOLLOW_PROMPT_FIELDS = new Set(['topics', 'regions', 'organisations']);
-const FT_GLOBAL_CURATION_GENERIC_FOLLOW_TAGS = new Set([
-  'CORRECTION',
-  'CROSSWORD',
-  'FEATURE',
-  'FTAVFURTHERREADING',
-  'LETTER',
-  'NEWS',
-  'OPINION',
-  '更正',
-  '填字游戏',
-  '特写',
-  '读者来信',
-  '新闻',
-  '观点'
-]);
-const FT_GLOBAL_CURATION_NARROW_FOLLOW_PATTERNS = [
-  /(^|\s)COMPAN(Y|IES)(\s|$)/i,
-  /公司/
-];
 // Cold-start chips borrow the broad, durable follow topics from Chatbot settings.
 // They should not surface article-specific companies, authors, columns, or formats.
-const FT_GLOBAL_CURATION_COLD_START_FOLLOW_TOPIC_ALIASES = [
-  'China', '中国',
-  'Hong Kong', '香港',
-  'Taiwan', '台湾',
-  'Singapore', '新加坡',
-  'Japan', '日本',
-  'United States', '美国',
-  'United Kingdom', '英国',
-  'India', '印度',
-  'Europe', '欧洲',
-  'Asia', '亚洲', '亚太',
-  'Middle East', '中东',
-  'Markets', '市场',
-  'Economy', '经济',
-  'Technology Sector', 'Technology sector', '科技行业', '科技产业',
-  'Investments', '投资',
-  'Management', '管理',
-  'Personal Finance', '个人理财',
-  'Life & Arts', '生活时尚', '生活与艺术',
-  'Work & Careers', '职场',
-  'Property', '房地产',
-  'Science', '科学',
-  'Books', '书评', '图书',
-  'Artificial intelligence', '人工智能',
-  'Electric vehicles', '电动汽车',
-  'Climate change', '气候变化',
-  'Federal Reserve', '美联储',
-  'Chinese business & finance', '中国商业与金融',
-  'Semiconductors', '半导体',
-  'Cryptocurrencies', '加密货币'
+const FT_GLOBAL_CURATION_COLD_START_FOLLOW_TOPICS = [
+  {key: 'China', field: 'regions', display: '中国', aliases: ['中国']},
+  {key: 'Artificial intelligence', field: 'topics', display: '人工智能', aliases: ['AI']},
+  {key: 'Chinese business & finance', field: 'topics', display: '中国商业与金融'},
+  {key: 'Technology Sector', field: 'topics', display: '科技', aliases: ['Technology sector', '科技行业', '科技产业']},
+  {key: 'Economy', field: 'topics', display: '经济'},
+  {key: 'Markets', field: 'topics', display: '金融市场', aliases: ['市场']},
+  {key: 'Climate change', field: 'topics', display: '气候变化'},
+  {key: 'Electric vehicles', field: 'topics', display: '电动汽车'},
+  {key: 'Semiconductors', field: 'topics', display: '半导体'},
+  {key: 'Cryptocurrencies', field: 'topics', display: '加密货币'},
+  {key: 'Work & Careers', field: 'topics', display: '职场'},
+  {key: 'Personal Finance', field: 'topics', display: '个人理财'}
 ];
-const FT_GLOBAL_CURATION_COLD_START_FOLLOW_TOPIC_SET = new Set(
-  FT_GLOBAL_CURATION_COLD_START_FOLLOW_TOPIC_ALIASES.map(normalizeInterestAlias)
-);
 const PREMIUM_ONLY_PREFERENCE_VALUES = {
   [HOME_PAGE_PREFERENCE_KEY]: CUSTOM_HOME_PAGE_PREFERENCE_VALUE
 };
@@ -1974,102 +1934,43 @@ function buildFTGlobalCurationFollowPromptHTML(items = [], options = {}) {
     </div>`;
 }
 
-function getFTGlobalCurationFollowCandidates(items = []) {
-  const rankedCandidates = [];
-  const seen = new Set();
+function getFTGlobalCurationFollowCandidates() {
+  const candidates = [];
 
-  for (let itemIndex = 0; itemIndex < items.length; itemIndex += 1) {
-    const item = items[itemIndex];
-    const tags = [
-      ...splitUniqueTags(item?.annotationsMain),
-      ...splitUniqueTags(item?.annotationsSecondary),
-      ...splitUniqueTags(item?.keywords).slice(0, 4)
-    ];
-
-    for (let tagIndex = 0; tagIndex < tags.length; tagIndex += 1) {
-      const tag = tags[tagIndex];
-      const candidate = getFTGlobalCurationFollowCandidate(item, tag);
-      if (!candidate) {continue;}
-      if (!isBroadFTGlobalCurationFollowCandidate(candidate)) {continue;}
-      const key = normalizeInterestAlias(candidate.key || candidate.display || candidate.tag);
-      if (!key || seen.has(key)) {continue;}
-      seen.add(key);
-      rankedCandidates.push({
-        ...candidate,
-        promptScore: getFTGlobalCurationFollowCandidateScore(candidate, item, itemIndex, tagIndex)
-      });
+  for (const topic of FT_GLOBAL_CURATION_COLD_START_FOLLOW_TOPICS) {
+    const candidate = getFTGlobalCurationColdStartFollowCandidate(topic);
+    if (!candidate || candidate.isFollowed) {continue;}
+    candidates.push(candidate);
+    if (candidates.length >= FT_GLOBAL_CURATION_FOLLOW_PROMPT_LIMIT) {
+      break;
     }
   }
 
-  rankedCandidates.sort((a, b) => b.promptScore - a.promptScore);
-  return rankedCandidates.slice(0, FT_GLOBAL_CURATION_FOLLOW_PROMPT_LIMIT);
+  return candidates;
 }
 
-function getFTGlobalCurationFollowCandidate(item, tag) {
-  const annotation = findAnnotationForTag(item, tag);
-  const key = normalizeAnnotationValue(annotation?.prefLabel || tag);
-  const field = normalizeInterestField(annotation?.field || mapAnnotationField(annotation));
-  const display = normalizeAnnotationValue(getAnnotationDisplay(annotation) || getFallbackTagDisplay(key) || tag);
-  if (!key || !display || isGenericFTGlobalCurationFollowCandidate(key, display, field)) {
-    return null;
-  }
+function getFTGlobalCurationColdStartFollowCandidate(topic) {
+  const key = normalizeAnnotationValue(topic?.key);
+  const field = normalizeInterestField(topic?.field);
+  const display = normalizeAnnotationValue(topic?.display || topic?.key);
+  if (!key || !field || !display) {return null;}
 
   return {
-    tag,
+    tag: display,
     key,
     field,
     display,
-    isFollowed: !!getFollowedInterestForTag(item, tag)
+    isFollowed: isFTGlobalCurationColdStartTopicFollowed(topic)
   };
 }
 
-function isBroadFTGlobalCurationFollowCandidate(candidate) {
-  if (!candidate || candidate.isFollowed) {return false;}
-  const field = normalizeInterestField(candidate.field);
-  if (!FT_GLOBAL_CURATION_FOLLOW_PROMPT_FIELDS.has(field)) {return false;}
-  if (!isColdStartFTGlobalCurationFollowCandidate(candidate)) {return false;}
-  const signals = [
-    candidate.key,
-    candidate.display,
-    candidate.tag
-  ].map(normalizeAnnotationValue).filter(Boolean);
-  return signals.some(signal => {
-    return FT_GLOBAL_CURATION_NARROW_FOLLOW_PATTERNS.some(pattern => pattern.test(signal));
-  }) === false;
-}
-
-function isColdStartFTGlobalCurationFollowCandidate(candidate) {
-  const signals = [
-    candidate.key,
-    candidate.display,
-    candidate.tag
-  ].map(normalizeInterestAlias).filter(Boolean);
-  return signals.some(signal => FT_GLOBAL_CURATION_COLD_START_FOLLOW_TOPIC_SET.has(signal));
-}
-
-function getFTGlobalCurationFollowCandidateScore(candidate, item, itemIndex, tagIndex) {
-  const field = normalizeInterestField(candidate.field);
-  const fieldScore = field === 'topics' ? 30 : 20;
-  const positionScore = Math.max(0, 12 - itemIndex);
-  const tagPositionScore = Math.max(0, 4 - tagIndex) * 0.5;
-  const matchedKeys = Array.isArray(item?.matchedKeys) ? item.matchedKeys : [];
-  const matchSignals = [
-    candidate.key,
-    candidate.display,
-    candidate.tag
-  ].map(normalizeInterestAlias).filter(Boolean);
-  const matchScore = matchedKeys.some(key => matchSignals.includes(normalizeInterestAlias(key))) ? 8 : 0;
-  return fieldScore + positionScore + tagPositionScore + matchScore;
-}
-
-function isGenericFTGlobalCurationFollowCandidate(key, display, field) {
-  if (field === 'genres') {return true;}
-  const normalizedSignals = [
-    key,
-    display,
-    getFallbackTagDisplay(key)
-  ].map(value => normalizeAnnotationValue(value).toUpperCase()).filter(Boolean);
-  return normalizedSignals.some(signal => FT_GLOBAL_CURATION_GENERIC_FOLLOW_TAGS.has(signal));
+function isFTGlobalCurationColdStartTopicFollowed(topic) {
+  const aliases = [
+    topic?.key,
+    topic?.display,
+    ...(Array.isArray(topic?.aliases) ? topic.aliases : [])
+  ];
+  return aliases.some(alias => !!getFollowedInterestByAlias(alias));
 }
 
 function buildFollowPreferenceAttrsFromCandidate(candidate) {
