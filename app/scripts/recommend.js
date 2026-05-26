@@ -155,11 +155,9 @@ const FT_GLOBAL_CURATION_COLD_START_FOLLOW_TOPIC_ALIASES = [
   'Markets', '市场',
   'Economy', '经济',
   'Technology Sector', 'Technology sector', '科技行业', '科技产业',
-  'Politics', '政治',
   'Investments', '投资',
   'Management', '管理',
   'Personal Finance', '个人理财',
-  'Education', '教育',
   'Life & Arts', '生活时尚', '生活与艺术',
   'Work & Careers', '职场',
   'Property', '房地产',
@@ -169,9 +167,7 @@ const FT_GLOBAL_CURATION_COLD_START_FOLLOW_TOPIC_ALIASES = [
   'Electric vehicles', '电动汽车',
   'Climate change', '气候变化',
   'Federal Reserve', '美联储',
-  'Chinese economy', '中国经济',
   'Chinese business & finance', '中国商业与金融',
-  'Chinese politics & policy', '中国政治与政策',
   'Semiconductors', '半导体',
   'Cryptocurrencies', '加密货币'
 ];
