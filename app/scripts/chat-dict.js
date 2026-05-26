@@ -5455,6 +5455,66 @@ Genres: {
       "zh-HK": "聊天機械人可能會犯錯。請考慮核對重要資訊。",
       "ru": "Чат-боты могут допускать ошибки. Рассмотрите возможность проверки важной информации."
     },
+    chatVoiceInput: {
+      zh: '语音输入',
+      en: 'Voice input',
+      'zh-TW': '語音輸入',
+      'zh-HK': '語音輸入'
+    },
+    chatVoiceStop: {
+      zh: '停止录音',
+      en: 'Stop recording',
+      'zh-TW': '停止錄音',
+      'zh-HK': '停止錄音'
+    },
+    chatVoiceRecording: {
+      zh: '正在录音 [seconds] 秒',
+      en: 'Recording [seconds]s',
+      'zh-TW': '正在錄音 [seconds] 秒',
+      'zh-HK': '正在錄音 [seconds] 秒'
+    },
+    chatVoiceProcessing: {
+      zh: '正在识别语音...',
+      en: 'Transcribing...',
+      'zh-TW': '正在識別語音...',
+      'zh-HK': '正在識別語音...'
+    },
+    chatVoiceReady: {
+      zh: '已填入输入框',
+      en: 'Added to the input box',
+      'zh-TW': '已填入輸入框',
+      'zh-HK': '已填入輸入框'
+    },
+    chatVoiceNotSupported: {
+      zh: '当前浏览器不支持语音输入。',
+      en: 'Voice input is not supported by this browser.',
+      'zh-TW': '目前瀏覽器不支援語音輸入。',
+      'zh-HK': '目前瀏覽器不支援語音輸入。'
+    },
+    chatVoicePermissionDenied: {
+      zh: '无法访问麦克风。请允许浏览器使用麦克风后重试。',
+      en: 'Unable to access the microphone. Please allow microphone access and try again.',
+      'zh-TW': '無法存取麥克風。請允許瀏覽器使用麥克風後重試。',
+      'zh-HK': '無法存取麥克風。請允許瀏覽器使用麥克風後重試。'
+    },
+    chatVoiceTooShort: {
+      zh: '录音时间太短，请重试。',
+      en: 'The recording is too short. Please try again.',
+      'zh-TW': '錄音時間太短，請重試。',
+      'zh-HK': '錄音時間太短，請重試。'
+    },
+    chatVoiceTranscriptionFailed: {
+      zh: '语音识别失败，请稍后重试。',
+      en: 'Voice transcription failed. Please try again later.',
+      'zh-TW': '語音識別失敗，請稍後重試。',
+      'zh-HK': '語音識別失敗，請稍後重試。'
+    },
+    chatVoiceEligibilityRequired: {
+      zh: '语音输入仅对当前有效的高端 B2B 付费用户开放。',
+      en: 'Voice input is available only to current premium B2B paid users.',
+      'zh-TW': '語音輸入僅對目前有效的高端 B2B 付費用戶開放。',
+      'zh-HK': '語音輸入僅對目前有效的高端 B2B 付費用戶開放。'
+    },
     AccountSharingReminder: {
       en: 'Your session has been securely ended on this device because your account was accessed from a new device. You can sign in on up to three different types of devices (mobile, tablet, and desktop) at a time. Please log in again if this was not you.',
       zh: '由于您的帐户已在新设备上访问，您在此设备上的会话已安全结束。您可以同时在三种不同类型的设备（手机、平板和桌面）上登录。如果这不是您的操作，请重新登录。',
