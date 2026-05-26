@@ -118,6 +118,7 @@ const FT_GLOBAL_CURATION_FOLLOW_PROMPT_MIN_FOLLOWS = 3;
 const FT_GLOBAL_CURATION_FOLLOW_PROMPT_LIMIT = 6;
 const FT_GLOBAL_CURATION_FOLLOW_PROMPT_DISMISS_DAYS = 30;
 const FT_GLOBAL_CURATION_FOLLOW_PROMPT_DISMISS_KEY_PREFIX = 'ft-global-curation-follow-prompt-dismissed-until';
+const FT_GLOBAL_CURATION_FOLLOW_PROMPT_FIELDS = new Set(['topics', 'regions']);
 const FT_GLOBAL_CURATION_GENERIC_FOLLOW_TAGS = new Set([
   'CORRECTION',
   'CROSSWORD',
@@ -133,6 +134,10 @@ const FT_GLOBAL_CURATION_GENERIC_FOLLOW_TAGS = new Set([
   '新闻',
   '观点'
 ]);
+const FT_GLOBAL_CURATION_NARROW_FOLLOW_PATTERNS = [
+  /(^|\s)COMPAN(Y|IES)(\s|$)/i,
+  /公司/
+];
 const PREMIUM_ONLY_PREFERENCE_VALUES = {
   [HOME_PAGE_PREFERENCE_KEY]: CUSTOM_HOME_PAGE_PREFERENCE_VALUE
 };
@@ -1919,9 +1924,10 @@ function buildFTGlobalCurationFollowPromptHTML(items = [], options = {}) {
   const buttons = candidates.map(candidate => {
     const isFollowed = candidate.isFollowed;
     const followClass = isFollowed ? 'tick' : 'plus';
-    const label = isFollowed ? text.followPromptFollowing : text.followPromptFollow;
     const attrs = buildFollowPreferenceAttrsFromCandidate(candidate);
-    return `<button class="myft-follow ${followClass} ft-global-curation-follow-chip" type="button" data-tag="${escapeAttributeValue(candidate.display)}" data-type="tag"${attrs}>${escapeAttributeValue(label)}</button>`;
+    const label = candidate.display;
+    const stateLabelAttrs = ` data-follow-label="${escapeAttributeValue(label)}" data-following-label="${escapeAttributeValue(label)}"`;
+    return `<button class="myft-follow ${followClass} ft-global-curation-follow-chip" type="button" data-tag="${escapeAttributeValue(candidate.display)}" data-type="tag"${attrs}${stateLabelAttrs}>${escapeAttributeValue(label)}</button>`;
   }).join('');
 
   return `
@@ -1933,30 +1939,34 @@ function buildFTGlobalCurationFollowPromptHTML(items = [], options = {}) {
 }
 
 function getFTGlobalCurationFollowCandidates(items = []) {
-  const candidates = [];
+  const rankedCandidates = [];
   const seen = new Set();
 
-  for (const item of items) {
+  for (let itemIndex = 0; itemIndex < items.length; itemIndex += 1) {
+    const item = items[itemIndex];
     const tags = [
       ...splitUniqueTags(item?.annotationsMain),
       ...splitUniqueTags(item?.annotationsSecondary),
       ...splitUniqueTags(item?.keywords).slice(0, 4)
     ];
 
-    for (const tag of tags) {
+    for (let tagIndex = 0; tagIndex < tags.length; tagIndex += 1) {
+      const tag = tags[tagIndex];
       const candidate = getFTGlobalCurationFollowCandidate(item, tag);
       if (!candidate) {continue;}
+      if (!isBroadFTGlobalCurationFollowCandidate(candidate)) {continue;}
       const key = normalizeInterestAlias(candidate.key || candidate.display || candidate.tag);
       if (!key || seen.has(key)) {continue;}
       seen.add(key);
-      candidates.push(candidate);
-      if (candidates.length >= FT_GLOBAL_CURATION_FOLLOW_PROMPT_LIMIT) {
-        return candidates;
-      }
+      rankedCandidates.push({
+        ...candidate,
+        promptScore: getFTGlobalCurationFollowCandidateScore(candidate, item, itemIndex, tagIndex)
+      });
     }
   }
 
-  return candidates;
+  rankedCandidates.sort((a, b) => b.promptScore - a.promptScore);
+  return rankedCandidates.slice(0, FT_GLOBAL_CURATION_FOLLOW_PROMPT_LIMIT);
 }
 
 function getFTGlobalCurationFollowCandidate(item, tag) {
@@ -1975,6 +1985,35 @@ function getFTGlobalCurationFollowCandidate(item, tag) {
     display,
     isFollowed: !!getFollowedInterestForTag(item, tag)
   };
+}
+
+function isBroadFTGlobalCurationFollowCandidate(candidate) {
+  if (!candidate || candidate.isFollowed) {return false;}
+  const field = normalizeInterestField(candidate.field);
+  if (!FT_GLOBAL_CURATION_FOLLOW_PROMPT_FIELDS.has(field)) {return false;}
+  const signals = [
+    candidate.key,
+    candidate.display,
+    candidate.tag
+  ].map(normalizeAnnotationValue).filter(Boolean);
+  return signals.some(signal => {
+    return FT_GLOBAL_CURATION_NARROW_FOLLOW_PATTERNS.some(pattern => pattern.test(signal));
+  }) === false;
+}
+
+function getFTGlobalCurationFollowCandidateScore(candidate, item, itemIndex, tagIndex) {
+  const field = normalizeInterestField(candidate.field);
+  const fieldScore = field === 'topics' ? 30 : 20;
+  const positionScore = Math.max(0, 12 - itemIndex);
+  const tagPositionScore = Math.max(0, 4 - tagIndex) * 0.5;
+  const matchedKeys = Array.isArray(item?.matchedKeys) ? item.matchedKeys : [];
+  const matchSignals = [
+    candidate.key,
+    candidate.display,
+    candidate.tag
+  ].map(normalizeInterestAlias).filter(Boolean);
+  const matchScore = matchedKeys.some(key => matchSignals.includes(normalizeInterestAlias(key))) ? 8 : 0;
+  return fieldScore + positionScore + tagPositionScore + matchScore;
 }
 
 function isGenericFTGlobalCurationFollowCandidate(key, display, field) {

@@ -5,6 +5,7 @@ const keyForLocal = 'my-ft-follow-ftc';
 const keyForMyInterests = 'My Interests';
 const keyForpreference = 'preference';
 const last_sync_time_key = 'last_sync_time';
+const last_preference_follow_check_key = 'myft_preference_follow_check_time';
 const webPushPromptCooldownKey = 'ftc:webpushPromptNextAt';
 const webPushPromptAcceptedKey = 'ftc:webpushPromptAccepted';
 const webPushPromptCooldownMs = 30 * 24 * 60 * 60 * 1000;
@@ -305,53 +306,6 @@ function isButtonFollowedInCollection(btn, collection) {
     return records.some(record => hasFollowRecord(collection, record));
 }
 
-function updateFollowRecordCollection(collection, records, shouldFollow) {
-    if (!collection || typeof collection !== 'object') {
-        collection = {};
-    }
-    const aliases = new Set(records.map(record => record?.name).filter(Boolean));
-    if (!shouldFollow && aliases.size > 0) {
-        for (const category of Object.keys(collection)) {
-            if (!Array.isArray(collection[category])) {
-                continue;
-            }
-            collection[category] = collection[category].filter(value => !getFollowValueAliases(value).some(alias => aliases.has(alias)));
-        }
-    }
-    for (const record of records) {
-        if (!Array.isArray(collection[record.type])) {
-            if (!shouldFollow) {
-                continue;
-            }
-            collection[record.type] = [];
-        }
-        const values = new Set(collection[record.type].map(normalizeFollowValue));
-        if (shouldFollow) {
-            values.add(record.name);
-        } else {
-            values.delete(record.name);
-        }
-        collection[record.type] = [...values];
-    }
-    return collection;
-}
-
-function updateStoredFollowCollection(storageKey, records, shouldFollow) {
-    try {
-        let collection = {};
-        const stored = localStorage.getItem(storageKey);
-        if (stored) {
-            collection = JSON.parse(stored) || {};
-        }
-        collection = updateFollowRecordCollection(collection, records, shouldFollow);
-        localStorage.setItem(storageKey, JSON.stringify(collection));
-        return collection;
-    } catch (err) {
-        console.error('Update stored follow collection error: ', err);
-        return {};
-    }
-}
-
 function isMyFTPreferenceModeForFollow() {
     try {
         if (typeof isMyFTInterestPreferenceMode === 'function') {
@@ -525,6 +479,26 @@ function buildFollowRequestPayload(btn, records, action, canonicalFollowRecord) 
     };
 }
 
+function getFollowButtonStateText(btn, isFollowed) {
+    const labelAttr = isFollowed ? 'data-following-label' : 'data-follow-label';
+    const customLabel = normalizeFollowValue(btn.getAttribute(labelAttr) || '');
+    if (customLabel) {
+        return customLabel;
+    }
+    return isFollowed ? '已关注' : '关注';
+}
+
+function setFollowButtonState(btn, isFollowed) {
+    btn.textContent = getFollowButtonStateText(btn, isFollowed);
+    if (isFollowed) {
+        btn.classList.remove('plus');
+        btn.classList.add('tick');
+        return;
+    }
+    btn.classList.add('plus');
+    btn.classList.remove('tick');
+}
+
 // click events
 try {
     if (typeof delegate === 'undefined') { 
@@ -556,29 +530,14 @@ try {
         ]);
         const followRecordsToRemove = followRecordVariants;
         const followRecordsToAdd = getUniqueFollowRecords([canonicalFollowRecord]);
-        const preferenceMode = isMyFTPreferenceModeForFollow();
-
-        if (preferenceMode) {
-            clearLegacyFollowStorageForPreferenceMode();
-        } else {
-            // Update local storage immediately. Remove both visible and canonical records, but add the canonical one.
-            updateStoredFollowCollection(key, isFollowed ? followRecordsToRemove : followRecordsToAdd, !isFollowed);
-            updateStoredFollowCollection(keyForLocal, isFollowed ? followRecordsToRemove : followRecordsToAdd, !isFollowed);
-        }
-
-        if (preferenceMode || (prefKey && prefField && prefDisplay)) {
-            updateLocalPreferenceFollow(this, !isFollowed);
-        }
+        clearLegacyFollowStorageForPreferenceMode();
+        updateLocalPreferenceFollow(this, !isFollowed);
 
         // Optimistically update UI immediately
         if (isFollowed) {
-            this.classList.add('plus');
-            this.classList.remove('tick');
-            this.innerHTML = '关注';
+            setFollowButtonState(this, false);
         } else {
-            this.classList.remove('plus');
-            this.classList.add('tick');
-            this.innerHTML = '已关注';
+            setFollowButtonState(this, true);
             maybePromptWebPush();
         }
 
@@ -741,7 +700,7 @@ async function sendFollowRecordsToServer(records, url) {
 
 function timeToSync() {
     try {
-        const last_sync_unix_time_stamp_string = localStorage.getItem(last_sync_time_key);
+        const last_sync_unix_time_stamp_string = localStorage.getItem(last_preference_follow_check_key);
         if (!last_sync_unix_time_stamp_string) {
             return true; // Sync if there's no recorded sync time
         }
@@ -750,37 +709,6 @@ function timeToSync() {
         return new Date().getTime() - last_sync_unix_time_stamp > 3 * 60 * 1000;
     } catch (ignore) {
         return true; // Default to true if an error occurs
-    }
-}
-
-async function syncLocalFollowsWithServer() {
-    try {
-        if (isMyFTPreferenceModeForFollow()) {
-            clearLegacyFollowStorageForPreferenceMode();
-            return;
-        }
-        const savedFollowList = localStorage.getItem(key);
-        const savedFollowListJSON = JSON.parse(savedFollowList) || {};
-
-        if (!savedFollowListJSON || Object.keys(savedFollowListJSON).length === 0) {
-            return;
-        }
-
-        // Send the local follows to the server for syncing
-        const response = await fetch('/sync_myft_follows', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(savedFollowListJSON),
-        });
-
-        if (response.ok) {
-            console.log('Local follows synced successfully');
-            localStorage.setItem(last_sync_time_key, new Date().getTime()); // Update only if sync is successful
-        } else {
-            console.warn('Failed to sync follows:', await response.text());
-        }
-    } catch (err) {
-        console.error(`Sync follow error: `, err);
     }
 }
 
@@ -793,7 +721,7 @@ function updateSavedFollows(savedFollows, myInterests) {
         return savedFollows;
     }
 
-    for (const type of ['tag', 'author', 'authors']) {
+    for (const type of ['tag', 'author', 'authors', 'byline']) {
         if (!Array.isArray(savedFollows[type])) {
             savedFollows[type] = [];
         }
@@ -832,6 +760,7 @@ function updateSavedFollows(savedFollows, myInterests) {
                 if (type === 'byline') {
                     savedFollows.author.push(tagValue);
                     savedFollows.authors.push(tagValue);
+                    savedFollows.byline.push(key || tagValue);
 
                 } else {
                     savedFollows.tag.push(tagValue);
@@ -872,11 +801,7 @@ async function checkFollow(options) {
         clearLegacyFollowStorageForPreferenceMode();
     }
     
-    const savedFollowListJSONString = localStorage.getItem(key) || '{}';
     let savedFollows = {};
-    try {
-        savedFollows = JSON.parse(savedFollowListJSONString) || {};
-    } catch(ignore) {}
 
     // console.log('savedFollows 1: ', JSON.stringify(savedFollows, null, 2));
 
@@ -894,21 +819,14 @@ async function checkFollow(options) {
 
     if (hasLoggedIn() && (opts.forceSync === true || timeToSync())) {
         try {
-            // console.log(`syncLocalFollowsWithServer...`);
-            if (opts.skipLocalSync !== true && preferenceMode !== true) {
-                await syncLocalFollowsWithServer(); // Ensure local follows are synced first.
-            }
+            clearLegacyFollowStorageForPreferenceMode();
             const response = await fetch('/get_myft_follows');
             if (response.ok) {
                 const serverData = await response.json();
 
                 if (serverData && typeof serverData === 'object') {
                     savedFollows = serverData; // Only use valid server data
-
-                    // console.log('Using server follow data:', savedFollowListJSON);
-                    if (preferenceMode !== true) {
-                        localStorage.setItem(keyForLocal, JSON.stringify(savedFollows));
-                    }
+                    localStorage.setItem(last_preference_follow_check_key, new Date().getTime());
                 }
             } else {
                 console.warn('Failed to fetch follows from server, falling back to local storage.');
@@ -937,13 +855,9 @@ async function checkFollow(options) {
 
         const savedValues = Array.isArray(savedFollows[dataType]) ? savedFollows[dataType].map(normalizeFollowValue) : [];
         if (savedValues.includes(dataTag) || isButtonFollowedInCollection(btn, savedFollows)) {
-            btn.innerHTML = '已关注';
-            btn.classList.remove('plus');
-            btn.classList.add('tick');
+            setFollowButtonState(btn, true);
         } else {
-            btn.innerHTML = '关注';
-            btn.classList.remove('tick');
-            btn.classList.add('plus');
+            setFollowButtonState(btn, false);
         }
     }
 }

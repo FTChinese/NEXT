@@ -1,5 +1,114 @@
-// MARK： display followed items by hiding unfollowed items
-function filterMyFTItems() {
+// MARK: display followed items by hiding unfollowed items
+function normalizeMyFTDisplayValue(value) {
+    if (typeof value !== 'string') {
+        return '';
+    }
+    return value.trim();
+}
+
+function addMyFTDisplayFollow(dict, type, value) {
+    type = normalizeMyFTDisplayValue(type);
+    value = normalizeMyFTDisplayValue(value);
+    if (!type || !value) {
+        return;
+    }
+    if (!Array.isArray(dict[type])) {
+        dict[type] = [];
+    }
+    if (dict[type].indexOf(value) < 0) {
+        dict[type].push(value);
+    }
+}
+
+function addPreferenceInterestToDisplayFollows(dict, interest) {
+    if (!interest || typeof interest !== 'object') {
+        return;
+    }
+    var key = normalizeMyFTDisplayValue(interest.key);
+    var display = normalizeMyFTDisplayValue(interest.display) || key;
+    var type = normalizeMyFTDisplayValue(interest.type).toLowerCase() || 'tag';
+    if (!key && !display) {
+        return;
+    }
+
+    if (type === 'byline') {
+        addMyFTDisplayFollow(dict, 'author', display || key);
+        addMyFTDisplayFollow(dict, 'authors', display || key);
+        addMyFTDisplayFollow(dict, 'byline', key || display);
+        return;
+    }
+
+    if (type === 'regions') {
+        addMyFTDisplayFollow(dict, 'area', key || display);
+        addMyFTDisplayFollow(dict, 'area', display || key);
+        addMyFTDisplayFollow(dict, 'regions', key || display);
+        addMyFTDisplayFollow(dict, 'tag', display || key);
+        return;
+    }
+
+    if (type === 'topics') {
+        addMyFTDisplayFollow(dict, 'topic', key || display);
+        addMyFTDisplayFollow(dict, 'industry', key || display);
+        addMyFTDisplayFollow(dict, 'topics', key || display);
+        addMyFTDisplayFollow(dict, 'tag', display || key);
+        return;
+    }
+
+    if (type === 'organisations') {
+        addMyFTDisplayFollow(dict, 'organisation', key || display);
+        addMyFTDisplayFollow(dict, 'organisations', key || display);
+        addMyFTDisplayFollow(dict, 'tag', display || key);
+        return;
+    }
+
+    addMyFTDisplayFollow(dict, type, key || display);
+    addMyFTDisplayFollow(dict, 'tag', display || key);
+}
+
+function getLocalPreferenceFollowsForDisplay() {
+    var dict = {};
+    if (!localStorage) {
+        return dict;
+    }
+    try {
+        var preference = JSON.parse(localStorage.getItem('preference') || '{}') || {};
+        var interests = [];
+        if (Array.isArray(preference['My Interests'])) {
+            interests = interests.concat(preference['My Interests']);
+        }
+        if (Array.isArray(preference['My Custom Interests'])) {
+            interests = interests.concat(preference['My Custom Interests']);
+        }
+        for (var i=0; i<interests.length; i++) {
+            addPreferenceInterestToDisplayFollows(dict, interests[i]);
+        }
+    } catch (ignore) {}
+    return dict;
+}
+
+async function getPreferenceFollowsForDisplay() {
+    var localFollows = getLocalPreferenceFollowsForDisplay();
+    if (typeof fetch !== 'function') {
+        return localFollows;
+    }
+    try {
+        var response = await fetch('/get_myft_follows', {
+            method: 'GET',
+            credentials: 'same-origin',
+            headers: {'Content-Type': 'application/json'}
+        });
+        if (!response.ok) {
+            return localFollows;
+        }
+        var serverFollows = await response.json();
+        if (serverFollows && typeof serverFollows === 'object') {
+            return serverFollows;
+        }
+    } catch (ignore) {}
+    return localFollows;
+}
+
+async function filterMyFTItems() {
     var dict = {
         'usa': '美国',
         'uk': '英国',
@@ -69,7 +178,6 @@ function filterMyFTItems() {
         'media': '传媒和文化',
         'entertainment': '娱乐'
     };
-    var key = 'my-ft-follow';
     var allItems = document.querySelectorAll('.list-my-ft .item-container');
     function udpateDescription (text) {
         var itemDescription = document.querySelector('.list-my-ft .items .no-image .item-lead');
@@ -88,8 +196,7 @@ function filterMyFTItems() {
         alert ('亲爱的读者，您的浏览器不支持localStorage，请您更换现代浏览器来使用关注的功能。');
         return;
     }
-    var savedFollowList = localStorage.getItem(key);
-    var savedFollowListJSON = JSON.parse(savedFollowList) || null;
+    var savedFollowListJSON = await getPreferenceFollowsForDisplay();
     var isFollowListEmpty = false;
     if (savedFollowListJSON === null) {
         isFollowListEmpty = true;
