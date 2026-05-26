@@ -5510,10 +5510,10 @@ Genres: {
       'zh-HK': '語音識別失敗，請稍後重試。'
     },
     chatVoiceEligibilityRequired: {
-      zh: '语音输入仅对当前有效的高端 B2B 付费用户开放。',
-      en: 'Voice input is available only to current premium B2B paid users.',
-      'zh-TW': '語音輸入僅對目前有效的高端 B2B 付費用戶開放。',
-      'zh-HK': '語音輸入僅對目前有效的高端 B2B 付費用戶開放。'
+      zh: '语音输入仅对当前有效的高端 B2B 付费用户及授权内部账号开放。',
+      en: 'Voice input is available only to current premium B2B paid users and approved staff accounts.',
+      'zh-TW': '語音輸入僅對目前有效的高端 B2B 付費用戶及授權內部帳號開放。',
+      'zh-HK': '語音輸入僅對目前有效的高端 B2B 付費用戶及授權內部帳號開放。'
     },
     AccountSharingReminder: {
       en: 'Your session has been securely ended on this device because your account was accessed from a new device. You can sign in on up to three different types of devices (mobile, tablet, and desktop) at a time. Please log in again if this was not you.',

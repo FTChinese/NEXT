@@ -2,8 +2,8 @@
 (function() {
   const MAX_RECORDING_SECONDS = 30;
   const MIN_RECORDING_MS = 500;
-  const VOICE_ENDPOINT = '/FTAPI/chat_voice.php';
-  const POWER_TRANSLATE_VOICE_ENDPOINT = '/openai/chat_voice';
+  const VOICE_ENDPOINT = '/api/chat/voice';
+  const POWER_TRANSLATE_VOICE_ENDPOINT = '/api/chat/voice';
   const FRONTEND_TEST_ENDPOINT = '/api/page/chat_voice.json';
   const SUPPORTED_MIME_TYPES = [
     'audio/webm;codecs=opus',
@@ -53,6 +53,10 @@
     return value === 'premium' || value === 'vip';
   }
 
+  function isStaffVoiceRole(value) {
+    return ['admin', 'dev', 'editor', 'edit', 'marketing'].indexOf(`${value || ''}`.trim().toLowerCase()) >= 0;
+  }
+
   function isPremiumB2BPayorder(data = {}) {
     const membership = data.membership || {};
     const premium = data.premium === 1 ||
@@ -77,6 +81,17 @@
       Boolean(data.b2bLicenceId || data.b2bLicenseId || membership.b2bLicenceId || membership.b2bLicenseId);
   }
 
+  function hasVoicePermission(data = {}) {
+    const membership = data.membership || {};
+    return data.voiceInput === 1 ||
+      data.voiceInput === true ||
+      isStaffVoiceRole(data.staffRole) ||
+      isStaffVoiceRole(data.role) ||
+      isStaffVoiceRole(membership.staffRole) ||
+      isStaffVoiceRole(membership.role) ||
+      isPremiumB2BPayorder(data);
+  }
+
   function getNativeEligibilitySnapshot() {
     const membership = window.androidUserInfo?.membership;
     if (!membership) {
@@ -94,16 +109,13 @@
     return {
       paywall,
       source: getCookieValue('paywall_source'),
+      role: getCookieValue('userRole'),
       expire
     };
   }
 
   async function fetchPaywallEligibility() {
     try {
-      const userId = getCookieValue('USER_ID');
-      if (!userId) {
-        return false;
-      }
       const response = await fetch('/index.php/jsapi/paywall', {
         method: 'GET',
         headers: {
@@ -112,13 +124,13 @@
         credentials: 'same-origin'
       });
       if (!response.ok) {
-        return false;
+        return null;
       }
       const data = await response.json();
-      return data.paywall === 0 && isPremiumB2BPayorder(data);
+      return data.paywall === 0 && hasVoicePermission(data);
     } catch (err) {
       console.log(err);
-      return false;
+      return null;
     }
   }
 
@@ -127,20 +139,25 @@
       return true;
     }
 
+    const paywallEligibility = await fetchPaywallEligibility();
+    if (paywallEligibility !== null) {
+      return paywallEligibility;
+    }
+
     const nativeSnapshot = getNativeEligibilitySnapshot();
-    if (nativeSnapshot && isPremiumB2BPayorder(nativeSnapshot)) {
+    if (nativeSnapshot && hasVoicePermission(nativeSnapshot)) {
       return true;
     }
 
     const cookieSnapshot = getCookieEligibilitySnapshot();
     if (
-      isPremiumB2BPayorder(cookieSnapshot) &&
+      hasVoicePermission(cookieSnapshot) &&
       hasCurrentExpire(cookieSnapshot.expire)
     ) {
       return true;
     }
 
-    return fetchPaywallEligibility();
+    return false;
   }
 
   function getPreferredMimeType() {
@@ -332,13 +349,20 @@
       } else if (result.status === 'PermissionRequired') {
         showError(localize('chatVoiceEligibilityRequired'));
       } else {
-        showError(result.message || localize('chatVoiceTranscriptionFailed'));
+        showError(getVoiceErrorMessage(result));
       }
     } catch (err) {
       console.log(err);
       showError(localize('chatVoiceTranscriptionFailed'));
     }
     setVoiceMode('idle');
+  }
+
+  function getVoiceErrorMessage(result = {}) {
+    if (result.error === 'transcription_failed' || result.message === 'Voice transcription failed.') {
+      return localize('chatVoiceTranscriptionFailed');
+    }
+    return result.message || localize('chatVoiceTranscriptionFailed');
   }
 
   async function transcribeVoice(blob, durationMs, voiceId) {

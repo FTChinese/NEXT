@@ -87,6 +87,15 @@ function getChatAssetVersion() {
   return version || Date.now();
 }
 
+function getFirstExistingPath(paths) {
+  for (const filePath of paths) {
+    if (fs.existsSync(filePath)) {
+      return filePath;
+    }
+  }
+  return '';
+}
+
 // fetch contents from `origamiModules.source` and write to `origamiModules.dest`.
 gulp.task('origami', () => {
   const now = Date.now();
@@ -419,66 +428,60 @@ gulp.task('copy:cms', async () => {
     .pipe(gulp.dest(dest));
 });
 
-gulp.task('copy:ftcoffer', async () => {
+function copySourceToDestination(patterns, destination) {
+  return new Promise((resolve, reject) => {
+    gulp.src(patterns)
+      .on('error', (err) => {
+        console.error(err.stack);
+        reject(err);
+      })
+      .pipe(gulp.dest(destination))
+      .on('error', (err) => {
+        console.error(err.stack);
+        reject(err);
+      })
+      .on('finish', resolve)
+      .on('end', resolve);
+  });
+}
 
-  const dest = '../ftcoffer/public';
+gulp.task('copy:ftcoffer', async () => {
+  const dest = getFirstExistingPath([
+    '../ftcoffer/public',
+    '../FTCSubscriptionOfferSignature/public'
+  ]);
   if (!fs.existsSync(dest)) {
-    console.log(`${dest} does not exist! `);
+    console.log('No ftcoffer public directory exists! ');
     return;
   }
+
+  const streams = [];
 
   // MARK: - Need all the JS files in dist now
   const jsFiles = ['*'];
   for (const jsFile of jsFiles) {
-    gulp.src([`dist/scripts/${jsFile}.js`])
-      .on('error', (err) => {
-        console.error(err.stack);
-      })
-      .pipe(gulp.dest(`${dest}/scripts`));
+    streams.push(copySourceToDestination([`dist/scripts/${jsFile}.js`], `${dest}/scripts`));
   }
 
-  gulp.src([`./app/origami/*.js`])
-    .on('error', (err) => {
-      console.error(err.stack);
-    })
-    .pipe(gulp.dest(`${dest}/scripts`));
+  streams.push(copySourceToDestination([`./app/origami/*.js`], `${dest}/scripts`));
 
-  gulp.src([`./app/origami/*.css`])
-    .on('error', (err) => {
-      console.error(err.stack);
-    })
-    .pipe(gulp.dest(`${dest}/styles`));
+  streams.push(copySourceToDestination([`./app/origami/*.css`], `${dest}/styles`));
 
   // MARK: - Need all the css files in dist now
   const cssFiles = ['*'];
   for (const cssFile of cssFiles) {
-    gulp.src([`dist/styles/${cssFile}.css`])
-    .on('error', (err) => {
-      console.error(err.stack);
-    })
-    .pipe(gulp.dest(`${dest}/styles`));
+    streams.push(copySourceToDestination([`dist/styles/${cssFile}.css`], `${dest}/styles`));
   }
 
   // MARK: - Translation Helper
-  gulp.src(['dist/translation-helper.html'])
-    .on('error', (err) => {
-      console.error(err.stack);
-    })
-    .pipe(gulp.dest(dest));
+  streams.push(copySourceToDestination(['dist/translation-helper.html'], dest));
 
   // MARK: - ChatFT
-  gulp.src(['dist/chat.html'])
-    .on('error', (err) => {
-      console.error(err.stack);
-    })
-    .pipe(gulp.dest(dest));
+  streams.push(copySourceToDestination(['dist/chat.html'], dest));
 
+  streams.push(copySourceToDestination(['app/scripts/*.json'], `${dest}/scripts`));
 
-  gulp.src(['app/scripts/*.json'])
-    .on('error', (err) => {
-      console.error(err.stack);
-    })
-    .pipe(gulp.dest(`${dest}/scripts`));
+  streams.push(copySourceToDestination(['app/api/page/chat_voice.json'], `${dest}/api/page`));
 
   // Read file content into a string
   const serviceWorkerPaths = ['app/scripts/chat-service-worker.js', 'app/scripts/app-service-worker.js'];
@@ -497,12 +500,8 @@ gulp.task('copy:ftcoffer', async () => {
       }
     }
   }
-  gulp.src(serviceWorkerPaths)
-    .on('error', (err) => {
-      console.error(err.stack);
-    })
-    .pipe(gulp.dest(`${dest}`));
-
+  streams.push(copySourceToDestination(serviceWorkerPaths, `${dest}`));
+  await Promise.all(streams);
 });
 
 gulp.task('copy:p0', () => {
