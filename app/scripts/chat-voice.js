@@ -1,7 +1,7 @@
 /* jshint ignore:start */
 (function() {
   const MAX_RECORDING_SECONDS = 30;
-  const MIN_RECORDING_MS = 3000;
+  const MIN_RECORDING_MS = 1000;
   const VOICE_ENDPOINT = '/api/chat/voice';
   const POWER_TRANSLATE_VOICE_ENDPOINT = '/api/chat/voice';
   const FRONTEND_TEST_ENDPOINT = '/api/page/chat_voice.json';

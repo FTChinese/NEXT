@@ -5498,10 +5498,10 @@ Genres: {
       'zh-HK': '無法存取麥克風。請允許瀏覽器使用麥克風後重試。'
     },
     chatVoiceTooShort: {
-      zh: '录音时间至少需要 3 秒，请重试。',
-      en: 'Record for at least 3 seconds. Please try again.',
-      'zh-TW': '錄音時間至少需要 3 秒，請重試。',
-      'zh-HK': '錄音時間至少需要 3 秒，請重試。'
+      zh: '录音时间至少需要 1 秒，请重试。',
+      en: 'Record for at least 1 second. Please try again.',
+      'zh-TW': '錄音時間至少需要 1 秒，請重試。',
+      'zh-HK': '錄音時間至少需要 1 秒，請重試。'
     },
     chatVoiceTranscriptionFailed: {
       zh: '语音识别失败，请稍后重试。',
