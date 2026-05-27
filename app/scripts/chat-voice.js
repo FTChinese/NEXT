@@ -1,7 +1,7 @@
 /* jshint ignore:start */
 (function() {
   const MAX_RECORDING_SECONDS = 30;
-  const MIN_RECORDING_MS = 500;
+  const MIN_RECORDING_MS = 1000;
   const VOICE_ENDPOINT = '/api/chat/voice';
   const POWER_TRANSLATE_VOICE_ENDPOINT = '/api/chat/voice';
   const FRONTEND_TEST_ENDPOINT = '/api/page/chat_voice.json';
@@ -23,8 +23,12 @@
   let recordingStartedAt = 0;
   let recordingTimer;
   let hardStopTimer;
+  let hideStatusTimer;
   let voiceEligible = false;
+  let voiceMode = 'idle';
   let currentVoiceId = '';
+  let startRequestId = 0;
+  let stopRequested = false;
 
   function getVoiceTestMode() {
     return isFrontendTest || /(?:[?#&])voiceTest=1(?:$|&)/.test(location.href);
@@ -214,21 +218,31 @@
   }
 
   function showVoiceStatus() {
+    clearTimeout(hideStatusTimer);
+    hideStatusTimer = null;
     if (voiceStatus) {
       voiceStatus.classList.add('on');
     }
   }
 
   function hideVoiceStatus(delay = 0) {
-    setTimeout(function() {
+    clearTimeout(hideStatusTimer);
+    const hide = function() {
       if (voiceStatus) {
         voiceStatus.classList.remove('on');
       }
       setVoiceStatus('', 0);
-    }, delay);
+      hideStatusTimer = null;
+    };
+    if (delay > 0) {
+      hideStatusTimer = setTimeout(hide, delay);
+      return;
+    }
+    hide();
   }
 
   function setVoiceMode(mode) {
+    voiceMode = mode || 'idle';
     const chatInput = voiceButton?.closest('.chat-input');
     if (!voiceButton || !chatInput) {
       return;
@@ -247,6 +261,10 @@
       voiceButton.setAttribute('disabled', true);
       voiceButton.setAttribute('aria-label', localize('chatVoiceProcessing'));
       voiceButton.setAttribute('title', localize('chatVoiceProcessing'));
+    } else if (mode === 'starting') {
+      voiceButton.setAttribute('disabled', true);
+      voiceButton.setAttribute('aria-label', localize('chatVoiceInput'));
+      voiceButton.setAttribute('title', localize('chatVoiceInput'));
     } else {
       voiceButton.setAttribute('aria-label', localize('chatVoiceInput'));
       voiceButton.setAttribute('title', localize('chatVoiceInput'));
@@ -266,6 +284,7 @@
     }
     recorder = null;
     chunks = [];
+    stopRequested = false;
   }
 
   function updateRecordingStatus() {
@@ -276,6 +295,9 @@
   }
 
   async function startRecording() {
+    if (voiceMode !== 'idle') {
+      return;
+    }
     if (!voiceEligible) {
       showError(localize('chatVoiceEligibilityRequired'));
       return;
@@ -289,10 +311,22 @@
     }
 
     try {
+      const requestId = startRequestId + 1;
+      startRequestId = requestId;
+      setVoiceMode('starting');
+      hideVoiceStatus();
       currentVoiceId = generateVoiceId();
       const mimeType = getPreferredMimeType();
       mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      if (requestId !== startRequestId || voiceMode !== 'starting') {
+        for (const track of mediaStream.getTracks()) {
+          track.stop();
+        }
+        mediaStream = null;
+        return;
+      }
       chunks = [];
+      stopRequested = false;
       recorder = new MediaRecorder(mediaStream, mimeType ? { mimeType } : undefined);
       recorder.ondataavailable = function(event) {
         if (event.data && event.data.size > 0) {
@@ -321,12 +355,30 @@
     if (!recorder || recorder.state === 'inactive') {
       return;
     }
-    recorder.stop();
+    if (stopRequested) {
+      return;
+    }
+    stopRequested = true;
+    clearTimeout(hardStopTimer);
+    hardStopTimer = null;
+    if (voiceButton) {
+      voiceButton.setAttribute('disabled', true);
+    }
+    try {
+      recorder.stop();
+    } catch (err) {
+      console.log(err);
+      cleanupRecording();
+      setVoiceMode('idle');
+      hideVoiceStatus();
+      showError(localize('chatVoiceTranscriptionFailed'));
+    }
   }
 
   async function handleRecorderStop() {
     const durationMs = new Date().getTime() - recordingStartedAt;
-    const blob = new Blob(chunks, { type: recorder?.mimeType || getPreferredMimeType() || 'audio/webm' });
+    const mimeType = recorder?.mimeType || getPreferredMimeType() || 'audio/webm';
+    const blob = new Blob(chunks, { type: mimeType });
     cleanupRecording();
 
     if (durationMs < MIN_RECORDING_MS || blob.size === 0) {
@@ -339,12 +391,14 @@
     setVoiceMode('processing');
     showVoiceStatus();
     setVoiceStatus(localize('chatVoiceProcessing'), 100);
+    let keepStatusVisible = false;
     try {
       const result = await transcribeVoice(blob, durationMs, currentVoiceId);
       if (result.status === 'success' && result.text) {
         insertTranscript(result.text);
         setVoiceStatus(localize('chatVoiceReady'), 100);
         hideVoiceStatus(1200);
+        keepStatusVisible = true;
         trackVoiceEvent('transcribe_success');
       } else if (result.status === 'PermissionRequired') {
         showError(localize('chatVoiceEligibilityRequired'));
@@ -354,11 +408,18 @@
     } catch (err) {
       console.log(err);
       showError(localize('chatVoiceTranscriptionFailed'));
+    } finally {
+      setVoiceMode('idle');
+      if (!keepStatusVisible) {
+        hideVoiceStatus();
+      }
     }
-    setVoiceMode('idle');
   }
 
   function getVoiceErrorMessage(result = {}) {
+    if (result.error === 'duration_too_short' || result.error === 'too_short') {
+      return localize('chatVoiceTooShort');
+    }
     if (result.error === 'transcription_failed' || result.message === 'Voice transcription failed.') {
       return localize('chatVoiceTranscriptionFailed');
     }
@@ -458,6 +519,9 @@
     }
     buildVoiceStatus();
     voiceButton.addEventListener('click', function() {
+      if (voiceMode === 'starting' || voiceMode === 'processing') {
+        return;
+      }
       if (recorder && recorder.state === 'recording') {
         stopRecording();
         return;
