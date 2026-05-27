@@ -28,6 +28,7 @@
   let voiceMode = 'idle';
   let currentVoiceId = '';
   let startRequestId = 0;
+  let stopRequested = false;
 
   function getVoiceTestMode() {
     return isFrontendTest || /(?:[?#&])voiceTest=1(?:$|&)/.test(location.href);
@@ -283,6 +284,7 @@
     }
     recorder = null;
     chunks = [];
+    stopRequested = false;
   }
 
   function updateRecordingStatus() {
@@ -324,6 +326,7 @@
         return;
       }
       chunks = [];
+      stopRequested = false;
       recorder = new MediaRecorder(mediaStream, mimeType ? { mimeType } : undefined);
       recorder.ondataavailable = function(event) {
         if (event.data && event.data.size > 0) {
@@ -352,12 +355,24 @@
     if (!recorder || recorder.state === 'inactive') {
       return;
     }
-    if (typeof recorder.requestData === 'function' && recorder.state === 'recording') {
-      try {
-        recorder.requestData();
-      } catch (err) {}
+    if (stopRequested) {
+      return;
     }
-    recorder.stop();
+    stopRequested = true;
+    clearTimeout(hardStopTimer);
+    hardStopTimer = null;
+    if (voiceButton) {
+      voiceButton.setAttribute('disabled', true);
+    }
+    try {
+      recorder.stop();
+    } catch (err) {
+      console.log(err);
+      cleanupRecording();
+      setVoiceMode('idle');
+      hideVoiceStatus();
+      showError(localize('chatVoiceTranscriptionFailed'));
+    }
   }
 
   async function handleRecorderStop() {
