@@ -1051,17 +1051,29 @@ function renderVideoPackagePlay(ele) {
   }
 }
 
-if (typeof Delegate === 'function') {
-  if (!(window.delegate instanceof Delegate)) {
-    try {
-      window.delegate = new Delegate(document.body);
-    } catch (err) {
-      console.error('Delegate init failed — is body available?', err);
-    }
+function ensureGlobalDelegateRoot() {
+  if (typeof Delegate !== 'function') {
+    console.error('Delegate is not defined — did you forget to include it?');
+    return;
   }
-} else {
-  console.error('Delegate is not defined — did you forget to include it?');
+  if (window.delegate instanceof Delegate) {
+    if (!window.delegate.rootElement && document.body && typeof window.delegate.root === 'function') {
+      window.delegate.root(document.body);
+    }
+    return;
+  }
+  if (!document.body) {
+    document.addEventListener('DOMContentLoaded', ensureGlobalDelegateRoot);
+    return;
+  }
+  try {
+    window.delegate = new Delegate(document.body);
+  } catch (err) {
+    console.error('Delegate init failed — is body available?', err);
+  }
 }
+
+ensureGlobalDelegateRoot();
 
 try {
   validHTMLCode();
@@ -1754,3 +1766,5 @@ try {
 } catch(err) {
   console.log(err);
 }
+
+window.ftcMainJsVersion = 20260528;

@@ -435,43 +435,9 @@ function setupCommentsLazyLoad(contentId, contentType) {
   target.__io = io;
 }
 
-// Optional: wire follow buttons to your existing web handlers (guarded to add once)
+// Follow buttons inserted here are handled by scripts/myft-follow.js.
 function setupFollowButtons() {
-  const root = document.body;
-  if (!root || root.__followWired) {
-    return;
-  }
-  root.addEventListener('click', (e) => {
-    const t = e.target;
-    if (!t || !t.className || typeof t.className !== 'string' || t.className.indexOf('myft-follow') < 0) {
-      return;
-    }
-    const type = t.getAttribute('data-type') || 'tag';
-    let value = t.getAttribute('data-tag') || '';
-    if (value.indexOf('%') >= 0) {
-      try {
-        value = decodeURIComponent(value);
-      } catch (ignore) {
-        // noop
-      }
-    }
-
-    // toggle UI
-    if (t.className.indexOf(' plus') >= 0) {
-      t.innerHTML = t.innerHTML === 'Follow' ? 'Following' : '已关注';
-      t.className = t.className.replace(' plus', ' tick');
-      if (window.FollowAPI && typeof window.FollowAPI.follow === 'function') {
-        window.FollowAPI.follow({ type, value });
-      }
-    } else {
-      t.innerHTML = t.innerHTML === 'Following' ? 'Follow' : '关注';
-      t.className = t.className.replace(' tick', ' plus');
-      if (window.FollowAPI && typeof window.FollowAPI.unfollow === 'function') {
-        window.FollowAPI.unfollow({ type, value });
-      }
-    }
-  });
-  root.__followWired = true;
+  // Intentionally empty: the global MyFT delegate handles dynamic buttons.
 }
 
 // Build sticky bottom action bar (save / comment / share / settings)

@@ -1,4 +1,4 @@
-/* global getMyPreference, savePreference, convertChinese, runLoadImages, markReadContent, updateHeadlineLocks, GetCookie, Android, webkit, AbortController, Blob, isMyFTInterestPreferenceMode */
+/* global getMyPreference, savePreference, convertChinese, runLoadImages, markReadContent, updateHeadlineLocks, GetCookie, Android, webkit, AbortController, Blob */
 /* exported renderRecommendationForWebAppHome, renderHomePageRecommendationNow, renderFTGlobalCurationEntry, shouldShowHomePageRecommendation, getFTGlobalCurationEntryState, syncPreferenceForFTGlobalCurationOptIn, getPremiumPreferenceGate */
 
 // === Attribute Mapping ===
@@ -1710,20 +1710,6 @@ function normalizeInterestField(field) {
   return fieldMap[key] || rawField;
 }
 
-function mapLegacyFollowField(category) {
-  const categoryMap = {
-    area: 'regions',
-    author: 'byline',
-    authors: 'byline',
-    organisation: 'organisations',
-    organisations: 'organisations',
-    organization: 'organisations',
-    organizations: 'organisations',
-    topic: 'topics'
-  };
-  return categoryMap[category] || '';
-}
-
 function normalizeAnnotationValue(value) {
   if (!value || typeof value !== 'string') {return '';}
   let result = value;
@@ -2240,47 +2226,15 @@ function updateFollows() {
   followsSet = new Set();
   followedInterestIndex = createFollowedInterestIndex();
 
-  const myFTFollows = localStorage.getItem('my-ft-follow-ftc');
   const preference = localStorage.getItem('preference');
   let parsedPreference = null;
-  let preferenceMode = false;
 
   try {
     if (preference) {
       parsedPreference = JSON.parse(preference);
-      preferenceMode = (typeof isMyFTInterestPreferenceMode === 'function') ?
-        isMyFTInterestPreferenceMode(parsedPreference) :
-        (parsedPreference?.myft_interest_preference_mode === true || Number(parsedPreference?.myft_interest_schema_version || 0) > 0);
     }
   } catch (err) {
     console.warn('Failed to parse preference:', err);
-  }
-
-  try {
-    if (myFTFollows && preferenceMode !== true) {
-      const parsedFollow = JSON.parse(myFTFollows);
-      const tagCategories = ['tag', 'topic', 'area', 'author', 'authors', 'organisation', 'organisations', 'organization', 'organizations'];
-      for (const category of tagCategories) {
-        const list = parsedFollow[category];
-        if (Array.isArray(list)) {
-          for (const value of list) {
-            const key = typeof value === 'string' ? value : value?.key;
-            const display = typeof value === 'object' ? value.display : '';
-            if (!key) {continue;}
-            followsSet.add(key);
-            addFollowedInterest({
-              key,
-              display: display || getFallbackTagDisplay(key),
-              field: mapLegacyFollowField(category),
-              aliases: [key, display],
-              source: 'legacyTag'
-            });
-          }
-        }
-      }
-    }
-  } catch (err) {
-    console.warn('Failed to parse my-ft-follow:', err);
   }
 
   try {

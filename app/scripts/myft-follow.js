@@ -5,7 +5,6 @@ const keyForLocal = 'my-ft-follow-ftc';
 const keyForMyInterests = 'My Interests';
 const keyForpreference = 'preference';
 const last_sync_time_key = 'last_sync_time';
-const last_preference_follow_check_key = 'myft_preference_follow_check_time';
 const webPushPromptCooldownKey = 'ftc:webpushPromptNextAt';
 const webPushPromptAcceptedKey = 'ftc:webpushPromptAccepted';
 const webPushPromptCooldownMs = 30 * 24 * 60 * 60 * 1000;
@@ -428,7 +427,10 @@ function itemMatchesFollowPreference(item, preferenceItem, aliases) {
 function updateLocalPreferenceFollow(btn, shouldFollow) {
     const preferenceItem = getPreferenceItemFromFollowButton(btn);
     if (!preferenceItem) {
-        return;
+        return {
+            updated: false,
+            reason: 'missing-preference-item'
+        };
     }
     try {
         const preferenceJSON = (typeof getMyPreference === 'function') ? getMyPreference() : (JSON.parse(localStorage.getItem('preference') || '{}') || {});
@@ -444,39 +446,25 @@ function updateLocalPreferenceFollow(btn, shouldFollow) {
             myInterests.unshift(preferenceItem);
         }
         preferenceJSON[keyForMyInterests] = myInterests;
+        preferenceJSON.myft_interest_preference_mode = true;
+        if (Number(preferenceJSON.myft_interest_schema_version || 0) <= 0) {
+            preferenceJSON.myft_interest_schema_version = 1;
+        }
         updatePreference(preferenceJSON, {immediate: true});
+        return {
+            updated: true,
+            shouldFollow,
+            item: preferenceItem,
+            interestCount: myInterests.length
+        };
     } catch (err) {
         console.error('MyFT preference update error: ', err);
+        return {
+            updated: false,
+            reason: 'exception',
+            message: err && err.message ? err.message : String(err)
+        };
     }
-}
-
-function buildFollowRequestPayload(btn, records, action, canonicalFollowRecord) {
-    const uniqueRecords = getUniqueFollowRecords(records);
-    const dataTag = normalizeFollowValue(btn.getAttribute('data-tag') || '');
-    const dataType = normalizeFollowValue(btn.getAttribute('data-type') || 'tag');
-    const prefKey = normalizeFollowValue(btn.getAttribute('data-key'));
-    const prefField = normalizeFollowValue(btn.getAttribute('data-field'));
-    const prefDisplay = normalizeFollowValue(btn.getAttribute('data-display'));
-    const preferenceSource = getPreferenceSourceFromFollowButton(btn, prefField);
-    const aliases = [...new Set([
-        dataTag,
-        prefKey,
-        prefDisplay,
-        ...uniqueRecords.map(record => record.name)
-    ].map(normalizeFollowValue).filter(Boolean))];
-    return {
-        action,
-        type: canonicalFollowRecord?.type || dataType,
-        name: canonicalFollowRecord?.name || dataTag,
-        tag: dataTag,
-        dataType,
-        key: prefKey,
-        field: prefField,
-        display: prefDisplay || dataTag,
-        source: preferenceSource,
-        aliases,
-        records: uniqueRecords
-    };
 }
 
 function getFollowButtonStateText(btn, isFollowed) {
@@ -488,7 +476,42 @@ function getFollowButtonStateText(btn, isFollowed) {
     return isFollowed ? '已关注' : '关注';
 }
 
+function getFollowButtonCurrentState(btn) {
+    if (btn.classList.contains('plus')) {
+        return false;
+    }
+    if (btn.classList.contains('tick')) {
+        return true;
+    }
+    return btn.getAttribute('data-follow-state') === 'followed';
+}
+
+function getFollowButtonIdentity(btn) {
+    if (!btn) {
+        return '';
+    }
+    const prefKey = normalizeFollowValue(btn.getAttribute('data-key'));
+    const prefField = normalizeFollowValue(btn.getAttribute('data-field'));
+    const prefDisplay = normalizeFollowValue(btn.getAttribute('data-display'));
+    const dataType = normalizeFollowValue(btn.getAttribute('data-type') || 'tag');
+    const dataTag = normalizeFollowValue(btn.getAttribute('data-tag') || '');
+    return [
+        prefField || dataType || 'tag',
+        prefKey || dataTag,
+        prefDisplay || dataTag
+    ].join('|');
+}
+
+function getFollowButtonsByIdentity(identity) {
+    if (!identity || !document.querySelectorAll) {
+        return [];
+    }
+    return Array.prototype.slice.call(document.querySelectorAll('button.myft-follow')).filter(btn => getFollowButtonIdentity(btn) === identity);
+}
+
 function setFollowButtonState(btn, isFollowed) {
+    btn.setAttribute('data-follow-state', isFollowed ? 'followed' : 'unfollowed');
+    btn.setAttribute('aria-pressed', isFollowed ? 'true' : 'false');
     btn.textContent = getFollowButtonStateText(btn, isFollowed);
     if (isFollowed) {
         btn.classList.remove('plus');
@@ -499,64 +522,78 @@ function setFollowButtonState(btn, isFollowed) {
     btn.classList.remove('tick');
 }
 
+function setFollowButtonsWithSameIdentity(sourceButton, isFollowed) {
+    const identity = getFollowButtonIdentity(sourceButton);
+    const buttons = getFollowButtonsByIdentity(identity);
+    if (buttons.length === 0) {
+        setFollowButtonState(sourceButton, isFollowed);
+        return;
+    }
+    buttons.forEach(btn => setFollowButtonState(btn, isFollowed));
+}
+
+function logFollowDebug() {
+    if (window.ftcFollowDebug !== true || !window.console || typeof window.console.log !== 'function') {
+        return;
+    }
+    const args = Array.prototype.slice.call(arguments);
+    args.unshift('[MyFT Follow]');
+    window.console.log.apply(window.console, args);
+}
+
+function getFollowDebugState() {
+    const buttons = document.querySelectorAll ? document.querySelectorAll('button.myft-follow') : [];
+    return {
+        buttonCount: buttons ? buttons.length : 0,
+        delegateClickBound: window.__ftcMyFtFollowDelegateBound === true,
+        delegateRootReady: Boolean(window.delegate?.rootElement),
+        delegateRootsBody: window.delegate?.rootElement === document.body,
+        preferenceMode: isMyFTPreferenceModeForFollow()
+    };
+}
+
+window.ftcFollowDebugState = getFollowDebugState;
+
 // click events
 try {
-    if (typeof delegate === 'undefined') { 
+    if (typeof delegate === 'undefined') {
         window.delegate = new Delegate(document.body);
+    } else if (!delegate.rootElement && document.body && typeof delegate.root === 'function') {
+        delegate.root(document.body);
     }
+    if (!window.__ftcMyFtFollowDelegateBound) {
+        delegate.on('click', '.myft-follow', function () {
+            const isFollowed = getFollowButtonCurrentState(this);
+            const nextFollowed = !isFollowed;
+            const identity = getFollowButtonIdentity(this);
 
-    delegate.on('click', '.myft-follow', async function () {
-        const isFollowed = !this.classList.contains('plus');
-
-        const dataTag = normalizeFollowValue(this.getAttribute('data-tag') || '');
-        const dataType = normalizeFollowValue(this.getAttribute('data-type') || 'tag');
-        if (!dataTag) {
-            alert('亲爱的读者，我们无法识别您关注的标签，请您刷新页面重新试试。');
-            return;
-        }
-        this.setAttribute('data-tag', dataTag);
-        this.setAttribute('data-type', dataType);
-
-        // Keep preference-based follows in sync when canonical annotation data is available
-        const prefKey = normalizeFollowValue(this.getAttribute('data-key'));
-        const prefField = normalizeFollowValue(this.getAttribute('data-field'));
-        const prefDisplay = normalizeFollowValue(this.getAttribute('data-display'));
-        const primaryFollowRecord = {type: dataType, name: dataTag};
-        const canonicalFollowRecord = getMappedFollowFromPreference(prefKey, prefField, prefDisplay) || primaryFollowRecord;
-        const followRecordVariants = getUniqueFollowRecords([
-            primaryFollowRecord,
-            canonicalFollowRecord,
-            ...getFollowRecordVariantsFromPreference(prefKey, prefField, prefDisplay)
-        ]);
-        const followRecordsToRemove = followRecordVariants;
-        const followRecordsToAdd = getUniqueFollowRecords([canonicalFollowRecord]);
-        clearLegacyFollowStorageForPreferenceMode();
-        updateLocalPreferenceFollow(this, !isFollowed);
-
-        // Optimistically update UI immediately
-        if (isFollowed) {
-            setFollowButtonState(this, false);
-        } else {
-            setFollowButtonState(this, true);
-            maybePromptWebPush();
-        }
-
-        // Send follow/unfollow request to the server in the background
-        if (hasLoggedIn()) {
-            try {
-                const action = isFollowed ? 'unfollow' : 'follow';
-                const url = `/myft_follow`;
-                const serverFollowRecords = isFollowed ? followRecordsToRemove : followRecordsToAdd;
-                const payload = buildFollowRequestPayload(this, serverFollowRecords, action, canonicalFollowRecord);
-                await sendFollowRecordsToServer(payload, url);
-            } catch (err) {
-                console.error(`MyFT follow error: `, err);
+            const dataTag = normalizeFollowValue(this.getAttribute('data-tag') || '');
+            const dataType = normalizeFollowValue(this.getAttribute('data-type') || 'tag');
+            if (!dataTag) {
+                alert('亲爱的读者，我们无法识别您关注的标签，请您刷新页面重新试试。');
+                return false;
             }
-        }
+            this.setAttribute('data-tag', dataTag);
+            this.setAttribute('data-type', dataType);
 
-        // Sync follows after the update
-        await checkFollow({forceSync: true, skipLocalSync: true});
-    });
+            clearLegacyFollowStorageForPreferenceMode();
+            updateLocalPreferenceFollow(this, nextFollowed);
+            setFollowButtonsWithSameIdentity(this, nextFollowed);
+            if (nextFollowed) {
+                maybePromptWebPush();
+            }
+            logFollowDebug('click', {
+                action: nextFollowed ? 'follow' : 'unfollow',
+                identity,
+                tag: dataTag,
+                key: this.getAttribute('data-key'),
+                field: this.getAttribute('data-field'),
+                className: this.className,
+                text: this.textContent
+            });
+        });
+        window.__ftcMyFtFollowDelegateBound = true;
+    }
 
 } catch (ignore) {}
 
@@ -678,40 +715,6 @@ function updatePreference(preference, options) {
     }
 }
 
-async function sendFollowRecordsToServer(records, url) {
-    const endpoint = url || '/myft_follow';
-    const payload = Array.isArray(records) ? {
-        action: 'follow',
-        type: records[0]?.type,
-        name: records[0]?.name,
-        records: getUniqueFollowRecords(records)
-    } : records;
-    const response = await fetch(endpoint, {
-        method: 'POST',
-        keepalive: true,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-    });
-
-    if (!response.ok) {
-        console.warn('Server failed to process follow/unfollow action:', await response.text());
-    }
-}
-
-function timeToSync() {
-    try {
-        const last_sync_unix_time_stamp_string = localStorage.getItem(last_preference_follow_check_key);
-        if (!last_sync_unix_time_stamp_string) {
-            return true; // Sync if there's no recorded sync time
-        }
-
-        const last_sync_unix_time_stamp = parseInt(last_sync_unix_time_stamp_string, 10);
-        return new Date().getTime() - last_sync_unix_time_stamp > 3 * 60 * 1000;
-    } catch (ignore) {
-        return true; // Default to true if an error occurs
-    }
-}
-
 function updateSavedFollows(savedFollows, myInterests) {
 
     // console.log('saved follows: ', JSON.stringify(savedFollows));
@@ -815,28 +818,6 @@ async function checkFollow(options) {
         savedFollows = updateSavedFollows(savedFollows, myInterests);
     } catch(ignore) {}
 
-    // const myPreferenceString = localStorage.getItem('preference');
-
-    if (hasLoggedIn() && (opts.forceSync === true || timeToSync())) {
-        try {
-            clearLegacyFollowStorageForPreferenceMode();
-            const response = await fetch('/get_myft_follows');
-            if (response.ok) {
-                const serverData = await response.json();
-
-                if (serverData && typeof serverData === 'object') {
-                    savedFollows = serverData; // Only use valid server data
-                    localStorage.setItem(last_preference_follow_check_key, new Date().getTime());
-                }
-            } else {
-                console.warn('Failed to fetch follows from server, falling back to local storage.');
-            }
-        } catch (err) {
-            console.error(`check follow error: `, err);
-        }
-    }
-
-    // Update UI based on final follow data (server preferred, local fallback)
     const followButtons = document.querySelectorAll('button.myft-follow');
 
     // console.log(savedFollows);

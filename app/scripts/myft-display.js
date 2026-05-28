@@ -87,25 +87,7 @@ function getLocalPreferenceFollowsForDisplay() {
 }
 
 async function getPreferenceFollowsForDisplay() {
-    var localFollows = getLocalPreferenceFollowsForDisplay();
-    if (typeof fetch !== 'function') {
-        return localFollows;
-    }
-    try {
-        var response = await fetch('/get_myft_follows', {
-            method: 'GET',
-            credentials: 'same-origin',
-            headers: {'Content-Type': 'application/json'}
-        });
-        if (!response.ok) {
-            return localFollows;
-        }
-        var serverFollows = await response.json();
-        if (serverFollows && typeof serverFollows === 'object') {
-            return serverFollows;
-        }
-    } catch (ignore) {}
-    return localFollows;
+    return getLocalPreferenceFollowsForDisplay();
 }
 
 async function filterMyFTItems() {
