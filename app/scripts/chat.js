@@ -1300,6 +1300,20 @@ function getShortcutOptions(prompt) {
       purpose: 'show-ft-page',
       content: 'home',
       reply: 'FindingMyFT'
+    },
+    {
+      key: 'Deep Dive',
+      regex: /^(深度报道|深度解读|深度文章|深度|Deep Dive|In-depth reports|In-depth report)$/gi,
+      purpose: 'search-ft-api',
+      content: 'genre:"Deep Dive" OR genre:"News in-depth" OR genre:"Explainer"',
+      reply: 'Finding'
+    },
+    {
+      key: 'Explainer',
+      regex: /^(解读|Explainer)$/gi,
+      purpose: 'search-ft-api',
+      content: 'genre:"Explainer"',
+      reply: 'Finding'
     }
   ];
   for (const shortcut of shortcuts) {
@@ -1995,8 +2009,10 @@ async function searchFTAPI(content, language, reply) {
     if (results.length > 0) {
       const results = searchResults.results[0].results;
       await renderResults(results, language);
+    } else if (searchResults?.status === 'success') {
+      showResultInChat({text: localize('No Search Result')});
     } else {
-      await showErrorInDetail(searchResults)
+      await showErrorInDetail(searchResults);
     }
   } catch (err){
     console.log('Error with searchFTAPI');

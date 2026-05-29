@@ -291,11 +291,11 @@ async function getFTAPISearchResult(keyword, language) {
         let results = await response.json();
         // console.log(`response status: ${response.status}, results: `);
         // console.log(results);
-        if (response.status >= 400) {
+        if (response.status >= 400 || results?.status === 'error') {
             const message = results?.message ?? 'unknow error';
             return {status: 'failed', message, detail: results};
         }
-        if (results.results) {
+        if (results && results.results) {
             return {status: 'success', results: results.results};
         } else {
             return {status: 'failed', message: 'Something is wrong with FT Search, please try later. '};
