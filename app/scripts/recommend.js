@@ -523,6 +523,10 @@ function buildFTGlobalCurationEntryHTML(entryPoint = 'home_prompt') {
     </div>`;
 }
 
+function getFTGlobalCurationEntryPoint(container) {
+  return container?.querySelector?.('.home-page-recommendation-entry-block')?.getAttribute('data-entry-point') || 'home_prompt';
+}
+
 function showFTGlobalCurationEntryInContainer(container, options = {}) {
   if (!container) {return false;}
   if (
@@ -531,9 +535,14 @@ function showFTGlobalCurationEntryInContainer(container, options = {}) {
   ) {
     return false;
   }
+  const entryPoint = options?.entryPoint || 'home_prompt';
   container.hidden = false;
   container.setAttribute('data-render-status', 'entry');
-  container.innerHTML = buildFTGlobalCurationEntryHTML(options?.entryPoint || 'home_prompt');
+  container.innerHTML = buildFTGlobalCurationEntryHTML(entryPoint);
+  trackHomePageRecommendationEvent('ft_global_curation_entry_shown', {
+    status: 'shown',
+    entryPoint
+  });
   return true;
 }
 
@@ -618,7 +627,7 @@ async function enableFTGlobalCurationFromEntry(button) {
     if (previousHomePagePreference !== CUSTOM_HOME_PAGE_PREFERENCE_VALUE) {
       trackHomePageRecommendationEvent('ft_global_curation_preference_enabled', {
         status: 'enabled',
-        source: container.querySelector('.home-page-recommendation-entry-block')?.getAttribute('data-entry-point') || 'entry_banner'
+        entryPoint: getFTGlobalCurationEntryPoint(container)
       });
     }
     if (typeof localStorage === 'object') {
@@ -1401,6 +1410,10 @@ delegate.on('click', '.ft-global-curation-entry-enable', function (event) {
 delegate.on('click', '.ft-global-curation-entry-dismiss', function (event) {
   event.preventDefault();
   const container = this.closest(`#${HOME_PAGE_RECOMMENDATION_CONTAINER_ID}`);
+  trackHomePageRecommendationEvent('ft_global_curation_entry_dismissed', {
+    status: 'dismissed',
+    entryPoint: getFTGlobalCurationEntryPoint(container)
+  });
   dismissFTGlobalCurationEntry(container);
 });
 
