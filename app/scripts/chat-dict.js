@@ -4451,7 +4451,7 @@ Genres: {
     ru: 'Искать'
   },
   'Deep Dive': {
-    zh: '深度报道',
+    zh: '深度解读',
     en: 'In-depth reports',
     es: 'Reportajes en profundidad',
     fr: 'Reportages approfondis',
