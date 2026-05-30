@@ -101,6 +101,8 @@ const HOME_PAGE_RECOMMENDATION_LIMIT = 24;
 const NATIVE_HOME_PAGE_RECOMMENDATION_TIMEOUT_MS = 30000;
 const HOME_PAGE_RECOMMENDATION_TRACK_ENDPOINT = '/track_ft_global_curation';
 const HOME_PAGE_RECOMMENDATION_TRACK_THROTTLE_MS = 2000;
+const FT_GLOBAL_CURATION_ENTRY_SEEN_RATIO = 0.5;
+const FT_GLOBAL_CURATION_ENTRY_SEEN_MS = 1000;
 const HOME_PAGE_PREFERENCE_KEY = 'Home Page Preference';
 const ARTICLE_TRANSLATION_PREFERENCE_KEY = 'Article Translation Preference';
 const CUSTOM_HOME_PAGE_PREFERENCE_VALUE = 'customized';
@@ -203,6 +205,9 @@ const homePageRecommendationRenderPromises = new WeakMap();
 const homePageRecommendationTrackedShells = new WeakSet();
 const homePageRecommendationTrackedTerminalStatuses = new WeakMap();
 const homePageRecommendationTrackThrottle = new Map();
+const ftGlobalCurationEntrySeenTimers = new WeakMap();
+const ftGlobalCurationEntrySeenObservers = new WeakMap();
+const ftGlobalCurationEntrySeenEntries = new WeakSet();
 
 // === Recommendation Weights ===
 const recommendationWeights = {
@@ -503,10 +508,10 @@ function buildHomePageRecommendationShellHTML() {
     </div>`;
 }
 
-function buildFTGlobalCurationEntryHTML(entryPoint = 'home_prompt') {
+function buildFTGlobalCurationEntryHTML(entryPoint = 'home_prompt', impressionId = '') {
   const text = getFTExclusiveCurationText();
   return `
-    <div class="block-container no-side home-page-recommendation-entry-block" data-entry-point="${escapeAttributeValue(entryPoint)}">
+    <div class="block-container no-side home-page-recommendation-entry-block" data-entry-point="${escapeAttributeValue(entryPoint)}" data-impression-id="${escapeAttributeValue(impressionId)}">
       <div class="block-inner">
         <div class="content-container"><div class="content-inner">
           <div class="ft-global-curation-entry-banner" role="region" aria-label="${escapeAttributeValue(text.title)}">
@@ -527,6 +532,112 @@ function getFTGlobalCurationEntryPoint(container) {
   return container?.querySelector?.('.home-page-recommendation-entry-block')?.getAttribute('data-entry-point') || 'home_prompt';
 }
 
+function getFTGlobalCurationEntryBlock(container) {
+  return container?.querySelector?.('.home-page-recommendation-entry-block') || null;
+}
+
+function getFTGlobalCurationEntryImpressionId(container) {
+  return getFTGlobalCurationEntryBlock(container)?.getAttribute('data-impression-id') ||
+    container?.getAttribute?.('data-ft-global-curation-impression-id') ||
+    '';
+}
+
+function createFTGlobalCurationImpressionId() {
+  const random = Math.random().toString(36).slice(2, 10);
+  return `ftgc-${Date.now().toString(36)}-${random}`;
+}
+
+function getRoundedVisibleRatio(value) {
+  const ratio = Number(value);
+  if (!Number.isFinite(ratio)) {return undefined;}
+  return Math.round(Math.max(0, Math.min(1, ratio)) * 100) / 100;
+}
+
+function clearFTGlobalCurationEntrySeenTimer(entry) {
+  const timer = ftGlobalCurationEntrySeenTimers.get(entry);
+  if (!timer) {return;}
+  window.clearTimeout(timer);
+  ftGlobalCurationEntrySeenTimers.delete(entry);
+}
+
+function stopFTGlobalCurationEntrySeenObserver(entry) {
+  if (!entry) {return;}
+  clearFTGlobalCurationEntrySeenTimer(entry);
+  const observer = ftGlobalCurationEntrySeenObservers.get(entry);
+  if (!observer) {return;}
+  observer.disconnect();
+  ftGlobalCurationEntrySeenObservers.delete(entry);
+}
+
+function stopFTGlobalCurationEntrySeenTracking(container) {
+  stopFTGlobalCurationEntrySeenObserver(getFTGlobalCurationEntryBlock(container));
+}
+
+function trackFTGlobalCurationEntrySeen(container, options = {}) {
+  const entry = getFTGlobalCurationEntryBlock(container);
+  if (!entry || ftGlobalCurationEntrySeenEntries.has(entry)) {return false;}
+  ftGlobalCurationEntrySeenEntries.add(entry);
+  entry.setAttribute('data-entry-seen', 'true');
+  stopFTGlobalCurationEntrySeenObserver(entry);
+
+  const visibleRatio = getRoundedVisibleRatio(options.visibleRatio);
+  const visibleMs = Number(options.visibleMs);
+  const data = {
+    status: 'seen',
+    entryPoint: getFTGlobalCurationEntryPoint(container),
+    impressionId: getFTGlobalCurationEntryImpressionId(container),
+    seenReason: options.seenReason || 'viewport'
+  };
+  if (visibleRatio !== undefined) {
+    data.visibleRatio = visibleRatio;
+  }
+  if (Number.isFinite(visibleMs)) {
+    data.visibleMs = Math.max(0, Math.round(visibleMs));
+  }
+  trackHomePageRecommendationEvent('ft_global_curation_entry_seen', data, {throttleMs: 0});
+  return true;
+}
+
+function observeFTGlobalCurationEntrySeen(container) {
+  const entry = getFTGlobalCurationEntryBlock(container);
+  if (
+    !entry ||
+    ftGlobalCurationEntrySeenEntries.has(entry) ||
+    typeof window !== 'object' ||
+    typeof window.IntersectionObserver !== 'function'
+  ) {
+    return;
+  }
+
+  let visibleStartedAt = 0;
+  let visibleRatio = 0;
+  const observer = new window.IntersectionObserver(entries => {
+    for (const observedEntry of entries) {
+      if (observedEntry.target !== entry) {continue;}
+      const ratio = getRoundedVisibleRatio(observedEntry.intersectionRatio) || 0;
+      if (observedEntry.isIntersecting && ratio >= FT_GLOBAL_CURATION_ENTRY_SEEN_RATIO) {
+        if (ftGlobalCurationEntrySeenTimers.has(entry)) {continue;}
+        visibleStartedAt = Date.now();
+        visibleRatio = ratio;
+        const timer = window.setTimeout(() => {
+          ftGlobalCurationEntrySeenTimers.delete(entry);
+          trackFTGlobalCurationEntrySeen(container, {
+            visibleRatio,
+            visibleMs: Date.now() - visibleStartedAt,
+            seenReason: 'viewport'
+          });
+        }, FT_GLOBAL_CURATION_ENTRY_SEEN_MS);
+        ftGlobalCurationEntrySeenTimers.set(entry, timer);
+        continue;
+      }
+      clearFTGlobalCurationEntrySeenTimer(entry);
+    }
+  }, {threshold: [0, FT_GLOBAL_CURATION_ENTRY_SEEN_RATIO, 1]});
+
+  ftGlobalCurationEntrySeenObservers.set(entry, observer);
+  observer.observe(entry);
+}
+
 function showFTGlobalCurationEntryInContainer(container, options = {}) {
   if (!container) {return false;}
   if (
@@ -536,13 +647,18 @@ function showFTGlobalCurationEntryInContainer(container, options = {}) {
     return false;
   }
   const entryPoint = options?.entryPoint || 'home_prompt';
+  const impressionId = createFTGlobalCurationImpressionId();
+  stopFTGlobalCurationEntrySeenTracking(container);
   container.hidden = false;
   container.setAttribute('data-render-status', 'entry');
-  container.innerHTML = buildFTGlobalCurationEntryHTML(entryPoint);
+  container.setAttribute('data-ft-global-curation-impression-id', impressionId);
+  container.innerHTML = buildFTGlobalCurationEntryHTML(entryPoint, impressionId);
   trackHomePageRecommendationEvent('ft_global_curation_entry_shown', {
     status: 'shown',
-    entryPoint
-  });
+    entryPoint,
+    impressionId
+  }, {throttleMs: 0});
+  observeFTGlobalCurationEntrySeen(container);
   return true;
 }
 
@@ -600,6 +716,7 @@ function dismissFTGlobalCurationEntry(container) {
 async function enableFTGlobalCurationFromEntry(button) {
   const container = button?.closest?.(`#${HOME_PAGE_RECOMMENDATION_CONTAINER_ID}`);
   if (!container || button.disabled) {return;}
+  trackFTGlobalCurationEntrySeen(container, {seenReason: 'enable_click'});
 
   const text = getFTExclusiveCurationText();
   const error = container.querySelector('.ft-global-curation-entry-error');
@@ -627,8 +744,9 @@ async function enableFTGlobalCurationFromEntry(button) {
     if (previousHomePagePreference !== CUSTOM_HOME_PAGE_PREFERENCE_VALUE) {
       trackHomePageRecommendationEvent('ft_global_curation_preference_enabled', {
         status: 'enabled',
-        entryPoint: getFTGlobalCurationEntryPoint(container)
-      });
+        entryPoint: getFTGlobalCurationEntryPoint(container),
+        impressionId: getFTGlobalCurationEntryImpressionId(container)
+      }, {throttleMs: 0});
     }
     if (typeof localStorage === 'object') {
       try {
@@ -719,6 +837,7 @@ function retryHomePageRecommendation(container) {
 
 function hideHomePageRecommendation(container) {
   if (!container) {return;}
+  stopFTGlobalCurationEntrySeenTracking(container);
   container.hidden = true;
   container.innerHTML = '';
 }
@@ -1410,10 +1529,12 @@ delegate.on('click', '.ft-global-curation-entry-enable', function (event) {
 delegate.on('click', '.ft-global-curation-entry-dismiss', function (event) {
   event.preventDefault();
   const container = this.closest(`#${HOME_PAGE_RECOMMENDATION_CONTAINER_ID}`);
+  trackFTGlobalCurationEntrySeen(container, {seenReason: 'dismiss_click'});
   trackHomePageRecommendationEvent('ft_global_curation_entry_dismissed', {
     status: 'dismissed',
-    entryPoint: getFTGlobalCurationEntryPoint(container)
-  });
+    entryPoint: getFTGlobalCurationEntryPoint(container),
+    impressionId: getFTGlobalCurationEntryImpressionId(container)
+  }, {throttleMs: 0});
   dismissFTGlobalCurationEntry(container);
 });
 
@@ -1738,7 +1859,7 @@ function mapAnnotationField(annotation) {
   const rawType = (annotation?.type || '').toString().trim();
   if (!rawType) {return '';}
   const type = rawType.toUpperCase();
-  if (type === 'GENRE') {return 'genres';}
+  if (type === 'GENRE') {return 'genre';}
   if (type === 'LOCATION') {return 'regions';}
   if (type === 'ORGANISATION' || type === 'ORGANIZATION') {return 'organisations';}
   if (type === 'PERSON') {

@@ -260,15 +260,16 @@ function getMyFollowsHTML() {
         const key = info.key;
         const fallback = (/^(en|English)/gi.test(preferredLanguage)) ? key : info.display;
         const display = localize(key, fallback);
-        let field = info.type || '';
+        let field = normalizeFTSearchField(info.type || '');
         if (field === '') {
-            field = checkType(key);
+            field = normalizeFTSearchField(checkType(key));
         }
-        let content = `${field}: ${key}`;
+        const purpose = getFollowSearchPurpose(field);
+        let content = getFollowSearchContent(field, key);
         if (field === 'curations') {
             content = key;
         }
-        return {index: index, html: `<a class="for-long-press has-reorder-button" data-purpose="search-ft-api" data-lang="${preferredLanguage}" data-content="${content}" data-reply="${localize('Finding')}" data-name="${key}" data-type="${field}" draggable="true">${display}${reorderButton}</a>`};
+        return {index: index, html: `<a class="for-long-press has-reorder-button" data-purpose="${purpose}" data-lang="${preferredLanguage}" data-content="${content}" data-reply="${localize('Finding')}" data-name="${key}" data-type="${field}" draggable="true">${display}${reorderButton}</a>`};
     });
     const customTopics = (my[myCustomInterestsKey] || []).filter(x=>typeof x === 'object');
     const topics = customTopics.map(info=>{
@@ -283,6 +284,48 @@ function getMyFollowsHTML() {
         allItems = allItems.sort((a, b) => a.index - b.index);
     }
     return allItems.map(x=>x.html).join('');
+
+}
+
+function normalizeFTSearchField(field) {
+
+    const decodedField = decodeHTMLEntitiesFrontend(field || '');
+    const normalizedField = (typeof decodedField === 'string') ? decodedField.trim() : '';
+    const fieldMap = {
+        area: 'regions',
+        areas: 'regions',
+        author: 'byline',
+        authors: 'byline',
+        customtopic: customTopicType,
+        genre: 'genre',
+        genres: 'genre',
+        industry: 'topics',
+        industries: 'topics',
+        organisation: 'organisations',
+        organization: 'organisations',
+        organizations: 'organisations',
+        region: 'regions',
+        topic: 'topics'
+    };
+    return fieldMap[normalizedField.toLowerCase()] || normalizedField;
+
+}
+
+function getFollowSearchPurpose(field) {
+
+    if (field === 'tag' || field === customTopicType) {
+        return 'search-topic';
+    }
+    return 'search-ft-api';
+
+}
+
+function getFollowSearchContent(field, key) {
+
+    if (getFollowSearchPurpose(field) === 'search-topic') {
+        return key;
+    }
+    return `${field}: ${key}`;
 
 }
 
@@ -366,7 +409,7 @@ function getAnnotaionsInfo(content, language) {
             display = annotation.prefLabel || '';
         }
         const name = annotation.prefLabel || '';
-        const field = annotation.field || '';
+        const field = normalizeFTSearchField(annotation.field || '');
         let buttonClass = 'plus';
         let buttonSource = 'Follow';
         if (myInterestsKeys.indexOf(name)>=0) {
@@ -832,7 +875,7 @@ function renderShowIntention(ele, intentions) {
     const intentionsHTML = intentions
         .map(intention=>{
             const key = intention.name;
-            const field = intention.field;
+            const field = normalizeFTSearchField(intention.field ?? checkType(key));
             let buttonClass = 'plus';
             let buttonHTML = `${localize('Follow')}${localize('<!--space-->', ' ')}${capitalize(localize(field))}`;
             const name = intention.translations?.[preferredLanguage] ?? key;
@@ -840,17 +883,18 @@ function renderShowIntention(ele, intentions) {
                 buttonClass = 'tick';
                 buttonHTML = localize('Unfollow');
             }
-            const type = intention.field ?? checkType(key);
+            const type = field;
             const extra = (localize(name) === key) ? '' : `(${key})`;
             const display = localize(name);
 
             //<a  data-purpose="search-ft-api" data-lang="${preferredLanguage}" data-content="${content}" data-reply="${localize('Finding')}" data-name="${key}" data-type="${field}">${display}${reorderButton}</a>`};
 
-            const content = `${field}: ${key}`;
+            const purpose = getFollowSearchPurpose(field);
+            const content = getFollowSearchContent(field, key);
             return `
             <div class="input-container">
                 <div class="input-name-container">
-                <a data-purpose="search-ft-api" data-lang="${preferredLanguage}" data-content="${content}" data-reply="${localize('Finding')}" data-name="${key}" data-type="${field}">
+                <a data-purpose="${purpose}" data-lang="${preferredLanguage}" data-content="${content}" data-reply="${localize('Finding')}" data-name="${key}" data-type="${field}">
                     ${display}${extra}
                 </a>
                 </div>

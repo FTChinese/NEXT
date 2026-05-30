@@ -68,7 +68,7 @@ function renderShowIntention(ele, intentions) {
     const intentionsHTML = intentions
         .map(intention=>{
             const key = intention.name;
-            const field = intention.field;
+            const field = normalizeFTSearchFieldForSearch(intention.field);
             const name = intention.translations && intention.translations[preferredLanguage] ? intention.translations[preferredLanguage] : key;
             const extra = (localizeForSearch(name) === key) ? '' : `(${key})`;
             const display = localizeForSearch(name);
@@ -90,6 +90,27 @@ function renderShowIntention(ele, intentions) {
         })
         .join('');
     ele.innerHTML = `${intentionsHTML}`;
+}
+
+
+function normalizeFTSearchFieldForSearch(field) {
+    const normalizedField = String(field || '').trim();
+    const fieldMap = {
+        area: 'regions',
+        areas: 'regions',
+        author: 'byline',
+        authors: 'byline',
+        genre: 'genre',
+        genres: 'genre',
+        industry: 'topics',
+        industries: 'topics',
+        organisation: 'organisations',
+        organization: 'organisations',
+        organizations: 'organisations',
+        region: 'regions',
+        topic: 'topics'
+    };
+    return fieldMap[normalizedField.toLowerCase()] || normalizedField;
 }
 
 

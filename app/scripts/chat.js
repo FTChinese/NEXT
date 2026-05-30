@@ -1998,6 +1998,7 @@ async function searchFTAPI(content, language, reply) {
   updateBotStatus('pending');
   showResultInChat({text: reply});
   try {
+    content = normalizeFTSearchAPIContent(content);
     // let fullTextContent = content;
     // if (/[a-z]+:/g.test(fullTextContent)) {
     //   fullTextContent = fullTextContent.replace(/[a-z]+:/g, '').trim().replace(/[\ ]+/g, ' ');
@@ -2019,6 +2020,44 @@ async function searchFTAPI(content, language, reply) {
     console.log(err);
   }
   updateBotStatus('waiting');
+}
+
+function normalizeFTSearchAPIField(field) {
+  const normalizedField = String(field || '').trim();
+  const fieldMap = {
+    area: 'regions',
+    areas: 'regions',
+    author: 'byline',
+    authors: 'byline',
+    customtopic: 'customTopic',
+    genre: 'genre',
+    genres: 'genre',
+    industry: 'topics',
+    industries: 'topics',
+    organisation: 'organisations',
+    organization: 'organisations',
+    organizations: 'organisations',
+    region: 'regions',
+    topic: 'topics'
+  };
+  return fieldMap[normalizedField.toLowerCase()] || normalizedField;
+}
+
+function isFreeTextSearchField(field) {
+  return ['tag', 'customtopic'].indexOf(String(field || '').toLowerCase()) >= 0;
+}
+
+function normalizeFTSearchAPIContent(content) {
+  if (typeof content !== 'string') {
+    return content;
+  }
+  const freeTextMatch = content.match(/^\s*(tag|customTopic):\s*(.+?)\s*$/i);
+  if (freeTextMatch) {
+    return freeTextMatch[2];
+  }
+  return content.replace(/\b(area|areas|author|authors|genre|genres|industry|industries|organisation|organization|organizations|region|topic)\s*:/gi, (match, field) => {
+    return `${normalizeFTSearchAPIField(field)}:`;
+  });
 }
 
 async function searchTopic(content, language, reply) {
@@ -2797,7 +2836,12 @@ async function setGuardRails() {
   } else if (action === 'search' && field && key) {
     showBackArrow();
     await waitForAccessToken();
-    await searchFTAPI(`${field}: ${key}`, preferredLanguage, decodeURIComponent(display));
+    const normalizedField = normalizeFTSearchAPIField(field);
+    if (isFreeTextSearchField(normalizedField)) {
+      await searchTopic(key, preferredLanguage, decodeURIComponent(display));
+    } else {
+      await searchFTAPI(`${normalizedField}: ${key}`, preferredLanguage, decodeURIComponent(display));
+    }
   } else if (action === 'news-quiz') {
     const quizLanguage = paramDict?.language ?? preferredLanguage;
     await newsQuiz('quiz', quizLanguage, localize('IntroducingQuiz'), id);

@@ -337,9 +337,7 @@ function getMyFTPreferenceSchemaVersionForFollow(preference) {
 async function checkPreferenceModeFromServerForFollow() {
     if (typeof checkPreferencesFromServer === 'function') {
         await checkPreferencesFromServer();
-        if (isMyFTPreferenceModeForFollow()) {
-            return true;
-        }
+        return isMyFTPreferenceModeForFollow();
     }
     if (typeof fetch !== 'function') {
         return false;
@@ -382,7 +380,7 @@ function getPreferenceItemFromFollowButton(btn) {
         return {
             key: prefKey,
             display: prefDisplay,
-            type: prefField,
+            type: normalizePreferenceTypeForStorage(prefField),
             source: preferenceSource
         };
     }
@@ -407,6 +405,14 @@ function getPreferenceSourceFromFollowButton(btn, prefField) {
         return dataSource;
     }
     return 'ftc_tag';
+}
+
+function normalizePreferenceTypeForStorage(type) {
+    const normalizedType = normalizeFollowValue(type);
+    const typeMap = {
+        genres: 'genre'
+    };
+    return typeMap[normalizedType.toLowerCase()] || normalizedType;
 }
 
 function itemMatchesFollowPreference(item, preferenceItem, aliases) {

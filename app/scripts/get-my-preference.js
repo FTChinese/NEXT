@@ -92,6 +92,48 @@ function isMyFTInterestPreferenceMode(preference) {
     return preference?.[myFTInterestPreferenceModeKey] === true || getMyFTInterestSchemaVersion(preference) > 0;
 }
 
+function hasMeaningfulPreferenceContent(preference) {
+    if (!preference || typeof preference !== 'object') {
+        return false;
+    }
+    const metadataKeys = new Set([
+        'time',
+        myFTInterestSchemaVersionKey,
+        myFTInterestPreferenceModeKey
+    ]);
+    for (const [key, value] of Object.entries(preference)) {
+        if (metadataKeys.has(key)) {
+            continue;
+        }
+        if (preferenceInterestKeys.includes(key)) {
+            if (Array.isArray(value) && value.length > 0) {
+                return true;
+            }
+            continue;
+        }
+        if (Array.isArray(value)) {
+            if (value.length > 0) {
+                return true;
+            }
+            continue;
+        }
+        if (value && typeof value === 'object') {
+            if (Object.keys(value).length > 0) {
+                return true;
+            }
+            continue;
+        }
+        if (value !== undefined && value !== null && value !== '') {
+            return true;
+        }
+    }
+    return false;
+}
+
+function isGeneratedEmptyMyFTPreferenceMode(preference) {
+    return isMyFTInterestPreferenceMode(preference) && !hasMeaningfulPreferenceContent(preference);
+}
+
 function clearLegacyMyFTFollowStorage() {
     if (typeof localStorage !== 'object') {
         return;
@@ -294,6 +336,13 @@ async function checkPreferencesFromServer() {
 
     const serverPreference = deepSanitizeFrontend(normalizePreferenceEntities(results.preference));
     const localPreference = getMyPreference();
+    if (isGeneratedEmptyMyFTPreferenceMode(serverPreference)) {
+      if (hasMeaningfulPreferenceContent(localPreference)) {
+        await syncPreferencesWithServer(localPreference);
+        return true;
+      }
+      return false;
+    }
     const defaultTime = '2000-01-01 00:00:00';
     const serverTime = new Date(serverPreference?.time ?? defaultTime).getTime();
     const localTime = new Date(localPreference?.time ?? defaultTime).getTime();
