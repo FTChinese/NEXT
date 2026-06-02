@@ -24,6 +24,26 @@ const authors = ['Martin Wolf', 'Robert Armstrong', 'Madhumita Murgia', 'Richard
 
 const customTopicType = 'CustomTopic';
 
+function escapeHTMLText(value) {
+    return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+function getSearchHashLink(field, key, language, display) {
+    const params = new URLSearchParams({
+        field: String(field || ''),
+        key: String(key || ''),
+        language: String(language || ''),
+        action: 'search',
+        display: String(display || '')
+    });
+    return `./chat.html#${params.toString()}`;
+}
+
 window.recommendedAnnotations = [
     {title: 'Regions', data: regions},
     {title: 'Sectors', data: sectors},
@@ -417,10 +437,18 @@ function getAnnotaionsInfo(content, language) {
             buttonSource = 'Followed';
         }
         const buttonHTML = localize(buttonSource);
+        const displayText = decodeHTMLEntitiesFrontend(display);
+        const safeDisplay = escapeHTMLText(displayText);
+        const safeName = escapeHTMLText(name);
+        const safeField = escapeHTMLText(field);
+        const safeButtonClass = escapeHTMLText(buttonClass);
+        const safeButtonSource = escapeHTMLText(buttonSource);
+        const safeButtonHTML = escapeHTMLText(buttonHTML);
+        const searchHashLink = getSearchHashLink(field, name, language, displayText);
         if (isDisplayTag) {
-            storyTheme = `<div class="story-theme"><a href="./chat.html#field=${field}&key=${name}&language=${language}&action=search&display=${display}" target="_blank" data-content="${name}" data-display="${display}">${display}</a><button class="myft-follow ${buttonClass}" data-action="add-interest" data-name="${name}" data-type="${field}" data-display="${display}" data-source="${buttonSource}" data-target="${buttonHTML}">${buttonHTML}</button></div>`;
+            storyTheme = `<div class="story-theme"><a href="${searchHashLink}" target="_blank" data-content="${safeName}" data-display="${safeDisplay}">${safeDisplay}</a><button class="myft-follow ${safeButtonClass}" data-action="add-interest" data-name="${safeName}" data-type="${safeField}" data-display="${safeDisplay}" data-source="${safeButtonSource}" data-target="${safeButtonHTML}">${safeButtonHTML}</button></div>`;
         } else {
-            const html = `<li class="story-theme"><a href="./chat.html#field=${field}&key=${name}&language=${language}&action=search&display=${display}" target="_blank" data-content="${name}" data-content="${name}" data-display="${display}">${display}</a><button class="myft-follow ${buttonClass}" data-action="add-interest" data-name="${name}" data-type="${field}" data-display="${display}" data-source="${buttonSource}" data-target="${buttonHTML}">${buttonHTML}${localize('<!--space-->', ' ')}${capitalize(localize(field))}</button></li>`;
+            const html = `<li class="story-theme"><a href="${searchHashLink}" target="_blank" data-content="${safeName}" data-display="${safeDisplay}">${safeDisplay}</a><button class="myft-follow ${safeButtonClass}" data-action="add-interest" data-name="${safeName}" data-type="${safeField}" data-display="${safeDisplay}" data-source="${safeButtonSource}" data-target="${safeButtonHTML}">${safeButtonHTML}${localize('<!--space-->', ' ')}${capitalize(localize(field))}</button></li>`;
             if (usefulPredicates.has(predicate)) {
                 annotationsHTML += html;
             }
@@ -1264,7 +1292,11 @@ if (isTouchDevice()) {
 async function shouldShowInduction() {
 
     // MARK: - For native app webviews, don't show the induction/onboarding
-    if (window.location.href.indexOf('webview=ftcapp') >= 0 && window.intention) {
+    const isNativeAppWebView =
+        window.location.href.indexOf('webview=ftcapp') >= 0 ||
+        document.documentElement.classList.contains('is-in-native-app') ||
+        window.androidUserInfo;
+    if (isNativeAppWebView) {
         return false;
     }
 

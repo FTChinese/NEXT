@@ -1570,9 +1570,32 @@ div.input-title {
     }
 }
 
+.is-in-native-app {
+    .chat-content {
+        padding-top: calc(#{$navHeight} + env(safe-area-inset-top));
+    }
+    .chat-talk:first-child {
+        margin-top: math.div($defaultPadding, 2);
+    }
+    .audio-placeholder.is-sticky-top {
+        top: calc(#{$navHeight} + env(safe-area-inset-top));
+    }
+    &.is-android-app {
+        .chat-content {
+            padding-top: 0;
+        }
+        .chat-talk:first-child {
+            margin-top: 0;
+        }
+        .audio-placeholder.is-sticky-top {
+            top: 0;
+        }
+    }
+}
+
 // MARK: - Our page run ad. Ad codes might have things like style="width: 414px", which makes the page scrolling horizontally. This is a very bad user experience, especially on mobile screens. So this code is quite important. 
 @media screen and (max-width: 490px) {
-	html, body {
+    html, body {
 		overflow-x: visible!important;
 	}
 }

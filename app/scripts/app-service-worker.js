@@ -1,7 +1,7 @@
 /* jshint esversion: 11 */
 /* global self, caches, fetch, Response, clients */
 
-const cacheName = 'v312';
+const cacheName = 'v313';
 const LOG_PREFIX = '[SW ' + cacheName + ']';
 const ENABLE_SW_LOGS = false;
 if (ENABLE_SW_LOGS) {

@@ -6,7 +6,10 @@ const chatSumit = document.getElementById('chat-submit');
 const isPowerTranslate = location.href.indexOf('powertranslate') >= 0 || window.isUsingHandleBars === true;
 const isLocalhost = ['localhost', '127.0.0.1', '::1'].indexOf(location.hostname) >= 0;
 const isFrontendTest = window.isFrontendTest === true || (isLocalhost && location.href.indexOf('frontendTest=1') >= 0 && window.isUsingHandleBars !== true);
-const isInNativeApp = location.href.indexOf('webview=ftcapp') >= 0;
+const isInNativeApp = location.href.indexOf('webview=ftcapp') >= 0 || document.documentElement.classList.contains('is-in-native-app');
+if (isInNativeApp) {
+  document.documentElement.classList.add('is-in-native-app');
+}
 const discussArticleOnly = location.href.indexOf('ftid=') >= 0 && location.href.indexOf('action=read') < 0;
 const showGreeting = !/action=(read|search|news-quiz)/gi.test(location.href);
 const surveyOnly = /action=(survey)/gi.test(location.href);
@@ -1243,9 +1246,16 @@ function showResultInChat(result, shouldScrollIntoView = true, isFullGrid = fals
   newResult.className = `chat-talk chat-talk-agent${fullGridClassName}`;
   // MARK: - Converting the HTML on the frontend
   if (!result || !result.text || typeof result.text !== 'string') {return;}
-  const resultText = renderInlineCitationMarkers(result.text, result.citations || []);
-  const resultHTML = result.skipMarkdown === true ? resultText : markdownConvert(resultText);
-  newResult.innerHTML = `<div class="chat-talk-inner">${resultHTML}</div>`;
+  const newResultInner = document.createElement('DIV');
+  newResultInner.className = 'chat-talk-inner';
+  if (result.plainText === true) {
+    newResultInner.textContent = result.text;
+  } else {
+    const resultText = renderInlineCitationMarkers(result.text, result.citations || []);
+    const resultHTML = result.skipMarkdown === true ? resultText : markdownConvert(resultText);
+    newResultInner.innerHTML = resultHTML;
+  }
+  newResult.appendChild(newResultInner);
   chatContent.appendChild(newResult);
   if (newResult.querySelector('h1, .story-header-container')) {
     newResult.classList.add('full-grid-story');
@@ -1993,10 +2003,10 @@ async function renderResults(results, language) {
 }
 
 
-async function searchFTAPI(content, language, reply) {
+async function searchFTAPI(content, language, reply, replyOptions = {}) {
   // console.log(`running searchFTAPI... content: ${content}, language: ${language}, reply: ${reply}`);
   updateBotStatus('pending');
-  showResultInChat({text: reply});
+  showResultInChat({text: reply, ...replyOptions});
   try {
     content = normalizeFTSearchAPIContent(content);
     // let fullTextContent = content;
@@ -2060,10 +2070,19 @@ function normalizeFTSearchAPIContent(content) {
   });
 }
 
-async function searchTopic(content, language, reply) {
+function decodeHashParamText(value, fallback = '') {
+  if (typeof value !== 'string') {return fallback;}
+  try {
+    return decodeURIComponent(value);
+  } catch (err) {
+    return value;
+  }
+}
+
+async function searchTopic(content, language, reply, replyOptions = {}) {
   console.log(`running searchTopic... content: ${content}, language: ${language}`);
   updateBotStatus('pending');
-  showResultInChat({text: reply});
+  showResultInChat({text: reply, ...replyOptions});
   try {
 
     // MARK: - Query of form: Financial Times will return all results containing “Financial” and “Times”, with the keywords potentially separated and in any order. This is because the above example is equal to: Financial AND Times. I assume user might want to do a more accurate search, so the query form has quotes like this: "Financial Times"
@@ -2687,9 +2706,11 @@ async function setConfigurations() {
   }
   localStorage.setItem('pagemark', window.location.href);
 
-  var script = document.createElement('script');
-  script.src = '/powertranslate/scripts/register.js';
-  document.head.appendChild(script);
+  if (!isInNativeApp) {
+    var script = document.createElement('script');
+    script.src = '/powertranslate/scripts/register.js';
+    document.head.appendChild(script);
+  }
   
   const mainRoleHTML = `
     <a data-purpose="start-over" data-content="start-over" data-key="start-over">${localize('ChatFTC')}</a>
@@ -2837,10 +2858,12 @@ async function setGuardRails() {
     showBackArrow();
     await waitForAccessToken();
     const normalizedField = normalizeFTSearchAPIField(field);
+    const displayText = decodeHashParamText(display, key) || key;
+    const replyOptions = {plainText: true};
     if (isFreeTextSearchField(normalizedField)) {
-      await searchTopic(key, preferredLanguage, decodeURIComponent(display));
+      await searchTopic(key, preferredLanguage, displayText, replyOptions);
     } else {
-      await searchFTAPI(`${normalizedField}: ${key}`, preferredLanguage, decodeURIComponent(display));
+      await searchFTAPI(`${normalizedField}: ${key}`, preferredLanguage, displayText, replyOptions);
     }
   } else if (action === 'news-quiz') {
     const quizLanguage = paramDict?.language ?? preferredLanguage;
@@ -2986,6 +3009,7 @@ function urlBase64ToUint8Array(base64String) {
 }
 
 const registerServiceWorker = async () => {
+  if (isInNativeApp) {return;}
   if (isFrontendTest && !isPowerTranslate) {return;}
   if ('serviceWorker' in navigator) {
     try {
@@ -3056,7 +3080,7 @@ async function requestNotificationPermission() {
 }
 
 // Listen for messages from the service worker
-if (navigator.serviceWorker) {
+if (!isInNativeApp && navigator.serviceWorker) {
   navigator.serviceWorker.addEventListener('message', async event => {
     // Retrieve the data sent from the service worker
     const { name, data } = event.data;
