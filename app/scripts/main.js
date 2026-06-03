@@ -167,6 +167,7 @@ function buildImageRequest(figureEl) {
     // Goal: Strip the proxy wrapper (d1sh..., dq4..., etc.) to get the "raw" asset.
     // Regex matches: Start of string -> http/s -> any domain -> /unsafe/
     let rawAssetUrl = imageUrl.replace(/^https?:\/\/[^\/]+\/unsafe\//, '');
+    rawAssetUrl = rawAssetUrl.replace(/^(?:fit-in\/)?(?:-?\d*x-?\d+\/)?(?:filters:[^\/]+\/)?/, '');
 
     // Cleanup: Remove leading slashes (fixes the "/unsafe//picture" bug saw in your HTML)
     rawAssetUrl = rawAssetUrl.replace(/^\/+/, '');
@@ -180,7 +181,12 @@ function buildImageRequest(figureEl) {
 
     // A. Construct Primary URL (Using the NEW configuration)
     // Pattern: [NewHost] / [WxH] / [RawAsset]
-    const finalUrl = FTC_IMAGE_HOST + imageWidth + 'x' + imageHeight + '/' + rawAssetUrl;
+    let thumborSize = imageWidth + 'x' + imageHeight;
+    if (fitType === 'contain') {
+        thumborSize = imageWidth >= imageHeight ? imageWidth + 'x0' : '0x' + imageHeight;
+    }
+
+    const finalUrl = FTC_IMAGE_HOST + thumborSize + '/' + rawAssetUrl;
 
 
     // B. Construct Backup URL (FT Origami Service)
