@@ -1832,7 +1832,7 @@ async function newsQuiz(content, language, reply, id) {
     // console.log(quizInfo);
     if (quizInfo.status === 'success' && quizInfo.results) {
       let html = '';
-      const startDate = new Date('2026-06-05T00:00:00+08:00').getTime();
+      const startDate = new Date('2027-06-05T00:00:00+08:00').getTime();
       const endDate = new Date('2026-06-18T23:59:59+08:00').getTime();
       const now = new Date().getTime();
       const showPromotion = now >= startDate && now <= endDate;
@@ -2357,7 +2357,7 @@ async function showFTPage(content, language, reply) {
 
 
         if (index >= results.length - 1) {continue;}
-        const startDate = new Date('2026-06-05T00:00:00+08:00').getTime();
+        const startDate = new Date('2027-06-05T00:00:00+08:00').getTime();
         const endDate = new Date('2026-06-18T23:59:59+08:00').getTime();
         const now = new Date().getTime();
         const showPromotion = now >= startDate && now <= endDate;
@@ -2547,7 +2547,7 @@ function getRandomPrompt(purpose) {
 }
 
 function getContentDiscoveryActions(language) {
-  const startDate = new Date('2026-06-05T00:00:00+08:00').getTime();
+  const startDate = new Date('2027-06-05T00:00:00+08:00').getTime();
   const endDate = new Date('2026-06-18T23:59:59+08:00').getTime();
   const now = new Date().getTime();
   const showPromotion = now >= startDate && now <= endDate;
