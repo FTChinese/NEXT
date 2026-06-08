@@ -462,7 +462,7 @@ function getAnnotaionsInfo(content, language) {
             <ul class="top10">${annotationsHTML}</ul>
         </div></div>`;
     }
-    const startDate = new Date('2027-06-05T00:00:00+08:00').getTime();
+    const startDate = new Date('2026-06-09T00:00:00+08:00').getTime();
     const endDate = new Date('2026-06-18T23:59:59+08:00').getTime();
     const now = new Date().getTime();
     const showPromotion = now >= startDate && now <= endDate;

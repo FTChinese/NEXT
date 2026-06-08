@@ -142,9 +142,9 @@ const PREMIUM_ONLY_PREFERENCE_VALUES = {
 const FT_EXCLUSIVE_CURATION_TEXTS = {
   zh: {
     title: 'FT全球臻享',
-    description: '更及时获取更多FT全球内容，包括AI翻译加速上线的深度报道、分析和观点，并按你的关注和阅读偏好调整排序。<a href="#">点击这里自定义</a>',
-    humanOnlyDescription: '当前仅显示FT中文网已上线内容，并按你的关注和阅读偏好调整排序。开启AI翻译后，可更及时获取更多FT全球深度报道、分析和观点。<a href="#">点击这里自定义</a>',
-    entryDescription: '高端会员可在首页开启FT全球臻享，更及时获取更多FT全球内容，并按你的关注和阅读偏好排序。',
+    description: '更及时获取更多FT全球内容，包括AI翻译加速上线的深度报道、分析和观点，并按您的偏好排序。<a href="#">点击这里自定义</a>',
+    humanOnlyDescription: '当前仅显示FT中文网已上线内容，并按您的偏好排序。开启AI翻译后，可更及时获取更多FT全球深度报道、分析和观点。<a href="#">点击这里自定义</a>',
+    entryDescription: '高端会员可在首页开启FT全球臻享，更及时获取更多FT全球内容，并按您的偏好排序。',
     entryAction: '开启',
     entryDismiss: '关闭',
     entrySaving: '正在开启...',
@@ -161,9 +161,9 @@ const FT_EXCLUSIVE_CURATION_TEXTS = {
   },
   'zh-HK': {
     title: 'FT全球臻享',
-    description: '更及時獲取更多FT全球內容，包括AI翻譯加速上線的深度報道、分析和觀點，並按你的關注和閱讀偏好調整排序。<a href="#">點擊這裡自定義</a>',
-    humanOnlyDescription: '當前僅顯示FT中文網已上線內容，並按你的關注和閱讀偏好調整排序。開啟AI翻譯後，可更及時獲取更多FT全球深度報道、分析和觀點。<a href="#">點擊這裡自定義</a>',
-    entryDescription: '高端會員可在首頁開啟FT全球臻享，更及時獲取更多FT全球內容，並按你的關注和閱讀偏好排序。',
+    description: '更及時獲取更多FT全球內容，包括AI翻譯加速上線的深度報道、分析和觀點，並按您的偏好排序。<a href="#">點擊這裡自定義</a>',
+    humanOnlyDescription: '當前僅顯示FT中文網已上線內容，並按您的偏好排序。開啟AI翻譯後，可更及時獲取更多FT全球深度報道、分析和觀點。<a href="#">點擊這裡自定義</a>',
+    entryDescription: '高端會員可在首頁開啟FT全球臻享，更及時獲取更多FT全球內容，並按您的偏好排序。',
     entryAction: '開啟',
     entryDismiss: '關閉',
     entrySaving: '正在開啟...',
@@ -180,9 +180,9 @@ const FT_EXCLUSIVE_CURATION_TEXTS = {
   },
   'zh-TW': {
     title: 'FT全球臻享',
-    description: '更即時取得更多FT全球內容，包括AI翻譯加速上線的深度報導、分析和觀點，並按你的關注和閱讀偏好調整排序。<a href="#">點擊這裡自訂</a>',
-    humanOnlyDescription: '目前僅顯示FT中文網已上線內容，並按你的關注和閱讀偏好調整排序。開啟AI翻譯後，可更即時取得更多FT全球深度報導、分析和觀點。<a href="#">點擊這裡自訂</a>',
-    entryDescription: '高端會員可在首頁開啟FT全球臻享，更即時取得更多FT全球內容，並按你的關注和閱讀偏好排序。',
+    description: '更即時取得更多FT全球內容，包括AI翻譯加速上線的深度報導、分析和觀點，並按您的偏好排序。<a href="#">點擊這裡自訂</a>',
+    humanOnlyDescription: '目前僅顯示FT中文網已上線內容，並按您的偏好排序。開啟AI翻譯後，可更即時取得更多FT全球深度報導、分析和觀點。<a href="#">點擊這裡自訂</a>',
+    entryDescription: '高端會員可在首頁開啟FT全球臻享，更即時取得更多FT全球內容，並按您的偏好排序。',
     entryAction: '開啟',
     entryDismiss: '關閉',
     entrySaving: '正在開啟...',
