@@ -103,9 +103,11 @@
    * Decide whether to dismiss:
    * - If distance ratio ≥ threshold OR velocity ≥ min velocity
    * - Only if the drag was to the right (positive deltaX)
+   * - 【已修复】明确限制只有在锁定为右滑手势时(locked === true)才允许触发关闭
    */
   function shouldDismiss(state, elWidth) {
-    if (!state) {
+    // 确保手势存在，并且明确判定/锁定了是横向滑动
+    if (!state || state.locked !== true) {
       return false;
     }
     var dx = state.lastX - state.startX;
@@ -127,7 +129,8 @@
     var dx = Math.abs(state.lastX - state.startX);
     var dy = Math.abs(state.lastY - state.startY);
 
-    if (dx < 3 && dy < 3) {
+    // 【优化】将原先的 3 像素提高到 10 像素，给单手操作留出初期轨迹缓冲，避免误判
+    if (dx < 10 && dy < 10) {
       return; // not enough info yet
     }
 

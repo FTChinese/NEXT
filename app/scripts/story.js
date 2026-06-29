@@ -65,7 +65,7 @@ function handleLinks() {
         const fullHost = location.protocol + '//' + location.host;
         for (let link of links) {
             let href = link.getAttribute('href') || '';
-            if (href.indexOf(fullHost) === 0) {return;}
+            if (href.indexOf(fullHost) === 0) {continue;}
             href = href.replace(/^http[s]*:\/\/www\.ftchinese\.com\//g, '/');
             // console.log(href);
             href = href.replace(/^http[s]*:\/\/www\.ft\.com\/content/g, '/content');

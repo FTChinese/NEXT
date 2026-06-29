@@ -656,7 +656,7 @@ function binding(from) {
 function getCapchaForPhoneLogin() {
     var statusEle = document.getElementById('phone-login-status');
     var phone = document.getElementById('phone-number').value;
-    statusEle.innerHTML = '发送信息中，请注意查看短信...';
+    statusEle.innerHTML = '正在发送验证码。短信可能需要几分钟送达，请耐心等待...';
     phoneLoginStatus = phoneLoginStatusDict.sendingVerification;
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/users/login/captcha');
@@ -669,7 +669,7 @@ function getCapchaForPhoneLogin() {
                 statusEle.innerHTML = '服务器返回错误信息，请您重试一次：' + errorMessage;
                 phoneLoginStatus = phoneLoginStatusDict.start;
             }
-            statusEle.innerHTML = '验证码已经成功发送，请注意检查您的短信，在5分钟内完成登录';
+            statusEle.innerHTML = '验证码已经成功发送。短信可能需要几分钟送达，请耐心等待。验证码15分钟内有效，请勿频繁重复获取。';
             document.getElementById('phone-captcha').style.display = 'block';
             document.getElementById('phone-login-submit-button').value = '登录';
             phoneLoginStatus = phoneLoginStatusDict.login;
