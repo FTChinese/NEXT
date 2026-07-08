@@ -222,7 +222,6 @@ const recommendationWeights = {
 
 // === Kickstart only for web page ===
 if (!isWebAppShell()) {
-  console.log('recommending...');
   runRecommendationForDoms();
   displayRecommendationInContentPageLazy();
   if (!isNativeAppWebView()) {
@@ -1235,7 +1234,9 @@ async function renderRecommendationsIntoContainer(container, options = {}) {
     return {status: 'empty', count: 0, items};
   }
 
+
   const html = await buildRecommendationHTML(items, window.preferredLanguage ?? 'zh-CN', isInWebApp);
+
   if (isCancelled()) {return {status: 'cancelled'};}
 
   rememberRecommendationItems(container, items);
@@ -1379,6 +1380,8 @@ async function buildRecommendationHTML(items = [], preferredLanguage = 'zh-CN', 
       </div>
     </div>`;
   }
+
+  
   return html;
 }
 
@@ -1455,8 +1458,10 @@ function getRememberedRecommendationItems(container) {
 }
 
 async function convertRecommendationText(text, preferredLanguage) {
-  if (typeof convertChinese !== 'function') {return text;}
-  return convertChinese(text, preferredLanguage);
+  if (typeof convertChinese !== 'function') {
+    return text;
+  }
+  return await convertChinese(text, preferredLanguage);
 }
 
 /**
@@ -2103,8 +2108,6 @@ function buildFollowPreferenceAttrsFromCandidate(candidate) {
 function appendRecommendationReasons(container, items = [], preferredLanguage = 'zh-CN') {
   if (!container || !Array.isArray(items) || items.length === 0) { return; }
 
-  // console.log(`items: `, JSON.stringify(items, null, 2));
-
   const lang = (preferredLanguage || 'zh-CN').toLowerCase();
 
   // FT-style wording (editorial tone, avoid product ambiguity)
@@ -2343,9 +2346,6 @@ function calculateScores(items) {
     item.finalScore = parseFloat(finalScore.toFixed(4)) - readMinusScore - tierPenalty - formatPenalty + unSeenItemBonus;
 
 
-    // if (contentClass === 'LiveBlogPost') {
-    //   console.log(`LiveBlogPost item: ${contentClassScore}, final: ${item.finalScore}, `, item, );
-    // }
   }
 
   // ✅ One write (same semantics)
