@@ -295,8 +295,17 @@ async function getFTAPISearchResult(keyword, language) {
             const message = results?.message ?? 'unknow error';
             return {status: 'failed', message, detail: results};
         }
-        if (results && results.results) {
-            return {status: 'success', results: results.results};
+        const items = Array.isArray(results?.items)
+            ? results.items
+            : results?.results?.[0]?.results;
+        if (Array.isArray(items)) {
+            return {
+                status: 'success',
+                items,
+                totalCount: Number.isFinite(results?.totalCount)
+                    ? results.totalCount
+                    : items.length
+            };
         } else {
             return {status: 'failed', message: 'Something is wrong with FT Search, please try later. '};
         }

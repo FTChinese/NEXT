@@ -1803,7 +1803,9 @@ async function setIntention(newIntention, language, reply, isFullGrid = false, s
 async function createTranslations(results, language) {
   let titleAndSubheading = results
   .map(item => {
-    return `${item.title.title || ''}\n${item.editorial.subheading || item.summary.excerpt || ''}`;
+    const title = typeof item?.title === 'string' ? item.title : item?.title?.title || '';
+    const subheading = item?.standfirst || item?.editorial?.subheading || item?.summary?.excerpt || '';
+    return `${title}\n${subheading}`;
   })
   .join('\n');
   titleAndSubheading = await translateFromEnglish(titleAndSubheading, language);
@@ -1819,6 +1821,26 @@ async function createTranslations(results, language) {
     }
   }
   return translations;
+}
+
+function getFTSearchItemId(item = {}) {
+  return String(item?.contentId || item?.uuid || item?.id || '').replace(/^.*\//, '');
+}
+
+function getFTSearchItemTitle(item = {}) {
+  return typeof item?.title === 'string' ? item.title : item?.title?.title || '';
+}
+
+function getFTSearchItemExcerpt(item = {}) {
+  return item?.standfirst || item?.editorial?.subheading || item?.summary?.excerpt || '';
+}
+
+function getFTSearchItemByline(item = {}) {
+  return item?.byline || item?.editorial?.byline || '';
+}
+
+function getFTSearchItemPublishedDate(item = {}) {
+  return item?.publishedDate || item?.lifecycle?.lastPublishDateTime || item?.lifecycle?.lastPublishDate || '';
 }
 
 
@@ -1945,12 +1967,12 @@ async function renderResults(results, language) {
   // const translations = await results.slice(0, itemChunk), language);
   let html = '';
   for (const [index, item] of results.entries()) {
-    const id = item.id;
-    let title = item.title.title || '';
-    let subheading = item.editorial.subheading || item.summary.excerpt || '';
-    const byline = item.editorial.byline;
-    const excerpt = item.summary.excerpt;
-    const time = item.lifecycle.lastPublishDateTime;
+    const id = getFTSearchItemId(item);
+    const title = getFTSearchItemTitle(item);
+    const subheading = getFTSearchItemExcerpt(item);
+    const byline = getFTSearchItemByline(item);
+    const excerpt = item?.summary?.excerpt || item?.standfirst || '';
+    const time = getFTSearchItemPublishedDate(item);
     const timeStamp = new Date(time).toLocaleString();
     let hideClass = ' hide';
     if (index < itemChunk) {
@@ -2016,9 +2038,8 @@ async function searchFTAPI(content, language, reply, replyOptions = {}) {
     // console.log('full text content: ');
     // console.log(fullTextContent);
     const searchResults = await getFTAPISearchResult(content, language);
-    let results = searchResults?.results?.[0]?.results ?? [];
+    let results = searchResults?.items ?? [];
     if (results.length > 0) {
-      const results = searchResults.results[0].results;
       await renderResults(results, language);
     } else if (searchResults?.status === 'success') {
       showResultInChat({text: localize('No Search Result')});
@@ -2089,13 +2110,13 @@ async function searchTopic(content, language, reply, replyOptions = {}) {
     // https://developer.ft.com/portal/docs-api-v1-reference-search-search-api-tutorial
     // MARK: - Get the items from keyword search
     const result = await getFTAPISearchResult(`"${content}"`, language);
-    let results = (result?.results?.[0]?.results ?? []).map(item => {
+    let results = (result?.items ?? []).map(item => {
       item.source = 'keyword';
       return item;
     });
     // console.log(language);
     // console.log(results);
-    const idsSet = new Set(results.map(x=>x.id));
+    const idsSet = new Set(results.map(getFTSearchItemId));
 
     // MARK: - Search in vector DB
     const embedding = await getEmbedding(content);
@@ -2107,7 +2128,7 @@ async function searchTopic(content, language, reply, replyOptions = {}) {
       matches = matches
         // MARK: - mark the source of the items
         .map(item => {
-          const id = item.id;
+          const id = getFTSearchItemId(item);
           if (idsSet.has(id)) {
             bothSet.add(id);
           } else {
@@ -2120,7 +2141,7 @@ async function searchTopic(content, language, reply, replyOptions = {}) {
 
       // MARK: - mark the items that are both in keyword and vector search, this is a sign that the item is highly relevant. At least they are recent because they appear in the keyword search result. We might later find a way to highlight the highlight these items. 
       results = results.map(item => {
-        const id = item.id
+        const id = getFTSearchItemId(item);
         if (bothSet.has(id)) {
           item.source = 'both';
         }
@@ -2129,8 +2150,8 @@ async function searchTopic(content, language, reply, replyOptions = {}) {
 
       results = results.concat(matches);
       results = results.sort((a, b) => {
-        const aTime = new Date(a.lifecycle?.lastPublishDateTime ?? a.lifecycle?.lastPublishDateTime ?? '').getTime();
-        const bTime = new Date(b.lifecycle?.lastPublishDateTime ?? b.lifecycle?.lastPublishDateTime ?? '').getTime();
+        const aTime = new Date(getFTSearchItemPublishedDate(a)).getTime();
+        const bTime = new Date(getFTSearchItemPublishedDate(b)).getTime();
         return bTime - aTime;
       });
 
@@ -2523,13 +2544,13 @@ async function handleResultSources(sources, citations) {
   if (!sources || sources.length === 0) {return;}
   const keyword = sources.map(ftid=>`id: "${ftid}"`).join(' OR ');
   const searchResult = await getFTAPISearchResult(keyword, language);
-  if (!searchResult.results || searchResult.results.length === 0) {return;}
-  const items = searchResult.results[0].results;
+  const items = searchResult.items;
   if (!items || items.length === 0) {return;}
   let html = '';
   for (const item of items) {
-    let title = item.title.title;
-    html += `<li><a target="_blank" href="./chat.html#ftid=${item.id}&language=${language}&amp;action=read">${title}</a></li>`
+    const title = getFTSearchItemTitle(item);
+    const id = getFTSearchItemId(item);
+    html += `<li><a target="_blank" href="./chat.html#ftid=${id}&language=${language}&amp;action=read">${title}</a></li>`
   }
   html = `<ul class="chat-citations">${html}</ul>`;
   showResultInChat({text: html}, false);
