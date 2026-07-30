@@ -1,6 +1,10 @@
 <script type="text/javascript">
     window.gPaywallShowed = true;
     var privilegeEventLabel = '<%$privilegeEventLabel%>' || '';
+    var contentPathMatch = window.location.pathname.match(/^\/content\/([a-f0-9-]{36})(?:\/|$)/i);
+    if (privilegeEventLabel === '' && contentPathMatch) {
+        privilegeEventLabel = 'ExclusiveContent/content/' + contentPathMatch[1];
+    }
     if (privilegeEventLabel === '') {
         if(window.ccodeValue){
             window.gSubscriptionEventLabel = 'From:' + window.ccodeValue + '/' + privilegeEventLabel;

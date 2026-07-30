@@ -58,18 +58,28 @@ function checkFontSize(forceFontSize) {
     }
 }
 
-
 function handleLinks() {
     try {
         const links = document.querySelectorAll('#story-body-container a[href]');
         const fullHost = location.protocol + '//' + location.host;
+
         for (let link of links) {
             let href = link.getAttribute('href') || '';
-            if (href.indexOf(fullHost) === 0) {continue;}
+
+            // 1. Normalize FT domain URLs into relative paths
             href = href.replace(/^http[s]*:\/\/www\.ftchinese\.com\//g, '/');
-            // console.log(href);
             href = href.replace(/^http[s]*:\/\/www\.ft\.com\/content/g, '/content');
             link.setAttribute('href', href);
+
+            // 2. Check if the link is external
+            const isAbsolute = /^(https?:)?\/\//i.test(href);
+            const isInternalHost = href.indexOf(fullHost) === 0;
+
+            if (isAbsolute && !isInternalHost) {
+                link.setAttribute('target', '_blank');
+                // Good security practice when using target="_blank"
+                link.setAttribute('rel', 'noopener noreferrer'); 
+            }
         }
     } catch(ignore){}
 }

@@ -21,6 +21,10 @@ var gRecomendInViewNoted = false;
 var gStoryBodyBottomOffsetY;
 var gInstoryAdHasTrackInview = false;
 var ftItemId = window.FTStoryid || window.interactiveId || '';
+var contentPathMatch = window.location.pathname.match(/^\/content\/([a-f0-9-]{36})(?:\/|$)/i);
+if (window.privilegeEventLabel === undefined && contentPathMatch) {
+  window.privilegeEventLabel = 'ExclusiveContent/content/' + contentPathMatch[1];
+}
 var defaultPadding = 30;
 var hasSideWidth = 690;
 var sectionsWithSide = document.querySelectorAll('.block-container.has-side');
