@@ -1,7 +1,7 @@
 /* jshint esversion: 11 */
 /* global self, caches, fetch, Response, clients */
 
-const cacheName = 'v330';
+const cacheName = 'v331';
 const LOG_PREFIX = '[SW ' + cacheName + ']';
 const ENABLE_SW_LOGS = false;
 if (ENABLE_SW_LOGS) {
@@ -12,15 +12,14 @@ if (ENABLE_SW_LOGS) {
 const START_URL = '/app';
 const PRECACHE = [
   START_URL,
-  '/powertranslate/icons/FTC-start.png',
-  // '/powertranslate/styles/main-app.css',
-  // '/powertranslate/scripts/main-app.js',
-  // '/powertranslate/scripts/register.js',
-  // '/powertranslate/scripts/app-load-quiz.js'
+  '/powertranslate/app-metatags.json',
+  '/powertranslate/styles/main-app.css',
+  '/powertranslate/scripts/main-app.js',
+  '/powertranslate/scripts/register.js',
+  '/powertranslate/scripts/app-load-quiz.js',
+  '/powertranslate/scripts/gpt.js',
+  '/powertranslate/icons/FTC-start.png'
 ];
-const PRECACHE_ASSETS = PRECACHE.filter(function (url) {
-  return url !== START_URL;
-});
 
 // Endpoints we should NEVER cache (auth/state, etc.)
 const NO_CACHE_PREFIXES = [
@@ -47,12 +46,23 @@ function sameOriginGet(req) {
 
 // Cache HTML for these navigation paths: "/", "/channel/*", "/m/*", "/tag/*"
 function htmlPathShouldBeCached(pathname) {
-  if (pathname === '/') { return true; }
+  if (pathname === '/' || pathname === '/app') { return true; }
   return (
     pathname.indexOf('/channel/') === 0 ||
     pathname.indexOf('/m/') === 0 ||
-    pathname.indexOf('/tag/') === 0
+    pathname.indexOf('/tag/') === 0 ||
+    pathname.indexOf('/api/page/') === 0
   );
+}
+
+async function matchCache(cache, req) {
+  const exact = await cache.match(req);
+  return exact || cache.match(req, { ignoreSearch: true });
+}
+
+async function matchAnyCache(req) {
+  const exact = await caches.match(req);
+  return exact || caches.match(req, { ignoreSearch: true });
 }
 
 // Programmatic HTML fetch detector
@@ -145,21 +155,12 @@ async function swrJson(event, req, pathname) {
 self.addEventListener('install', function (event) {
   event.waitUntil((async function () {
     const cache = await caches.open(cacheName);
-    if (PRECACHE.length) {
+    for (const url of PRECACHE) {
       try {
-        await cache.add(new Request(START_URL, { cache: 'reload' }));
-        log('start-url precache complete:', START_URL);
+        await cache.add(new Request(url, { cache: 'reload' }));
+        log('precache complete:', url);
       } catch (e) {
-        log('start-url precache error:', e && e.message);
-      }
-
-      if (PRECACHE_ASSETS.length) {
-        try {
-          await cache.addAll(PRECACHE_ASSETS);
-          log('precache complete:', PRECACHE_ASSETS);
-        } catch (e) {
-          log('precache error:', e && e.message);
-        }
+        log('precache error:', url, e && e.message);
       }
     }
     await self.skipWaiting();
@@ -222,7 +223,7 @@ self.addEventListener('fetch', function (event) {
         return fresh;
       } catch (e) {
         const cache = await caches.open(cacheName);
-        const cached = await cache.match(req);
+        const cached = await matchCache(cache, req);
         if (cached) { return cached; }
 
         // TODO(offline): friendly offline HTML page (e.g. START_URL)
@@ -250,7 +251,7 @@ self.addEventListener('fetch', function (event) {
         return fresh;
       } catch (e) {
         const cache = await caches.open(cacheName);
-        const cached = await cache.match(req);
+        const cached = await matchCache(cache, req);
         if (cached) { return cached; }
 
         // TODO(offline): friendly HTML page
@@ -266,7 +267,7 @@ self.addEventListener('fetch', function (event) {
   // 2) Static assets under /powertranslate: cache-first
   if (pathname.indexOf('/powertranslate/') === 0) {
     event.respondWith((async function () {
-      const hit = await caches.match(req);
+      const hit = await matchAnyCache(req);
       if (hit) {
         log('cache-first HIT:', pathname);
         return hit;
@@ -305,7 +306,7 @@ self.addEventListener('fetch', function (event) {
 
       return fresh;
     } catch (e) {
-      const cached = await caches.match(req);
+      const cached = await matchAnyCache(req);
       if (cached) {
         log('network-first FALLBACK (cache):', pathname);
         return cached;

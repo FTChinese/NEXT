@@ -2,7 +2,7 @@
 /* global renderRecommendationForWebAppHome, renderFTGlobalCurationEntry, shouldShowHomePageRecommendation, getPremiumPreferenceGate */
 
 const jsVersion = 'v2';
-const APP_PAGE_CACHE_NAME = 'v98'; // keep in sync with app-service-worker.js
+const APP_PAGE_CACHE_NAME = 'v331'; // keep in sync with app-service-worker.js and gulp copy
 const MAX_CACHE_AGE_MS = 5 * 60 * 1000; // 5 minutes freshness window for HTML pages
 const appMap = {
 News: {
@@ -1839,8 +1839,8 @@ delegate.on('click', 'a[href]', function (event) {
 
 (async () => {
   checkHashForPush();
-  renderSection('News');
   await registerServiceWorkerForApp();
+  renderSection('News');
   setupPushMessageListener();
   await handleHashForPush();
 })();

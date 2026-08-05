@@ -446,6 +446,48 @@ function copySourceToDestination(patterns, destination) {
   });
 }
 
+function bumpServiceWorkerCacheVersions() {
+  const serviceWorkerPaths = ['app/scripts/chat-service-worker.js', 'app/scripts/app-service-worker.js'];
+  const appNavPath = 'app/scripts/app-nav.js';
+  let appVersion;
+
+  for (const serviceWorkerPath of serviceWorkerPaths) {
+    let fileContent = fs.readFileSync(serviceWorkerPath, 'utf8');
+    const regex = /cacheName = 'v([0-9]+)'/;
+    const matches = regex.exec(fileContent);
+    if (!matches || matches.length <= 1) {
+      throw new Error(`Unable to find cache version in ${serviceWorkerPath}`);
+    }
+
+    const version = parseInt(matches[1], 10);
+    if (!Number.isInteger(version) || version <= 0) {
+      throw new Error(`Invalid cache version in ${serviceWorkerPath}`);
+    }
+
+    const newVersion = version + 1;
+    fileContent = fileContent.replace(regex, `cacheName = 'v${newVersion}'`);
+    fs.writeFileSync(serviceWorkerPath, fileContent, 'utf8');
+
+    if (serviceWorkerPath.endsWith('app-service-worker.js')) {
+      appVersion = newVersion;
+    }
+  }
+
+  let appNavContent = fs.readFileSync(appNavPath, 'utf8');
+  const appNavRegex = /const APP_PAGE_CACHE_NAME = 'v[0-9]+'/;
+  if (!appNavRegex.test(appNavContent)) {
+    throw new Error(`Unable to find app page cache version in ${appNavPath}`);
+  }
+  appNavContent = appNavContent.replace(appNavRegex, `const APP_PAGE_CACHE_NAME = 'v${appVersion}'`);
+  fs.writeFileSync(appNavPath, appNavContent, 'utf8');
+  console.log(`Updated app cache version to v${appVersion}`);
+}
+
+gulp.task('bump-service-worker-cache-versions', done => {
+  bumpServiceWorkerCacheVersions();
+  done();
+});
+
 gulp.task('copy:ftcoffer', async () => {
   const dest = getFirstExistingPath([
     '../ftcoffer/public',
@@ -482,23 +524,7 @@ gulp.task('copy:ftcoffer', async () => {
 
   streams.push(copySourceToDestination(['app/scripts/*.json'], `${dest}/scripts`));
 
-  // Read file content into a string
   const serviceWorkerPaths = ['app/scripts/chat-service-worker.js', 'app/scripts/app-service-worker.js'];
-  for (const serviceWorkerPath of serviceWorkerPaths) {
-    let fileContent = fs.readFileSync(serviceWorkerPath, 'utf8');
-    const regex = /cacheName = 'v([0-9]+)'/;
-    const matches = regex.exec(fileContent);
-    if (matches && matches.length > 1) {
-      const versionNumber = matches[1];
-      const version = parseInt(versionNumber, 10);
-      if (version > 0) {
-        console.log(`new version:`, version);
-        const newVersion = version + 1;
-        fileContent = fileContent.replace(regex, `cacheName = 'v${newVersion}'`);
-        fs.writeFileSync(serviceWorkerPath, fileContent, 'utf8');
-      }
-    }
-  }
   streams.push(copySourceToDestination(serviceWorkerPaths, `${dest}`));
   await Promise.all(streams);
 });
@@ -519,6 +545,7 @@ gulp.task('copy:p0', () => {
 
 gulp.task('copy', gulp.series(
   'clean',
+  'bump-service-worker-cache-versions',
   'build', 
   gulp.parallel(
     'copy:cssjs', 
