@@ -259,6 +259,8 @@ async function translateOpenAI(text, target) {
     return text;
 }
 
+const chatFTSearchResultLimit = 100;
+
 async function getFTAPISearchResult(keyword, language) {
     try {
         // const token = (isPowerTranslate) ? localStorage.getItem('accessToken') : 'sometoken';
@@ -267,7 +269,7 @@ async function getFTAPISearchResult(keyword, language) {
         //     return {status: 'failed', message: 'You need to sign in first! '};
         // }
         // console.log(`key word: `, keyword);
-        const contentParameter = `?language=${language || 'English'}&keyword=${encodeURIComponent(keyword)}&field=`;
+        const contentParameter = `?language=${language || 'English'}&keyword=${encodeURIComponent(keyword)}&field=&maxResults=${chatFTSearchResultLimit}`;
         let url = (isPowerTranslate) ? '/openai/searchftapi' : '/FTAPI/content.php';
         url += contentParameter;
         let options = {
