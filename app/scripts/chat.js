@@ -1854,11 +1854,11 @@ async function newsQuiz(content, language, reply, id) {
     // console.log(quizInfo);
     if (quizInfo.status === 'success' && quizInfo.results) {
       let html = '';
-      const startDate = new Date('2026-06-09T00:00:00+08:00').getTime();
-      const endDate = new Date('2026-06-18T23:59:59+08:00').getTime();
+      const startDate = new Date('2026-08-18T00:00:00+08:00').getTime();
+      const endDate = new Date('2026-08-31T23:59:59+08:00').getTime();
       const now = new Date().getTime();
       const showPromotion = now >= startDate && now <= endDate;
-      const promoInfo = showPromotion ? `<a class="quiz-promotion-text-link" href="https://www.ftchinese.com/m/corp/preview.html?pageid=2026Junsub&to=all&ccode=2C2026Junchatftclp" target="_blank">限时优惠75折</a>`: '<a class="quiz-promotion-text-link" href="/subscription?ccode=2C2024chatftcquiz" target="_blank">立即订阅，每天仅需1元</a>';
+      const promoInfo = showPromotion ? `<a class="quiz-promotion-text-link" href="https://www.ftchinese.com/m/corp/preview.html?pageid=2026Augsub&to=all&ccode=2C2026Augchatftclp" target="_blank">限时优惠5折</a>`: '<a class="quiz-promotion-text-link" href="/subscription?ccode=2C2024chatftcquiz" target="_blank">立即订阅，每天仅需1元</a>';
       for (const [index, quiz] of quizInfo.results.entries()) {
           const answer = quiz.answer || '';
           const explanation = quiz.explanation || '';
@@ -2378,11 +2378,11 @@ async function showFTPage(content, language, reply) {
 
 
         if (index >= results.length - 1) {continue;}
-        const startDate = new Date('2026-06-09T00:00:00+08:00').getTime();
-        const endDate = new Date('2026-06-18T23:59:59+08:00').getTime();
+        const startDate = new Date('2026-08-18T00:00:00+08:00').getTime();
+        const endDate = new Date('2026-08-31T23:59:59+08:00').getTime();
         const now = new Date().getTime();
         const showPromotion = now >= startDate && now <= endDate;
-        const promotion = showPromotion ? `<a href="https://www.ftchinese.com/m/corp/preview.html?pageid=2026Junsub&to=all&ccode=2C2026Junchatftclp" target="_blank"><img class="promotion" src="https://d33mkcasurz97s.cloudfront.net/ads/gam/1i1yqc.jpg" width="300" height="250"></a>` : '';
+        const promotion = showPromotion ? `<a href="https://www.ftchinese.com/m/corp/preview.html?pageid=2026Augsub&to=all&ccode=2C2026Augchatftclp" target="_blank"><img class="promotion" src="https://d33mkcasurz97s.cloudfront.net/ads/gam/otlkbf.jpg" width="300" height="250"></a>` : '';
         html += promotion;
         
           
@@ -2568,11 +2568,11 @@ function getRandomPrompt(purpose) {
 }
 
 function getContentDiscoveryActions(language) {
-  const startDate = new Date('2026-06-09T00:00:00+08:00').getTime();
-  const endDate = new Date('2026-06-18T23:59:59+08:00').getTime();
+  const startDate = new Date('2026-08-18T00:00:00+08:00').getTime();
+  const endDate = new Date('2026-08-31T23:59:59+08:00').getTime();
   const now = new Date().getTime();
   const showPromotion = now >= startDate && now <= endDate;
-  const promotion = showPromotion ? `<a target="_blank" href="https://www.ftchinese.com/m/corp/preview.html?pageid=2026Junsub&to=all&ccode=2C2026Junchatftclp">${localize('PromotionActionButton')}</a>` : '';
+  const promotion = showPromotion ? `<a target="_blank" href="https://www.ftchinese.com/m/corp/preview.html?pageid=2026Augsub&to=all&ccode=2C2026Augchatftclp">${localize('PromotionActionButton')}</a>` : '';
   return `
     <div class="chat-item-actions chat-content-discovery-actions">
       <a data-purpose="show-ft-page" data-lang="${language}" data-content='home' data-reply="${localize('FindingMyFT')}" data-reply-action="set-preference">${localize('Top News For Me')}</a>

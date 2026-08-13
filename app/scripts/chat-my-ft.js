@@ -462,11 +462,11 @@ function getAnnotaionsInfo(content, language) {
             <ul class="top10">${annotationsHTML}</ul>
         </div></div>`;
     }
-    const startDate = new Date('2026-06-09T00:00:00+08:00').getTime();
-    const endDate = new Date('2026-06-18T23:59:59+08:00').getTime();
+    const startDate = new Date('2026-08-18T00:00:00+08:00').getTime();
+    const endDate = new Date('2026-08-31T23:59:59+08:00').getTime();
     const now = new Date().getTime();
     const showPromotion = now >= startDate && now <= endDate;
-    const promotion = showPromotion ? `<a class="story-side-ad-inner" href="https://www.ftchinese.com/m/corp/preview.html?pageid=2026Junsub&to=all&ccode=2C2026Junchatftclp" target="_blank"><img src="https://d33mkcasurz97s.cloudfront.net/ads/gam/1i1yqc.jpg" width="300" height="250"></a>` : '';
+    const promotion = showPromotion ? `<a class="story-side-ad-inner" href="https://www.ftchinese.com/m/corp/preview.html?pageid=2026Augsub&to=all&ccode=2C2026Augchatftclp" target="_blank"><img src="https://d33mkcasurz97s.cloudfront.net/ads/gam/otlkbf.jpg" width="300" height="250"></a>` : '';
     annotationsHTMLMentions = `
         <div class="story-side-ad-container">${promotion}</div>`;
     return {
