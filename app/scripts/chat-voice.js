@@ -176,6 +176,28 @@
     return '';
   }
 
+  function isVoiceCaptureSupported() {
+    return Boolean(
+      navigator.mediaDevices &&
+      typeof navigator.mediaDevices.getUserMedia === 'function' &&
+      window.MediaRecorder
+    );
+  }
+
+  function hideVoiceButton() {
+    if (!voiceButton) {
+      return;
+    }
+    voiceButton.classList.add('hide');
+    voiceButton.disabled = true;
+    voiceButton.setAttribute('aria-hidden', 'true');
+    voiceButton.setAttribute('tabindex', '-1');
+    const chatInput = voiceButton.closest('.chat-input');
+    if (chatInput) {
+      chatInput.classList.remove('voice-enabled');
+    }
+  }
+
   function getVoiceEndpoint() {
     if (window.chatVoiceEndpoint) {
       return window.chatVoiceEndpoint;
@@ -305,8 +327,8 @@
     if (botStatus === 'pending') {
       return;
     }
-    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder) {
-      showError(localize('chatVoiceNotSupported'));
+    if (!isVoiceCaptureSupported()) {
+      hideVoiceButton();
       return;
     }
 
@@ -517,6 +539,10 @@
     if (!voiceButton) {
       return;
     }
+    if (!isVoiceCaptureSupported()) {
+      hideVoiceButton();
+      return;
+    }
     buildVoiceStatus();
     voiceButton.addEventListener('click', function() {
       if (voiceMode === 'starting' || voiceMode === 'processing') {
@@ -531,7 +557,7 @@
 
     voiceEligible = await checkVoiceEligibility();
     if (!voiceEligible) {
-      voiceButton.classList.add('hide');
+      hideVoiceButton();
       return;
     }
     const chatInput = voiceButton.closest('.chat-input');
