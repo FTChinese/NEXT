@@ -217,6 +217,20 @@ test('ChatFTC hash and SearchFTAPI helpers normalize aliases and free-text tags'
   assert.equal(context.normalizeFTSearchAPIContent('tag: Legacy AI'), 'Legacy AI');
 });
 
+test('ChatFTC language values are restricted to supported output values', () => {
+  const source = readScript('app/scripts/chat.js');
+  const context = {};
+  vm.createContext(context);
+  vm.runInContext(extractFunction(source, 'normalizeChatLanguage'), context);
+
+  assert.equal(context.normalizeChatLanguage('zh-Hans-CN'), 'zh-CN');
+  assert.equal(context.normalizeChatLanguage('zh-Hant-HK'), 'zh-HK');
+  assert.equal(context.normalizeChatLanguage('en-US'), 'en');
+  assert.equal(context.normalizeChatLanguage('en'), 'en');
+  assert.equal(context.normalizeChatLanguage('"><img src=x onerror=alert(1)>'), '');
+  assert.equal(context.normalizeChatLanguage(null), '');
+});
+
 test('main search suggestions normalize annotation field aliases before SearchFTAPI links', () => {
   const source = readScript('app/scripts/main-search.js');
   const context = {};

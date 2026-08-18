@@ -1,5 +1,5 @@
 /* exported populars, getAnnotaionsInfo, isItemFollowed, getHighScoreIdsFromVectorDB, shouldShowInduction, showInduction, updateNavigation */
-/* global checkPreferencesFromServer, decodeHTMLEntitiesFrontend */
+/* global checkPreferencesFromServer, decodeHTMLEntitiesFrontend, normalizeChatLanguage */
 const delegate = new Delegate(document.body);
 
 const myInterestsKey = 'My Interests';
@@ -268,7 +268,8 @@ function getMyFollowsHTML() {
     const my = getMyPreference();
     if (!my) {return;}
     if (my.Language && typeof my.Language === 'string' && my.Language !== '') {
-        preferredLanguage = my.Language || navigator.language || 'zh-CN';
+        const normalizedLanguage = typeof normalizeChatLanguage === 'function' ? normalizeChatLanguage(my.Language) : '';
+        preferredLanguage = normalizedLanguage || preferredLanguage;
     }
     const follows = (my[myInterestsKey] || []).filter(x => typeof x === 'object');
 

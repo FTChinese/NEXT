@@ -2651,33 +2651,53 @@ function showError(message) {
 }
 
 
+function normalizeChatLanguage(value) {
+  if (typeof value !== 'string') {return '';}
+
+  const normalized = value.trim().toLowerCase().replace(/_/g, '-');
+  const languageAliases = {
+    'zh': 'zh-CN',
+    'zh-cn': 'zh-CN',
+    'zh-hans': 'zh-CN',
+    'zh-hans-cn': 'zh-CN',
+    'zh-sg': 'zh-CN',
+    'zh-tw': 'zh-TW',
+    'zh-hant': 'zh-TW',
+    'zh-hant-tw': 'zh-TW',
+    'zh-hant-mo': 'zh-TW',
+    'zh-hk': 'zh-HK',
+    'zh-hant-hk': 'zh-HK',
+    'en': 'en',
+    'es': 'es',
+    'fr': 'fr',
+    'de': 'de',
+    'ja': 'ja',
+    'ko': 'ko',
+    'pt': 'pt',
+    'it': 'it',
+    'ru': 'ru'
+  };
+
+  const languageAlias = languageAliases[normalized];
+  if (languageAlias) {return languageAlias;}
+  return languageAliases[normalized.split('-')[0]] || '';
+}
+
 function setPreferredLanguage() {
   // MARK: Set the preferred language
   // TODO: Should let users customize their preferred language
-  const lang = paramDict?.language;
-  if (lang && lang !== '') {
-    preferredLanguage = lang;
-    if (/^zh/i.test(preferredLanguage)) {
-      preferredLanguage = preferredLanguage.replace(/\-han[ts]\-/i, '-');
-    } else if (/hans/i.test(preferredLanguage)) {
-      preferredLanguage = 'zh-CN';
-    }
-  } else {
-    const myPreference = getMyPreference();
-    if (myPreference && myPreference['Language']) {
-      preferredLanguage = myPreference['Language'];
-      console.log(`preferredLanguage from local storage: ${preferredLanguage}`);
-      const buttons = document.querySelectorAll('[data-lang]');
-      for (let button of buttons) {
-        button.setAttribute('data-lang', preferredLanguage);
-      }
-    }
-  }
-  if (!preferredLanguage) {
-    preferredLanguage = navigator.language;
+  const languageFromHash = normalizeChatLanguage(paramDict?.language);
+  const myPreference = getMyPreference();
+  const languageFromPreference = normalizeChatLanguage(myPreference?.['Language']);
+  const languageFromBrowser = normalizeChatLanguage(navigator.language);
+  preferredLanguage = languageFromHash || languageFromPreference || languageFromBrowser || 'zh-CN';
+  console.log(`Saved language preference to Cookie: ${preferredLanguage}`);
+
+  const buttons = document.querySelectorAll('[data-lang]');
+  for (let button of buttons) {
+    button.setAttribute('data-lang', preferredLanguage);
   }
   SetCookie('preferredLanguage', preferredLanguage);
-  console.log(`Saved language preference to Cookie: ${preferredLanguage}`);
   const eles = document.querySelectorAll('[data-key]');
   for (let ele of eles) {
     const key = ele.getAttribute('data-key');
