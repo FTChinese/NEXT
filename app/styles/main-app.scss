@@ -325,6 +325,15 @@ $app-detail-border: rgba(0, 0, 0, 0.08) !default;
     }
   }
 
+  // Seamless marketing pages already provide their own bottom CTA bar inside
+  // the same-origin iframe. Do not reserve space for the native detail bar,
+  // which is intentionally absent from this view.
+  &.seamless-detail-view {
+    .app-detail-content {
+      bottom: 0;
+    }
+  }
+
 
   // Bottom area (for gradients / safe area)
   .app-detail-bottom {

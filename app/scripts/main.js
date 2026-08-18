@@ -870,6 +870,116 @@ function openLink(theLink) {
   document.location = theLink;
 }
 
+function getInternalMarketingLink(theLink) {
+  if (!theLink || typeof URL !== 'function') {
+    return null;
+  }
+
+  var sourceUrl;
+  try {
+    sourceUrl = new URL(theLink, window.location.href);
+  } catch(error) {
+    return null;
+  }
+
+  var isDoubleClickLink = sourceUrl.hostname === 'adclick.g.doubleclick.net' &&
+    sourceUrl.pathname === '/pcs/click';
+  if (!isDoubleClickLink) {
+    return null;
+  }
+
+  var adUrlString = sourceUrl.searchParams.get('adurl');
+  if (!adUrlString) {
+    return null;
+  }
+
+  var targetUrl;
+  try {
+    targetUrl = new URL(adUrlString, window.location.href);
+  } catch(error) {
+    return null;
+  }
+
+  var allowedHosts = [
+    'ftacademy.cn',
+    'www.ftacademy.cn',
+    'ftchinese.com',
+    'www.ftchinese.com',
+    'ftcvic.com',
+    'www.ftcvic.com'
+  ];
+  if (targetUrl.protocol !== 'http:' && targetUrl.protocol !== 'https:') {
+    return null;
+  }
+  if (allowedHosts.indexOf(targetUrl.hostname) < 0) {
+    return null;
+  }
+
+  var allowedPaths = [
+    '/m/corp/preview.html',
+    '/subscription.html',
+    '/index.php/product'
+  ];
+  if (allowedPaths.indexOf(targetUrl.pathname) < 0) {
+    return null;
+  }
+
+  // GAM sometimes leaves adurl's own query parameters unescaped. Preserve
+  // the business parameters from the wrapper when they are missing in adurl.
+  ['to', 'ccode', 'from', 'offer', 'price', 'duration', 'platform', 'pendingRenewal']
+    .forEach(function(parameter) {
+      var value = sourceUrl.searchParams.get(parameter);
+      if (value && !targetUrl.searchParams.has(parameter)) {
+        targetUrl.searchParams.set(parameter, value);
+      }
+    });
+
+  return targetUrl.pathname + targetUrl.search + targetUrl.hash;
+}
+
+function trackAndOpenInternalMarketingLink(event, anchor) {
+  var internalLink = getInternalMarketingLink(anchor.href);
+  if (!internalLink) {
+    return;
+  }
+
+  event.preventDefault();
+  event.stopPropagation();
+
+  // Keep the GAM click request alive while opening the equivalent internal
+  // route. The navigation itself must not leave the WebApp context.
+  if (typeof fetch === 'function') {
+    try {
+      fetch(anchor.href, {
+        method: 'GET',
+        mode: 'no-cors',
+        credentials: 'omit',
+        keepalive: true
+      }).catch(function() {});
+    } catch(error) {}
+  }
+
+  if (typeof window.openInternalMarketingFrame === 'function' &&
+      window.openInternalMarketingFrame(internalLink)) {
+    return;
+  }
+
+  openLink(internalLink);
+}
+
+function handleInternalMarketingClick(event) {
+  if (event.defaultPrevented || !event.target || !event.target.closest) {
+    return;
+  }
+  var anchor = event.target.closest('a');
+  if (!anchor) {
+    return;
+  }
+  trackAndOpenInternalMarketingLink(event, anchor);
+}
+
+document.addEventListener('click', handleInternalMarketingClick, true);
+
 function trackInternalPromos() {
   // MARK: Use a set timeout to track display. 
   setTimeout(function() {

@@ -2,7 +2,7 @@
 /* global renderRecommendationForWebAppHome, renderFTGlobalCurationEntry, shouldShowHomePageRecommendation, getPremiumPreferenceGate */
 
 const jsVersion = 'v2';
-const APP_PAGE_CACHE_NAME = 'v335'; // keep in sync with app-service-worker.js and gulp copy
+const APP_PAGE_CACHE_NAME = 'v338'; // keep in sync with app-service-worker.js and gulp copy
 const MAX_CACHE_AGE_MS = 5 * 60 * 1000; // 5 minutes freshness window for HTML pages
 const appMap = {
 News: {
@@ -1071,7 +1071,7 @@ async function handleSeamlessFrame(data) {
   try {
     const { link, title } = data;
     const appDetailEle = document.createElement('div');
-    appDetailEle.className = 'app-detail-view';
+    appDetailEle.className = 'app-detail-view seamless-detail-view';
     appDetailEle.innerHTML = `
       <div class="app-detail-navigation">
         <div class="app-detail-back"></div>
@@ -1108,6 +1108,21 @@ async function handleSeamlessFrame(data) {
     console.error('handle content data error:', err);
   }
 }
+
+// Open an internally rewritten marketing link inside the WebApp detail view.
+// This keeps the WebApp shell and its login context in place while reusing the
+// existing iframe navigation/back-button behavior.
+window.openInternalMarketingFrame = function (link) {
+  if (!link || typeof handleSeamlessFrame !== 'function') {
+    return false;
+  }
+
+  handleSeamlessFrame({
+    link,
+    title: 'FT中文网'
+  });
+  return true;
+};
 
 function isSpeedreadSubType(value) {
   if (!value || typeof value !== 'string') { return false; }
