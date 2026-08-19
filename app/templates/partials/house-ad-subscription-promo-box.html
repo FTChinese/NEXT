@@ -4,8 +4,7 @@
 		<%assign var="infoForPromo" value=$nextmodel->getPublishJson($pageIdForPromo)|json_decode:true%>
 		<%assign var="promoRendered" value=""%>
 		<%if $smarty.get.webview == "ftcapp"%>
-			<%assign var="inAppClass" value=" in-app"%>
-			<%*<!--MARK: - In native app, don't ever show promo box for non-subscriber as it is fixed to the bottom -->*%>
+			<%*<!--MARK: - In native app, don't render the static web promo box for non-subscribers. -->*%>
 			<%assign var="promoRendered" value="`$promoRendered`"%>
 		<%/if%>
 		<%assign var="platform" value=$smarty.get.platform|sanitize%>
@@ -132,7 +131,7 @@
 					<%else%>
 						<%assign var=hrefUrl value=" href=\"`$clickUrl`\""%>
 					<%/if%>
-					<div class="subscription-promo-container<%$inAppClass%><%$showImageInMobile%> <%$section.promoTarget%><%$classForAndroid%>"<%$attributeForAndroid%>>
+					<div class="subscription-promo-container<%$showImageInMobile%> <%$section.promoTarget%><%$classForAndroid%>"<%$attributeForAndroid%>>
 					    <div class="subscription-promo-inner">
 					        <a <%$hrefUrl%> class="subscription-promo-box n-internal-promo" data-promo-target="<%$section.promoTarget%>" data-promo-id="<%$l.ccode%>" data-promo-name="<%$l.title%>" data-promo-creative="<%$l.imagePC%>" data-promo-position="<%$section.type%>">
 					            <div class="subscription-promo-text"><%$l.title%></div>

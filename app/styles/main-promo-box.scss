@@ -1,10 +1,6 @@
 @import "theme-default.scss";
 @import "variables.scss";
 
-#promo-box-container {
-	position: relative;
-	z-index: 1;
-}
 .subscription-promo-container {
 	height: 56px;
 	background: #14bdcc;
@@ -98,72 +94,17 @@
 .countdown-second {
 	right: 114px;
 }
-// .has-expire-date {
-// 	&.is-standard {
-// 		.subscription-promo-container {
-// 			&.standard {
-// 				display: none;
-// 			}
-// 		}
-// 	}
-// 	&.is-premium {
-// 		.subscription-promo-container {
-// 			&.premium {
-// 				display: none;
-// 			}
-// 		}
-// 	}
-// }
-// .is-near-expire {
-// 	&.is-standard {
-// 		.subscription-promo-container {
-// 			&.standard {
-// 				&.is-near-expire {
-// 					display: block;
-// 				}
-// 			}
-// 		}
-// 	}
-// 	&.is-premium {
-// 		.subscription-promo-container {
-// 			&.premium {
-// 				&.is-near-expire {
-// 					display: block;
-// 				}
-// 			}
-// 		}
-// 	}
-// }
-@media only screen and (max-width: 980px) {
-	.subscription-promo-container {
-		position: fixed;
-		width: 100%;
-		bottom: 0;
-		z-index: 1;
-		&.standard, &.premium, &.no-overlay {
-			position: static;
-		}
-	}
-}
 @media only screen and (max-width: 490px) {
+	.o-nav__placeholder + #promo-box-container .subscription-promo-container {
+		margin-top: -$defaultPadding * 0.5;
+	}
 	.subscription-promo-container {
 		display: none;
+		margin-bottom: $defaultPadding * 0.5;
 	    &.show-image-in-mobile {
 	    	display: block;
 	    	&.standard, &.premium {
 				display: none;
-			}
-		}
-	}
-	.no-overlay {
-		&.show-image-in-mobile.subscription-promo-container { 
-			display: block;
-			// MARK: - Display the promo box banner below the header
-			margin-top: $navHeight + $defaultPadding*0.25;
-			margin-bottom: - $navHeight - $defaultPadding*0.25;
-			&.in-app { 
-				margin-top: $defaultPadding*0.5;
-				margin-bottom: $defaultPadding*0.5;
 			}
 		}
 	}
@@ -173,13 +114,6 @@
 		}
 		&.is-standard .show-image-in-mobile.subscription-promo-container.standard, &.is-premium .show-image-in-mobile.subscription-promo-container.premium { 
 			display: block;
-			// MARK: - Display the promo box banner below the header
-			margin-top: $navHeight + $defaultPadding*0.25;
-			margin-bottom: - $navHeight - $defaultPadding*0.25;
-		}
-		&.is-standard .show-image-in-mobile.subscription-promo-container.standard.in-app, &.is-premium .show-image-in-mobile.subscription-promo-container.premium.in-app { 
-			margin-top: $defaultPadding*0.5;
-			margin-bottom: $defaultPadding*0.5;
 		}
 	}
 	.subscription-promo-box {
