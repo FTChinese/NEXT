@@ -507,6 +507,7 @@ gulp.task('copy:ftcoffer', async () => {
   }
 
   streams.push(copySourceToDestination([`./app/origami/*.js`], `${dest}/scripts`));
+  streams.push(copySourceToDestination(['./app/scripts/promo-dedupe.js'], `${dest}/scripts`));
 
   streams.push(copySourceToDestination([`./app/origami/*.css`], `${dest}/styles`));
 
