@@ -65,7 +65,12 @@
     }
 
     for (index = 0; index < promoBoxes.length; index += 1) {
-      promoBoxes[index].style.display = bannerLoaded && !desktopWeb ? 'none' : '';
+      var shouldVisuallyHide = bannerLoaded && !desktopWeb;
+      promoBoxes[index].style.visibility = shouldVisuallyHide ? 'hidden' : '';
+      promoBoxes[index].style.height = shouldVisuallyHide ? '0' : '';
+      promoBoxes[index].style.overflow = shouldVisuallyHide ? 'hidden' : '';
+      promoBoxes[index].style.margin = shouldVisuallyHide ? '0' : '';
+      promoBoxes[index].style.pointerEvents = shouldVisuallyHide ? 'none' : '';
     }
   }
 
