@@ -2375,18 +2375,14 @@ async function showFTPage(content, language, reply) {
           </div>`;
 
         html += newHTML;
-
-
-        if (index >= results.length - 1) {continue;}
-        const startDate = new Date('2026-08-18T00:00:00+08:00').getTime();
-        const endDate = new Date('2026-08-31T23:59:59+08:00').getTime();
-        const now = new Date().getTime();
-        const showPromotion = now >= startDate && now <= endDate;
-        const promotion = showPromotion ? `<a href="https://www.ftchinese.com/m/corp/preview.html?pageid=2026Augsub&to=all&ccode=2C2026Augchatftclp" target="_blank"><img class="promotion" src="https://d33mkcasurz97s.cloudfront.net/ads/gam/otlkbf.jpg" width="300" height="250"></a>` : '';
-        html += promotion;
-        
-          
       }
+      // Render the campaign promotion once per MyFT result, not once per group.
+      const startDate = new Date('2026-08-18T00:00:00+08:00').getTime();
+      const endDate = new Date('2026-08-31T23:59:59+08:00').getTime();
+      const now = new Date().getTime();
+      const showPromotion = now >= startDate && now <= endDate;
+      const promotion = showPromotion ? `<a href="https://www.ftchinese.com/m/corp/preview.html?pageid=2026Augsub&to=all&ccode=2C2026Augchatftclp" target="_blank"><img class="promotion" src="https://d33mkcasurz97s.cloudfront.net/ads/gam/otlkbf.jpg" width="300" height="250"></a>` : '';
+      html += promotion;
       newResultInner.innerHTML = await convertChinese(html, language);
       showImagesForExpandedGroups();
       await setIntention('DiscussContent', language, localize('Discuss More'), true, false);
