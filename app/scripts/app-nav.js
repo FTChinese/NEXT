@@ -2,11 +2,7 @@
 /* global renderRecommendationForWebAppHome, renderFTGlobalCurationEntry, shouldShowHomePageRecommendation, getPremiumPreferenceGate */
 
 const jsVersion = 'v2';
-<<<<<<< HEAD
-const APP_PAGE_CACHE_NAME = 'v348'; // keep in sync with app-service-worker.js and gulp copy
-=======
 const APP_PAGE_CACHE_NAME = 'v350'; // keep in sync with app-service-worker.js and gulp copy
->>>>>>> 4ffd45e62b5284ee9ebb44ae8ebab45bff456945
 const MAX_CACHE_AGE_MS = 5 * 60 * 1000; // 5 minutes freshness window for HTML pages
 const appMap = {
 News: {
