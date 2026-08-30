@@ -1,7 +1,11 @@
 /* jshint esversion: 11 */
 /* global self, caches, fetch, Response, clients */
 
+<<<<<<< HEAD
 const cacheName = 'v348';
+=======
+const cacheName = 'v350';
+>>>>>>> 4ffd45e62b5284ee9ebb44ae8ebab45bff456945
 const LOG_PREFIX = '[SW ' + cacheName + ']';
 const ENABLE_SW_LOGS = false;
 if (ENABLE_SW_LOGS) {
@@ -63,6 +67,12 @@ async function matchCache(cache, req) {
 async function matchAnyCache(req) {
   const exact = await caches.match(req);
   return exact || caches.match(req, { ignoreSearch: true });
+}
+
+// Static assets use query strings as cache-busters. Do not fall back to a
+// different version of the asset when the exact request is not cached.
+async function matchStaticCache(req) {
+  return caches.match(req);
 }
 
 // Programmatic HTML fetch detector
@@ -267,7 +277,7 @@ self.addEventListener('fetch', function (event) {
   // 2) Static assets under /powertranslate: cache-first
   if (pathname.indexOf('/powertranslate/') === 0) {
     event.respondWith((async function () {
-      const hit = await matchAnyCache(req);
+      const hit = await matchStaticCache(req);
       if (hit) {
         log('cache-first HIT:', pathname);
         return hit;
