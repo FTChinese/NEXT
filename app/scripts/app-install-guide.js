@@ -14,7 +14,9 @@
   }
 
   if (/MicroMessenger/i.test(ua)) {
-    showWeChatOverlay();
+    if (typeof window.showWechatBrowserOverlay === 'function') {
+      window.showWechatBrowserOverlay();
+    }
     return;
   }
 
@@ -190,95 +192,4 @@
   }
 
 
-  function showWeChatOverlay() {
-    if (document.getElementById('ftc-wechat-overlay')) {
-      return;
-    }
-
-    // Global flag + body class (as per your example)
-    window.__FTC_WECHAT_ONLY__ = true;
-    document.body.classList.add('is-wechat');
-
-    // Style
-    const style = document.createElement('style');
-    style.id = 'ftc-wechat-style';
-    style.textContent = `
-      #ftc-wechat-overlay {
-        position: fixed; inset: 0; z-index: 100000;
-        display: flex; align-items: center; justify-content: center;
-        background: rgba(0,0,0,.7);
-        font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
-        touch-action: manipulation;
-      }
-      .wechat-wrap {
-        width: 100%; max-width: 680px; margin: 0 16px;
-      }
-      .wechat-card {
-        position: relative; background: #fff; border-radius: 14px; overflow: hidden;
-        box-shadow: 0 8px 32px rgba(0,0,0,.35);
-      }
-      .wechat-head {
-        font-size: 22px; font-weight: 700; color: #111; padding: 16px 18px 0;
-      }
-      .wechat-body {
-        padding: 12px 18px 6px;
-      }
-      .wechat-img {
-        display: block; width: 100%; height: auto; border-radius: 8px; border: 1px solid #eee;
-      }
-      .wechat-tip {
-        padding: 8px 18px 18px; color: #333; font-size: 18px; line-height: 1.6;
-      }
-      /* Optional: an invisible backdrop button to prevent clicks through */
-      #ftc-wechat-overlay .wechat-backdrop {
-        position: absolute; inset: 0;
-      }
-    `;
-    document.head.appendChild(style);
-
-    // Overlay
-    const overlay = document.createElement('div');
-    overlay.id = 'ftc-wechat-overlay';
-    overlay.setAttribute('role', 'dialog');
-    overlay.setAttribute('aria-modal', 'true');
-    overlay.setAttribute('aria-label', '请在浏览器中打开本页面');
-
-    // Content (matches your example copy & asset)
-    overlay.innerHTML = `
-      <div class="wechat-backdrop" tabindex="-1" aria-hidden="true"></div>
-      <div class="wechat-wrap" role="document">
-        <div class="wechat-card">
-          <div class="wechat-body">
-            <img
-              class="wechat-img"
-              alt="在微信中点击右上角，在浏览器中打开"
-              src="https://d1sh1cgb4xvhl.cloudfront.net/unsafe/picture/0/000310220_piclink.png"
-            >
-          </div>
-          <div class="wechat-head">请在浏览器中打开本页面</div>
-          <div class="wechat-tip">
-            您当前在微信内置浏览器，功能受限。请点击右上角“⋯”→选择“在浏览器中打开”，以继续下载或安装。
-          </div>
-        </div>
-      </div>
-    `;
-
-    // Prevent scroll behind overlay
-    const prevOverflow = document.documentElement.style.overflow;
-    document.documentElement.style.overflow = 'hidden';
-
-    // Append
-    document.body.appendChild(overlay);
-
-    // Ensure no interaction falls through; no close button by design.
-    overlay.addEventListener('touchmove', function (e) { e.preventDefault(); }, { passive: false });
-    overlay.addEventListener('wheel', function (e) { e.preventDefault(); }, { passive: false });
-
-    // Cleanup helper if ever removed programmatically
-    overlay.addEventListener('remove', function () {
-      const styleEl = document.getElementById('ftc-wechat-style');
-      if (styleEl) { styleEl.remove(); }
-      document.documentElement.style.overflow = prevOverflow || '';
-    });
-  }
 })();

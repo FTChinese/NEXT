@@ -480,6 +480,18 @@ function bumpServiceWorkerCacheVersions() {
   }
   appNavContent = appNavContent.replace(appNavRegex, `const APP_PAGE_CACHE_NAME = 'v${appVersion}'`);
   fs.writeFileSync(appNavPath, appNavContent, 'utf8');
+
+  const appLayoutPath = '../ftcoffer/views/layouts/app.handlebars';
+  if (fs.existsSync(appLayoutPath)) {
+    let appLayoutContent = fs.readFileSync(appLayoutPath, 'utf8');
+    appLayoutContent = appLayoutContent.replace(
+      /\/powertranslate\/(?:styles\/main-app\.css|scripts\/app-diagnostics\.js|scripts\/register\.js|scripts\/app-load-quiz\.js|scripts\/main-app\.js)(?:\?[^"']*)?/g,
+      (assetPath) => `${assetPath.split('?')[0]}?v=${appVersion}`
+    );
+    fs.writeFileSync(appLayoutPath, appLayoutContent, 'utf8');
+    console.log(`Updated Web App asset URLs to v${appVersion}`);
+  }
+
   console.log(`Updated app cache version to v${appVersion}`);
 }
 
@@ -507,6 +519,7 @@ gulp.task('copy:ftcoffer', async () => {
   }
 
   streams.push(copySourceToDestination([`./app/origami/*.js`], `${dest}/scripts`));
+  streams.push(copySourceToDestination(['./app/scripts/wechat-browser-overlay.js'], `${dest}/scripts`));
   streams.push(copySourceToDestination(['./app/scripts/promo-dedupe.js'], `${dest}/scripts`));
 
   streams.push(copySourceToDestination([`./app/origami/*.css`], `${dest}/styles`));

@@ -2,7 +2,7 @@
 /* global renderRecommendationForWebAppHome, renderFTGlobalCurationEntry, shouldShowHomePageRecommendation, getPremiumPreferenceGate */
 
 const jsVersion = 'v2';
-const APP_PAGE_CACHE_NAME = 'v350'; // keep in sync with app-service-worker.js and gulp copy
+const APP_PAGE_CACHE_NAME = 'v360'; // keep in sync with app-service-worker.js and gulp copy
 const MAX_CACHE_AGE_MS = 5 * 60 * 1000; // 5 minutes freshness window for HTML pages
 const appMap = {
 News: {
@@ -1011,6 +1011,32 @@ function handleLink(ele) {
     return false;
 }
 
+function recordWebAppContentOpen(data) {
+  const type = String(data?.type ?? '').trim().toLowerCase();
+  const id = String(data?.id ?? '').trim();
+  const title = String(data?.title ?? '').trim();
+  if (!type || !id) {return;}
+
+  fetch('/api/events/content-view', {
+    method: 'POST',
+    credentials: 'same-origin',
+    cache: 'no-store',
+    keepalive: true,
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      type,
+      id,
+      title,
+      language: document.documentElement.lang || 'cn',
+      source: 'webapp'
+    })
+  }).catch((err) => {
+    console.warn('web app content tracking failed:', err);
+  });
+}
+
 
 async function handlePageData(data) {
   try {
@@ -1537,6 +1563,12 @@ async function handleContentData(data) {
       return;
     }
     await renderContentPage(info, appDetailEle);
+    recordWebAppContentOpen({
+      type,
+      id,
+      title: info?.cheadline || info?.title?.title || info?.title || info?.eheadline || info?.headline || '',
+      subType
+    });
   } catch (err) {
     console.error('handle content data error:', err);
     if (appDetailEle) {
@@ -1618,7 +1650,14 @@ function pushHistory(type, value) {
 const registerServiceWorkerForApp = async() => {
   if ('serviceWorker' in navigator) {
     try {
-      registration = await navigator.serviceWorker.register('/app-service-worker.js', {scope: '/',});
+      registration = await navigator.serviceWorker.register('/app-service-worker.js', {
+        scope: '/',
+        updateViaCache: 'none'
+      });
+      // Safari can keep a standalone app's service-worker script cached for a
+      // long time. Ask for an update explicitly so a new cache version can
+      // activate and replace the old main-app bundle.
+      await registration.update();
       if (registration.installing) {
         console.log('Service worker installing');
       } else if (registration.waiting) {

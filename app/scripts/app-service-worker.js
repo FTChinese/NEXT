@@ -1,7 +1,8 @@
 /* jshint esversion: 11 */
 /* global self, caches, fetch, Response, clients */
 
-const cacheName = 'v350';
+const cacheName = 'v360';
+const assetVersion = cacheName.slice(1);
 const LOG_PREFIX = '[SW ' + cacheName + ']';
 const ENABLE_SW_LOGS = false;
 if (ENABLE_SW_LOGS) {
@@ -10,15 +11,19 @@ if (ENABLE_SW_LOGS) {
 
 // ---- Precache (optional/offline bootstrap) ----
 const START_URL = '/app';
+function versionedAsset(pathname) {
+  return pathname + '?v=' + assetVersion;
+}
+
 const PRECACHE = [
   START_URL,
-  '/powertranslate/app-metatags.json',
-  '/powertranslate/styles/main-app.css',
-  '/powertranslate/scripts/main-app.js',
-  '/powertranslate/scripts/register.js',
-  '/powertranslate/scripts/app-load-quiz.js',
-  '/powertranslate/scripts/gpt.js',
-  '/powertranslate/icons/FTC-start.png'
+  versionedAsset('/powertranslate/app-metatags.json'),
+  versionedAsset('/powertranslate/styles/main-app.css'),
+  versionedAsset('/powertranslate/scripts/main-app.js'),
+  versionedAsset('/powertranslate/scripts/register.js'),
+  versionedAsset('/powertranslate/scripts/app-load-quiz.js'),
+  versionedAsset('/powertranslate/scripts/gpt.js'),
+  versionedAsset('/powertranslate/icons/FTC-start.png')
 ];
 
 // Endpoints we should NEVER cache (auth/state, etc.)
@@ -96,6 +101,11 @@ function isJsonEndpoint(pathname) {
   return JSON_CACHE_PREFIXES.some(function (p) {
     return pathname.indexOf(p) === 0;
   });
+}
+
+function isServiceWorkerScript(pathname) {
+  return pathname === '/app-service-worker.js' ||
+    pathname === '/powertranslate/chat-service-worker.js';
 }
 
 function log() {
@@ -202,6 +212,12 @@ self.addEventListener('fetch', function (event) {
   const pathname = url.pathname;
 
   log('fetch:', pathname);
+
+  // Never let an existing app worker cache a worker script update.
+  if (isServiceWorkerScript(pathname)) {
+    event.respondWith(fetch(req, { cache: 'no-store' }));
+    return;
+  }
 
   // 0) JSON endpoints: stale-while-revalidate
   if (isJsonEndpoint(pathname)) {

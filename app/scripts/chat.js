@@ -3052,7 +3052,9 @@ const registerServiceWorker = async () => {
     try {
       registration = await navigator.serviceWorker.register('/powertranslate/chat-service-worker.js', {
         scope: '/powertranslate/',
+        updateViaCache: 'none'
       });
+      await registration.update();
       if (registration.installing) {
         console.log('Service worker installing');
       } else if (registration.waiting) {
