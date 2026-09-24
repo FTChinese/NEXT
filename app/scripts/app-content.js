@@ -1244,7 +1244,7 @@ function renderCommentForms(info, contentType) {
         <input type="submit" value="登录后发表评论" class="comment_btn submitbutton button ui-light-btn">
         <div class="topmargin statusmsg"></div>
         <a class="social-login-wechat" href="ftcregister://www.ftchinese.com/"><div class="centerButton"><button class="ui-light-btn stress">免费注册</button></div></a>
-        <a class="social-login-wechat" href="weixinlogin://www.ftchinese.com/"><div class="centerButton"><button class="ui-light-btn wechat-login">微信登录</button></div></a>
+        <a class="social-login-wechat" href="weixinlogin://www.ftchinese.com/"><div class="centerButton"><button class="ui-light-btn wechat-login">微信登录或注册</button></div></a>
       </div>
     </div>`;
 }
